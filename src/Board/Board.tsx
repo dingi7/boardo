@@ -7,7 +7,7 @@ import dotsVector from './dotsVector.svg';
 
 export const Board = (): JSX.Element => {
     return (
-        <div className="bg-[#172b4d] flex flex-row justify-center w-full">
+        <div className="bg-[#172b4d] flex flex-row justify-center w-full overflow-y-auto">
             <div className="bg-[#172b4d] overflow-hidden w-full h-[1080px] relative">
                 <div className="absolute w-[270px] h-full top-0 left-[-2px] bg-[#141d27]">
                     <div className="inline-flex items-end gap-[10px] absolute top-[18px] left-[14px]">
