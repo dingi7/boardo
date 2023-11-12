@@ -7,7 +7,7 @@ export const List = (): JSX.Element => {
         <div className="inline-flex flex-col items-start gap-[10px]">
             <div className="bg-neutral-950 rounded-[15px]">
                 <div className="p-5">
-                    <div className="inline-flex flex-col items-start gap-[5px] absolute top-[13px] left-[21px]">
+                    <div className="inline-flex flex-col items-start gap-[5px] ">
                         <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
                             <div className="inline-flex items-center gap-[257px] relative flex-[0_0_auto]">
                                 <div className="relative w-fit mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-bold text-white text-[24px] tracking-[0] leading-[normal]">
