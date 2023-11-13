@@ -3,8 +3,8 @@ import { Header } from '../../Header/Header';
 
 export const LandingPage = (): JSX.Element => {
     return (
-        <div className="flex flex-col h-[1117px] items-start gap-[74px] pt-[37px] pb-0 px-[117px] relative bg-gradient-to-b from-black to-blue-400">
-            <Header></Header>
+        <div className="flex flex-col h-screen gap-[74px] pt-[37px] pb-0 px-[117px] bg-gradient-to-b from-black to-blue-400">
+            <Header />
             <div className="inline-flex flex-wrap items-center justify-center gap-[100px_100px] px-[10px] py-[16px] absolute top-[414px] left-[244px]">
                 <div className="flex flex-wrap w-[603px] items-end gap-[27px_0px] relative">
                     <div className="min-w-[400px] min-h-[200px] relative w-fit mt-[-1.00px] font-extrabold text-white text-[122px] tracking-[0] leading-[normal]">

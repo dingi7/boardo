@@ -14,7 +14,6 @@ export const Board = (): JSX.Element => {
             <div className="flex flex-row bg-[#172b4d] overflow-hidden w-full h-screen relative">
                 {/* Side bar container */}
                 <BoardSidebar />
-
                 {/* HEADER NAVIGATION */}
                 <BoardHeader boardName={boardName} boardId={boardId} />
                 {/* cards parrent div  */}
