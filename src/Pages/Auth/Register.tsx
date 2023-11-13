@@ -6,8 +6,8 @@ type Props = {};
 
 export const Register = (props: Props) => {
     return (
-        <div className="h-screen bg-black flex justify-center items-center">
-            <div className=" w-[600px] h-[650px] bg-zinc-800 border border-slate-800 rounded-md flex flex-col p-12 pb-16 justify-between">
+        <div className="h-screen bg-black flex justify-center items-center drop-shadow-md">
+            <div className=" w-[600px] h-[650px] bg-zinc-800 border-2 border-slate-800 rounded-md flex flex-col p-12 pb-16 justify-between">
                 <h1 className="text-white">Boardo</h1>
                 <div>
                     <AuthInput type="email" text="Email" id="email" />
