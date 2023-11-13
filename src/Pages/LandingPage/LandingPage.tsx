@@ -1,5 +1,5 @@
-import { Typewriter } from '../util/typewriter';
-import { Header } from '../Header/Header';
+import { Typewriter } from '../../util/typewriter';
+import { Header } from '../../Header/Header';
 
 export const LandingPage = (): JSX.Element => {
     return (

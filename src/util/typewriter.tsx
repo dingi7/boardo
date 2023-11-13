@@ -7,7 +7,7 @@ type TypewriterProps = {
     infinite?: boolean;
 };
 
-export const Typewriter = ({text, delay, infinite} : TypewriterProps)  => {
+export const Typewriter = ({text, delay, infinite} : TypewriterProps): JSX.Element  => {
     const [currentText, setCurrentText] = useState('');
     const [currentIndex, setCurrentIndex] = useState(0);
 
