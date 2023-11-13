@@ -2,6 +2,7 @@ import { Typewriter } from '../../util/typewriter';
 import { Header } from '../../Header/Header';
 
 export const LandingPage = (): JSX.Element => {
+
     return (
         <div className="flex flex-col h-screen gap-[74px] pt-[37px] pb-0 px-[117px] bg-gradient-to-b from-black to-blue-400">
             <Header />
