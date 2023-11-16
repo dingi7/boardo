@@ -3,7 +3,10 @@ import { Card } from './Card';
 import dotsVector from '../assets/dotsVector.svg';
 import plusIcon from '../assets/plus.svg';
 
+
 export const List = ({ id, name, items }: IListProps): JSX.Element => {
+
+
     return (
         <div className="inline-flex flex-col items-start gap-[10px]" key={id}>
             <div className="bg-neutral-950 rounded-[15px]">
