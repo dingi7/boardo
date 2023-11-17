@@ -1,7 +1,7 @@
 export interface IListProps {
     id: string;
     name: string;
-    items?: IItemProps[];
+    initialItems?: IItemProps[];
 }
 
 export interface IItemProps {

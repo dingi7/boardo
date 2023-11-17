@@ -3,9 +3,15 @@ import { Card } from './Card';
 import dotsVector from '../assets/dotsVector.svg';
 import plusIcon from '../assets/plus.svg';
 
-export const List = ({ id, name, items }: IListProps): JSX.Element => {
+import useDraggable from '../../../hooks/useDragable';
+
+
+// List.tsx
+export const List = ({ id, name, initialItems }: IListProps): JSX.Element => {
+    //const { handleDragStart ,handleDragEnd, handleEnter, items } = useDraggable(initialItems || [], draggedItem, setDraggedItem, false);
+
     return (
-        <div className="inline-flex flex-col items-start gap-[10px]" key={id}>
+        <div className="inline-flex flex-col items-start gap-[10px] " key={id}>
             <div className="bg-neutral-950 rounded-[15px]">
                 <div className="p-5">
                     <div className="inline-flex flex-col items-start gap-[5px] ">
@@ -21,16 +27,23 @@ export const List = ({ id, name, items }: IListProps): JSX.Element => {
                                 />
                             </div>
                             <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
-                                {items
-                                    ? items.map((item: IItemProps) => (
-                                          <Card
-                                              key={item.id}
-                                              task={item.name}
-                                          />
-                                      ))
+                                {initialItems
+                                    ? initialItems.map((item: IItemProps, index) => (
+                                        <div
+                                            key={item.id}
+                                            //draggable
+                                            
+                                            //onMouseDown={() => handleDragStart(`${item.id}`, index)}
+                                            //onDragEnter={() => handleEnter(index)}
+                                            //onDrop={handleDragEnd}
+                                        >
+                                            <Card
+                                                key={item.id}
+                                                task={item.name}
+                                            />
+                                        </div>
+                                    ))
                                     : null}
-
-                                <Card task="Front End" />
                             </div>
                         </div>
                         <div className="inline-flex items-center relative flex-[0_0_auto]">

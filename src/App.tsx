@@ -12,6 +12,11 @@ import { Register } from "./Pages/Auth/Register";
 import { Login } from "./Pages/Auth/Login";
 
 
+
+
+
+
+
 function App() {
     return (
         <AuthProvider
@@ -20,7 +25,9 @@ function App() {
             cookieDomain={window.location.hostname}
             cookieSecure={window.location.protocol === "https:"}
         >
+        {/* <DraggedItemProvider> */}
             <div className="App">
+                
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<LandingPage />} />
@@ -33,6 +40,7 @@ function App() {
                     {/* <LandingPage></LandingPage> */}
                 </BrowserRouter>
             </div>
+        {/* </DraggedItemProvider> */}
         </AuthProvider>
     );
 }
