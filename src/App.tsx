@@ -25,7 +25,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<LandingPage />} />
                         <Route path="/landing" element={<LandingPage />} />
-                        <Route path="/board/create" element={<Create/>} />
+                        <Route path="/board/create" element={<Create />} />
                         <Route path="/board/:id" element={<Board/>} />
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/auth/login" element={<Login/>} />
