@@ -33,7 +33,6 @@ const useDraggable = (initialItems: any[]): DraggableHook => {
 
     setItems(updatedItems);
 
-    console.log(`Move card from index ${draggedItem.index} to index ${overIndex}`);
   }, [draggedItem.index, draggedItem.id]);
 
 
