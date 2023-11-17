@@ -10,46 +10,6 @@ export const Board = (): JSX.Element => {
 
 	const [draggedItem, setDraggedItem] = useState({ id: "", index: 0, isParrent: false });
 
-	/*
-	const Lists = [
-		<List
-			key={'123'}
-			id={'123'}
-			name="Test"
-			initialItems={
-				[
-					{ id: 1, name: "test" },
-					{ id: 2, name: "test test" },
-					{ id: 3, name: "test test test" },
-				]
-			}
-			draggedItem={draggedItem}
-				setDraggedItem={setDraggedItem}
-		/>,
-		<List
-			key={'22'}
-			id={'22'}
-			name="Test1"
-			initialItems={
-				[
-					{ id: 4, name: "test" },
-				]
-			}
-			draggedItem={draggedItem}
-				setDraggedItem={setDraggedItem}
-		/>,
-		<List
-			key={'13323'}
-			id={'13323'}
-			name="Test2"
-			initialItems={
-				[
-					{ id: 5, name: "test" },
-				]
-			}
-		/>,
-	];
-*/
 	const Lists = [
 		{
 			key: '123',
