@@ -1,11 +1,11 @@
 import React from "react";
-import { RegisterUserData } from "../Interfaces/IUserData";
+import { LoginUserData, RegisterUserData } from "../Interfaces/IUserData";
 
 type Props = {
     type: string;
     text: string;
     id: string;
-    setData: React.Dispatch<React.SetStateAction<RegisterUserData>>;
+    setUserData: React.Dispatch<React.SetStateAction<RegisterUserData>> | React.Dispatch<React.SetStateAction<LoginUserData>>;
 };
 
 export const AuthInput = (props: Props) => {
@@ -23,7 +23,7 @@ export const AuthInput = (props: Props) => {
                 type={props.type}
                 placeholder={props.text}
                 onChange={e => {
-                    props.setData((prevState) => {
+                    props.setUserData((prevState : any) => {
                         return {...prevState, [props.id]: e.target.value};
                     });
                 }}
