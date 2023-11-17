@@ -3,11 +3,15 @@ import { boardRoutes } from '../../util/routesList';
 
 import { Typewriter } from '../../util/typewriter';
 import { Header } from './Header/Header';
-
+import { useAuthUser } from 'react-auth-kit';
+import { useEffect } from 'react';
 
 export const LandingPage = (): JSX.Element => {
-
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const auth = useAuthUser();
+    useEffect(() => {
+        console.log(auth());
+    }, [auth]);
 
     return (
         <div className="flex flex-col h-screen gap-[74px] pt-[37px] pb-0 px-[117px] bg-gradient-to-b from-black to-blue-400">

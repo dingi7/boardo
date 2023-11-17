@@ -1,12 +1,20 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { registerUser } from '../../api/requests';
 import { AuthInput } from '../../Components/AuthInput';
-import { useAuthUser, useSignIn } from 'react-auth-kit';
+import { useIsAuthenticated, useSignIn } from 'react-auth-kit';
+import { errorNotification } from '../../util/notificationHandler';
 
 export const Register = () => {
+    const navigate = useNavigate();
     const signIn = useSignIn();
-    const auth = useAuthUser();
+    const isAuth = useIsAuthenticated();
+    useEffect(() => {
+        if (isAuth()) {
+            navigate('/');
+            errorNotification('You are already logged in');
+        }
+    }, [isAuth, navigate]);
     const [userData, setUserData] = useState({
         firstName: '',
         username: '',
@@ -24,11 +32,12 @@ export const Register = () => {
             signIn({
                 token: response.accessToken,
                 expiresIn: 9999, // change this later
-                tokenType: "Bearer",
+                tokenType: 'Bearer',
+                authState: response,
             });
-            console.log(auth);
+            navigate('/');
         } catch (err: any) {
-            alert(err.message);
+            errorNotification(err.message);
         }
     };
 
