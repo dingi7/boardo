@@ -22,8 +22,6 @@ function App() {
         <AuthProvider
             authType={"localstorage"}
             authName={"access_info"}
-            cookieDomain={window.location.hostname}
-            cookieSecure={window.location.protocol === "https:"}
         >
         {/* <DraggedItemProvider> */}
             <div className="App">

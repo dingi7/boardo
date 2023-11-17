@@ -10,3 +10,10 @@ export interface LoginUserData {
     email: string;
     password: string;
 }
+
+export interface RegisterResponse {
+    _id: string;
+    username: string;
+    email: string;
+    accessToken: string;
+}
