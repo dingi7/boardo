@@ -6,8 +6,9 @@ import plusIcon from '../assets/plus.svg';
 import useDraggable from '../../../hooks/useDragable';
 
 
+
 // List.tsx
-export const List = ({ id, name, initialItems }: IListProps): JSX.Element => {
+export const List = ({ id, name, initialItems, setIsOpen }: IListProps): JSX.Element => {
     //const { handleDragStart ,handleDragEnd, handleEnter, items } = useDraggable(initialItems || [], draggedItem, setDraggedItem, false);
 
     return (
@@ -46,7 +47,10 @@ export const List = ({ id, name, initialItems }: IListProps): JSX.Element => {
                                     : null}
                             </div>
                         </div>
-                        <div className="inline-flex items-center relative flex-[0_0_auto]">
+                        <button 
+                            className="inline-flex items-center relative flex-[0_0_auto]"
+                            onClick={setIsOpen}
+                        >
                             <img
                                 className="relative w-[28px] h-[28px]"
                                 alt="Plus"
@@ -55,7 +59,7 @@ export const List = ({ id, name, initialItems }: IListProps): JSX.Element => {
                             <div className="relative w-fit [font-family:'Inter-Regular',Helvetica] font-normal text-white text-[16px] tracking-[0] leading-[normal] whitespace-nowrap">
                                 Add a card
                             </div>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
