@@ -1,4 +1,4 @@
-const host = 'http://localhost:3030';
+const host = 'http://localhost:3030/api/v1';
 
 interface RequestOptions {
     method: string;
@@ -26,7 +26,7 @@ const request = async (
         options.headers['content-type'] = 'application/json';
         options.body = JSON.stringify(data);
     }
-    
+
     if (localStorage.access_info) {
         const token = localStorage.access_info;
         options.headers['x-authorization'] = token;

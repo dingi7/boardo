@@ -2,6 +2,7 @@ import { List } from './List/List';
 import { IBoardProps } from '../../Interfaces/IBoard';
 import { BoardHeader } from './Header/BoardHeader';
 import { BoardSidebar } from './Sidebar/BoardSidebar';
+import { useEffect, useState } from 'react';
 
 export const Board = (): JSX.Element => {
     // fetch the data from the server
@@ -9,6 +10,17 @@ export const Board = (): JSX.Element => {
         boardName: 'test',
         boardId: 'test',
     };
+    const [boards, setBoard] = useState<IBoardProps[]>([]);
+    useEffect(() => {
+        // fetch the data from the server
+        const data: IBoardProps[] = [
+            {
+                boardName: 'test',
+                boardId: 'test',
+            },
+        ];
+        setBoard(data);
+    }, []);
     return (
         <div className="bg-[#172b4d] flex flex-row justify-center w-full overflow-y-auto">
             <div className="flex flex-row bg-[#172b4d] overflow-hidden w-full h-screen relative">
