@@ -8,7 +8,7 @@ export const List = ({ id, name, items }: IListProps): JSX.Element => {
 
 
     return (
-        <div className="inline-flex flex-col items-start gap-[10px]" key={id}>
+        <div className="inline-flex flex-col items-start gap-[10px] " key={id}>
             <div className="bg-neutral-950 rounded-[15px]">
                 <div className="p-5">
                     <div className="inline-flex flex-col items-start gap-[5px] ">
