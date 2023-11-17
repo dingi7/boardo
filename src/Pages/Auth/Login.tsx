@@ -5,7 +5,7 @@ import { authRoutes } from "../../util/routesList";
 
 type Props = {};
 
-export const Register = (props: Props) => {
+export const Login = (props: Props) => {
     return (
         <div className="h-screen bg-black flex justify-center items-center drop-shadow-md">
             <div className=" w-[600px] h-[650px] bg-zinc-800 border-2 border-slate-800 rounded-md flex flex-col p-12 pb-16 justify-between">
@@ -13,15 +13,10 @@ export const Register = (props: Props) => {
                 <div>
                     <AuthInput type="email" text="Email" id="email" />
                     <AuthInput type="password" text="Password" id="password" />
-                    <AuthInput
-                        type="password"
-                        text="Confirm Password"
-                        id="confirmPassword"
-                    />
                     <div className="text-white text-left">
                         Already registered?{" "}
-                        <Link to={authRoutes.login} className="font-bold ">
-                            Login
+                        <Link to={authRoutes.register} className="font-bold ">
+                            Register
                         </Link>
                     </div>
                 </div>
@@ -31,7 +26,7 @@ export const Register = (props: Props) => {
                     id="registerButton"
                     type="submit"
                 >
-                    Register
+                    Login
                 </button>
             </div>
         </div>

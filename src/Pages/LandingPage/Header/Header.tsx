@@ -1,7 +1,11 @@
 // import moreInfo from "../../public/more.svg";
 import moreInfo from "./more.svg";
 
+import { useNavigate } from "react-router-dom";
+import { authRoutes } from "../../../util/routesList";
+
 export const Header = (): JSX.Element => {
+    const navigate = useNavigate()
     return (
         <div className="flex items-center justify-between">
             <div className="inline-flex items-end gap-[14px]  flex-[0_0_auto]">
@@ -12,7 +16,11 @@ export const Header = (): JSX.Element => {
             <div className="inline-flex items-center gap-[37px]  flex-[0_0_auto]">
                 <div className="inline-flex items-center justify-center gap-[10px] p-[10px]  flex-[0_0_auto] bg-[#147d9e] rounded-[30px]">
                     <div className=" w-fit mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-bold text-white text-[22px] tracking-[0] leading-[normal]">
-                        <button>SIGN IN</button>
+                        <button
+                            onClick={() => navigate(authRoutes.register)}
+                        >
+                            SIGN IN
+                        </button>
                     </div>
                 </div>
                 <button>

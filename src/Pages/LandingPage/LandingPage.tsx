@@ -1,7 +1,13 @@
+import { useNavigate } from 'react-router-dom';
+import { boardRoutes } from '../../util/routesList';
+
 import { Typewriter } from '../../util/typewriter';
-import { Header } from '../../Header/Header';
+import { Header } from './Header/Header';
+
 
 export const LandingPage = (): JSX.Element => {
+
+    const navigate = useNavigate()
 
     return (
         <div className="flex flex-col h-screen gap-[74px] pt-[37px] pb-0 px-[117px] bg-gradient-to-b from-black to-blue-400">
@@ -14,7 +20,11 @@ export const LandingPage = (): JSX.Element => {
                     <div className="flex items-end gap-[45px] relative flex-1 grow">
                         <div className="inline-flex items-center justify-center gap-[10px] p-[10px] relative flex-[0_0_auto] bg-[#147d9e] rounded-[30px] overflow-hidden">
                             <div className="relative w-fit mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-bold text-white text-[24px] tracking-[0] leading-[normal]">
-                                <button>CREATE YOUR FIRST BOARD</button>
+                                <button
+                                    onClick={() => navigate(boardRoutes.create)}
+                                >
+                                    CREATE YOUR FIRST BOARD
+                                </button>
                             </div>
                         </div>
                         <div className="inline-flex items-center justify-center gap-[10px] p-[10px] relative flex-[0_0_auto] rounded-[30px] overflow-hidden border border-solid border-[#e0e0e0]">
