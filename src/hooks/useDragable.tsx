@@ -1,47 +1,59 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 interface DraggableHook {
   draggedItem: { id: string | null; index: number | null };
+  setDraggedItem: Function;
   handleDragStart: (id: string, index: number) => void;
   handleDragEnd: () => void;
-  handleDrop: (overIndex: number) => void;
+  handleEnter: (overIndex: number) => void;
   items: any[];
+
+  //isParrent: boolean;
 }
 
-const useDraggable = (initialItems: any[]): DraggableHook => {
-  const [draggedItem, setDraggedItem] = useState({ id: '', index: 0 });
+const useDraggable = (initialItems: any[], draggedItem: any, setDraggedItem: any): DraggableHook => {
   const [items, setItems] = useState(initialItems);
 
+
   const handleDragStart = useCallback((id: string, index: number) => {
-    
-    setDraggedItem({ id, index });
-  }, []);
+    if(draggedItem.id !== ""){
+      return
+    }
+
+
+    console.log("drag start")
+    console.log(id);
+
+    setDraggedItem({ id, index});
+  }, [draggedItem.index, draggedItem.id]);
 
   const handleDragEnd = useCallback(() => {
-    setDraggedItem({ id: '', index: 0 });
+
+    setDraggedItem({ id: '', index: 0, isParrent: false });
   }, []);
 
-  const handleDrop = useCallback((overIndex: number) => {
+  const handleEnter = useCallback((overIndex: number) => {
+    console.log("overIndex");
+    console.log(overIndex);
+    
+    
     if (draggedItem.index === null || draggedItem.id === null) return;
-
-
-
     // Update the order of items
     const updatedItems = [...items];
     const [dragged] = updatedItems.splice(draggedItem.index, 1);
     updatedItems.splice(overIndex, 0, dragged);
 
     setItems(updatedItems);
-
   }, [draggedItem.index, draggedItem.id]);
 
-
   return {
-    draggedItem,
+    setDraggedItem,
     handleDragStart,
     handleDragEnd,
-    handleDrop,
+    handleEnter,
     items,
+    draggedItem,
+    //isParrent
   };
 };
 

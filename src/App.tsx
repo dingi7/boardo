@@ -5,6 +5,11 @@ import { Board } from "./Pages/Board/Board";
 import { AuthProvider } from "react-auth-kit";
 import { Register } from "./Pages/Auth/Register";
 
+
+
+
+
+
 function App() {
     return (
         <AuthProvider
@@ -13,7 +18,9 @@ function App() {
             cookieDomain={window.location.hostname}
             cookieSecure={window.location.protocol === "https:"}
         >
+        {/* <DraggedItemProvider> */}
             <div className="App">
+                
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<LandingPage />} />
@@ -24,6 +31,7 @@ function App() {
                     {/* <LandingPage></LandingPage> */}
                 </BrowserRouter>
             </div>
+        {/* </DraggedItemProvider> */}
         </AuthProvider>
     );
 }
