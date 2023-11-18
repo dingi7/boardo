@@ -7,8 +7,14 @@ export const Create = () => {
         <div className="flex flex-col h-screen gap-[5%] bg-gradient-to-b from-black to-blue-400">
 
             <div
-                className="w-[80%] mx-auto mt-[2%]"
+                className="w-[40%] mx-auto mt-[8%]"
             >
+                <h1
+                    className="text-white text-5xl mb-[4%]"
+                >
+                    Create board
+                </h1>
+
                 <form
                     className="flex flex-col"
                 >
@@ -20,7 +26,7 @@ export const Create = () => {
                         Board name
                     </label>
                     <input
-                        className="px-[1%] py-[0.5%] mb-[1%]"
+                        className="px-[1%] py-[0.5%] mb-[2%]"
                     />
 
 
@@ -30,7 +36,7 @@ export const Create = () => {
                         Workspace
                     </label>
                     <select
-                        className="px-[1%] py-[0.5%] mb-[1%]"
+                        className="px-[1%] py-[0.5%] mb-[2%]"
                     >
                         <option value="">Mityo`s Workspace</option>
                         <option value="">Kamen`s Workspace</option>
@@ -44,7 +50,7 @@ export const Create = () => {
                         Visiblity
                     </label>
                     <select
-                        className="px-[1%] py-[0.5%] mb-[1%]"
+                        className="px-[1%] py-[0.5%] mb-[2%]"
                     >
                         <option>Private</option>
                         <option>Workspace</option>
