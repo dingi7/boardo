@@ -1,17 +1,36 @@
 export const Create = () => {
     return (
         <div className="flex flex-col h-screen gap-[5%] bg-gradient-to-b from-black to-blue-400">
-            <div className="w-[80%] mx-auto mt-[2%]">
-                <form className="flex flex-col">
-                    <label className="text-gray-100 font-bold text-left">
+
+            <div
+                className="w-[40%] mx-auto mt-[8%]"
+            >
+                <h1
+                    className="text-white text-5xl mb-[4%]"
+                >
+                    Create board
+                </h1>
+
+                <form
+                    className="flex flex-col"
+                >
+
+
+                    <label
+                        className="text-gray-100 font-bold text-left"
+                    >
                         Board name
                     </label>
-                    <input className="px-[1%] py-[0.5%] mb-[1%]" />
+                    <input
+                        className="px-[1%] py-[0.5%] mb-[2%]"
+                    />
 
                     <label className="text-gray-100 font-bold text-left">
                         Workspace
                     </label>
-                    <select className="px-[1%] py-[0.5%] mb-[1%]">
+                    <select
+                        className="px-[1%] py-[0.5%] mb-[2%]"
+                    >
                         <option value="">Mityo`s Workspace</option>
                         <option value="">Kamen`s Workspace</option>
                         <option value="">Ivan`s Workspace</option>
@@ -20,7 +39,9 @@ export const Create = () => {
                     <label className="text-gray-100 font-bold text-left">
                         Visiblity
                     </label>
-                    <select className="px-[1%] py-[0.5%] mb-[1%]">
+                    <select
+                        className="px-[1%] py-[0.5%] mb-[2%]"
+                    >
                         <option>Private</option>
                         <option>Workspace</option>
                         <option>Public</option>
