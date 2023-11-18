@@ -23,9 +23,9 @@ export const Board = (): JSX.Element => {
 			name: "Test",
 			initialItems:
 				[
-					{ id: "1", name: "test" },
-					{ id: "2", name: "test test" },
-					{ id: "3", name: "test test test" },
+					{ id: "1", name: "test", checkboxElements: [""], color: "blue" },
+					{ id: "2", name: "test test", checkboxElements: [""], color: "blue" },
+					{ id: "3", name: "test test test", checkboxElements: [""], color: "blue" },
 				]
 
 		},
@@ -35,7 +35,7 @@ export const Board = (): JSX.Element => {
 			name: "Test1",
 			initialItems:
 				[
-					{ id: "4", name: "test" },
+					{ id: "4", name: "test", checkboxElements: [""], color: "blue" },
 				]
 
 		},
@@ -45,7 +45,7 @@ export const Board = (): JSX.Element => {
 			name: "Test2",
 			initialItems:
 				[
-					{ id: "5", name: "test" },
+					{ id: "5", name: "test", checkboxElements: [""], color: "blue" },
 				]
 
 		}
@@ -64,8 +64,8 @@ export const Board = (): JSX.Element => {
 			<div className="flex flex-row bg-[#172b4d] overflow-hidden w-full h-screen relative">
 				<BoardSidebar />
 				<BoardHeader boardName={boardName} boardId={boardId} />
-				<div 
-				className={`flex flex-row mt-[4%] p-[1%] gap-[2%] w-full overflow-auto ${isOpen && "blur-sm disabled"}`}
+				<div
+					className={`flex flex-row mt-[4%] p-[1%] gap-[2%] w-full overflow-auto ${isOpen && "blur-sm disabled"}`}
 				>
 					{items.map((list, index) => (
 						<div
@@ -88,18 +88,18 @@ export const Board = (): JSX.Element => {
 
 
 				{isOpen &&
-          <>
-            <div
-              className="fixed top-0 left-0 w-full h-full bg-black opacity-50"
-              onClick={() => setIsOpen(false)}
-            ></div>
-            <div
-              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-[10%] bg-gradient-to-b from-black to-blue-400 rounded h-[65%] shadow-lg shadow-blue-500/50"
-            >
-              <TaskModal setIsOpen={() => setIsOpen(false)} />
-            </div>
-          </>
-        }	
+					<>
+						<div
+							className="fixed top-0 left-0 w-full h-full bg-black opacity-50"
+							onClick={() => setIsOpen(false)}
+						></div>
+						<div
+							className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-[5%] bg-gradient-to-b from-black to-blue-400 rounded h-[65%] w-[30%] shadow-lg shadow-blue-500/50"
+						>
+							<TaskModal setIsOpen={() => setIsOpen(false)} />
+						</div>
+					</>
+				}
 			</div>
 		</div>
 	);
