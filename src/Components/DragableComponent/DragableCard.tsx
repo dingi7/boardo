@@ -20,16 +20,18 @@ interface BoardCard {
     id: string;
     name: string;
     items: CardItem[];
+
 }
 
 interface CardProps {
     id: string;
     index: number;
     card: BoardCard;
+    OpenModal: () => void;
     moveCard: (dragIndex: number, hoverIndex: number) => void;
 }
 
-const DragableCard: React.FC<CardProps> = ({ id, index, moveCard, card }) => {
+const DragableCard: React.FC<CardProps> = ({ id, index, moveCard, card, OpenModal }) => {
     const [{ handlerId }, drop] = useDrop({
         accept: ItemTypes.CARD,
         collect(monitor) {
@@ -57,7 +59,7 @@ const DragableCard: React.FC<CardProps> = ({ id, index, moveCard, card }) => {
 
     return (
         <div ref={(node) => drag(drop(node))} style={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}>
-            <List id={id} name={card.name} initialItems={card.items} setIsOpen={() => { }} />
+            <List id={id} name={card.name} initialItems={card.items} setIsOpen={OpenModal} />
         </div>
     );
 };

@@ -52,10 +52,10 @@
                     <img src={closeVector} alt="Close" />
                 </button>
                 <form className="flex flex-col justify-center w-full" onSubmit={submitHandler}>
-                    <label className="text-white text-left">Task label:</label>
-                    <input className="bg-white text-black p-2 rounded mb-2" />
+                    <label className="text-white text-left mb-1">Task label:</label>
+                    <input className="bg-white text-black p-2 rounded mb-4" />
 
-                    <label className="text-white text-left">Task colour:</label>
+                    <label className="text-white text-left mb-1">Task colour:</label>
 
                     <div className="flex gap-2 mb-[4%]">
                         <input

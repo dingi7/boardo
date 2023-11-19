@@ -49,9 +49,9 @@ export const Board = (): JSX.Element => {
       id: '456',
       name: 'Test1',
       items: [
-        { id: '4', name: 'test', checkboxElements: [''], color: 'blue' },
-        { id: '5', name: 'test test', checkboxElements: [''], color: 'blue' },
-        { id: '6', name: 'test test test', checkboxElements: [''], color: 'blue' },
+        { id: '4', name: 'test1', checkboxElements: [''], color: 'blue' },
+        { id: '5', name: 'test test1', checkboxElements: [''], color: 'blue' },
+        { id: '6', name: 'test test test1', checkboxElements: [''], color: 'blue' },
       ],
     },
 
@@ -60,9 +60,9 @@ export const Board = (): JSX.Element => {
       id: '789',
       name: 'Test2',
       items: [
-        { id: '7', name: 'test', checkboxElements: [''], color: 'blue' },
-        { id: '8', name: 'test test', checkboxElements: [''], color: 'blue' },
-        { id: '9', name: 'test test test', checkboxElements: [''], color: 'blue' },
+        { id: '7', name: 'test2', checkboxElements: [''], color: 'blue' },
+        { id: '8', name: 'test test2', checkboxElements: [''], color: 'blue' },
+        { id: '9', name: 'test test test2', checkboxElements: [''], color: 'blue' },
       ],
     },
   ]);
@@ -78,25 +78,7 @@ export const Board = (): JSX.Element => {
     );
   }, []);
 
-  const moveTask = useCallback(
-    (cardIndex: number, dragIndex: number, hoverIndex: number) => {
-      setCards((prevCards) => {
-        const updatedCards = [...prevCards];
-        const draggedCard = { ...updatedCards[cardIndex] };
 
-        draggedCard.items = update(draggedCard.items, {
-          $splice: [
-            [dragIndex, 1],
-            [hoverIndex, 0, draggedCard.items[dragIndex]],
-          ],
-        });
-
-        updatedCards[cardIndex] = draggedCard;
-        return updatedCards;
-      });
-    },
-    []
-  );
 
   const renderCard = useCallback(
     (card: BoardCard, index: number) => {
@@ -106,11 +88,12 @@ export const Board = (): JSX.Element => {
           index={index}
           id={card.id}
           card={card}
+          OpenModal={() => setIsOpen(true)}
           moveCard={moveCard}
         />
       );
     },
-    [moveCard, moveTask]
+    [moveCard]
   );
 
   const { boardName, boardId }: IBoardProps = {
