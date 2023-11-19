@@ -1,4 +1,6 @@
-export const BoardSidebar = (): JSX.Element => {
+
+
+export const BoardSidebar = (boards: any[]): JSX.Element => {
     return (
         <div className="relative w-[270px] h-full top-0  bg-[#141d27]">
             <div className="inline-flex items-end gap-[10px] absolute top-[18px] left-[14px] ">
