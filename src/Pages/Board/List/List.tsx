@@ -2,14 +2,25 @@ import { IListProps, IItemProps } from '../../../Interfaces/IList';
 import { Card } from './Card';
 import dotsVector from '../assets/dotsVector.svg';
 import plusIcon from '../assets/plus.svg';
+import { useState, useCallback } from 'react';
 
-import useDraggable from '../../../hooks/useDragable';
+import update from 'immutability-helper';
 
 
-
-// List.tsx
 export const List = ({ id, name, initialItems, setIsOpen }: IListProps): JSX.Element => {
-    //const { handleDragStart ,handleDragEnd, handleEnter, items } = useDraggable(initialItems || [], draggedItem, setDraggedItem, false);
+
+    const [cards, setCards] = useState(initialItems)
+
+    const moveTask = useCallback((dragIndex: number, hoverIndex: number) => {
+        setCards((prevCards: any) =>
+            update(prevCards, {
+                $splice: [
+                    [dragIndex, 1],
+                    [hoverIndex, 0, prevCards[dragIndex]],
+                ],
+            }),
+        )
+    }, [])
 
     return (
         <div className="inline-flex flex-col items-start gap-[10px] " key={id}>
@@ -28,26 +39,21 @@ export const List = ({ id, name, initialItems, setIsOpen }: IListProps): JSX.Ele
                                 />
                             </div>
                             <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
-                                {initialItems
-                                    ? initialItems.map((item: IItemProps, index) => (
-                                        <div
-                                            key={item.id}
-                                            //draggable
-                                            
-                                            //onMouseDown={() => handleDragStart(`${item.id}`, index)}
-                                            //onDragEnter={() => handleEnter(index)}
-                                            //onDrop={handleDragEnd}
-                                        >
+                                {cards
+                                    ? cards.map((item: IItemProps, index) => (
+
                                             <Card
                                                 key={item.id}
+                                                index={index}
                                                 task={item.name}
+                                                id={item.id}
+                                                moveTask={moveTask}
                                             />
-                                        </div>
                                     ))
                                     : null}
                             </div>
                         </div>
-                        <button 
+                        <button
                             className="inline-flex items-center relative flex-[0_0_auto]"
                             onClick={setIsOpen}
                         >

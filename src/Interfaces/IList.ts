@@ -6,7 +6,7 @@ export interface IListProps {
 }
 
 export interface IItemProps {
-    id: number;
+    id: string;
     name: string;
     // quantity: number;
     // checked: boolean;

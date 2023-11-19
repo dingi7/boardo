@@ -13,8 +13,11 @@ import { Login } from './Pages/Auth/Login';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+
+
 function App() {
     return (
+        
         <AuthProvider authType={'localstorage'} authName={'x-authorization'}>
             <ToastContainer
                 position="top-center"
