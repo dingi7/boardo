@@ -76,7 +76,7 @@ export const Board = (): JSX.Element => {
 
     const [boards, setBoards] = useState([
         {
-            boardName: 'test',
+            boardName: 'test1',
             boardId: 'test'
         },
         {
@@ -126,7 +126,7 @@ export const Board = (): JSX.Element => {
     return (
         <div className="bg-[#172b4d] flex flex-row justify-center w-full overflow-y-auto">
             <div className="flex flex-row bg-[#172b4d] overflow-hidden w-full h-screen relative">
-                <BoardSidebar {...boards} />
+                <BoardSidebar boards={boards} />
                 <BoardHeader boardName={boardName} boardId={boardId} />
                 <div
                     className={`flex flex-row mt-[4%] p-[1%] gap-[2%] w-full overflow-auto ${isOpen && 'blur-sm disabled'}`}
