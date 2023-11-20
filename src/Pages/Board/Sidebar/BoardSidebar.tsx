@@ -1,6 +1,14 @@
+import { useNavigate } from "react-router-dom";
 
+const navLinks = {
+    board: "/board/create",
+    create: "/create"
+}
 
 export const BoardSidebar: React.FC<{ boards: { boardName: string, boardId: string }[] }> = ({ boards }): JSX.Element => {
+
+    const navigate = useNavigate();
+
     return (
         <div className="relative w-[17%] h-full top-0  bg-[#141d27]">
             <div className="inline-flex items-end gap-[10px] fixed top-[2%] left-[1%] mb-[10%]">
@@ -21,7 +29,11 @@ export const BoardSidebar: React.FC<{ boards: { boardName: string, boardId: stri
                         Your boards
                     </div>
                     <div className="relative w-fit  [font-family:'Inter-ExtraBold',Helvetica] font-extrabold text-[#92a0ae] text-[24px] tracking-[0] leading-[normal]">
-                        <button>+</button>
+                        <button
+                            onClick={() => navigate(`${navLinks.create}`)}
+                        >
+                            +
+                        </button>
                     </div>
                 </div>
             </div>
@@ -31,6 +43,7 @@ export const BoardSidebar: React.FC<{ boards: { boardName: string, boardId: stri
                     {boards.map((board) =>
                         <div
                             className="mb-[10%] w-full flex flex-row gap-[5%] text-left [font-family:'Inter-Medium',Helvetica] font-medium text-[#92a0ae] text-[24px] tracking-[0] leading-[normal] hover:font-bold hover:underline"
+                            onClick={() => navigate(`${navLinks.board}/${board.boardId}`)}
                         >
                             <div className="relative w-[10%] h-[100%] bg-[#92a0ae]" />
                             <p>{board.boardName}</p>
