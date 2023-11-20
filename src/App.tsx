@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
+// import './App.css';
 import { LandingPage } from './Pages/LandingPage/LandingPage';
 import { AuthProvider } from 'react-auth-kit';
 
@@ -12,12 +12,10 @@ import { Register } from './Pages/Auth/Register';
 import { Login } from './Pages/Auth/Login';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
+import { MarketingLayout } from './Pages/LandingPage_new/layout';
 
 function App() {
     return (
-        
         <AuthProvider authType={'localstorage'} authName={'x-authorization'}>
             <ToastContainer
                 position="top-center"
@@ -30,7 +28,6 @@ function App() {
                 pauseOnHover
                 theme="dark"
             />
-            {/* <DraggedItemProvider> */}
             <div className="App">
                 <BrowserRouter>
                     <Routes>
@@ -40,11 +37,13 @@ function App() {
                         <Route path="/board/:id" element={<Board />} />
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/auth/login" element={<Login />} />
+                        <Route
+                            path="/newLanding"
+                            element={<MarketingLayout />}
+                        />
                     </Routes>
-                    {/* <LandingPage></LandingPage> */}
                 </BrowserRouter>
             </div>
-            {/* </DraggedItemProvider> */}
         </AuthProvider>
     );
 }

@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react';
 
 import { IBoardProps } from '../../Interfaces/IBoard';
 
-import { List } from './List/List';
 import { TaskModal } from './TaskModal/TaskModal';
 
 import { BoardHeader } from './Header/BoardHeader';
