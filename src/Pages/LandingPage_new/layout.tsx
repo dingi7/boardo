@@ -4,7 +4,7 @@ import { Navbar } from './components/navbar';
 
 export const MarketingLayout = () => {
     return (
-        <div className="h-full bg-slate-100">
+        <div className="h-screen bg-slate-100">
             <Navbar />
             <main className="h-full pt-40 pb-20 bg-slate-100">
                 <MarketingPage />
