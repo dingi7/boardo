@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 
 const navLinks = {
-    board: "/board/create",
-    create: "/create"
+    board: "/board",
+    create: "/board/create"
 }
 
 export const BoardSidebar: React.FC<{ boards: { boardName: string, boardId: string }[] }> = ({ boards }): JSX.Element => {
