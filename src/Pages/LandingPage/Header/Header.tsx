@@ -10,7 +10,11 @@ export const Header = (): JSX.Element => {
         <div className="flex items-center justify-between">
             <div className="inline-flex items-end gap-[14px]  flex-[0_0_auto]">
                 <div className=" w-fit mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-bold text-white text-[34px] tracking-[0] leading-[normal]">
-                    <button>BOARDO</button>
+                    <button
+                        onClick={() => navigate("/")}
+                    >
+                        BOARDO
+                    </button>
                 </div>
             </div>
             <div className="inline-flex items-center gap-[37px]  flex-[0_0_auto]">
