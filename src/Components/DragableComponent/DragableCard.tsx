@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import update from 'immutability-helper';
 import { List } from '../../Pages/Board/List/List';
 import { ItemTypes } from './ItemTypes';
 
@@ -20,7 +19,6 @@ interface BoardCard {
     id: string;
     name: string;
     items: CardItem[];
-
 }
 
 interface CardProps {

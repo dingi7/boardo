@@ -116,21 +116,6 @@ export const Board = (): JSX.Element => {
         boardId: "test",
     };
 
-    const [boards, setBoards] = useState([
-        {
-            boardName: "test1",
-            boardId: "test",
-        },
-        {
-            boardName: "test1",
-            boardId: "test1",
-        },
-        {
-            boardName: "test2",
-            boardId: "test2",
-        },
-    ]);
-
     //^^TEMP
 
     const [isOpen, setIsOpen] = useState(false);
