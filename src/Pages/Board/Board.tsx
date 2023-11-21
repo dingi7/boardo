@@ -167,7 +167,6 @@ export const Board = (): JSX.Element => {
         <div className="bg-[#172b4d] flex flex-row justify-center w-full overflow-y-auto">
             <div className="flex flex-row bg-[#172b4d] overflow-hidden w-full h-screen relative">
                 {/* change bg */}
-                <BoardSidebar boards={boards} />
                 <BoardHeader boardName={boardName} boardId={boardId} />
                 <div
                     className={`flex flex-row mt-[4%] p-[1%] gap-[2%] w-full overflow-auto ${
