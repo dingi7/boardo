@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { loginUser } from "../../api/requests";
 import { useIsAuthenticated, useSignIn } from "react-auth-kit";
 import { errorNotification } from "../../util/notificationHandler";
+import { Logo } from "../../Components/ui/logo";
 
 type Props = {};
 
@@ -41,7 +42,9 @@ export const Login = (props: Props) => {
     return (
         <div className="h-screen bg-white flex justify-center items-center">
             <div className=" w-[600px] border-1 bg-[#e2e2e2] rounded-md flex flex-col p-12 pb-16 justify-between">
-                <h1 className="text-black mb-5 text-center">Boardo</h1>
+                <div className="mx-auto">
+                    <Logo />
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <AuthInput

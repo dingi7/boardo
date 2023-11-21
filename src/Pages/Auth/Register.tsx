@@ -1,9 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { registerUser } from '../../api/requests';
-import { AuthInput } from '../../Components/ui/AuthInput';
-import { useIsAuthenticated, useSignIn } from 'react-auth-kit';
-import { errorNotification } from '../../util/notificationHandler';
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { registerUser } from "../../api/requests";
+import { AuthInput } from "../../Components/ui/AuthInput";
+import { useIsAuthenticated, useSignIn } from "react-auth-kit";
+import { errorNotification } from "../../util/notificationHandler";
+import { Logo } from "../../Components/ui/logo";
 
 export const Register = () => {
     const navigate = useNavigate();
@@ -11,31 +12,31 @@ export const Register = () => {
     const isAuth = useIsAuthenticated();
     useEffect(() => {
         if (isAuth()) {
-            navigate('/');
-            errorNotification('You are already logged in');
+            navigate("/");
+            errorNotification("You are already logged in");
         }
     }, [isAuth, navigate]);
     const [userData, setUserData] = useState({
-        firstName: '',
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
+        firstName: "",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
     });
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             if (userData.password !== userData.confirmPassword) {
-                throw new Error('Passwords do not match');
+                throw new Error("Passwords do not match");
             }
             const response = await registerUser(userData);
             signIn({
                 token: response.accessToken,
                 expiresIn: 9999, // change this later
-                tokenType: 'Bearer',
+                tokenType: "Bearer",
                 authState: response,
             });
-            navigate('/');
+            navigate("/");
         } catch (err: any) {
             errorNotification(err.message);
         }
@@ -44,7 +45,9 @@ export const Register = () => {
     return (
         <div className="h-screen bg-white flex justify-center items-center">
             <div className="w-[600px] border-1 bg-[#e2e2e2] rounded-md flex flex-col p-12 pb-16 justify-between">
-                <h1 className="text-black text-center">Boardo</h1>
+                <div className="mx-auto">
+                    <Logo />
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <AuthInput
@@ -78,7 +81,7 @@ export const Register = () => {
                             setUserData={setUserData}
                         />
                         <div className="text-black text-left">
-                            Already registered?{' '}
+                            Already registered?{" "}
                             <Link to="/auth/login" className="font-bold ">
                                 Login
                             </Link>
