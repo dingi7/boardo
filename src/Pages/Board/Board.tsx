@@ -7,7 +7,7 @@ import { TaskModal } from "./TaskModal/TaskModal";
 import { BoardHeader } from "./Header/BoardHeader";
 
 import update from "immutability-helper";
-import Card from "../../Components/DragableComponent/DragableCard";
+import DragableList from "../../Components/DragableComponent/DragableList";
 import { List } from "./List/List";
 
 interface CheckboxElement {
@@ -21,7 +21,7 @@ interface CardItem {
     color: string;
 }
 
-interface BoardCard {
+interface BoardList {
     key: string;
     id: string;
     name: string;
@@ -31,7 +31,7 @@ interface BoardCard {
 export const Board = (): JSX.Element => {
     //TEMP hardcoded data
 
-    const [cards, setCards] = useState<BoardCard[]>([
+    const [litst, setLists] = useState<BoardList[]>([
         {
             key: "123",
             id: "123",
@@ -116,50 +116,35 @@ export const Board = (): JSX.Element => {
         boardId: "test",
     };
 
-    const [boards, setBoards] = useState([
-        {
-            boardName: "test1",
-            boardId: "test",
-        },
-        {
-            boardName: "test1",
-            boardId: "test1",
-        },
-        {
-            boardName: "test2",
-            boardId: "test2",
-        },
-    ]);
-
     //^^TEMP
 
     const [isOpen, setIsOpen] = useState(false);
 
-    const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
-        setCards((prevCards) =>
-            update(prevCards, {
+    const moveList = useCallback((dragIndex: number, hoverIndex: number) => {
+        setLists((prevLists) =>
+            update(prevLists, {
                 $splice: [
                     [dragIndex, 1],
-                    [hoverIndex, 0, prevCards[dragIndex]],
+                    [hoverIndex, 0, prevLists[dragIndex]],
                 ],
             })
         );
     }, []);
 
-    const renderCard = useCallback(
-        (card: BoardCard, index: number) => {
+    const renderList = useCallback(
+        (list: BoardList, index: number) => {
             return (
-                <Card
-                    key={card.id}
+                <DragableList
+                    key={list.id}
                     index={index}
-                    id={card.id}
-                    card={card}
+                    id={list.id}
+                    list={list}
                     OpenModal={() => setIsOpen(true)}
-                    moveCard={moveCard}
+                    moveList={moveList}
                 />
             );
         },
-        [moveCard]
+        [moveList]
     );
 
     return (
@@ -172,7 +157,7 @@ export const Board = (): JSX.Element => {
                     isOpen && "blur-sm disabled"
                 }`}
             >
-                {cards.map((card, index) => renderCard(card, index))}
+                {litst.map((list, index) => renderList(list, index))}
                 <List
                     id="addNew"
                     name="+ Add a list"
