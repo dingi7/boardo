@@ -1,4 +1,4 @@
-import { MarketingPage } from './LandingPage_new';
+import { MarketingPage } from './LandingPage';
 import { Footer } from './components/footer';
 import { Navbar } from './components/navbar';
 

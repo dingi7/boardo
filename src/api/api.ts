@@ -1,4 +1,4 @@
-const host = 'http://localhost:5000/api/v1';
+const host = 'http://localhost:3000/api/v1';
 
 interface RequestOptions {
     method: string;
