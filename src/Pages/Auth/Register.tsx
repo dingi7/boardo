@@ -42,9 +42,9 @@ export const Register = () => {
     };
 
     return (
-        <div className="h-screen bg-black flex justify-center items-center drop-shadow-md">
-            <div className=" w-[600px] h-[650px] bg-zinc-800 border-2 border-slate-800 rounded-md flex flex-col p-12 pb-16 justify-between">
-                <h1 className="text-white">Boardo</h1>
+        <div className="h-screen bg-white flex justify-center items-center">
+            <div className="w-[600px] border-1 bg-[#e2e2e2] rounded-md flex flex-col p-12 pb-16 justify-between">
+                <h1 className="text-black text-center">Boardo</h1>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <AuthInput
@@ -77,7 +77,7 @@ export const Register = () => {
                             id="confirmPassword"
                             setUserData={setUserData}
                         />
-                        <div className="text-white text-left">
+                        <div className="text-black text-left">
                             Already registered?{' '}
                             <Link to="/auth/login" className="font-bold ">
                                 Login
@@ -86,7 +86,7 @@ export const Register = () => {
                     </div>
 
                     <button
-                        className="shadow border-2 font-bold border-slate-800 rounded w-full py-3 px-3 text-white leading-tight focus:outline-none focus:shadow-outline bg-zinc-900 outline-none hover:bg-zinc-700"
+                        className="shadow border-1 mt-4 font-semibold border-slate-800 bg-white rounded w-full py-3 px-3 leading-tight focus:outline-none focus:shadow-outline outline-none hover:bg-zinc-100"
                         id="registerButton"
                         type="submit"
                     >
