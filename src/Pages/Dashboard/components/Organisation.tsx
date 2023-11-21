@@ -5,21 +5,26 @@ import { useState } from "react";
 import { ChevronUp } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 
-import { Activity } from "lucide-react";
-import { Layout } from "lucide-react";
-import { Settings } from "lucide-react";
-import { Lightbulb } from "lucide-react";
+import { Activity, Lightbulb, Layout, Settings, Building2 } from "lucide-react";
+
 export const Organistaion = () => {
 
     const [isOpen, setIsOpen] = useState(false)
 
     return (
         <div >
-            <h1 
+            <h1
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex flex-row gap-[5%] font-medium"
+                className="flex flex-row gap-[8%] font-medium"
             >
-                Org 1 {isOpen ? <ChevronUp /> : <ChevronDown />}
+                <div
+                    className="bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded"
+                >
+                    <Building2 color="white" />
+                </div>
+                <div className="flex flex-row gap-[5%] w-full">
+                    Org 1 {isOpen ? <ChevronUp /> : <ChevronDown />}
+                </div>
             </h1>
 
 

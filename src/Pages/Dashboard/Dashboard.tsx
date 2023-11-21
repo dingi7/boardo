@@ -6,8 +6,9 @@ import { BoardPlaceholder } from "./components/BoardPlaceholder";
 import { CreatePlaceholder } from "./components/CreatePlaceholder";
 import { Organistaion } from "./components/Organisation";
 
-import { Plus } from "lucide-react";
-import { User2 } from "lucide-react";
+import { Building2, Plus, User2 } from "lucide-react";
+
+
 
 export const Dashboard = () => {
 
@@ -32,9 +33,9 @@ export const Dashboard = () => {
                     className="flex flex-row gap-[2%]"
                 >
                     <div
-                        className="p-[2%] w-[8%] bg-gray-500 text-black flex justify-center rounded"
+                        className="p-[2%] w-[8%] bg-gradient-to-r from-purple-500 to-indigo-600 text-black flex justify-center rounded"
                     >
-                        Pic
+                        <Building2 color="white"/>
                     </div>
                     <p className="font-extrabold text-2xl">Org name</p>
                 </div>
