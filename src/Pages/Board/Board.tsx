@@ -5,7 +5,6 @@ import { IBoardProps } from "../../Interfaces/IBoard";
 import { TaskModal } from "./TaskModal/TaskModal";
 
 import { BoardHeader } from "./Header/BoardHeader";
-import { BoardSidebar } from "./Sidebar/BoardSidebar";
 
 import update from "immutability-helper";
 import Card from "../../Components/DragableComponent/DragableCard";
