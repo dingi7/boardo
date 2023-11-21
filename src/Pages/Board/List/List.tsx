@@ -6,10 +6,13 @@ import { useState, useCallback } from 'react';
 
 import update from 'immutability-helper';
 
-
-export const List = ({ id, name, initialItems, setIsOpen }: IListProps): JSX.Element => {
-
-    const [cards, setCards] = useState(initialItems)
+export const List = ({
+    id,
+    name,
+    initialItems,
+    setIsOpen,
+}: IListProps): JSX.Element => {
+    const [cards, setCards] = useState(initialItems);
 
     const moveTask = useCallback((dragIndex: number, hoverIndex: number) => {
         setCards((prevCards: any) =>
@@ -18,18 +21,18 @@ export const List = ({ id, name, initialItems, setIsOpen }: IListProps): JSX.Ele
                     [dragIndex, 1],
                     [hoverIndex, 0, prevCards[dragIndex]],
                 ],
-            }),
-        )
-    }, [])
+            })
+        );
+    }, []);
 
     return (
         <div className="inline-flex flex-col items-start gap-[10px] " key={id}>
-            <div className="bg-neutral-950 rounded-[15px]">
+            <div className=" bg-slate-300 rounded-[7px]">
                 <div className="p-5">
                     <div className="inline-flex flex-col items-start gap-[5px] ">
                         <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
                             <div className="inline-flex items-center gap-[257px] relative flex-[0_0_auto]">
-                                <div className="relative w-fit mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-bold text-white text-[24px] tracking-[0] leading-[normal]">
+                                <div className="relative w-fit mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-medium text-slate-900 text-[24px] tracking-[0] leading-[normal]">
                                     {name}
                                 </div>
                                 <img
@@ -40,30 +43,28 @@ export const List = ({ id, name, initialItems, setIsOpen }: IListProps): JSX.Ele
                             </div>
                             <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
                                 {cards
-                                    ? cards.map((item: IItemProps, index) => (
-
-                                            <Card
-                                                key={item.id}
-                                                index={index}
-                                                task={item.name}
-                                                id={item.id}
-                                                moveTask={moveTask}
-                                            />
-                                    ))
+                                    ? 
+                                    cards.map((item: IItemProps, index) => (
+                                          <Card
+                                              key={item.id}
+                                              index={index}
+                                              task={item.name}
+                                              id={item.id}
+                                              moveTask={moveTask}
+                                          />
+                                          
+                                      ))
+                                      
                                     : null}
+                                
                             </div>
                         </div>
                         <button
                             className="inline-flex items-center relative flex-[0_0_auto]"
                             onClick={setIsOpen}
                         >
-                            <img
-                                className="relative w-[28px] h-[28px]"
-                                alt="Plus"
-                                src={plusIcon}
-                            />
-                            <div className="relative w-fit [font-family:'Inter-Regular',Helvetica] font-normal text-white text-[16px] tracking-[0] leading-[normal] whitespace-nowrap">
-                                Add a card
+                            <div className="relative w-fit [font-family:'Inter-Regular',Helvetica] font-semibold  text-gray-400 text-[16px] tracking-[0] leading-[normal] whitespace-nowrap  pt-5">
+                                + Add a card
                             </div>
                         </button>
                     </div>
