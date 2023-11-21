@@ -14,24 +14,24 @@ interface CardItem {
     color: string;
 }
 
-interface BoardCard {
+interface BoardList {
     key: string;
     id: string;
     name: string;
     items: CardItem[];
 }
 
-interface CardProps {
+interface ListProps {
     id: string;
     index: number;
-    card: BoardCard;
+    list: BoardList;
     OpenModal: () => void;
-    moveCard: (dragIndex: number, hoverIndex: number) => void;
+    moveList: (dragIndex: number, hoverIndex: number) => void;
 }
 
-const DragableCard: React.FC<CardProps> = ({ id, index, moveCard, card, OpenModal }) => {
+const DragableList: React.FC<ListProps> = ({ id, index, moveList, list, OpenModal }) => {
     const [{ handlerId }, drop] = useDrop({
-        accept: ItemTypes.CARD,
+        accept: ItemTypes.LIST,
         collect(monitor) {
             return {
                 handlerId: monitor.getHandlerId(),
@@ -39,14 +39,14 @@ const DragableCard: React.FC<CardProps> = ({ id, index, moveCard, card, OpenModa
         },
         hover(item: any, monitor) {
             if (item.index !== index) {
-                moveCard(item.index, index);
+                moveList(item.index, index);
                 item.index = index;
             }
         },
     });
 
     const [{ isDragging }, drag] = useDrag({
-        type: ItemTypes.CARD,
+        type: ItemTypes.LIST,
         item: () => {
             return { id, index };
         },
@@ -57,9 +57,9 @@ const DragableCard: React.FC<CardProps> = ({ id, index, moveCard, card, OpenModa
 
     return (
         <div ref={(node) => drag(drop(node))} style={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}>
-            <List id={id} name={card.name} initialItems={card.items} setIsOpen={OpenModal} />
+            <List id={id} name={list.name} initialItems={list.items} setIsOpen={OpenModal} />
         </div>
     );
 };
 
-export default DragableCard;
+export default DragableList;
