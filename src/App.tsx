@@ -10,8 +10,14 @@ import { Create } from './Pages/Create/Create';
 //AUTH COMPONENTS
 import { Register } from './Pages/Auth/Register';
 import { Login } from './Pages/Auth/Login';
+
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { Dashboard } from './Pages/Dashboard/Dashboard';
+
+
 function App() {
     return (
         <AuthProvider authType={'localstorage'} authName={'x-authorization'}>
@@ -35,6 +41,8 @@ function App() {
                         <Route path="/board/:id" element={<Board />} />
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/auth/login" element={<Login />} />
+
+                        <Route path="/dashboard" element={<Dashboard />} />
                     </Routes>
                 </BrowserRouter>
             </div>
