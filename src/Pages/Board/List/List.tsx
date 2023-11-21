@@ -31,12 +31,12 @@ export const List = ({
                 <div className="p-5">
                     <div className="inline-flex flex-col items-start gap-[5px] ">
                         <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
-                            <div className="inline-flex items-center gap-[257px] relative flex-[0_0_auto]">
-                                <div className="relative w-fit mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-medium text-slate-900 text-[24px] tracking-[0] leading-[normal]">
+                            <div className="flex items-center justify-between w-full whitespace-nowrap min-w-[200px]">
+                                <div className="w-full mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-medium text-slate-900 text-[24px] tracking-[0] leading-[normal]">
                                     {name}
                                 </div>
                                 <img
-                                    className="relative w-[33.25px] h-[5.25px]"
+                                    className="w-[33.25px] h-[5.25px]"
                                     alt="More"
                                     src={dotsVector}
                                 />
