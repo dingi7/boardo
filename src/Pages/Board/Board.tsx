@@ -164,12 +164,12 @@ export const Board = (): JSX.Element => {
     );
 
     return (
-        <div className="bg-[#172b4d] flex flex-col w-full overflow-y-auto h-screen">
+        <div className="bg-[url('https://images.unsplash.com/photo-1698471058817-a280ddf07704?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] flex flex-col w-screen overflow-y-auto h-screen">
             {/* change bg */}
             <BoardHeader boardName={boardName} boardId={boardId} />
 
             <div
-                className={`flex flex-row mt-[4%] p-[1%] gap-[2%] w-full overflow-auto ${
+                className={`flex flex-row mt-[1%] ml-10 p-[1%] gap-[2%] w-full overflow-auto ${
                     isOpen && "blur-sm disabled"
                 }`}
             >
