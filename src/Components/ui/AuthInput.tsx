@@ -1,5 +1,5 @@
 import React from "react";
-import { LoginUserData, RegisterUserData } from "../Interfaces/IUserData";
+import { LoginUserData, RegisterUserData } from "../../Interfaces/IUserData";
 
 type Props = {
     type: string;

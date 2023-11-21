@@ -2,7 +2,7 @@ import { MarketingPage } from './LandingPage_new';
 import { Footer } from './components/footer';
 import { Navbar } from './components/navbar';
 
-export const MarketingLayout = () => {
+export const LandingPage = () => {
     return (
         <div className="h-screen bg-slate-100">
             <Navbar />
@@ -14,4 +14,4 @@ export const MarketingLayout = () => {
     );
 };
 
-export default MarketingLayout;
+export default LandingPage;

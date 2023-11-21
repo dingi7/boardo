@@ -1,6 +1,6 @@
-import { Logo } from '../../../Components/logo';
-import { Button } from '../../../Components/ui/button';
+import { Logo } from '../../../Components/ui/logo';
 import { Link } from 'react-router-dom';
+import { Button } from '../../../Components/ui/button';
 
 export const Navbar = () => {
     return (

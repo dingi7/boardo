@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthInput } from '../../Components/AuthInput';
+import { AuthInput } from '../../Components/ui/AuthInput';
 import { authRoutes } from '../../util/routesList';
 import { useEffect, useState } from 'react';
 import { loginUser } from '../../api/requests';

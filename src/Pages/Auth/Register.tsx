@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { registerUser } from '../../api/requests';
-import { AuthInput } from '../../Components/AuthInput';
+import { AuthInput } from '../../Components/ui/AuthInput';
 import { useIsAuthenticated, useSignIn } from 'react-auth-kit';
 import { errorNotification } from '../../util/notificationHandler';
 

@@ -6,8 +6,7 @@ export const Logo = () => {
         <Link to="/">
             <div className="hover:opacity-75 transition items-center gap-x-2 hidden md:flex">
                 <img src={logoSvg} alt="Logo" height={30} width={30} />
-                {/* <svg path="../../public/logo.svg" height={30} width={30}></svg> */}
-                <p className="text-lg text-neutral-700 pb-1">Boardo</p>
+                <p className="text-lg text-neutral-700 pb-1 font-bold">Boardo</p>
             </div>
         </Link>
     );
