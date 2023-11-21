@@ -1,10 +1,9 @@
 import { IListProps, IItemProps } from '../../../Interfaces/IList';
 import { Card } from './Card';
-import dotsVector from '../assets/dotsVector.svg';
-import plusIcon from '../assets/plus.svg';
 import { useState, useCallback } from 'react';
 
 import update from 'immutability-helper';
+import { MoreHorizontal } from 'lucide-react';
 
 export const List = ({
     id,
@@ -27,7 +26,7 @@ export const List = ({
 
     return (
         <div className="inline-flex flex-col items-start gap-[10px] " key={id}>
-            <div className=" bg-slate-300 rounded-[7px]">
+            <div className=" bg-slate-300 rounded-[7px] shadow-lg">
                 <div className="p-5">
                     <div className="inline-flex flex-col items-start gap-[5px] ">
                         <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
@@ -35,16 +34,14 @@ export const List = ({
                                 <div className="w-full mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-medium text-slate-900 text-[24px] tracking-[0] leading-[normal]">
                                     {name}
                                 </div>
-                                <img
-                                    className="w-[33.25px] h-[5.25px]"
-                                    alt="More"
-                                    src={dotsVector}
+                                <MoreHorizontal
+                                    className="h-6 w-6 on:hover:bg-slate-200 cursor-pointer"
+                                    onClick={() => console.log('2')}
                                 />
                             </div>
                             <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
                                 {cards
-                                    ? 
-                                    cards.map((item: IItemProps, index) => (
+                                    ? cards.map((item: IItemProps, index) => (
                                           <Card
                                               key={item.id}
                                               index={index}
@@ -52,11 +49,8 @@ export const List = ({
                                               id={item.id}
                                               moveTask={moveTask}
                                           />
-                                          
                                       ))
-                                      
                                     : null}
-                                
                             </div>
                         </div>
                         <button

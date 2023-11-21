@@ -7,7 +7,7 @@ export const BoardHeader = ({
     boardId,
 }: IBoardProps): JSX.Element => {
     return (
-        <div className="bg-[#052b5f] text-white w-full flex items-center justify-between py-2 px-28">
+        <div className="bg-black bg-opacity-20 text-white w-full flex items-center justify-between py-2 px-16">
                 {/* Board Name and Star Icon */}
                 <div className="flex items-center gap-1">
                     <div className="font-bold text-[24px]">{boardName}</div>

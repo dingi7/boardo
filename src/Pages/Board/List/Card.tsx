@@ -36,12 +36,12 @@ export const Card: React.FC<CardProps> = ({ task, index, id, moveTask }) => {
 
     return (
         <div
-            className="flex w-[355px] h-9 items-center gap-[10px] px-[10px] py-[6px] relative flex-[0_0_auto] bg-slate-100 rounded-[7px] overflow-hidden"
+            className="flex w-[355px] h-9 items-center gap-[10px] px-[10px] py-[6px] relative flex-[0_0_auto] bg-slate-100 rounded-[7px] overflow-hidden border-black hover:border-2 cursor-pointer"
             ref={(node) => drag(drop(node))}
             style={{ opacity: isDragging ? 0 : 1 }}
             data-handler-id={handlerId}
         >
-            <div className="relative w-fit mt-[-1.00px] [font-family:'Inter-Medium',Helvetica] font-medium text-slate-900 text-[16px] tracking-[0] leading-[normal] whitespace-nowrap">
+            <div className="relative w-fit mt-[-1.00px] [font-family:'Inter-Medium',Helvetica] font-medium text-slate-900 text-[16px] tracking-[0] leading-[normal] whitespace-nowrap ">
                 {task}
             </div>
         </div>
