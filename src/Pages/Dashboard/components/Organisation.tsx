@@ -2,12 +2,10 @@
 //import angleDown from "../assets/angleDown.svg"
 import { useState } from "react";
 
-import { ChevronUp } from "lucide-react";
-import { ChevronDown } from "lucide-react";
+import { Activity, Lightbulb, Layout, Settings, Building2, ChevronUp, ChevronDown } from "lucide-react";
 
-import { Activity, Lightbulb, Layout, Settings, Building2 } from "lucide-react";
 
-export const Organistaion = () => {
+export const Organisation  = ({ orgName, orgLogo, orgId }: { orgName: string; orgLogo: string; orgId: string }): JSX.Element => {
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -20,10 +18,10 @@ export const Organistaion = () => {
                 <div
                     className="bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded"
                 >
-                    <Building2 color="white" />
+                    <img src={orgLogo}/>
                 </div>
                 <div className="flex flex-row gap-[5%] w-full">
-                    Org 1 {isOpen ? <ChevronUp /> : <ChevronDown />}
+                    {orgName} {isOpen ? <ChevronUp /> : <ChevronDown />}
                 </div>
             </h1>
 
