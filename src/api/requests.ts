@@ -13,6 +13,7 @@ export const endpoints = {
     removeMemberFromBoard : (boardId: string) => `/items/removeMember/${boardId}`,
     editBoard: (boardId: string) => `/items/editBoard/${boardId}`,
     deleteBoard: (boardId: string) => `/items/deleteBoard/${boardId}`,
+    getBoardByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
 };
 
 export const registerUser = async (userData: RegisterUserData) => {
@@ -49,4 +50,8 @@ export const editBoard = async (boardId: string, boardName: string) => {
 
 export const deleteBoard = async (boardId: string) => {
     return api.del(endpoints.deleteBoard(boardId));
+}
+
+export const getBoards =async () => {
+    const orgId = localStorage.getItem('orgId');
 }
