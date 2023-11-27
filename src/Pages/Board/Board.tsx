@@ -1,181 +1,163 @@
-import { useState, useCallback } from "react";
-
-import { IBoardProps } from "../../Interfaces/IBoard";
-
-import { TaskModal } from "./TaskModal/TaskModal";
-
-import { BoardHeader } from "./Header/BoardHeader";
-
-import update from "immutability-helper";
-import DragableList from "../../Components/DragableComponent/DragableList";
-import { List } from "./List/List";
-
-interface CheckboxElement {
-    // Define the shape of your checkbox element
-}
-
-interface CardItem {
-    id: string;
-    name: string;
-    checkboxElements: CheckboxElement[];
-    color: string;
-}
-
-interface BoardList {
-    key: string;
-    id: string;
-    name: string;
-    items: CardItem[];
-}
+import { useState } from 'react';
+import { IBoardProps } from '../../Interfaces/IBoard';
+import { BoardHeader } from './Header/BoardHeader';
+import { ListItem } from '../../Interfaces/IList';
+import { DragDropContext } from '@hello-pangea/dnd';
+import { List } from './List/List';
 
 export const Board = (): JSX.Element => {
-    //TEMP hardcoded data
+    const { boardName, boardId }: IBoardProps = {
+        boardName: 'test',
+        boardId: 'test',
+    };
 
-    const [litst, setLists] = useState<BoardList[]>([
+    const onDragEnd = (result: any) => {
+        const { destination, source, draggableId } = result;
+
+        if (!destination) {
+            return;
+        }
+
+        if (
+            destination.droppableId === source.droppableId &&
+            destination.index === source.index
+        ) {
+            return;
+        }
+
+        const start = lists.find((list: any) => list.id === source.droppableId);
+        const finish = lists.find(
+            (list: any) => list.id === destination.droppableId
+        );
+        if (start === finish) {
+            const newArr = Array.from(start!.items);
+            const [removed] = newArr.splice(source.index, 1);
+            newArr.splice(destination.index, 0, removed);
+
+            const updatedList = {
+                ...start,
+                items: newArr,
+            };
+            const newState = lists.map((list: any) => {
+                if (list.id === updatedList.id) {
+                    return updatedList;
+                } else {
+                    return list;
+                }
+            });
+
+            setLists(newState);
+            return;
+        }
+
+        const startArr = Array.from(start!.items);
+        const [removed] = startArr.splice(source.index, 1);
+        const finishArr = Array.from(finish!.items);
+        finishArr.splice(destination.index, 0, removed);
+
+        const updatedStartList = {
+            ...start,
+            items: startArr,
+        };
+        const updatedFinishList = {
+            ...finish,
+            items: finishArr,
+        };
+
+        const newState = lists.map((list: any) => {
+            if (list.id === updatedStartList.id) {
+                return updatedStartList;
+            } else if (list.id === updatedFinishList.id) {
+                return updatedFinishList;
+            } else {
+                return list;
+            }
+        });
+        setLists(newState);
+        console.log(newState);
+        
+    };
+
+    const [lists, setLists] = useState<ListItem[]>([
         {
-            key: "123",
-            id: "123",
-            name: "Test",
+            key: '123',
+            id: '123',
+            title: 'To do',
             items: [
                 {
-                    id: "1",
-                    name: "test",
-                    checkboxElements: [""],
-                    color: "blue",
+                    id: '1',
+                    content: 'Feed The dog',
                 },
                 {
-                    id: "2",
-                    name: "test test",
-                    checkboxElements: [""],
-                    color: "blue",
+                    id: '2',
+                    content: 'feed dan',
                 },
                 {
-                    id: "3",
-                    name: "test test test",
-                    checkboxElements: [""],
-                    color: "blue",
+                    id: '3',
+                    content: 'eat',
                 },
             ],
         },
-
         {
-            key: "456",
-            id: "456",
-            name: "Test1",
+            key: '456',
+            id: '456',
+            title: 'In progress',
             items: [
-                {
-                    id: "4",
-                    name: "test1",
-                    checkboxElements: [""],
-                    color: "blue",
-                },
-                {
-                    id: "5",
-                    name: "test test1",
-                    checkboxElements: [""],
-                    color: "blue",
-                },
-                {
-                    id: "6",
-                    name: "test test test1",
-                    checkboxElements: [""],
-                    color: "blue",
-                },
+                // {
+                //     id: '1',
+                //     content: 'test',
+                // },
+                // {
+                //     id: '2',
+                //     content: 'test test',
+                // },
+                // {
+                //     id: '3',
+                //     content: 'test test test',
+                // },
             ],
         },
-
         {
-            key: "789",
-            id: "789",
-            name: "Test2",
+            key: '22',
+            id: '22',
+            title: 'Done ',
             items: [
-                {
-                    id: "7",
-                    name: "test2",
-                    checkboxElements: [""],
-                    color: "blue",
-                },
-                {
-                    id: "8",
-                    name: "test test2",
-                    checkboxElements: [""],
-                    color: "blue",
-                },
-                {
-                    id: "9",
-                    name: "test test test2",
-                    checkboxElements: [""],
-                    color: "blue",
-                },
+                // {
+                //     id: '1',
+                //     content: 'test',
+                // },
+                // {
+                //     id: '2',
+                //     content: 'test test',
+                // },
+                // {
+                //     id: '3',
+                //     content: 'test test test',
+                // },
             ],
         },
     ]);
 
-    const { boardName, boardId }: IBoardProps = {
-        boardName: "test",
-        boardId: "test",
-    };
-
-    //^^TEMP
-
-    const [isOpen, setIsOpen] = useState(false);
-
-    const moveList = useCallback((dragIndex: number, hoverIndex: number) => {
-        setLists((prevLists) =>
-            update(prevLists, {
-                $splice: [
-                    [dragIndex, 1],
-                    [hoverIndex, 0, prevLists[dragIndex]],
-                ],
-            })
-        );
-    }, []);
-
-    const renderList = useCallback(
-        (list: BoardList, index: number) => {
-            return (
-                <DragableList
-                    key={list.id}
-                    index={index}
-                    id={list.id}
-                    list={list}
-                    OpenModal={() => setIsOpen(true)}
-                    moveList={moveList}
-                />
-            );
-        },
-        [moveList]
-    );
-
     return (
-        <div className="bg-[url('https://images.unsplash.com/photo-1698471058817-a280ddf07704?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] flex flex-col w-screen overflow-y-auto h-screen">
-            {/* change bg */}
-            <BoardHeader boardName={boardName} boardId={boardId} />
-            <div
-                className={`flex flex-row mt-[1%] ml-10 p-[1%] gap-[2%] w-full overflow-auto ${
-                    isOpen && "blur-sm disabled"
-                }`}
-            >
-                {litst.map((list, index) => renderList(list, index))}
-                <List
-                    id="addNew"
-                    name="+ Add a list"
-                    initialItems={[]}
-                    setIsOpen={() => {}}
-                ></List>
+        <DragDropContext onDragEnd={onDragEnd}>
+            <div className="bg-[url('https://images.unsplash.com/photo-1698471058817-a280ddf07704?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] flex flex-col w-screen overflow-y-auto h-screen">
+                {/* change bg */}
+                <BoardHeader boardName={boardName} boardId={boardId} />
+                <div
+                    className={`flex flex-row mt-[1%] ml-10 p-[1%] gap-[2%] w-full overflow-auto`}
+                >
+                    {lists.map((list: any, index: number) => {
+                        return (
+                            <List
+                                key={list.id}
+                                id={list.id}
+                                title={list.title}
+                                items={list.items}
+                            ></List>
+                        );
+                    })}
+                </div>
             </div>
-
-            {isOpen && (
-                <>
-                    <div
-                        className="fixed top-0 left-0 w-full h-full bg-slate-100 opacity-50"
-                        onClick={() => setIsOpen(false)}
-                    ></div>
-                    <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-[5%] bg-gradient-to-b from-black to-blue-400 rounded h-[65%] w-[30%] shadow-lg shadow-blue-500/50">
-                        <TaskModal setIsOpen={() => setIsOpen(false)} />
-                    </div>
-                </>
-            )}
-        </div>
+        </DragDropContext>
     );
 };

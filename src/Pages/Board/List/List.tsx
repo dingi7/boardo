@@ -1,29 +1,10 @@
-import { IListProps, IItemProps } from '../../../Interfaces/IList';
+import { IItemProps, ListItem } from '../../../Interfaces/IList';
 import { Card } from './Card';
-import { useState, useCallback } from 'react';
 
-import update from 'immutability-helper';
 import { MoreHorizontal } from 'lucide-react';
+import { Droppable } from '@hello-pangea/dnd';
 
-export const List = ({
-    id,
-    name,
-    initialItems,
-    setIsOpen,
-}: IListProps): JSX.Element => {
-    const [cards, setCards] = useState(initialItems);
-
-    const moveTask = useCallback((dragIndex: number, hoverIndex: number) => {
-        setCards((prevCards: any) =>
-            update(prevCards, {
-                $splice: [
-                    [dragIndex, 1],
-                    [hoverIndex, 0, prevCards[dragIndex]],
-                ],
-            })
-        );
-    }, []);
-
+export const List = ({ id, title, items }: ListItem): JSX.Element => {
     return (
         <div className="inline-flex flex-col items-start gap-[10px] " key={id}>
             <div className=" bg-slate-300 rounded-[7px] shadow-lg">
@@ -32,31 +13,38 @@ export const List = ({
                         <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
                             <div className="flex items-center justify-between w-full whitespace-nowrap min-w-[200px]">
                                 <div className="w-full mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-medium text-slate-900 text-[24px] tracking-[0] leading-[normal]">
-                                    {name}
+                                    {title}
                                 </div>
                                 <MoreHorizontal
                                     className="h-6 w-6 on:hover:bg-slate-200 cursor-pointer"
                                     onClick={() => console.log('2')}
                                 />
                             </div>
-                            <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
-                                {cards
-                                    ? cards.map((item: IItemProps, index) => (
-                                          <Card
-                                              key={item.id}
-                                              index={index}
-                                              task={item.name}
-                                              id={item.id}
-                                              moveTask={moveTask}
-                                          />
-                                      ))
-                                    : null}
-                            </div>
+                            <Droppable droppableId={id}>
+                                {(provided) => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                        className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto] flex-grow-1 min-h-[100px] min-w-[365px]"
+                                    >
+                                        {items
+                                            ? items.map(
+                                                  (item: IItemProps, index) => (
+                                                      <Card
+                                                          key={item.id}
+                                                          index={index}
+                                                          content={item.content}
+                                                          id={item.id}
+                                                      />
+                                                  )
+                                              )
+                                            : null}
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
                         </div>
-                        <button
-                            className="inline-flex items-center relative flex-[0_0_auto]"
-                            onClick={setIsOpen}
-                        >
+                        <button className="inline-flex items-center relative flex-[0_0_auto]">
                             <div className="relative w-fit [font-family:'Inter-Regular',Helvetica] font-semibold  text-gray-400 text-[16px] tracking-[0] leading-[normal] whitespace-nowrap  pt-5">
                                 + Add a card
                             </div>

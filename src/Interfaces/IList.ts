@@ -7,7 +7,19 @@ export interface IListProps {
 
 export interface IItemProps {
     id: string;
-    name: string;
+    content: string;
     // quantity: number;
     // checked: boolean;
+}
+
+export interface CardItem {
+    id: string;
+    content: string;
+}
+
+export interface ListItem {
+    key: string;
+    id: string | any;
+    title: string;
+    items: CardItem[];
 }
