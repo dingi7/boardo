@@ -22,4 +22,5 @@ export interface ListItem {
     id: string | any;
     title: string;
     items: CardItem[];
+    index?: number;
 }

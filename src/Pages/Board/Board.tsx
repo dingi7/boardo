@@ -1,18 +1,40 @@
-import { useState } from 'react';
-import { IBoardProps } from '../../Interfaces/IBoard';
+import { useEffect, useState } from 'react';
 import { BoardHeader } from './Header/BoardHeader';
 import { ListItem } from '../../Interfaces/IList';
-import { DragDropContext } from '@hello-pangea/dnd';
+import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { List } from './List/List';
+import { getBoardById, updateBoard } from '../../api/requests';
+import { useParams } from 'react-router-dom';
 
 export const Board = (): JSX.Element => {
-    const { boardName, boardId }: IBoardProps = {
-        boardName: 'test',
-        boardId: 'test',
-    };
+    const { boardId } = useParams<{ boardId: string }>();
+    const [boardInfo, setBoardInfo] = useState({
+        id: boardId || '',
+        name: '',
+        lists: [],
+    });
+
+    useEffect(() => {
+        const getBoard = async () => {
+            const data = await getBoardById(boardId!);
+            console.log(data);
+
+            setBoardInfo({
+                id: boardId || '',
+                name: data.name,
+                lists: data.lists,
+            });
+            const orderedLists = data.lists.sort(
+                (a: any, b: any) => a.position - b.position
+            );
+            setLists(orderedLists);
+            console.log(orderedLists);
+        };
+        getBoard();
+    }, [boardId]);
 
     const onDragEnd = (result: any) => {
-        const { destination, source, draggableId } = result;
+        const { destination, source, draggableId, type } = result;
 
         if (!destination) {
             return;
@@ -25,8 +47,21 @@ export const Board = (): JSX.Element => {
             return;
         }
 
-        const start = lists.find((list: any) => list.id === source.droppableId);
-        const finish = lists.find(
+        if (type === 'column') {
+            const newColumnOrder = [...lists!];
+
+            const [removed] = newColumnOrder.splice(source.index, 1);
+
+            newColumnOrder.splice(destination.index, 0, removed);
+
+            setLists(newColumnOrder);
+            return updateBoard(boardInfo.id, boardInfo.name, newColumnOrder);
+        }
+
+        const start = lists!.find(
+            (list: any) => list.id === source.droppableId
+        );
+        const finish = lists!.find(
             (list: any) => list.id === destination.droppableId
         );
         if (start === finish) {
@@ -38,7 +73,7 @@ export const Board = (): JSX.Element => {
                 ...start,
                 items: newArr,
             };
-            const newState = lists.map((list: any) => {
+            const newState = lists!.map((list: any) => {
                 if (list.id === updatedList.id) {
                     return updatedList;
                 } else {
@@ -47,7 +82,7 @@ export const Board = (): JSX.Element => {
             });
 
             setLists(newState);
-            return;
+            return updateBoard(boardInfo.id, boardInfo.name, newState);
         }
 
         const startArr = Array.from(start!.items);
@@ -64,7 +99,7 @@ export const Board = (): JSX.Element => {
             items: finishArr,
         };
 
-        const newState = lists.map((list: any) => {
+        const newState = lists!.map((list: any) => {
             if (list.id === updatedStartList.id) {
                 return updatedStartList;
             } else if (list.id === updatedFinishList.id) {
@@ -74,89 +109,44 @@ export const Board = (): JSX.Element => {
             }
         });
         setLists(newState);
-        console.log(newState);
-        
+        return updateBoard(boardInfo.id, boardInfo.name, newState);
     };
 
-    const [lists, setLists] = useState<ListItem[]>([
-        {
-            key: '123',
-            id: '123',
-            title: 'To do',
-            items: [
-                {
-                    id: '1',
-                    content: 'Feed The dog',
-                },
-                {
-                    id: '2',
-                    content: 'feed dan',
-                },
-                {
-                    id: '3',
-                    content: 'eat',
-                },
-            ],
-        },
-        {
-            key: '456',
-            id: '456',
-            title: 'In progress',
-            items: [
-                // {
-                //     id: '1',
-                //     content: 'test',
-                // },
-                // {
-                //     id: '2',
-                //     content: 'test test',
-                // },
-                // {
-                //     id: '3',
-                //     content: 'test test test',
-                // },
-            ],
-        },
-        {
-            key: '22',
-            id: '22',
-            title: 'Done ',
-            items: [
-                // {
-                //     id: '1',
-                //     content: 'test',
-                // },
-                // {
-                //     id: '2',
-                //     content: 'test test',
-                // },
-                // {
-                //     id: '3',
-                //     content: 'test test test',
-                // },
-            ],
-        },
-    ]);
+    const [lists, setLists] = useState<ListItem[]>();
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <div className="bg-[url('https://images.unsplash.com/photo-1698471058817-a280ddf07704?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] flex flex-col w-screen overflow-y-auto h-screen">
                 {/* change bg */}
-                <BoardHeader boardName={boardName} boardId={boardId} />
-                <div
-                    className={`flex flex-row mt-[1%] ml-10 p-[1%] gap-[2%] w-full overflow-auto`}
+                <BoardHeader boardName={boardInfo.name} />
+                <Droppable
+                    droppableId="allcolumns"
+                    direction="horizontal"
+                    type="column"
                 >
-                    {lists.map((list: any, index: number) => {
-                        return (
-                            <List
-                                key={list.id}
-                                id={list.id}
-                                title={list.title}
-                                items={list.items}
-                            ></List>
-                        );
-                    })}
-                </div>
+                    {(provided) => (
+                        <div
+                            className={`flex flex-row mt-[1%] ml-10 p-[1%] gap-[2%] w-full overflow-auto`}
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                        >
+                            {lists
+                                ? lists.map((data: any, index: number) => {
+                                      return (
+                                          <List
+                                              key={data.list._id}
+                                              id={data.list._id}
+                                              title={data.list.name}
+                                              items={data.list.items}
+                                              index={index}
+                                          ></List>
+                                      );
+                                  })
+                                : null}
+                            {provided.placeholder}
+                        </div>
+                    )}
+                </Droppable>
             </div>
         </DragDropContext>
     );

@@ -4,7 +4,6 @@ import starIcon from "../assets/star.svg";
 
 export const BoardHeader = ({
     boardName,
-    boardId,
 }: IBoardProps): JSX.Element => {
     return (
         <div className="bg-black bg-opacity-20 text-white w-full flex items-center justify-between py-2 px-16">

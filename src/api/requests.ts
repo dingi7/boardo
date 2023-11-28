@@ -11,9 +11,10 @@ export const endpoints = {
     getByMemberId: (id: string) => `/items/getBoardsByMemberId/${id}`,
     addMemberToBoard: (boardId: string) => `/items/addMember/${boardId}`,
     removeMemberFromBoard : (boardId: string) => `/items/removeMember/${boardId}`,
-    editBoard: (boardId: string) => `/items/editBoard/${boardId}`,
+    editBoard: (boardId: string) => `/items/boards/${boardId}`,
     deleteBoard: (boardId: string) => `/items/deleteBoard/${boardId}`,
     getBoardByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
+    getBoardById: (boardId: string | any) => `/items/boards/${boardId}`,
 };
 
 export const registerUser = async (userData: RegisterUserData) => {
@@ -54,4 +55,12 @@ export const deleteBoard = async (boardId: string) => {
 
 export const getBoards =async () => {
     const orgId = localStorage.getItem('orgId');
+}
+
+export const getBoardById = async (boardId: string ) => {
+    return api.get(endpoints.getBoardById(boardId));
+}
+
+export const updateBoard = async (boardId: string, boardName: string, lists : any) => {
+    return api.put(endpoints.editBoard(boardId), { boardName, lists });
 }
