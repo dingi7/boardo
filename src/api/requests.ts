@@ -18,7 +18,7 @@ export const endpoints = {
     editBoard: (boardId: string) => `/items/boards/${boardId}`,
     deleteBoard: (boardId: string) => `/items/deleteBoard/${boardId}`,
     getBoardByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
-    getBoardById: (boardId: string | any) => `/items/boards/${boardId}`,
+    getBoardById: (boardId: string) => `/items/boards/${boardId}`,
 };
 
 export const registerUser = async (userData: RegisterUserData) => {
@@ -66,10 +66,10 @@ export const getBoards = async () => {
     const orgId = localStorage.getItem('orgId');
 };
 
-export const getBoardById = async (boardId: string) => {
+export const getBoardById = async (boardId: string) : Promise<dataBaseBoard> => {
     const data : dataBaseBoard = await api.get(endpoints.getBoardById(boardId));
     const orderedLists = data.lists.sort(
-        (a: any, b: any) => a.position - b.position
+        (a: dataBaseListWithPosition, b: dataBaseListWithPosition) => a.position - b.position
     );
     return { ...data, lists: orderedLists };
 };
@@ -79,6 +79,6 @@ export const updateBoard = async (
     boardName: string,
     lists: dataBaseListWithPosition[]
 ) => {
-    const listIds = lists.map((list: any) => list.list._id);
+    const listIds = lists.map((list: dataBaseListWithPosition) => list.list._id);
     return api.put(endpoints.editBoard(boardId), { boardName, listIds });
 };

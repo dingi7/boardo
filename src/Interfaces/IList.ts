@@ -1,3 +1,5 @@
+import { dataBaseCard } from "./IDatabase";
+
 export interface IListProps {
     id: string;
     name: string;
@@ -19,8 +21,8 @@ export interface CardItem {
 
 export interface ListItem {
     key: string;
-    id: string | any;
+    id: string;
     title: string;
-    items: CardItem[];
+    items: dataBaseCard[];
     index?: number;
 }

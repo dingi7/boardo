@@ -1,37 +1,35 @@
 import { useEffect, useState } from 'react';
 import { BoardHeader } from './Header/BoardHeader';
-import { ListItem } from '../../Interfaces/IList';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { List } from './List/List';
 import { getBoardById, updateBoard } from '../../api/requests';
 import { useParams } from 'react-router-dom';
+import { dataBaseListWithPosition } from '../../Interfaces/IDatabase';
+import { IBoardProps } from '../../Interfaces/IBoard';
 
 export const Board = (): JSX.Element => {
     const { boardId } = useParams<{ boardId: string }>();
-    const [boardInfo, setBoardInfo] = useState({
-        id: boardId || '',
+    const [boardInfo, setBoardInfo] = useState<IBoardProps>({
+        _id: boardId || '',
         name: '',
-        lists: [],
+        lists: [] as dataBaseListWithPosition[],
     });
 
     useEffect(() => {
         const getBoard = async () => {
             const data = await getBoardById(boardId!);
-            console.log(data);
-
             setBoardInfo({
-                id: boardId || '',
+                _id: boardId || '',
                 name: data.name,
                 lists: data.lists,
             });
             setLists(data.lists);
-            console.log(orderedLists);
         };
         getBoard();
     }, [boardId]);
 
     const onDragEnd = (result: any) => {
-        const { destination, source, draggableId, type } = result;
+        const { destination, source, type } = result;
 
         if (!destination) {
             return;
@@ -52,39 +50,39 @@ export const Board = (): JSX.Element => {
             newColumnOrder.splice(destination.index, 0, removed);
 
             setLists(newColumnOrder);
-            return updateBoard(boardInfo.id, boardInfo.name, newColumnOrder);
+            return updateBoard(boardInfo._id, boardInfo.name, newColumnOrder);
         }
 
         const start = lists!.find(
-            (list: any) => list.id === source.droppableId
+            (list: dataBaseListWithPosition) =>
+                list.list._id === source.droppableId
         );
         const finish = lists!.find(
-            (list: any) => list.id === destination.droppableId
+            (list: dataBaseListWithPosition) =>
+                list.list._id === destination.droppableId
         );
         if (start === finish) {
-            const newArr = Array.from(start!.items);
+            const newArr = Array.from(start!.list.cards);
             const [removed] = newArr.splice(source.index, 1);
             newArr.splice(destination.index, 0, removed);
-
-            const updatedList = {
-                ...start,
-                items: newArr,
-            };
-            const newState = lists!.map((list: any) => {
-                if (list.id === updatedList.id) {
-                    return updatedList;
+            if (start) {
+                start.list.cards = newArr;
+            }
+            const newState = lists!.map((list: dataBaseListWithPosition) => {
+                if (list.list._id === start?.list?._id) {
+                    return start;
                 } else {
                     return list;
                 }
             });
 
             setLists(newState);
-            return updateBoard(boardInfo.id, boardInfo.name, newState);
+            return updateBoard(boardInfo._id, boardInfo.name, newState);
         }
 
-        const startArr = Array.from(start!.items);
+        const startArr = Array.from(start!.list.cards);
         const [removed] = startArr.splice(source.index, 1);
-        const finishArr = Array.from(finish!.items);
+        const finishArr = Array.from(finish!.list.cards);
         finishArr.splice(destination.index, 0, removed);
 
         const updatedStartList = {
@@ -97,19 +95,19 @@ export const Board = (): JSX.Element => {
         };
 
         const newState = lists!.map((list: any) => {
-            if (list.id === updatedStartList.id) {
+            if (list.id === updatedStartList.list?._id) {
                 return updatedStartList;
-            } else if (list.id === updatedFinishList.id) {
+            } else if (list.id === updatedFinishList.list?._id) {
                 return updatedFinishList;
             } else {
                 return list;
             }
         });
         setLists(newState);
-        return updateBoard(boardInfo.id, boardInfo.name, newState);
+        return updateBoard(boardInfo._id, boardInfo.name, newState);
     };
 
-    const [lists, setLists] = useState<ListItem[]>();
+    const [lists, setLists] = useState<dataBaseListWithPosition[]>();
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
@@ -128,17 +126,22 @@ export const Board = (): JSX.Element => {
                             ref={provided.innerRef}
                         >
                             {lists
-                                ? lists.map((data: any, index: number) => {
-                                      return (
-                                          <List
-                                              key={data.list._id}
-                                              id={data.list._id}
-                                              title={data.list.name}
-                                              items={data.list.items}
-                                              index={index}
-                                          ></List>
-                                      );
-                                  })
+                                ? lists.map(
+                                      (
+                                          data: dataBaseListWithPosition,
+                                          index: number
+                                      ) => {
+                                          return (
+                                              <List
+                                                  key={data.list._id}
+                                                  id={data.list._id}
+                                                  title={data.list.name}
+                                                  items={data.list.cards}
+                                                  index={index}
+                                              ></List>
+                                          );
+                                      }
+                                  )
                                 : null}
                             {provided.placeholder}
                         </div>

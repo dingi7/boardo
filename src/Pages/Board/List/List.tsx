@@ -3,6 +3,7 @@ import { Card } from './Card';
 
 import { MoreHorizontal } from 'lucide-react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
+import { dataBaseCard } from '../../../Interfaces/IDatabase';
 
 export const List = ({ id, title, items, index }: ListItem): JSX.Element => {
     return (
@@ -14,7 +15,10 @@ export const List = ({ id, title, items, index }: ListItem): JSX.Element => {
                     {...provided.draggableProps}
                     ref={provided.innerRef}
                 >
-                    <div className=" bg-slate-300 rounded-[7px] shadow-lg" {...provided.dragHandleProps}>
+                    <div
+                        className=" bg-slate-300 rounded-[7px] shadow-lg"
+                        {...provided.dragHandleProps}
+                    >
                         <div className="p-5">
                             <div className="inline-flex flex-col items-start gap-[5px] ">
                                 <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
@@ -27,7 +31,7 @@ export const List = ({ id, title, items, index }: ListItem): JSX.Element => {
                                             onClick={() => console.log('2')}
                                         />
                                     </div>
-                                    <Droppable droppableId={id} type='task'>
+                                    <Droppable droppableId={id} type="task">
                                         {(provided) => (
                                             <div
                                                 ref={provided.innerRef}
@@ -37,16 +41,16 @@ export const List = ({ id, title, items, index }: ListItem): JSX.Element => {
                                                 {items
                                                     ? items.map(
                                                           (
-                                                              item: IItemProps,
+                                                              item: dataBaseCard,
                                                               index
                                                           ) => (
                                                               <Card
-                                                                  key={item.id}
+                                                                  key={item._id}
                                                                   index={index}
                                                                   content={
                                                                       item.content
                                                                   }
-                                                                  id={item.id}
+                                                                  id={item._id}
                                                               />
                                                           )
                                                       )

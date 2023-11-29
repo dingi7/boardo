@@ -33,7 +33,7 @@ export const AuthInput = (props: Props) => {
                     type={isPasswordInput && showPassword ? "text" : props.type}
                     placeholder={props.text}
                     onChange={(e) => {
-                        props.setUserData((prevState: any) => {
+                        props.setUserData((prevState: any ) => {
                             return { ...prevState, [props.id]: e.target.value };
                         });
                     }}

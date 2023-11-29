@@ -18,7 +18,10 @@ export interface dataBaseListWithPosition{
     _id: string;
 }
 
-interface dataBaseCard{
+export interface dataBaseCard{
+    _id:string,
+    content: string;
+    list: string;
     // name: string;
     // _id: string;
     // list: string;
