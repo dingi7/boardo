@@ -24,10 +24,7 @@ export const Board = (): JSX.Element => {
                 name: data.name,
                 lists: data.lists,
             });
-            const orderedLists = data.lists.sort(
-                (a: any, b: any) => a.position - b.position
-            );
-            setLists(orderedLists);
+            setLists(data.lists);
             console.log(orderedLists);
         };
         getBoard();
