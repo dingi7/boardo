@@ -33,7 +33,7 @@ export const CardForm = ({ listId }: CardFormProps) => {
 
     if (isEditing) {
         return (
-            <form onSubmit={onSubmit} className="m-1 py-0.5 px-1 space-y-4">
+            <form onSubmit={onSubmit} className=" w-full m-1 py-0.5 px-1 space-y-4">
                 <FormTextArea
                     id="title"
                     placeholder="Enter a title for this card..."

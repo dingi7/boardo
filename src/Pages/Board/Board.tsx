@@ -8,6 +8,47 @@ import { dataBaseListWithPosition } from '../../Interfaces/IDatabase';
 import { IBoardProps } from '../../Interfaces/IBoard';
 
 export const Board = (): JSX.Element => {
+
+    const [lists, setLists] = useState<dataBaseListWithPosition[]>([
+        {
+          position: 1,
+          list: {
+            name: 'List 1',
+            _id: 'list_1',
+            board: 'board_id',
+            cards: [
+              { _id: 'card_1', content: 'Card 1 Content', list: 'list_1' },
+            ],
+          },
+          _id: 'list_position_1',
+        },
+        {
+          position: 2,
+          list: {
+            name: 'List 2',
+            _id: 'list_2',
+            board: 'board_id',
+            cards: [
+              { _id: 'card_2', content: 'Card 2 Content', list: 'list_2' },
+            ],
+          },
+          _id: 'list_position_2',
+        },
+        {
+          position: 3,
+          list: {
+            name: 'List 3',
+            _id: 'list_3',
+            board: 'board_id',
+            cards: [
+              { _id: 'card_3', content: 'Card 3 Content', list: 'list_3' },
+            ],
+          },
+          _id: 'list_position_3',
+        },
+      ]);
+
+
     const { boardId } = useParams<{ boardId: string }>();
     const [boardInfo, setBoardInfo] = useState<IBoardProps>({
         _id: boardId || '',
@@ -107,7 +148,7 @@ export const Board = (): JSX.Element => {
         return updateBoard(boardInfo._id, boardInfo.name, newState);
     };
 
-    const [lists, setLists] = useState<dataBaseListWithPosition[]>();
+    //const [lists, setLists] = useState<dataBaseListWithPosition[]>();
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
