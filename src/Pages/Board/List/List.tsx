@@ -1,9 +1,10 @@
-import { IItemProps, ListItem } from '../../../Interfaces/IList';
+import { ListItem } from '../../../Interfaces/IList';
 import { Card } from './Card';
 
 import { MoreHorizontal } from 'lucide-react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { dataBaseCard } from '../../../Interfaces/IDatabase';
+import { CardForm } from '../cardForm.tsx/CardForm';
 
 export const List = ({ id, title, items, index }: ListItem): JSX.Element => {
     return (
@@ -60,11 +61,12 @@ export const List = ({ id, title, items, index }: ListItem): JSX.Element => {
                                         )}
                                     </Droppable>
                                 </div>
-                                <button className="inline-flex items-center relative flex-[0_0_auto]">
+                                {/* <button className="inline-flex items-center relative flex-[0_0_auto]">
                                     <div className="relative w-fit [font-family:'Inter-Regular',Helvetica] font-semibold  text-gray-400 text-[16px] tracking-[0] leading-[normal] whitespace-nowrap  pt-5">
                                         + Add a card
                                     </div>
-                                </button>
+                                </button> */}
+                                <CardForm listId={id}></CardForm>
                             </div>
                         </div>
                     </div>
