@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { registerUser } from "../../api/requests";
-import { AuthInput } from "../../Components/ui/AuthInput";
+import { AuthInput } from "../../Components/auth/auth-input";
 import { useIsAuthenticated, useSignIn } from "react-auth-kit";
 import { errorNotification } from "../../util/notificationHandler";
 import { Logo } from "../../Components/ui/logo";
+import { Button } from "../../Components/ui/button";
+import React from "react";
 
 export const Register = () => {
     const navigate = useNavigate();
@@ -88,13 +90,13 @@ export const Register = () => {
                         </div>
                     </div>
 
-                    <button
+                    <Button
                         className="shadow border-1 mt-4 font-semibold border-slate-800 bg-white rounded w-full py-3 px-3 leading-tight focus:outline-none focus:shadow-outline outline-none hover:bg-zinc-100"
-                        id="registerButton"
                         type="submit"
+                        id="registerButton"
                     >
                         Register
-                    </button>
+                    </Button>
                 </form>
             </div>
         </div>

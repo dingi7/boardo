@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { LoginUserData, RegisterUserData } from "../../Interfaces/IUserData";
-import { Eye, EyeOff } from "lucide-react";
+import React, { useState } from 'react';
+import { LoginUserData, RegisterUserData } from '../../Interfaces/IUserData';
+import { Eye, EyeOff } from 'lucide-react';
 
 type Props = {
     type: string;
@@ -14,7 +14,7 @@ type Props = {
 export const AuthInput = (props: Props) => {
     const [showPassword, setShowPassword] = useState(false);
 
-    const isPasswordInput = props.type === "password";
+    const isPasswordInput = props.type === 'password';
     const toggleShowPassword = () => setShowPassword(!showPassword);
 
     return (
@@ -30,10 +30,10 @@ export const AuthInput = (props: Props) => {
                 <input
                     className="bg-gray-50 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     id={props.id}
-                    type={isPasswordInput && showPassword ? "text" : props.type}
+                    type={isPasswordInput && showPassword ? 'text' : props.type}
                     placeholder={props.text}
                     onChange={(e) => {
-                        props.setUserData((prevState: any ) => {
+                        props.setUserData((prevState: any) => {
                             return { ...prevState, [props.id]: e.target.value };
                         });
                     }}

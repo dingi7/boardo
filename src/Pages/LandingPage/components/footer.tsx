@@ -1,5 +1,6 @@
 import { Logo } from "../../../Components/ui/logo";
 import { Button } from "../../../Components/ui/button";
+import React from "react";
 
 export const Footer = () => {
     return (

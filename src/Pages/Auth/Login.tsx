@@ -1,11 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
-import { AuthInput } from "../../Components/ui/AuthInput";
-import { authRoutes } from "../../util/routesList";
-import { useEffect, useState } from "react";
-import { loginUser } from "../../api/requests";
-import { useIsAuthenticated, useSignIn } from "react-auth-kit";
-import { errorNotification } from "../../util/notificationHandler";
-import { Logo } from "../../Components/ui/logo";
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthInput } from '../../Components/auth/auth-input';
+import { authRoutes } from '../../util/routesList';
+import { useEffect, useState } from 'react';
+import { loginUser } from '../../api/requests';
+import { useIsAuthenticated, useSignIn } from 'react-auth-kit';
+import { errorNotification } from '../../util/notificationHandler';
+import { Logo } from '../../Components/ui/logo';
+import { Button } from '../../Components/ui/button';
 
 type Props = {};
 
@@ -15,13 +16,13 @@ export const Login = (props: Props) => {
     const isAuth = useIsAuthenticated();
     useEffect(() => {
         if (isAuth()) {
-            navigate("/");
-            errorNotification("You are already logged in");
+            navigate('/');
+            errorNotification('You are already logged in');
         }
     }, [isAuth, navigate]);
     const [userData, setUserData] = useState({
-        email: "",
-        password: "",
+        email: '',
+        password: '',
     });
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -30,10 +31,10 @@ export const Login = (props: Props) => {
             signIn({
                 token: response.accessToken,
                 expiresIn: 9999, // change this later
-                tokenType: "Bearer",
+                tokenType: 'Bearer',
                 authState: response,
             });
-            navigate("/");
+            navigate('/');
         } catch (err: any) {
             errorNotification(err.message);
         }
@@ -60,7 +61,7 @@ export const Login = (props: Props) => {
                             setUserData={setUserData}
                         />
                         <div className="text-black text-left">
-                            Already registered?{" "}
+                            Already registered?{' '}
                             <Link
                                 to={authRoutes.register}
                                 className="font-semibold"
@@ -69,14 +70,13 @@ export const Login = (props: Props) => {
                             </Link>
                         </div>
                     </div>
-
-                    <button
+                    <Button
                         className="shadow border-1 mt-4 font-semibold border-slate-800 bg-white rounded w-full py-3 px-3 leading-tight focus:outline-none focus:shadow-outline outline-none hover:bg-zinc-100"
-                        id="registerButton"
                         type="submit"
+                        id="registerButton"
                     >
                         Login
-                    </button>
+                    </Button>
                 </form>
             </div>
         </div>

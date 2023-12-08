@@ -1,9 +1,9 @@
 import { KeyboardEventHandler } from 'react';
 
 import { FormErrors } from './form-errors';
-import { cn } from '../../../util/utils';
-import { Textarea } from '../textarea';
-import { Label } from '../label';
+import { cn } from '../../util/utils';
+import { Textarea } from '../ui/textarea';
+import { Label } from '../ui/label';
 
 interface FormTextareaProps {
     id: string;

@@ -5,18 +5,16 @@ import { AuthProvider } from 'react-auth-kit';
 
 //Board components
 import { Board } from './Pages/Board/Board';
-import { Create } from './Pages/Create/Create';
 
 //AUTH COMPONENTS
 import { Register } from './Pages/Auth/Register';
 import { Login } from './Pages/Auth/Login';
 
-
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Dashboard } from './Pages/Dashboard/Dashboard';
-
+import React from 'react';
 
 function App() {
     return (
@@ -37,7 +35,6 @@ function App() {
                     <Routes>
                         <Route path="/" element={<LandingPage />} />
                         <Route path="/landing" element={<LandingPage />} />
-                        <Route path="/board/create" element={<Create />} />
                         <Route path="/board/:boardId" element={<Board />} />
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/auth/login" element={<Login />} />
