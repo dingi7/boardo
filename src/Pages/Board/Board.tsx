@@ -6,6 +6,7 @@ import { getBoardById, updateBoard } from '../../api/requests';
 import { useParams } from 'react-router-dom';
 import { dataBaseListWithPosition } from '../../Interfaces/IDatabase';
 import { IBoardProps } from '../../Interfaces/IBoard';
+import React from 'react';
 
 export const Board = (): JSX.Element => {
     const { boardId } = useParams<{ boardId: string }>();
