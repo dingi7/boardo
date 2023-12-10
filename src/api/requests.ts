@@ -1,6 +1,6 @@
 import {
-    dataBaseBoard,
-    dataBaseListWithPosition,
+    dataBaseBoard as databaseBoard,
+    dataBaseList,
 } from '../Interfaces/IDatabase';
 import { LoginUserData, RegisterUserData } from '../Interfaces/IUserData';
 import * as api from './api';
@@ -19,6 +19,7 @@ export const endpoints = {
     deleteBoard: (boardId: string) => `/items/deleteBoard/${boardId}`,
     getBoardByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     getBoardById: (boardId: string) => `/items/boards/${boardId}`,
+    createCard: '/items/cards',
 };
 
 export const registerUser = async (userData: RegisterUserData) => {
@@ -63,22 +64,26 @@ export const deleteBoard = async (boardId: string) => {
 };
 
 export const getBoards = async () => {
-    const orgId = localStorage.getItem('orgId');
 };
 
-export const getBoardById = async (boardId: string) : Promise<dataBaseBoard> => {
-    const data : dataBaseBoard = await api.get(endpoints.getBoardById(boardId));
-    const orderedLists = data.lists.sort(
-        (a: dataBaseListWithPosition, b: dataBaseListWithPosition) => a.position - b.position
-    );
-    return { ...data, lists: orderedLists };
+export const getBoardById = async (boardId: string) : Promise<databaseBoard> => {
+    const data : databaseBoard = await api.get(endpoints.getBoardById(boardId));
+    return data;
 };
 
 export const updateBoard = async (
     boardId: string,
     boardName: string,
-    lists: dataBaseListWithPosition[]
+    lists: dataBaseList[]
 ) => {
-    const listIds = lists.map((list: dataBaseListWithPosition) => list.list._id);
-    return api.put(endpoints.editBoard(boardId), { boardName, listIds });
+    const listIds = lists.map((list: dataBaseList) => list._id);
+    const cardIds = lists.map((list: dataBaseList) => list.cards.map((card) => card._id));
+    return api.put(endpoints.editBoard(boardId), { boardName, listIds, cardIds });
+};
+
+export const createCard = async (
+    listId: string,
+    content: string,
+) => {
+    return api.post(endpoints.createCard, { content, listId });
 };

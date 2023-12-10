@@ -23,6 +23,7 @@ export interface ListItem {
     key: string;
     id: string;
     title: string;
-    items: dataBaseCard[];
+    cards: dataBaseCard[];
     index?: number;
+    onCardAdd? : any;
 }

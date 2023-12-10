@@ -4,24 +4,23 @@ import { Plus, X } from 'lucide-react';
 import { FormTextArea } from '../../../Components/form/form-textarea';
 import { FormSubmit } from '../../../Components/form/form-submit';
 import { useEventListener } from 'usehooks-ts';
-import { useParams } from 'react-router-dom';
 
 interface CardFormProps {
     listId: string;
+    onCardAdd: any;
 }
 
-export const CardForm = ({ listId }: CardFormProps) => {
-    const { boardId } = useParams<{ boardId: string }>();
+export const CardForm = ({ listId, onCardAdd }: CardFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
 
-    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); // Prevent the default form submission behavior
+    const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const title = formData.get('title') as string;
+        const name = formData.get('name') as string;
         const listId = formData.get('listId') as string;
         setIsEditing(!isEditing);
-        formData.set('title', '');
-        console.log(title, listId, boardId);
+        formData.set('name', '');
+        await onCardAdd(listId, name);
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -33,9 +32,12 @@ export const CardForm = ({ listId }: CardFormProps) => {
 
     if (isEditing) {
         return (
-            <form onSubmit={onSubmit} className=" w-full m-1 py-0.5 px-1 space-y-4">
+            <form
+                onSubmit={onSubmit}
+                className=" w-full m-1 py-0.5 px-1 space-y-4"
+            >
                 <FormTextArea
-                    id="title"
+                    id="name"
                     placeholder="Enter a title for this card..."
                 />
                 <input

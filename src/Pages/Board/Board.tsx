@@ -1,25 +1,44 @@
 import { useEffect, useState } from 'react';
 import { BoardHeader } from './_components/board-navbar';
-import { DragDropContext, Droppable } from '@hello-pangea/dnd';
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { List } from './List/List';
-import { getBoardById, updateBoard } from '../../api/requests';
+import { createCard, getBoardById, updateBoard } from '../../api/requests';
 import { useParams } from 'react-router-dom';
-import { dataBaseListWithPosition } from '../../Interfaces/IDatabase';
+import {
+    dataBaseList
+} from '../../Interfaces/IDatabase';
 import { IBoardProps } from '../../Interfaces/IBoard';
 import React from 'react';
+import { successNotification } from '../../util/notificationHandler';
 
 export const Board = (): JSX.Element => {
     const { boardId } = useParams<{ boardId: string }>();
     const [boardInfo, setBoardInfo] = useState<IBoardProps>({
         _id: boardId || '',
         name: '',
-        lists: [] as dataBaseListWithPosition[],
+        lists: [] as dataBaseList[],
     });
     const [boardName, setBoardName] = useState<string>('');
+    const onCardAdd = async(listId: string, name: string) => {
+        const card = await createCard(listId, name);
+        successNotification('Card created successfully');
+        setLists((prev) => {
+            const newState = prev!.map((list: dataBaseList) => {
+                if (list._id === card.list) {
+                    list.cards.push(card);
+                    return list;
+                } else {
+                    return list;
+                }
+            });
+            return newState;
+        });
+    };
 
     useEffect(() => {
         const getBoard = async () => {
             const data = await getBoardById(boardId!);
+
             setBoardInfo({
                 _id: boardId || '',
                 name: data.name,
@@ -27,11 +46,13 @@ export const Board = (): JSX.Element => {
             });
             setBoardName(data.name);
             setLists(data.lists);
+            
         };
         getBoard();
     }, [boardId]);
 
-    const onDragEnd = (result: any) => {
+    const onDragEnd = (result: DropResult) => {
+        
         const { destination, source, type } = result;
 
         if (!destination) {
@@ -57,22 +78,23 @@ export const Board = (): JSX.Element => {
         }
 
         const start = lists!.find(
-            (list: dataBaseListWithPosition) =>
-                list.list._id === source.droppableId
+            (list: dataBaseList) =>
+                list._id === source.droppableId
         );
         const finish = lists!.find(
-            (list: dataBaseListWithPosition) =>
-                list.list._id === destination.droppableId
+            (list: dataBaseList) =>
+                list._id === destination.droppableId
         );
         if (start === finish) {
-            const newArr = Array.from(start!.list.cards);
+            
+            const newArr = Array.from(start!.cards);
             const [removed] = newArr.splice(source.index, 1);
             newArr.splice(destination.index, 0, removed);
             if (start) {
-                start.list.cards = newArr;
+                start.cards = newArr;
             }
-            const newState = lists!.map((list: dataBaseListWithPosition) => {
-                if (list.list._id === start?.list?._id) {
+            const newState = lists!.map((list: dataBaseList) => {
+                if (list._id === start?._id) {
                     return start;
                 } else {
                     return list;
@@ -82,35 +104,38 @@ export const Board = (): JSX.Element => {
             setLists(newState);
             return updateBoard(boardInfo._id, boardInfo.name, newState);
         }
+        
 
-        const startArr = Array.from(start!.list.cards);
+        const startArr = Array.from(start!.cards);
         const [removed] = startArr.splice(source.index, 1);
-        const finishArr = Array.from(finish!.list.cards);
+        const finishArr = Array.from(finish!.cards);
+        
         finishArr.splice(destination.index, 0, removed);
 
         const updatedStartList = {
             ...start,
-            items: startArr,
+            cards: startArr,
         };
         const updatedFinishList = {
             ...finish,
-            items: finishArr,
+            cards: finishArr,
         };
 
         const newState = lists!.map((list: any) => {
-            if (list.id === updatedStartList.list?._id) {
+            if (list._id === updatedStartList?._id) {
                 return updatedStartList;
-            } else if (list.id === updatedFinishList.list?._id) {
+            } else if (list._id === updatedFinishList?._id) {
                 return updatedFinishList;
             } else {
                 return list;
             }
         });
+        
         setLists(newState);
         return updateBoard(boardInfo._id, boardInfo.name, newState);
     };
 
-    const [lists, setLists] = useState<dataBaseListWithPosition[]>();
+    const [lists, setLists] = useState<dataBaseList[]>();
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
@@ -134,16 +159,17 @@ export const Board = (): JSX.Element => {
                             {lists
                                 ? lists.map(
                                       (
-                                          data: dataBaseListWithPosition,
+                                          data: dataBaseList,
                                           index: number
                                       ) => {
                                           return (
                                               <List
-                                                  key={data.list._id}
-                                                  id={data.list._id}
-                                                  title={data.list.name}
-                                                  items={data.list.cards}
+                                                  key={data._id}
+                                                  id={data._id}
+                                                  title={data.name}
+                                                  cards={data.cards}
                                                   index={index}
+                                                  onCardAdd={onCardAdd}
                                               ></List>
                                           );
                                       }

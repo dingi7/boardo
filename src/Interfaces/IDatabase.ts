@@ -1,11 +1,11 @@
 export interface dataBaseBoard{
     name: string;
     _id: string;
-    lists: dataBaseListWithPosition[];
+    lists: dataBaseList[];
     owner: string;
 }
 
-interface dataBaseList{
+export interface dataBaseList{
     name: string;
     _id: string;
     board: string;
@@ -20,11 +20,6 @@ export interface dataBaseListWithPosition{
 
 export interface dataBaseCard{
     _id:string,
-    content: string;
+    name: string;
     list: string;
-    // name: string;
-    // _id: string;
-    // list: string;
-    // description: string;
-    // position: number;
 }

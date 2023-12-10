@@ -1,7 +1,7 @@
-import { dataBaseListWithPosition } from "./IDatabase";
+import { dataBaseList } from "./IDatabase";
 
 export interface IBoardProps {
     name: string;
     _id: string,
-    lists: dataBaseListWithPosition[],
+    lists: dataBaseList[],
 }

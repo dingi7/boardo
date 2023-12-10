@@ -40,7 +40,7 @@ export const ListPlaceholder = (): JSX.Element => {
                                         className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto] flex-grow-1 min-h-[100px] min-w-[365px]"
                                     >
                                         {/* {provided.placeholder} */}
-                                        <CardForm listId={"id"}></CardForm>
+                                        <CardForm listId={"id"} onCardAdd={() => {}}></CardForm>
                                     </div>
                                     {/* )}
                                     </Droppable> */}

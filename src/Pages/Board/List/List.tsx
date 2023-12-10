@@ -6,7 +6,9 @@ import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { dataBaseCard } from '../../../Interfaces/IDatabase';
 import { CardForm } from '../_components/card-form';
 
-export const List = ({ id, title, items, index }: ListItem): JSX.Element => {
+export const List = ({ id, title, cards, index, onCardAdd }: ListItem): JSX.Element => { 
+    console.log(id, title, cards, index, onCardAdd);
+    
     return (
         <Draggable draggableId={id} index={index!}>
             {(provided) => (
@@ -39,8 +41,8 @@ export const List = ({ id, title, items, index }: ListItem): JSX.Element => {
                                                 {...provided.droppableProps}
                                                 className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto] flex-grow-1 min-h-[100px] min-w-[365px]"
                                             >
-                                                {items
-                                                    ? items.map(
+                                                {cards
+                                                    ? cards.map(
                                                           (
                                                               item: dataBaseCard,
                                                               index
@@ -49,7 +51,7 @@ export const List = ({ id, title, items, index }: ListItem): JSX.Element => {
                                                                   key={item._id}
                                                                   index={index}
                                                                   content={
-                                                                      item.content
+                                                                      item.name
                                                                   }
                                                                   id={item._id}
                                                               />
@@ -61,8 +63,8 @@ export const List = ({ id, title, items, index }: ListItem): JSX.Element => {
                                         )}
                                     </Droppable>
                                 </div>
-                                <CardForm listId={id}></CardForm>
-                            </div>
+                                <CardForm listId={id} onCardAdd={onCardAdd}></CardForm>
+                            </div> 
                         </div>
                     </div>
                 </div>
