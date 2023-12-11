@@ -25,5 +25,6 @@ export interface ListItem {
     title: string;
     cards: dataBaseCard[];
     index?: number;
-    onCardAdd? : any;
+    onCardAdd? : (listId: string, name: string) => void;
+    onDeleteCard: (cardId: string) => void;
 }

@@ -6,9 +6,14 @@ import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { dataBaseCard } from '../../../Interfaces/IDatabase';
 import { CardForm } from '../_components/card-form';
 
-export const List = ({ id, title, cards, index, onCardAdd }: ListItem): JSX.Element => { 
-    console.log(id, title, cards, index, onCardAdd);
-    
+export const List = ({
+    id,
+    title,
+    cards,
+    index,
+    onCardAdd,
+    onDeleteCard,
+}: ListItem): JSX.Element => {
     return (
         <Draggable draggableId={id} index={index!}>
             {(provided) => (
@@ -54,6 +59,9 @@ export const List = ({ id, title, cards, index, onCardAdd }: ListItem): JSX.Elem
                                                                       item.name
                                                                   }
                                                                   id={item._id}
+                                                                  onDeleteCard={
+                                                                      onDeleteCard
+                                                                  }
                                                               />
                                                           )
                                                       )
@@ -63,8 +71,11 @@ export const List = ({ id, title, cards, index, onCardAdd }: ListItem): JSX.Elem
                                         )}
                                     </Droppable>
                                 </div>
-                                <CardForm listId={id} onCardAdd={onCardAdd}></CardForm>
-                            </div> 
+                                <CardForm
+                                    listId={id}
+                                    onCardAdd={onCardAdd}
+                                ></CardForm>
+                            </div>
                         </div>
                     </div>
                 </div>

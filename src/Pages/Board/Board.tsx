@@ -2,16 +2,33 @@ import { useEffect, useState } from 'react';
 import { BoardHeader } from './_components/board-navbar';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { List } from './List/List';
-import { createCard, getBoardById, updateBoard } from '../../api/requests';
-import { useParams } from 'react-router-dom';
 import {
-    dataBaseList
-} from '../../Interfaces/IDatabase';
+    createCard,
+    deleteCard,
+    getBoardById,
+    updateBoard,
+} from '../../api/requests';
+import { useParams } from 'react-router-dom';
+import { dataBaseList } from '../../Interfaces/IDatabase';
 import { IBoardProps } from '../../Interfaces/IBoard';
 import React from 'react';
 import { successNotification } from '../../util/notificationHandler';
 
 export const Board = (): JSX.Element => {
+    const onDeleteCard = async (cardId: string) => {
+        await deleteCard(cardId, boardId!);
+        setLists((prev) => {
+            const newState = prev!.map((list: dataBaseList) => {
+                const newCards = list.cards.filter(
+                    (card: any) => card._id !== cardId
+                );
+                list.cards = newCards;
+                return list;
+            });
+            return newState;
+        });
+        successNotification('Card deleted successfully');
+    };
     const { boardId } = useParams<{ boardId: string }>();
     const [boardInfo, setBoardInfo] = useState<IBoardProps>({
         _id: boardId || '',
@@ -19,7 +36,7 @@ export const Board = (): JSX.Element => {
         lists: [] as dataBaseList[],
     });
     const [boardName, setBoardName] = useState<string>('');
-    const onCardAdd = async(listId: string, name: string) => {
+    const onCardAdd = async (listId: string, name: string) => {
         const card = await createCard(listId, name);
         successNotification('Card created successfully');
         setLists((prev) => {
@@ -46,13 +63,11 @@ export const Board = (): JSX.Element => {
             });
             setBoardName(data.name);
             setLists(data.lists);
-            
         };
         getBoard();
     }, [boardId]);
 
     const onDragEnd = (result: DropResult) => {
-        
         const { destination, source, type } = result;
 
         if (!destination) {
@@ -78,15 +93,12 @@ export const Board = (): JSX.Element => {
         }
 
         const start = lists!.find(
-            (list: dataBaseList) =>
-                list._id === source.droppableId
+            (list: dataBaseList) => list._id === source.droppableId
         );
         const finish = lists!.find(
-            (list: dataBaseList) =>
-                list._id === destination.droppableId
+            (list: dataBaseList) => list._id === destination.droppableId
         );
         if (start === finish) {
-            
             const newArr = Array.from(start!.cards);
             const [removed] = newArr.splice(source.index, 1);
             newArr.splice(destination.index, 0, removed);
@@ -104,12 +116,11 @@ export const Board = (): JSX.Element => {
             setLists(newState);
             return updateBoard(boardInfo._id, boardInfo.name, newState);
         }
-        
 
         const startArr = Array.from(start!.cards);
         const [removed] = startArr.splice(source.index, 1);
         const finishArr = Array.from(finish!.cards);
-        
+
         finishArr.splice(destination.index, 0, removed);
 
         const updatedStartList = {
@@ -130,7 +141,7 @@ export const Board = (): JSX.Element => {
                 return list;
             }
         });
-        
+
         setLists(newState);
         return updateBoard(boardInfo._id, boardInfo.name, newState);
     };
@@ -158,10 +169,7 @@ export const Board = (): JSX.Element => {
                         >
                             {lists
                                 ? lists.map(
-                                      (
-                                          data: dataBaseList,
-                                          index: number
-                                      ) => {
+                                      (data: dataBaseList, index: number) => {
                                           return (
                                               <List
                                                   key={data._id}
@@ -170,6 +178,7 @@ export const Board = (): JSX.Element => {
                                                   cards={data.cards}
                                                   index={index}
                                                   onCardAdd={onCardAdd}
+                                                  onDeleteCard={onDeleteCard}
                                               ></List>
                                           );
                                       }

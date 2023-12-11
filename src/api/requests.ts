@@ -20,6 +20,7 @@ export const endpoints = {
     getBoardByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     getBoardById: (boardId: string) => `/items/boards/${boardId}`,
     createCard: '/items/cards',
+    deleteCard: (cardId: string) => `/items/cards/${cardId}`,
 };
 
 export const registerUser = async (userData: RegisterUserData) => {
@@ -87,3 +88,10 @@ export const createCard = async (
 ) => {
     return api.post(endpoints.createCard, { content, listId });
 };
+
+export const deleteCard = async (
+    cardId: string,
+    boardId: string,
+) => {
+    return api.del(endpoints.deleteCard(cardId), { boardId });
+}
