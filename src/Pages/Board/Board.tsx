@@ -15,6 +15,7 @@ import React from 'react';
 import { successNotification } from '../../util/notificationHandler';
 
 export const Board = (): JSX.Element => {
+    const [backgroundUrl, setBackgroundUrl] = useState<string>("");
     const onDeleteCard = async (cardId: string) => {
         await deleteCard(cardId, boardId!);
         setLists((prev) => {
@@ -150,11 +151,19 @@ export const Board = (): JSX.Element => {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <div className="bg-[url('https://images.unsplash.com/photo-1698471058817-a280ddf07704?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] flex flex-col w-screen overflow-y-auto h-screen">
+            <div className="flex flex-col w-screen overflow-y-auto h-screen bg-slate-800"
+            style={{ 
+                backgroundImage: `url('${backgroundUrl}')`,
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center'
+            }}
+            >
                 {/* change bg */}
                 <BoardHeader
                     boardName={boardName}
                     setBoardName={setBoardName}
+                    setBackgroundUrl={setBackgroundUrl}
                 />
                 <Droppable
                     droppableId="allcolumns"
