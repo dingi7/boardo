@@ -8,6 +8,7 @@ import * as api from './api';
 export const endpoints = {
     registerUser: '/auth/register',
     loginUser: '/auth/login',
+    getUserOrganizations: `/auth/orgs`,
     // logoutUser: '/users/logout',
     createBoard: '/items/createBoard',
     getByOwnerId: (id: string) => `/items/getBoardsByOwnerId/${id}`,
@@ -95,4 +96,8 @@ export const createCard = async (listId: string, content: string) => {
 
 export const deleteCard = async (cardId: string, boardId: string) => {
     return api.del(endpoints.deleteCard(cardId), { boardId });
+};
+
+export const getUserOrganizations = async () => {
+    return api.get(endpoints.getUserOrganizations);
 };
