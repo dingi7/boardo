@@ -64,11 +64,12 @@ export const deleteBoard = async (boardId: string) => {
     return api.del(endpoints.deleteBoard(boardId));
 };
 
-export const getBoards = async () => {
+export const getBoardsByOrgId = async (orgId: string) => {
+    return api.get(endpoints.getBoardByOrg(orgId));
 };
 
-export const getBoardById = async (boardId: string) : Promise<databaseBoard> => {
-    const data : databaseBoard = await api.get(endpoints.getBoardById(boardId));
+export const getBoardById = async (boardId: string): Promise<databaseBoard> => {
+    const data: databaseBoard = await api.get(endpoints.getBoardById(boardId));
     return data;
 };
 
@@ -78,20 +79,20 @@ export const updateBoard = async (
     lists: dataBaseList[]
 ) => {
     const listIds = lists.map((list: dataBaseList) => list._id);
-    const cardIds = lists.map((list: dataBaseList) => list.cards.map((card) => card._id));
-    return api.put(endpoints.editBoard(boardId), { boardName, listIds, cardIds });
+    const cardIds = lists.map((list: dataBaseList) =>
+        list.cards.map((card) => card._id)
+    );
+    return api.put(endpoints.editBoard(boardId), {
+        boardName,
+        listIds,
+        cardIds,
+    });
 };
 
-export const createCard = async (
-    listId: string,
-    content: string,
-) => {
+export const createCard = async (listId: string, content: string) => {
     return api.post(endpoints.createCard, { content, listId });
 };
 
-export const deleteCard = async (
-    cardId: string,
-    boardId: string,
-) => {
+export const deleteCard = async (cardId: string, boardId: string) => {
     return api.del(endpoints.deleteCard(cardId), { boardId });
-}
+};
