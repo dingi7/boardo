@@ -35,6 +35,7 @@ export const Board = (): JSX.Element => {
         _id: boardId || '',
         name: '',
         lists: [] as dataBaseList[],
+        backgroundUrl: ""
     });
     const [boardName, setBoardName] = useState<string>('');
     const onCardAdd = async (listId: string, name: string) => {
@@ -56,14 +57,17 @@ export const Board = (): JSX.Element => {
     useEffect(() => {
         const getBoard = async () => {
             const data = await getBoardById(boardId!);
-
             setBoardInfo({
                 _id: boardId || '',
                 name: data.name,
                 lists: data.lists,
+                backgroundUrl: data.backgroundUrl
             });
             setBoardName(data.name);
             setLists(data.lists);
+            if (data.backgroundUrl) {
+                setBackgroundUrl(data.backgroundUrl)
+            }
         };
         getBoard();
     }, [boardId]);

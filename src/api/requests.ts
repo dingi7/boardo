@@ -1,15 +1,15 @@
 import {
     dataBaseBoard as databaseBoard,
     dataBaseList,
-} from '../Interfaces/IDatabase';
-import { LoginUserData, RegisterUserData } from '../Interfaces/IUserData';
-import * as api from './api';
+} from "../Interfaces/IDatabase";
+import { LoginUserData, RegisterUserData } from "../Interfaces/IUserData";
+import * as api from "./api";
 
 export const endpoints = {
-    registerUser: '/auth/register',
-    loginUser: '/auth/login',
+    registerUser: "/auth/register",
+    loginUser: "/auth/login",
     // logoutUser: '/users/logout',
-    createBoard: '/items/createBoard',
+    createBoard: "/items/boards",
     getByOwnerId: (id: string) => `/items/getBoardsByOwnerId/${id}`,
     getByMemberId: (id: string) => `/items/getBoardsByMemberId/${id}`,
     addMemberToBoard: (boardId: string) => `/items/addMember/${boardId}`,
@@ -19,7 +19,7 @@ export const endpoints = {
     deleteBoard: (boardId: string) => `/items/deleteBoard/${boardId}`,
     getBoardByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     getBoardById: (boardId: string) => `/items/boards/${boardId}`,
-    createCard: '/items/cards',
+    createCard: "/items/cards",
     deleteCard: (cardId: string) => `/items/cards/${cardId}`,
 };
 
@@ -95,4 +95,8 @@ export const createCard = async (listId: string, content: string) => {
 
 export const deleteCard = async (cardId: string, boardId: string) => {
     return api.del(endpoints.deleteCard(cardId), { boardId });
+};
+
+export const updateBoardBackground = async (boardId: string, bgUrl: string) => {
+    return api.post(endpoints.getBoardById(boardId), { backgroundUrl: bgUrl });
 };

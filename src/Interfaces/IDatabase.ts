@@ -1,4 +1,5 @@
 export interface dataBaseBoard{
+    backgroundUrl: string;
     name: string;
     _id: string;
     lists: dataBaseList[];

@@ -1,12 +1,15 @@
 import { MoreHorizontal } from "lucide-react";
 import { BoardTitle } from "./board-title";
 import { useState } from "react";
+import { createBoard, updateBoardBackground } from "../../../api/requests";
+import { useParams } from "react-router-dom";
 
 export const BoardHeader = ({
     boardName,
     setBoardName,
     setBackgroundUrl,
 }: any): JSX.Element => {
+    const { boardId } = useParams();
     const [showModal, setShowModal] = useState<boolean>(false);
     const [file, setFile] = useState<File>();
 
@@ -18,7 +21,8 @@ export const BoardHeader = ({
         setFile(event.target.files[0]);
     };
     const handleSubmit = async () => {
-        if(!file) return
+        if(!boardId) return;
+        if (!file) return;
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "g3xeufp5");
@@ -38,19 +42,18 @@ export const BoardHeader = ({
             }
 
             const result = await response.json();
-            setBackgroundUrl(result.url)
+            setBackgroundUrl(result.url);
+            await updateBoardBackground(boardId, result.url)
         } catch (error) {
             console.error("Error uploading file:", error);
         }
     };
     return (
         <div className="bg-black bg-opacity-20 text-white w-full flex items-center justify-between py-2 px-16">
-            {/* Board Name and Star Icon */}
             <div className="flex items-center gap-1">
                 {/* <div className="font-bold text-[24px]">{boardName}</div> */}
                 <BoardTitle boardName={boardName} setBoardName={setBoardName} />
             </div>
-
             <button
                 className="hover:shadow-lg rounded-md transition duration-300 ease-in-out p-2"
                 onClick={openModal}
@@ -85,9 +88,7 @@ export const BoardHeader = ({
                             </button>
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                onClick={
-                                    () => setBackgroundUrl("")
-                                }
+                                onClick={() => setBackgroundUrl("")}
                             >
                                 Remove Background
                             </button>

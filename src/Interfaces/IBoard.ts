@@ -4,4 +4,5 @@ export interface IBoardProps {
     name: string;
     _id: string,
     lists: dataBaseList[],
+    backgroundUrl: string
 }
