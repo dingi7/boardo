@@ -91,7 +91,7 @@ export const Dashboard = () => {
                         <Building2 color="white" />
                     </div>
                     <p className="font-extrabold text-2xl">
-                        {selectedOrganisation?.name || 'Loading...'}
+                        {selectedOrganisation?.name || 'Loading....'}
                     </p>
                 </div>
 
