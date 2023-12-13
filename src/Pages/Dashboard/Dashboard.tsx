@@ -7,6 +7,10 @@ import { Building2, Plus, User2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { getBoardsByOrgId } from '../../api/requests';
 
+//modals
+import { AddWorkspaceModal } from './components/AddWorkspaceModal';
+
+
 export const Dashboard = () => {
     interface IOrg {
         orgName: string;
@@ -15,6 +19,9 @@ export const Dashboard = () => {
         orgBoards: string[];
     }
     //temp data
+
+    const [isWorkspaceModalOpen, setIsWorkspaceModalOpen] = useState(false);
+
     const [organisations, setOrganisations] = useState<IOrg[]>([
         {
             orgName: 'test',
@@ -44,48 +51,69 @@ export const Dashboard = () => {
         'https://thumbs.dreamstime.com/b/aerial-view-lago-antorno-dolomites-lake-mountain-landscape-alps-peak-misurina-cortina-di-ampezzo-italy-reflected-103752677.jpg';
 
     return (
-        <div className="h-screen mt-0 pt-[2%] select-none flex flex-row gap-[5%]">
-            <div className=" w-[20%] ml-[2%] h-[90%]">
-                <div className="pl-[5%] pt-[3%]">
-                    <h1 className="flex flex-row gap-[55%] font-bold">
-                        Workspaces <Plus />
-                    </h1>
-                    <div className="mt-[4%] hover:cursor-pointer">
-                        {organisations.map((org) => (
-                            <Organisation
-                                key={org._id}
-                                orgName={org.orgName}
-                                orgId={org._id}
-                                orgLogo={org.orgLogo}
-                                onClick={() => setSelectedOrganisation(org._id)}
-                            />
-                        ))}
+        <div className={`h-screen mt-0  select-none flex flex-row gap-[5%] `}>
+            <div className={`h-screen mt-0 pt-[2%] select-none flex flex-row gap-[5%] duration-500 ${isWorkspaceModalOpen ? 'blur' : ''}`}>
+
+
+                <div className=" w-[20%] ml-[2%] h-[90%]">
+                    <div className="pl-[5%] pt-[3%]">
+                        <h1 className="flex flex-row gap-[55%] font-bold">
+                            Workspaces <Plus className="hover:cursor-pointer" onClick={() => setIsWorkspaceModalOpen(true)} />
+                        </h1>
+                        <div className="mt-[4%] hover:cursor-pointer">
+                            {organisations.map((org) => (
+                                <Organisation
+                                    key={org._id}
+                                    orgName={org.orgName}
+                                    orgId={org._id}
+                                    orgLogo={org.orgLogo}
+                                    onClick={() => setSelectedOrganisation(org._id)}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
+
+                <div className="w-[60%] p-[1%]">
+                    <div className="flex flex-row gap-[2%]">
+                        <div className="p-[2%] w-[8%] bg-gradient-to-r from-purple-500 to-indigo-600 text-black flex justify-center rounded">
+                            <Building2 color="white" />
+                        </div>
+                        <p className="font-extrabold text-2xl">Org name</p>
+                    </div>
+
+                    <div className="mt-[4%] w-full">
+                        <h1 className="flex flex-row gap-[1%] font-medium text-xl">
+                            <User2 size={35} /> Your boards
+                        </h1>
+                        <div className="mt-[1%] flex flex-row flex-wrap gap-[5%]">
+                            <BoardPlaceholder img={imgUrl} />
+                            <BoardPlaceholder img={imgUrl} />
+                            <BoardPlaceholder img={imgUrl} />
+                            <BoardPlaceholder img={imgUrl} />
+
+                            <CreatePlaceholder />
+                        </div>
+                    </div>
+                </div>
+
+                {isWorkspaceModalOpen && (
+                    <div className="duration-500">
+                        <div className="absolute bottom-0 left-0 w-full h-[55%] bg-gradient-to-t from-purple-500  to-transparent"></div>
+                        <div className="absolute top-0 left-0 w-full h-[55%] bg-gradient-to-b from-indigo-500  to-transparent"></div>
+                    </div>
+                )}
+
+
             </div>
 
-            <div className="w-[60%] p-[1%]">
-                <div className="flex flex-row gap-[2%]">
-                    <div className="p-[2%] w-[8%] bg-gradient-to-r from-purple-500 to-indigo-600 text-black flex justify-center rounded">
-                        <Building2 color="white" />
-                    </div>
-                    <p className="font-extrabold text-2xl">Org name</p>
-                </div>
 
-                <div className="mt-[4%] w-full">
-                    <h1 className="flex flex-row gap-[1%] font-medium text-xl">
-                        <User2 size={35} /> Your boards
-                    </h1>
-                    <div className="mt-[1%] flex flex-row flex-wrap gap-[5%]">
-                        <BoardPlaceholder img={imgUrl} />
-                        <BoardPlaceholder img={imgUrl} />
-                        <BoardPlaceholder img={imgUrl} />
-                        <BoardPlaceholder img={imgUrl} />
-
-                        <CreatePlaceholder />
+            {isWorkspaceModalOpen &&
+                (
+                    <div className={`absolute transition-opacity duration-1000 ease-in-out opacity-${isWorkspaceModalOpen ? '100' : '0'}`}>
+                        <AddWorkspaceModal closeModal={() => setIsWorkspaceModalOpen(false)}/>
                     </div>
-                </div>
-            </div>
+                )}
         </div>
     );
 };
