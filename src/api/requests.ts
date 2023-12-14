@@ -1,7 +1,4 @@
-import {
-    dataBaseBoard as databaseBoard,
-    dataBaseList,
-} from '../Interfaces/IDatabase';
+import { dataBaseBoard, dataBaseList } from '../Interfaces/IDatabase';
 import { LoginUserData, RegisterUserData } from '../Interfaces/IUserData';
 import * as api from './api';
 
@@ -69,8 +66,8 @@ export const getBoardsByOrgId = async (orgId: string) => {
     return api.get(endpoints.getBoardByOrg(orgId));
 };
 
-export const getBoardById = async (boardId: string): Promise<databaseBoard> => {
-    const data: databaseBoard = await api.get(endpoints.getBoardById(boardId));
+export const getBoardById = async (boardId: string): Promise<dataBaseBoard> => {
+    const data: dataBaseBoard = await api.get(endpoints.getBoardById(boardId));
     return data;
 };
 

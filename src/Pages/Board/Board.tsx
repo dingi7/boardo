@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
-import { BoardHeader } from './_components/board-navbar';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
+import { BoardHeader } from './_components/board-navbar';
 import { List } from './List/List';
 import {
     createCard,
@@ -8,69 +9,55 @@ import {
     getBoardById,
     updateBoard,
 } from '../../api/requests';
-import { useParams } from 'react-router-dom';
-import { dataBaseList } from '../../Interfaces/IDatabase';
-import { IBoardProps } from '../../Interfaces/IBoard';
-import React from 'react';
+import { dataBaseBoard, dataBaseList } from '../../Interfaces/IDatabase';
 import { successNotification } from '../../util/notificationHandler';
 
 export const Board = (): JSX.Element => {
-    const [backgroundUrl, setBackgroundUrl] = useState<string>("");
+    const { boardId } = useParams<{ boardId: string }>();
+    const [boardInfo, setBoardInfo] = useState<dataBaseBoard | null>(null);
+    const [lists, setLists] = useState<dataBaseList[] | null>(null);
+    const [backgroundUrl, setBackgroundUrl] = useState<string>('');
+
+    const fetchBoardData = useCallback(async () => {
+        if (!boardId) return;
+        try {
+            const data = await getBoardById(boardId);
+            setBoardInfo(data);
+            setLists(data.lists);
+            setBackgroundUrl(data.backgroundUrl || '');
+        } catch (error) {
+            console.error('Failed to fetch board data:', error);
+        }
+    }, [boardId]);
+
+    useEffect(() => {
+        fetchBoardData();
+    }, [fetchBoardData]);
+
     const onDeleteCard = async (cardId: string) => {
         await deleteCard(cardId, boardId!);
         setLists((prev) => {
-            const newState = prev!.map((list: dataBaseList) => {
-                const newCards = list.cards.filter(
-                    (card: any) => card._id !== cardId
-                );
-                list.cards = newCards;
-                return list;
-            });
-            return newState;
+            if (!prev) return null;
+            return prev.map((list) => ({
+                ...list,
+                cards: list.cards.filter((card) => card._id !== cardId),
+            }));
         });
         successNotification('Card deleted successfully');
     };
-    const { boardId } = useParams<{ boardId: string }>();
-    const [boardInfo, setBoardInfo] = useState<IBoardProps>({
-        _id: boardId || '',
-        name: '',
-        lists: [] as dataBaseList[],
-        backgroundUrl: ""
-    });
-    const [boardName, setBoardName] = useState<string>('');
+
     const onCardAdd = async (listId: string, name: string) => {
         const card = await createCard(listId, name);
         successNotification('Card created successfully');
         setLists((prev) => {
-            const newState = prev!.map((list: dataBaseList) => {
-                if (list._id === card.list) {
-                    list.cards.push(card);
-                    return list;
-                } else {
-                    return list;
-                }
-            });
-            return newState;
+            if (!prev) return null;
+            return prev.map((list) =>
+                list._id === card.list
+                    ? { ...list, cards: [...list.cards, card] }
+                    : list
+            );
         });
     };
-
-    useEffect(() => {
-        const getBoard = async () => {
-            const data = await getBoardById(boardId!);
-            setBoardInfo({
-                _id: boardId || '',
-                name: data.name,
-                lists: data.lists,
-                backgroundUrl: data.backgroundUrl
-            });
-            setBoardName(data.name);
-            setLists(data.lists);
-            if (data.backgroundUrl) {
-                setBackgroundUrl(data.backgroundUrl)
-            }
-        };
-        getBoard();
-    }, [boardId]);
 
     const onDragEnd = (result: DropResult) => {
         const { destination, source, type } = result;
@@ -94,7 +81,7 @@ export const Board = (): JSX.Element => {
             newColumnOrder.splice(destination.index, 0, removed);
 
             setLists(newColumnOrder);
-            return updateBoard(boardInfo._id, boardInfo.name, newColumnOrder);
+            return updateBoard(boardInfo!._id, boardInfo!.name, newColumnOrder);
         }
 
         const start = lists!.find(
@@ -119,7 +106,7 @@ export const Board = (): JSX.Element => {
             });
 
             setLists(newState);
-            return updateBoard(boardInfo._id, boardInfo.name, newState);
+            return updateBoard(boardInfo!._id, boardInfo!.name, newState);
         }
 
         const startArr = Array.from(start!.cards);
@@ -148,25 +135,25 @@ export const Board = (): JSX.Element => {
         });
 
         setLists(newState);
-        return updateBoard(boardInfo._id, boardInfo.name, newState);
+        return updateBoard(boardInfo!._id, boardInfo!.name, newState);
     };
-
-    const [lists, setLists] = useState<dataBaseList[]>();
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <div className="flex flex-col w-screen overflow-y-auto h-screen bg-slate-800"
-            style={{ 
-                backgroundImage: `url('${backgroundUrl}')`,
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'center'
-            }}
+            <div
+                className="flex flex-col w-screen overflow-y-auto h-screen bg-slate-800"
+                style={{
+                    backgroundImage: `url('${backgroundUrl}')`,
+                    backgroundSize: 'cover',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                }}
             >
-                {/* change bg */}
                 <BoardHeader
-                    boardName={boardName}
-                    setBoardName={setBoardName}
+                    boardName={boardInfo?.name || ''}
+                    setBoardName={(name: string) =>
+                        setBoardInfo({ ...boardInfo!, name })
+                    }
                     setBackgroundUrl={setBackgroundUrl}
                 />
                 <Droppable
@@ -180,24 +167,17 @@ export const Board = (): JSX.Element => {
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                         >
-                            {lists
-                                ? lists.map(
-                                      (data: dataBaseList, index: number) => {
-                                          return (
-                                              <List
-                                                  key={data._id}
-                                                  id={data._id}
-                                                  title={data.name}
-                                                  cards={data.cards}
-                                                  index={index}
-                                                  onCardAdd={onCardAdd}
-                                                  onDeleteCard={onDeleteCard}
-                                              ></List>
-                                          );
-                                      }
-                                  )
-                                : null}
-                            {/* <ListPlaceholder/>, */}
+                            {lists?.map((data, index) => (
+                                <List
+                                    key={data._id}
+                                    id={data._id}
+                                    title={data.name}
+                                    cards={data.cards}
+                                    index={index}
+                                    onCardAdd={onCardAdd}
+                                    onDeleteCard={onDeleteCard}
+                                />
+                            ))}
                             {provided.placeholder}
                         </div>
                     )}

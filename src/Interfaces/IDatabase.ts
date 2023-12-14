@@ -13,14 +13,15 @@ export interface dataBaseList{
     cards: dataBaseCard[];
 }
 
-export interface dataBaseListWithPosition{
-    position: number;
-    list: dataBaseList;
-    _id: string;
-}
-
 export interface dataBaseCard{
     _id:string,
     name: string;
     list: string;
+}
+
+export interface dataBaseOrganization{
+    _id: string;
+    name: string;
+    owner: string;
+    members: string[];
 }
