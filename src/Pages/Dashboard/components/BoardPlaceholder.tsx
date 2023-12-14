@@ -20,12 +20,12 @@ export const BoardPlaceholder = ({
                         onMouseLeave={() => setIsHovering(false)}
                     >
                         <div className="h-full rounded overflow-hidden">
-                            <img src={img} alt="board display" className={`w-full h-full object-cover duration-500 ease-in-out ${isHovering && "blur"}`} />
+                            <img src={img} alt="board display" className={`w-full h-full object-cover duration-500 ease-in-out ${isHovering && "blur"}`} draggable={false} />
                         </div>
                     </div>
 
                     {isHovering &&
-                        <p className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center font-bold select-none`}>
+                        <p className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center font-bold select-none pointer-events-none`}>
                             {name}
                         </p>
                     }
