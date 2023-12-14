@@ -119,23 +119,31 @@ export const Dashboard = () => {
                                     img={imgUrl}
                                 />
                             ))}
+
+                            <BoardPlaceholder
+                                key={"test"}
+                                name={"test"}
+                                img={imgUrl}
+                            />
+
+
                             <CreatePlaceholder />
                         </div>
                     </div>
                 </div>
 
                 {isAddWorkspaceModalOpen && (
-                        <div className=" duration-500 ease-in-out">
-                            <div className="background-animate absolute bottom-0 left-0 w-full h-[55%] bg-gradient-to-t from-purple-500  duration-500 ease-in-out to-transparent animate-gradient"></div>
-                            <div className="background-animate absolute top-0 left-0 w-full h-[55%] bg-gradient-to-b from-indigo-500 duration-500 ease-in-out  to-transparent animate-gradient"></div>
-                        </div>
-                    )}
-      
-                </div>
-
-                {isAddWorkspaceModalOpen && <AddWorkspaceModal closeModal={() => setIsAddWorkspaceModalOpen(false)}/>} 
+                    <div className=" duration-500 ease-in-out">
+                        <div className="background-animate absolute bottom-0 left-0 w-full h-[55%] bg-gradient-to-t from-purple-500  duration-500 ease-in-out to-transparent animate-gradient"></div>
+                        <div className="background-animate absolute top-0 left-0 w-full h-[55%] bg-gradient-to-b from-indigo-500 duration-500 ease-in-out  to-transparent animate-gradient"></div>
+                    </div>
+                )}
 
             </div>
+
+            {isAddWorkspaceModalOpen && <AddWorkspaceModal closeModal={() => setIsAddWorkspaceModalOpen(false)} />}
+
+        </div>
     ) : (
         // Display loading indicator here
         <div className="loading-indicator">Loading...</div>
