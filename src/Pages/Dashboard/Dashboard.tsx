@@ -104,7 +104,7 @@ export const Dashboard = () => {
                             <BoardPlaceholder
                                 key={board._id}
                                 name={board.name}
-                                img={imgUrl}
+                                img={board.backgroundUrl || imgUrl}
                             />
                         ))}
                         <CreatePlaceholder />
