@@ -1,49 +1,67 @@
-import { BoardPlaceholder } from './components/BoardPlaceholder';
+import { useCallback, useEffect, useState } from 'react';
+import { useAuthUser } from 'react-auth-kit';
+import { Building2, Plus, User2 } from 'lucide-react';
 
+import { BoardPlaceholder } from './components/BoardPlaceholder';
 import { CreatePlaceholder } from './components/CreatePlaceholder';
 import { Organisation } from './components/Organisation';
+import { getBoardsByOrgId, getUserOrganizations } from '../../api/requests';
+import { errorNotification } from '../../util/notificationHandler';
+import { dataBaseBoard } from '../../Interfaces/IDatabase';
 
-import { Building2, Plus, User2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { getBoardsByOrgId } from '../../api/requests';
+// Define interfaces at the start or in a separate file
+interface IOrg {
+    name: string;
+    _id: string;
+    orgLogo: string;
+}
 
 export const Dashboard = () => {
-    interface IOrg {
-        orgName: string;
-        _id: string;
-        orgLogo: string;
-        orgBoards: string[];
-    }
-    //temp data
-    const [organisations, setOrganisations] = useState<IOrg[]>([
-        {
-            orgName: 'test',
-            _id: 'test',
-            orgLogo: 'test',
-            orgBoards: ['', ''],
-        },
-        {
-            orgName: 'test',
-            _id: 'test2',
-            orgLogo: 'test',
-            orgBoards: ['', ''],
-        },
-    ]);
-    const [selectedOrganisation, setSelectedOrganisation] = useState(
-        organisations[0]._id
-    );
+    const auth = useAuthUser();
+    const user = auth()!;
+
+    const [organizations, setOrganizations] = useState<IOrg[]>([]);
+    const [selectedOrganisation, setSelectedOrganisation] =
+        useState<IOrg | null>(null);
+    const [boards, setBoards] = useState<dataBaseBoard[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const fetchBoards = useCallback(async (orgId: string) => {
+        try {
+            const data = await getBoardsByOrgId(orgId);
+            setBoards(data.boards);
+        } catch (err: any) {
+            errorNotification(err);
+        }
+    }, []);
+
+    const fetchOrganizations = useCallback(async () => {
+        try {
+            const organizations = await getUserOrganizations();
+            if (organizations.length > 0) {
+                setOrganizations(organizations);
+                setSelectedOrganisation(organizations[0]);
+                await fetchBoards(organizations[0]._id);
+            } else {
+                setSelectedOrganisation(null);
+            }
+        } catch (err: any) {
+            errorNotification(err);
+        } finally {
+            setLoading(false);
+        }
+    }, [fetchBoards]);
+
     useEffect(() => {
-        const apiReq = async () => {
-            // const data = await getBoardsByOrgId(selectedOrganisation);
-            // setOrganisations
-        };
-        apiReq();
-        console.log(selectedOrganisation);
-    }, [selectedOrganisation]);
+        if (!user) return;
+        fetchOrganizations();
+    }, [user, fetchOrganizations]);
+
+    // Constants for hardcoded values
     const imgUrl =
         'https://thumbs.dreamstime.com/b/aerial-view-lago-antorno-dolomites-lake-mountain-landscape-alps-peak-misurina-cortina-di-ampezzo-italy-reflected-103752677.jpg';
 
-    return (
+    return !loading ? (
         <div className="h-screen mt-0 pt-[2%] select-none flex flex-row gap-[5%]">
             <div className=" w-[20%] ml-[2%] h-[90%]">
                 <div className="pl-[5%] pt-[3%]">
@@ -51,13 +69,16 @@ export const Dashboard = () => {
                         Workspaces <Plus />
                     </h1>
                     <div className="mt-[4%] hover:cursor-pointer">
-                        {organisations.map((org) => (
+                        {organizations.map((org) => (
                             <Organisation
                                 key={org._id}
-                                orgName={org.orgName}
+                                orgName={org.name}
                                 orgId={org._id}
-                                orgLogo={org.orgLogo}
-                                onClick={() => setSelectedOrganisation(org._id)}
+                                orgLogo={'test'}
+                                onClick={() => {
+                                    setSelectedOrganisation(org);
+                                    fetchBoards(org._id);
+                                }}
                             />
                         ))}
                     </div>
@@ -69,7 +90,9 @@ export const Dashboard = () => {
                     <div className="p-[2%] w-[8%] bg-gradient-to-r from-purple-500 to-indigo-600 text-black flex justify-center rounded">
                         <Building2 color="white" />
                     </div>
-                    <p className="font-extrabold text-2xl">Org name</p>
+                    <p className="font-extrabold text-2xl">
+                        {selectedOrganisation?.name || 'Loading...'}
+                    </p>
                 </div>
 
                 <div className="mt-[4%] w-full">
@@ -77,15 +100,20 @@ export const Dashboard = () => {
                         <User2 size={35} /> Your boards
                     </h1>
                     <div className="mt-[1%] flex flex-row flex-wrap gap-[5%]">
-                        <BoardPlaceholder img={imgUrl} />
-                        <BoardPlaceholder img={imgUrl} />
-                        <BoardPlaceholder img={imgUrl} />
-                        <BoardPlaceholder img={imgUrl} />
-
+                        {boards.map((board) => (
+                            <BoardPlaceholder
+                                key={board._id}
+                                name={board.name}
+                                img={board.backgroundUrl || imgUrl}
+                            />
+                        ))}
                         <CreatePlaceholder />
                     </div>
                 </div>
             </div>
         </div>
+    ) : (
+        // Display loading indicator here
+        <div className="loading-indicator">Loading...</div>
     );
 };

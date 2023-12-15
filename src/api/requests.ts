@@ -1,15 +1,13 @@
-import {
-    dataBaseBoard as databaseBoard,
-    dataBaseList,
-} from "../Interfaces/IDatabase";
-import { LoginUserData, RegisterUserData } from "../Interfaces/IUserData";
-import * as api from "./api";
+import { dataBaseBoard, dataBaseList } from '../Interfaces/IDatabase';
+import { LoginUserData, RegisterUserData } from '../Interfaces/IUserData';
+import * as api from './api';
 
 export const endpoints = {
-    registerUser: "/auth/register",
-    loginUser: "/auth/login",
+    registerUser: '/auth/register',
+    loginUser: '/auth/login',
+    getUserOrganizations: `/auth/orgs`,
     // logoutUser: '/users/logout',
-    createBoard: "/items/boards",
+    createBoard: '/items/createBoard',
     getByOwnerId: (id: string) => `/items/getBoardsByOwnerId/${id}`,
     getByMemberId: (id: string) => `/items/getBoardsByMemberId/${id}`,
     addMemberToBoard: (boardId: string) => `/items/addMember/${boardId}`,
@@ -19,7 +17,7 @@ export const endpoints = {
     deleteBoard: (boardId: string) => `/items/deleteBoard/${boardId}`,
     getBoardByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     getBoardById: (boardId: string) => `/items/boards/${boardId}`,
-    createCard: "/items/cards",
+    createCard: '/items/cards',
     deleteCard: (cardId: string) => `/items/cards/${cardId}`,
 };
 
@@ -68,8 +66,8 @@ export const getBoardsByOrgId = async (orgId: string) => {
     return api.get(endpoints.getBoardByOrg(orgId));
 };
 
-export const getBoardById = async (boardId: string): Promise<databaseBoard> => {
-    const data: databaseBoard = await api.get(endpoints.getBoardById(boardId));
+export const getBoardById = async (boardId: string): Promise<dataBaseBoard> => {
+    const data: dataBaseBoard = await api.get(endpoints.getBoardById(boardId));
     return data;
 };
 
@@ -97,6 +95,9 @@ export const deleteCard = async (cardId: string, boardId: string) => {
     return api.del(endpoints.deleteCard(cardId), { boardId });
 };
 
+export const getUserOrganizations = async () => {
+    return api.get(endpoints.getUserOrganizations);
+};
 export const updateBoardBackground = async (boardId: string, bgUrl: string) => {
     return api.post(endpoints.getBoardById(boardId), { backgroundUrl: bgUrl });
 };
