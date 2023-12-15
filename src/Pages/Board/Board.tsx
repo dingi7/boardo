@@ -168,6 +168,7 @@ export const Board = (): JSX.Element => {
                     boardName={boardName}
                     setBoardName={setBoardName}
                     setBackgroundUrl={setBackgroundUrl}
+                    backgroundUrl={backgroundUrl}
                 />
                 <Droppable
                     droppableId="allcolumns"

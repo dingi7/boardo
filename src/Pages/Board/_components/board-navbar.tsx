@@ -1,13 +1,14 @@
 import { MoreHorizontal } from "lucide-react";
 import { BoardTitle } from "./board-title";
 import { useState } from "react";
-import { createBoard, updateBoardBackground } from "../../../api/requests";
+import { createBoard, removeBoardBackground, updateBoardBackground } from "../../../api/requests";
 import { useParams } from "react-router-dom";
 
 export const BoardHeader = ({
     boardName,
     setBoardName,
     setBackgroundUrl,
+    backgroundUrl
 }: any): JSX.Element => {
     const { boardId } = useParams();
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -44,10 +45,26 @@ export const BoardHeader = ({
             const result = await response.json();
             setBackgroundUrl(result.url);
             await updateBoardBackground(boardId, result.url)
+            setShowModal(false);
         } catch (error) {
             console.error("Error uploading file:", error);
         }
     };
+    const handleRemove = async () => {
+        if(!boardId) return;
+        const res = await fetch(
+            "https://api.cloudinary.com/v1_1/drmxfdj5o/image/destroy",
+            {
+                method: "POST",
+                body: `public_id=u0xupohegdke01ynkm47&api_key=677511693625866`,
+            }
+        );
+        if (!res.ok) {
+            throw new Error(`Error: ${res.status}`);
+        }
+        setBackgroundUrl("");
+        removeBoardBackground(boardId)
+    }
     return (
         <div className="bg-black bg-opacity-20 text-white w-full flex items-center justify-between py-2 px-16">
             <div className="flex items-center gap-1">
@@ -88,7 +105,7 @@ export const BoardHeader = ({
                             </button>
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                onClick={() => setBackgroundUrl("")}
+                                onClick={handleRemove}
                             >
                                 Remove Background
                             </button>
