@@ -11,8 +11,7 @@ export const endpoints = {
     getByOwnerId: (id: string) => `/items/getBoardsByOwnerId/${id}`,
     getByMemberId: (id: string) => `/items/getBoardsByMemberId/${id}`,
     addMemberToBoard: (boardId: string) => `/items/addMember/${boardId}`,
-    removeMemberFromBoard: (boardId: string) =>
-        `/items/removeMember/${boardId}`,
+    removeMemberFromBoard: (boardId: string) => `/items/removeMember/${boardId}`,
     editBoard: (boardId: string) => `/items/boards/${boardId}`,
     deleteBoard: (boardId: string) => `/items/deleteBoard/${boardId}`,
     getBoardByOrg: (orgId: string) => `/items/boards/org/${orgId}`,

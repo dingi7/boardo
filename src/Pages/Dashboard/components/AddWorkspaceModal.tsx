@@ -47,7 +47,7 @@ export const AddWorkspaceModal = ({
             <div>
                 {option === 'join' ? (
                     <form className="flex flex-col w-[70%] mx-auto mt-[4%]" onSubmit={handleJoinWorkspace}>
-                        <label className="font-medium">Board name</label>
+                        <label className="font-medium">Workspace name</label>
                         <div className="flex flex-row gap-[4%] items-center">
                             <input className="border-2 border-solid border-black p-[1.4%]" />
                             <div className="w-[8%]">
@@ -57,13 +57,13 @@ export const AddWorkspaceModal = ({
                     </form>
                 ) : (
                     <form className="flex flex-col w-[70%] mx-auto mt-[4%]" onSubmit={handleCreateWorkspace}>
-                        <label className="font-medium">Board name</label>
+                        <label className="font-medium">Workspace name</label>
                         <input className="border-2 border-solid border-black p-[1.4%]" />
 
-                        <label className="font-medium mt-[2%]">Board password</label>
+                        <label className="font-medium mt-[2%]">Workspace password</label>
                         <input className="border-2 border-solid border-black p-[1.4%]" />
 
-                        <label className="font-medium mt-[2%]">Confirm password</label>
+                        <label className="font-medium mt-[2%]">Workspace password</label>
                         <input className="border-2 border-solid border-black p-[1.4%]" />
 
                         <button type="submit">

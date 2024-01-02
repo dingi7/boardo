@@ -12,6 +12,7 @@ import { dataBaseBoard } from '../../Interfaces/IDatabase';
 
 //modals
 import { AddWorkspaceModal } from "./components/AddWorkspaceModal"
+import { AddBoardModal } from './components/AddBoardModal';
 
 
 // Define interfaces at the start or in a separate file
@@ -34,7 +35,7 @@ export const Dashboard = () => {
     const [selectedOrganisation, setSelectedOrganisation] =
         useState<IOrg | null>(null);
     const [boards, setBoards] = useState<dataBaseBoard[]>([]);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const fetchBoards = useCallback(async (orgId: string) => {
         try {
@@ -120,21 +121,22 @@ export const Dashboard = () => {
                                 />
                             ))}
 
-                            <CreatePlaceholder />
+                            <CreatePlaceholder openModal={() => setisAddBoardModalOpen(true)}/>
                         </div>
                     </div>
                 </div>
 
-                {isAddWorkspaceModalOpen && (
+                {/* {isAddWorkspaceModalOpen && (
                     <div className=" duration-500 ease-in-out">
                         <div className="background-animate absolute bottom-0 left-0 w-full h-[55%] bg-gradient-to-t from-purple-500  duration-500 ease-in-out to-transparent animate-gradient"></div>
                         <div className="background-animate absolute top-0 left-0 w-full h-[55%] bg-gradient-to-b from-indigo-500 duration-500 ease-in-out  to-transparent animate-gradient"></div>
                     </div>
-                )}
+                )} */}
 
             </div>
 
             {isAddWorkspaceModalOpen && <AddWorkspaceModal closeModal={() => setIsAddWorkspaceModalOpen(false)} />}
+            {isAddBoardModalOpen && <AddBoardModal closeModal={() => setisAddBoardModalOpen(false)}/>}
 
         </div>
     ) : (

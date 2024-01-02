@@ -1,8 +1,10 @@
 import { Medal } from 'lucide-react';
-import React from 'react';
 import { Link } from 'react-router-dom';
+import { useIsAuthenticated } from 'react-auth-kit';
 
 export const MarketingPage = () => {
+    const isAuth = useIsAuthenticated();
+
     return (
         <div className="h-full flex items-center justify-center flex-col">
             <div className="flex items-center justify-center flex-col">
@@ -22,9 +24,15 @@ export const MarketingPage = () => {
                 From high rises to the home office, the way your team works is
                 unique - accomplish it all with Boardo.
             </div>
-            <button className="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 mt-6 bg-neutral-200 text-secondary-foreground hover:bg-neutral-300">
-                <Link to="/auth/register">Get Boardo for free</Link>
-            </button>
+            {isAuth() ?
+                <button className="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 mt-6 bg-neutral-200 text-secondary-foreground hover:bg-neutral-300">
+                    <Link to="/dashboard">Dashboard</Link>
+                </button>
+                    :   
+                <button className="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-11 rounded-md px-8 mt-6 bg-neutral-200 text-secondary-foreground hover:bg-neutral-300">
+                    <Link to="/auth/register">Get Boardo for free</Link>
+                </button>
+            }
         </div>
     );
 };
