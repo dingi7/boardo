@@ -70,6 +70,7 @@ export const Dashboard = () => {
     // Constants for hardcoded values
     const imgUrl =
         'https://thumbs.dreamstime.com/b/aerial-view-lago-antorno-dolomites-lake-mountain-landscape-alps-peak-misurina-cortina-di-ampezzo-italy-reflected-103752677.jpg';
+    const imgUrl2 = `https://media.istockphoto.com/id/1299226889/photo/large-blue-cresting-wave-standing-tall-in-the-open-ocean-on-a-sunny-day.jpg?s=612x612&w=0&k=20&c=d5-IejmHf3Y0DaJtF_f0cJizpykEGpCxCz9T2KQpWhA=`
 
     return !loading ? (
         <div className={`h-screen duration-500 ease-in-out`}>
@@ -111,7 +112,7 @@ export const Dashboard = () => {
                         <h1 className="flex flex-row gap-[1%] font-medium text-xl">
                             <User2 size={35} /> Your boards
                         </h1>
-                        <div className="mt-[1%] flex flex-row flex-wrap gap-[5%]">
+                        <div className="w-[95%] h-full mt-[1%] flex flex-row flex-wrap gap-[5%]">
                             {boards.map((board) => (
                                 <BoardPlaceholder
                                     key={board._id}
@@ -120,7 +121,19 @@ export const Dashboard = () => {
                                 />
                             ))}
 
-                            <CreatePlaceholder openModal={() => setisAddBoardModalOpen(true)}/>
+                            <BoardPlaceholder
+                                key={"1"}
+                                name={"test"}
+                                img={ imgUrl}
+                            />
+
+                            <BoardPlaceholder
+                                key={"2"}
+                                name={"test"}
+                                img={ imgUrl2 }
+                            />
+
+                            <CreatePlaceholder openModal={() => setisAddBoardModalOpen(true)} />
                         </div>
                     </div>
                 </div>
@@ -135,7 +148,7 @@ export const Dashboard = () => {
             </div>
 
             {isAddWorkspaceModalOpen && <AddWorkspaceModal closeModal={() => setIsAddWorkspaceModalOpen(false)} />}
-            {isAddBoardModalOpen && <AddBoardModal closeModal={() => setisAddBoardModalOpen(false)}/>}
+            {isAddBoardModalOpen && <AddBoardModal closeModal={() => setisAddBoardModalOpen(false)} />}
 
         </div>
     ) : (
