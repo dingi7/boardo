@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { MarketingPage } from './LandingPage';
 import { Footer } from './components/footer';
 import { Navbar } from './components/navbar';
@@ -15,4 +15,4 @@ export const LandingPage = () => {
     );
 };
 
-export default LandingPage;
+

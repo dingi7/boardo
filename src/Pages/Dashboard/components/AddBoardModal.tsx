@@ -1,4 +1,6 @@
 import { X } from 'lucide-react';
+import { useState } from 'react';
+import { createBoard } from '../../../api/requests';
 
 export const AddBoardModal = ({
     closeModal,
@@ -6,10 +8,21 @@ export const AddBoardModal = ({
     closeModal: () => void;
 }) => {
 
+    const [data, setData] = useState({
+        boardName: "",
+        boardImage: ""
+    })
+
+    const onChangeHandler = (e: any) => {
+        setData((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
+    };
+
 
     const handleCreateWorkspace = (e: any) => {
-        closeModal();
 
+        const result = createBoard(data)
+
+        closeModal();
         e.preventDefault()
     }
 
@@ -34,10 +47,10 @@ export const AddBoardModal = ({
             <div>
                 <form className="flex flex-col w-[70%] mx-auto mt-[4%]" onSubmit={handleCreateWorkspace}>
                     <label className="font-medium">Board name</label>
-                    <input className="border-2 border-solid border-black p-[1.4%]" />
+                    <input className="border-2 border-solid border-black p-[1.4%]" name="boardName" onChange={onChangeHandler} value={data.boardName}/>
 
                     <label className="font-medium mt-[2%]">Board background image</label>
-                    <input className="border-2 border-solid border-black p-[1.4%]" />
+                    <input className="border-2 border-solid border-black p-[1.4%]"  name="boardImage" onChange={onChangeHandler} value={data.boardImage}/>
 
                     <button type="submit">
                         Create

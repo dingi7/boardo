@@ -28,8 +28,8 @@ export const loginUser = async (userData: LoginUserData) => {
     return api.post(endpoints.loginUser, userData);
 };
 
-export const createBoard = async (boardName: string) => {
-    return api.post(endpoints.createBoard, boardName);
+export const createBoard = async (data: { boardName: string, boardImage: string }) => {
+    return api.post(endpoints.createBoard, data);
 };
 
 export const getBoardsByOwnerId = async (id: string) => {

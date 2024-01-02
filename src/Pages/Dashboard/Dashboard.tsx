@@ -32,8 +32,7 @@ export const Dashboard = () => {
 
 
     const [organizations, setOrganizations] = useState<IOrg[]>([]);
-    const [selectedOrganisation, setSelectedOrganisation] =
-        useState<IOrg | null>(null);
+    const [selectedOrganisation, setSelectedOrganisation] = useState<IOrg | null>(null);
     const [boards, setBoards] = useState<dataBaseBoard[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 

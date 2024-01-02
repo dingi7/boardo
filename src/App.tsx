@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import './App.css';
+
+
 import { LandingPage } from './Pages/LandingPage/layout';
 import { AuthProvider } from 'react-auth-kit';
 
@@ -14,7 +16,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Dashboard } from './Pages/Dashboard/Dashboard';
-import React from 'react';
+
 
 function App() {
     return (
