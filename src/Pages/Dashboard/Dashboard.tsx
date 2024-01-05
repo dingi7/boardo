@@ -85,6 +85,7 @@ export const Dashboard = () => {
                         <h1 className='flex flex-row gap-[55%] font-bold'>
                             Workspaces{' '}
                             <Plus
+                                fill='black'
                                 className='hover:cursor-pointer'
                                 onClick={() => setIsAddWorkspaceModalOpen(true)}
                             />
@@ -100,6 +101,7 @@ export const Dashboard = () => {
                                         setSelectedOrganisation(org);
                                         fetchBoards(org._id);
                                     }}
+                                    selectedOrganisation={selectedOrganisation!._id}
                                 />
                             ))}
                         </div>
@@ -154,7 +156,7 @@ export const Dashboard = () => {
             )}
             {isAddBoardModalOpen && (
                 <AddBoardModal
-                orgId={selectedOrganisation!._id}
+                    orgId={selectedOrganisation!._id}
                     closeModal={() => setisAddBoardModalOpen(false)}
                 />
             )}
