@@ -13,6 +13,7 @@ import { AuthInput } from '../../Components/auth/auth-input';
 import { Navbar } from '../LandingPage/components/navbar';
 
 export const Register = () => {
+    const [loading, setLoading] = React.useState<boolean>(false);
     const authenticateUser = useAuth();
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
@@ -35,12 +36,14 @@ export const Register = () => {
             if (loginData.password !== loginData.confirmPassword) {
                 throw new Error('Passwords do not match');
             }
+            setLoading(true);
             const response = await registerUser(loginData);
             await authenticateUser(response);
             navigate('/');
         } catch (err: any) {
             errorNotification(err.message);
         }
+        setLoading(false);
     };
 
     return (
@@ -93,12 +96,12 @@ export const Register = () => {
                         className='shadow border-1 mt-4 font-semibold border-slate-800 bg-white rounded w-full py-3 px-3 leading-tight focus:outline-none focus:shadow-outline outline-none hover:bg-zinc-100'
                         type='submit'
                         id='registerButton'
+                        disabled={loading}
                     >
-                        Register
+                        {loading ? 'Loading...' : 'Register'}
                     </Button>
                 </form>
             </div>
         </div>
     );
 };
-
