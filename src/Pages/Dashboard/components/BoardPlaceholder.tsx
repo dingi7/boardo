@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const BoardPlaceholder = ({
+export const Board = ({
     name,
     img,
 }: {

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useAuthUser } from 'react-auth-kit';
 import { Building2, Plus, User2 } from 'lucide-react';
 
-import { BoardPlaceholder } from './components/BoardPlaceholder';
+import { Board } from './components/BoardPlaceholder';
 import { CreatePlaceholder } from './components/CreatePlaceholder';
 import { Organisation } from './components/Organisation';
 import { getBoardsByOrgId, getUserOrganizations } from '../../api/requests';
@@ -128,7 +128,7 @@ export const Dashboard = () => {
                                     to={`/board/${board._id}`}
                                     key={board._id}
                                 >
-                                    <BoardPlaceholder
+                                    <Board
                                         name={board.name}
                                         img={board.backgroundUrl || imgUrl}
                                     />

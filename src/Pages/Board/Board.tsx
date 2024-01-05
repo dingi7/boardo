@@ -11,12 +11,15 @@ import {
 } from '../../api/requests';
 import { dataBaseBoard, dataBaseList } from '../../Interfaces/IDatabase';
 import { successNotification } from '../../util/notificationHandler';
+import { ListPlaceholder } from './List/ListPlaceholder';
+import { Loading } from './_components/loading';
 
 export const Board = (): JSX.Element => {
     const { boardId } = useParams<{ boardId: string }>();
     const [boardInfo, setBoardInfo] = useState<dataBaseBoard | null>(null);
     const [lists, setLists] = useState<dataBaseList[] | null>(null);
     const [backgroundUrl, setBackgroundUrl] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(true);
 
     const fetchBoardData = useCallback(async () => {
         if (!boardId) return;
@@ -28,6 +31,7 @@ export const Board = (): JSX.Element => {
         } catch (error) {
             console.error('Failed to fetch board data:', error);
         }
+        setLoading(false);
     }, [boardId]);
 
     useEffect(() => {
@@ -138,10 +142,12 @@ export const Board = (): JSX.Element => {
         return updateBoard(boardInfo!._id, boardInfo!.name, newState);
     };
 
+    if (loading) return <Loading></Loading>;
+
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <div
-                className="flex flex-col w-screen overflow-y-auto h-screen bg-slate-800"
+                className='flex flex-col w-screen overflow-y-auto h-screen bg-slate-800'
                 style={{
                     backgroundImage: `url('${backgroundUrl}')`,
                     backgroundSize: 'cover',
@@ -158,9 +164,9 @@ export const Board = (): JSX.Element => {
                     backgroundUrl={backgroundUrl}
                 />
                 <Droppable
-                    droppableId="allcolumns"
-                    direction="horizontal"
-                    type="column"
+                    droppableId='allcolumns'
+                    direction='horizontal'
+                    type='column'
                 >
                     {(provided) => (
                         <div
@@ -179,6 +185,7 @@ export const Board = (): JSX.Element => {
                                     onDeleteCard={onDeleteCard}
                                 />
                             ))}
+                            <ListPlaceholder></ListPlaceholder>
                             {provided.placeholder}
                         </div>
                     )}
