@@ -1,14 +1,18 @@
 import { MoreHorizontal } from "lucide-react";
 import { BoardTitle } from "./board-title";
 import { useState } from "react";
-import { createBoard, removeBoardBackground, updateBoardBackground } from "../../../api/requests";
+import {
+    removeBoardBackground,
+    updateBoardBackground,
+    uploadBoardBackground,
+} from "../../../api/requests";
 import { useParams } from "react-router-dom";
 
 export const BoardHeader = ({
     boardName,
     setBoardName,
     setBackgroundUrl,
-    backgroundUrl
+    backgroundUrl,
 }: any): JSX.Element => {
     const { boardId } = useParams();
     const [showModal, setShowModal] = useState<boolean>(false);
@@ -22,49 +26,21 @@ export const BoardHeader = ({
         setFile(event.target.files[0]);
     };
     const handleSubmit = async () => {
-        if(!boardId) return;
+        if (!boardId) return;
         if (!file) return;
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "g3xeufp5");
-
-        try {
-            const response = await fetch(
-                "https://api.cloudinary.com/v1_1/drmxfdj5o/image/upload",
-                {
-                    // Replace with your API endpoint
-                    method: "POST",
-                    body: formData,
-                }
-            );
-
-            if (!response.ok) {
-                throw new Error(`Error: ${response.status}`);
-            }
-
-            const result = await response.json();
-            setBackgroundUrl(result.url);
-            await updateBoardBackground(boardId, result.url)
-            setShowModal(false);
-        } catch (error) {
-            console.error("Error uploading file:", error);
-        }
+        const respons = await uploadBoardBackground(formData);
+        setBackgroundUrl(respons.url);
+        await updateBoardBackground(boardId, respons.url);
+        setShowModal(false);
     };
     const handleRemove = async () => {
-        if(!boardId) return;
-        const res = await fetch(
-            "https://api.cloudinary.com/v1_1/drmxfdj5o/image/destroy",
-            {
-                method: "POST",
-                body: `public_id=u0xupohegdke01ynkm47&api_key=677511693625866`,
-            }
-        );
-        if (!res.ok) {
-            throw new Error(`Error: ${res.status}`);
-        }
+        if (!boardId) return;
         setBackgroundUrl("");
-        removeBoardBackground(boardId)
-    }
+        removeBoardBackground(boardId);
+    };
     return (
         <div className="bg-black bg-opacity-20 text-white w-full flex items-center justify-between py-2 px-16">
             <div className="flex items-center gap-1">
