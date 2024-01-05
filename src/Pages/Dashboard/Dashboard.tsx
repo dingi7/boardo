@@ -154,6 +154,7 @@ export const Dashboard = () => {
             )}
             {isAddBoardModalOpen && (
                 <AddBoardModal
+                orgId={selectedOrganisation!._id}
                     closeModal={() => setisAddBoardModalOpen(false)}
                 />
             )}

@@ -7,7 +7,7 @@ export const endpoints = {
     loginUser: '/auth/login',
     getUserOrganizations: `/auth/orgs`,
     // logoutUser: '/users/logout',
-    createBoard: '/items/createBoard',
+    createBoard: '/items/boards',
     getByOwnerId: (id: string) => `/items/getBoardsByOwnerId/${id}`,
     getByMemberId: (id: string) => `/items/getBoardsByMemberId/${id}`,
     addMemberToBoard: (boardId: string) => `/items/addMember/${boardId}`,
@@ -28,7 +28,7 @@ export const loginUser = async (userData: LoginUserData) => {
     return api.post(endpoints.loginUser, userData);
 };
 
-export const createBoard = async (data: { boardName: string, boardImage: string }) => {
+export const createBoard = async (data: { name: string, backgroundUrl: string, orgId: string }) => {
     return api.post(endpoints.createBoard, data);
 };
 
