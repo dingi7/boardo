@@ -14,6 +14,7 @@ import { AddWorkspaceModal } from './components/AddWorkspaceModal';
 import { AddBoardModal } from './components/AddBoardModal';
 import { Link } from 'react-router-dom';
 import { Loading } from '../Board/_components/loading';
+import { Navbar } from '../LandingPage/components/navbar';
 
 // Define interfaces at the start or in a separate file
 interface IOrg {
@@ -76,12 +77,13 @@ export const Dashboard = () => {
 
     return !loading ? (
         <div className={`h-screen duration-500 ease-in-out`}>
+            <Navbar />
             <div
                 className={`h-screen mt-0 flex flex-row gap-[5%] duration-500 ease-in-out ${
                     isAddBoardModalOpen || isAddWorkspaceModalOpen ? 'blur' : ''
                 }`}
             >
-                <div className=' w-[20%] ml-[2%] h-[90%]'>
+                <div className=' w-[20%] ml-[2%] h-[90%] mt-auto border-r-2'>
                     <div className='pl-[5%] pt-[3%]'>
                         <h1 className='flex flex-row gap-[55%] font-bold'>
                             Workspaces{' '}
@@ -92,6 +94,12 @@ export const Dashboard = () => {
                             />
                         </h1>
                         <div className='mt-[4%] hover:cursor-pointer'>
+                            {organizations.length === 0 && (
+                                <p className='text-gray-500'>
+                                    You don't have any workspaces yet. Create
+                                    your first one!
+                                </p>
+                            )}
                             {organizations.map((org) => (
                                 <Organisation
                                     key={org._id}
@@ -102,7 +110,9 @@ export const Dashboard = () => {
                                         setSelectedOrganisation(org);
                                         fetchBoards(org._id);
                                     }}
-                                    selectedOrganisation={selectedOrganisation!._id}
+                                    selectedOrganisation={
+                                        selectedOrganisation!._id
+                                    }
                                 />
                             ))}
                         </div>
@@ -110,36 +120,57 @@ export const Dashboard = () => {
                 </div>
 
                 <div className='w-[60%] p-[1%]'>
-                    <div className='flex flex-row gap-[2%]'>
-                        <div className='p-[2%] w-[8%] bg-gradient-to-r from-purple-500 to-indigo-600 text-black flex justify-center rounded'>
-                            <Building2 color='white' />
-                        </div>
-                        <p className='font-extrabold text-2xl'>
-                            {selectedOrganisation?.name || 'Loading...'}
-                        </p>
-                    </div>
+                    {selectedOrganisation !== null ? (
+                        <>
+                            <div className='flex flex-row gap-[2%]'>
+                                <div className='p-[2%] w-[8%] bg-gradient-to-r from-purple-500 to-indigo-600 text-black flex justify-center rounded'>
+                                    <Building2 color='white' />
+                                </div>
+                                <p className='font-extrabold text-2xl'>
+                                    {selectedOrganisation.name || 'Loading...'}
+                                </p>
+                            </div>
 
-                    <div className='mt-[4%] w-full'>
-                        <h1 className='flex flex-row gap-[1%] font-medium text-xl'>
-                            <User2 size={35} /> Your boards
-                        </h1>
-                        <div className='w-[95%] h-full mt-[1%] flex flex-row flex-wrap gap-[5%]'>
-                            {boards.map((board) => (
-                                <Link
-                                    to={`/board/${board._id}`}
-                                    key={board._id}
-                                >
-                                    <Board
-                                        name={board.name}
-                                        img={board.backgroundUrl || imgUrl}
+                            <div className='mt-[4%] w-full'>
+                                <h1 className='flex flex-row gap-[1%] font-medium text-xl'>
+                                    <User2 size={35} /> Your boards
+                                </h1>
+                                <div className='w-[95%] h-full mt-[1%] flex flex-row flex-wrap gap-[5%]'>
+                                    {boards.map((board) => (
+                                        <Link
+                                            to={`/board/${board._id}`}
+                                            key={board._id}
+                                        >
+                                            <Board
+                                                name={board.name}
+                                                img={
+                                                    board.backgroundUrl ||
+                                                    imgUrl
+                                                }
+                                            />
+                                        </Link>
+                                    ))}
+                                    <CreatePlaceholder
+                                        openModal={() =>
+                                            setisAddBoardModalOpen(true)
+                                        }
                                     />
-                                </Link>
-                            ))}
-                            <CreatePlaceholder
-                                openModal={() => setisAddBoardModalOpen(true)}
-                            />
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className='flex flex-col justify-center items-center h-full'>
+                            <h1 className='font-bold text-2xl'>
+                                You don't have any workspaces yet.
+                            </h1>
+                            <button
+                                className='mt-[2%] bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md p-[2%] hover:cursor-pointer'
+                                onClick={() => setIsAddWorkspaceModalOpen(true)}
+                            >
+                                Create your first one!
+                            </button>
                         </div>
-                    </div>
+                    )}
                 </div>
 
                 {/* {isAddWorkspaceModalOpen && (
@@ -164,6 +195,6 @@ export const Dashboard = () => {
         </div>
     ) : (
         // Display loading indicator here
-        <Loading/>
+        <Loading />
     );
 };
