@@ -20,7 +20,7 @@ export const Board = (): JSX.Element => {
     const [lists, setLists] = useState<dataBaseList[] | null>(null);
     const [backgroundUrl, setBackgroundUrl] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
-
+    console.log(backgroundUrl)
     const fetchBoardData = useCallback(async () => {
         if (!boardId) return;
         try {
