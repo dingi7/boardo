@@ -11,7 +11,8 @@ export const endpoints = {
     getByOwnerId: (id: string) => `/items/getBoardsByOwnerId/${id}`,
     getByMemberId: (id: string) => `/items/getBoardsByMemberId/${id}`,
     addMemberToBoard: (boardId: string) => `/items/addMember/${boardId}`,
-    removeMemberFromBoard: (boardId: string) => `/items/removeMember/${boardId}`,
+    removeMemberFromBoard: (boardId: string) =>
+        `/items/removeMember/${boardId}`,
     editBoard: (boardId: string) => `/items/boards/${boardId}`,
     deleteBoard: (boardId: string) => `/items/deleteBoard/${boardId}`,
     getBoardByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
@@ -28,7 +29,11 @@ export const loginUser = async (userData: LoginUserData) => {
     return api.post(endpoints.loginUser, userData);
 };
 
-export const createBoard = async (data: { name: string, backgroundUrl: string, orgId: string }) => {
+export const createBoard = async (data: {
+    name: string;
+    backgroundUrl: string;
+    orgId: string;
+}) => {
     return api.post(endpoints.createBoard, data);
 };
 
@@ -102,15 +107,15 @@ export const updateBoardBackground = async (boardId: string, bgUrl: string) => {
 };
 
 export const removeBoardBackground = async (boardId: string) => {
-    return api.post(endpoints.getBoardById(boardId), { backgroundUrl: "" });
+    return api.post(endpoints.getBoardById(boardId), { backgroundUrl: '' });
 };
 
 export const uploadBoardBackground = async (formData: FormData) => {
     try {
         const response = await fetch(
-            "https://api.cloudinary.com/v1_1/drmxfdj5o/image/upload",
+            'https://api.cloudinary.com/v1_1/drmxfdj5o/image/upload',
             {
-                method: "POST",
+                method: 'POST',
                 body: formData,
             }
         );
@@ -121,8 +126,8 @@ export const uploadBoardBackground = async (formData: FormData) => {
 
         return await response.json();
     } catch (error) {
-        console.error("Error uploading file:", error);
+        console.error('Error uploading file:', error);
     }
-}
+};
 
-export const destroyBoardBackground = async (boardId: string) => {}
+export const destroyBoardBackground = async (boardId: string) => {};
