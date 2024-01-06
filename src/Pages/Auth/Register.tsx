@@ -10,7 +10,7 @@ import useFormData from '../../util/hooks/useFormData';
 import { RegisterUserData } from '../../Interfaces/IUserData';
 import { errorNotification } from '../../util/notificationHandler';
 import { AuthInput } from '../../Components/auth/auth-input';
-import { Navbar } from '../LandingPage/components/navbar';
+import { Navbar } from '../../Components/navbar';
 
 export const Register = () => {
     const [loading, setLoading] = React.useState<boolean>(false);
