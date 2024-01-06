@@ -1,17 +1,20 @@
 import { Logo } from './ui/logo';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { useIsAuthenticated, useSignOut } from 'react-auth-kit';
 import React from 'react';
 
 export const Navbar = () => {
     const isAuth = useIsAuthenticated();
+    const navigate = useNavigate();
 
     const signOut = useSignOut()
 
     const handleSignOut = () => {
         if (window.confirm("Are you sure you want to log out?")) {
+            // navigate to /
             signOut();
+            navigate('/')
         }
     };
     

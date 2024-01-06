@@ -18,8 +18,9 @@ import { AddWorkspaceModal } from './components/AddWorkspaceModal';
 import { AddBoardModal } from './components/AddBoardModal';
 import { Link } from 'react-router-dom';
 import { Loading } from '../Board/_components/loading';
-import { Navbar } from '../../Components/navbar';
+
 import { FormPopover } from './formPopover/form-popover';
+import { Navbar } from '../../Components/navbar';
 
 // Define interfaces at the start or in a separate file
 interface IOrg {
