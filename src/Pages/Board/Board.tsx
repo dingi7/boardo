@@ -152,7 +152,7 @@ export const Board = (): JSX.Element => {
                 >
                     {(provided) => (
                         <div
-                            className={`flex flex-row mt-[1%] ml-10 p-[1%] gap-[2%] w-full overflow-auto`}
+                            className={`flex flex-row mt-[1%] ml-10 p-[1%] gap-[2%] w-full h-screen overflow-auto`}
                             {...provided.droppableProps}
                             ref={provided.innerRef}
                         >
