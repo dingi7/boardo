@@ -98,9 +98,9 @@ export const Dashboard = () => {
                     isAddBoardModalOpen || isAddWorkspaceModalOpen ? 'blur' : ''
                 }`}
             >
-                <div className=' w-[20%] ml-[2%] h-[90%] mt-auto border-r-2'>
-                    <div className='pl-[5%] pt-[3%]'>
-                        <h1 className='flex flex-row gap-[55%] font-bold'>
+                <div className='w-[30%] ml-[2%] h-[90%] mt-auto border-r-2 pt-[5%] md:w-[25%] lg:w-[20%] md:pt-[2%] xl:pt-[1%] 2xl:pt-0'>
+                    <div className='pl-[2%] pt-[3%] select-none'>
+                        <h1 className='w-[95%] flex flex-row justify-between font-bold'>
                             Workspaces{' '}
                             <Plus
                                 fill='black'
@@ -112,7 +112,7 @@ export const Dashboard = () => {
                             {userOrganizations.length === 0 && (
                                 <p className='text-gray-500'>
                                     You don't have any workspaces yet. Create
-                                    your first one!
+                                    your first one! 
                                 </p>
                             )}
                             {userOrganizations.map((org) => (
@@ -134,7 +134,7 @@ export const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className='w-[60%] p-[1%]'>
+                <div className='w-[60%] p-[1%] pt-[20%] sm:pt-[15%] md:pt-[10%] xl:pt-[5%]'>
                     {selectedOrganisation !== null ? (
                         <>
                             <div className='flex flex-row gap-[2%]'>
