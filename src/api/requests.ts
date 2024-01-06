@@ -20,8 +20,8 @@ export const endpoints = {
     //     `/items/removeMember/${boardId}`,
 };
 
-export const createOrganization = async (orgName: string, password: string) => {
-    return api.post(endpoints.orgs, { orgName, password });
+export const createOrganization = async (data : {name: string, password: string}) => {
+    return api.post(endpoints.orgs, data);
 }
 
 export const registerUser = async (userData: RegisterUserData) => {

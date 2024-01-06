@@ -6,7 +6,7 @@ import { useIsAuthenticated } from 'react-auth-kit';
 import { loginUser } from '../../api/requests';
 import { LoginUserData } from '../../Interfaces/IUserData';
 import { useAuth } from './hooks/useAuth';
-import useFormData from './hooks/useFormData';
+import useFormData from '../../util/hooks/useFormData';
 import { errorNotification } from '../../util/notificationHandler';
 import { Navbar } from '../LandingPage/components/navbar';
 import { AuthInput } from '../../Components/auth/auth-input';

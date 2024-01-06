@@ -6,7 +6,7 @@ import { Logo } from '../../Components/ui/logo';
 import { Button } from '../../Components/ui/button';
 import React from 'react';
 import { useAuth } from './hooks/useAuth';
-import useFormData from './hooks/useFormData';
+import useFormData from '../../util/hooks/useFormData';
 import { RegisterUserData } from '../../Interfaces/IUserData';
 import { errorNotification } from '../../util/notificationHandler';
 import { AuthInput } from '../../Components/auth/auth-input';

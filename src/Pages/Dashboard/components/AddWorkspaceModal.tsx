@@ -1,88 +1,150 @@
 import { X, Search } from 'lucide-react';
+import { useState, FormEvent } from 'react';
+import useFormData from '../../../util/hooks/useFormData';
+import { createOrganization } from '../../../api/requests';
 
-import { useState } from 'react';
-
-export const AddWorkspaceModal = ({
-    closeModal,
-}: {
+type AddWorkspaceModalProps = {
     closeModal: () => void;
-}) => {
-    const [option, setOption] = useState('join');
+};
 
-    const handleCreateWorkspace = (e: any) => {
-        closeModal();
+type WorkspaceData = {
+    name: string;
+    password: string;
+};
 
+export const AddWorkspaceModal = ({ closeModal }: AddWorkspaceModalProps) => {
+    const [option, setOption] = useState<'create' | 'join'>('create');
+    const [workspaceData, handleInputChange] = useFormData<WorkspaceData>({
+        name: '',
+        password: '',
+    });
+
+    const handleCreateWorkspace = async (e: FormEvent) => {
         e.preventDefault();
+        const result = await createOrganization(workspaceData);
+        console.log(result);
+        
+        closeModal();
     };
 
-    const handleJoinWorkspace = () => {
+    const handleJoinWorkspace = (e: FormEvent) => {
+        e.preventDefault();
+        // Add logic for joining a workspace
         closeModal();
     };
 
     return (
-        <div className='fixed top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[40%] h-[60%] border-2 border-solid border-gray-300 p-8 rounded-md bg-slate-100'>
-            <div
-                className='absolute right-[5%] hover:cursor-pointer'
-                onClick={closeModal}
-            >
-                <X />
-            </div>
-
-            <div className='flex flex-row justify-center mt-[2%] w-[100%] gap-[10%] font-bold text-2xl'>
-                <div
-                    className={`text-center hover:underline decoration-from-font ${
-                        option == 'join' && 'underline'
-                    }`}
-                    onClick={() => setOption('join')}
+        <div className='fixed inset-0 flex items-center justify-center'>
+            <div className='relative w-[40%] h-[60%] border-2 border-gray-300 bg-slate-100 rounded-md p-8'>
+                <button
+                    className='absolute top-4 right-4 hover:cursor-pointer'
+                    onClick={closeModal}
                 >
-                    <h1>Join Workspace</h1>
-                </div>
-                <div
-                    className={`text-center hover:underline decoration-from-font ${
-                        option == 'create' && 'underline'
-                    }`}
-                    onClick={() => setOption('create')}
-                >
-                    <h1>Create Workspace</h1>
-                </div>
-            </div>
+                    <X />
+                </button>
 
-            <div>
+                <TabSelector option={option} setOption={setOption} />
+
                 {option === 'join' ? (
-                    <form
-                        className='flex flex-col w-[70%] mx-auto mt-[4%]'
-                        onSubmit={handleJoinWorkspace}
-                    >
-                        <label className='font-medium'>Workspace name</label>
-                        <div className='flex flex-row gap-[4%] items-center'>
-                            <input className='border-2 border-solid border-black p-[1.4%]' />
-                            <div className='w-[8%]'>
-                                <Search className='bg-indigo-500 p-[4%] h-full w-full rounded-md text-white hover:cursor-pointer' />
-                            </div>
-                        </div>
-                    </form>
+                    <JoinWorkspaceForm onSubmit={handleJoinWorkspace} />
                 ) : (
-                    <form
-                        className='flex flex-col w-[70%] mx-auto mt-[4%]'
-                        onSubmit={handleCreateWorkspace}
-                    >
-                        <label className='font-medium'>Workspace name</label>
-                        <input className='border-2 border-solid border-black p-[1.4%]' />
-
-                        <label className='font-medium mt-[2%]'>
-                            Workspace password
-                        </label>
-                        <input className='border-2 border-solid border-black p-[1.4%]' />
-
-                        <label className='font-medium mt-[2%]'>
-                            Workspace password
-                        </label>
-                        <input className='border-2 border-solid border-black p-[1.4%]' />
-
-                        <button type='submit'>Create</button>
-                    </form>
+                    <CreateWorkspaceForm onSubmit={handleCreateWorkspace} handleInputChange={handleInputChange} />
                 )}
             </div>
         </div>
     );
 };
+
+type TabSelectorProps = {
+    option: 'create' | 'join';
+    setOption: (option: 'create' | 'join') => void;
+};
+
+const TabSelector = ({ option, setOption }: TabSelectorProps) => (
+    <div className='flex justify-center gap-10 font-bold text-2xl my-4'>
+        <Tab
+            title='Join Workspace'
+            isActive={option === 'join'}
+            onClick={() => setOption('join')}
+        />
+        <Tab
+            title='Create Workspace'
+            isActive={option === 'create'}
+            onClick={() => setOption('create')}
+        />
+    </div>
+);
+
+type TabProps = {
+    title: string;
+    isActive: boolean;
+    onClick: () => void;
+};
+
+const Tab = ({ title, isActive, onClick }: TabProps) => (
+    <div
+        className={`text-center hover:underline ${
+            isActive ? 'underline' : ''
+        }`}
+        onClick={onClick}
+    >
+        <h1>{title}</h1>
+    </div>
+);
+
+type FormProps = {
+    onSubmit: (e: FormEvent) => void;
+    handleInputChange?: (e: any) => void;
+};
+
+const JoinWorkspaceForm = ({ onSubmit }: FormProps) => (
+    <form className='flex flex-col w-3/4 mx-auto' onSubmit={onSubmit}>
+        <label htmlFor='workspaceName' className='font-medium'>
+            Workspace name
+        </label>
+        <div className='flex items-center gap-4 mt-2'>
+            <input
+                id='workspaceName'
+                type='text'
+                className='flex-grow border-2 border-black p-2'
+                required
+            />
+            
+            <button
+                type='submit'
+                className='bg-indigo-500 p-2 rounded-md text-white'
+            >
+                <Search />
+            </button>
+        </div>
+    </form>
+);
+
+const CreateWorkspaceForm = ({ onSubmit, handleInputChange }: FormProps) => (
+    <form className='flex flex-col w-3/4 mx-auto mt-4' onSubmit={onSubmit}>
+        {/* Repeat the above input for workspace name */}
+        <label htmlFor='name' className='font-medium mt-4'>
+            Workspace name
+        </label>
+        <input
+            id='name'
+            className='border-2 border-black p-2'
+            required
+            onChange={handleInputChange}
+        />
+        <label htmlFor='password' className='font-medium mt-4'>
+            Workspace password
+        </label>
+        <input
+            id='password'
+            type='password'
+            className='border-2 border-black p-2'
+            required
+            onChange={handleInputChange}
+        />
+        
+        <button type='submit' className='mt-4 py-2 px-4 bg-blue-500 text-white rounded'>
+            Create
+        </button>
+    </form>
+);
