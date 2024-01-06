@@ -1,6 +1,6 @@
 import { MoreHorizontal } from "lucide-react";
 import { BoardTitle } from "./board-title";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
     removeBoardBackground,
     updateBoardBackground,
@@ -17,14 +17,15 @@ export const BoardHeader = ({
     const { boardId } = useParams();
     const [showModal, setShowModal] = useState<boolean>(false);
     const [file, setFile] = useState<File>();
-
-    const openModal = () => setShowModal(true);
-    const closeModal = () => setShowModal(false);
+    const modalRef = useRef<HTMLDivElement>(null);
+    const openModal = useCallback(() => setShowModal(true), []);
+    const closeModal = useCallback(() => setShowModal(false), []);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (!event.target.files) return;
         setFile(event.target.files[0]);
     };
+
     const handleSubmit = async () => {
         if (!boardId) return;
         if (!file) return;
@@ -36,27 +37,55 @@ export const BoardHeader = ({
         await updateBoardBackground(boardId, respons.url);
         setShowModal(false);
     };
+
     const handleRemove = async () => {
         if (!boardId) return;
         setBackgroundUrl("");
         removeBoardBackground(boardId);
     };
-    return (
-        <div className="bg-black bg-opacity-20 text-white w-full flex items-center justify-between py-2 px-16">
-            <div className="flex items-center gap-1">
-                {/* <div className="font-bold text-[24px]">{boardName}</div> */}
-                <BoardTitle boardName={boardName} setBoardName={setBoardName} />
-            </div>
-            <button
-                className="hover:shadow-lg rounded-md transition duration-300 ease-in-out p-2"
-                onClick={openModal}
-            >
-                <MoreHorizontal />
-            </button>
 
+    const handleClickOutside = useCallback(
+        (event: MouseEvent) => {
+            if (
+                modalRef.current &&
+                !modalRef.current.contains(event.target as Node)
+            ) {
+                closeModal();
+            }
+        },
+        [closeModal]
+    );
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [handleClickOutside]);
+
+    return (
+        <>
+            <div className="bg-black bg-opacity-20 text-white w-full flex items-center justify-between py-2 px-16">
+                <div className="flex items-center gap-1">
+                    {/* <div className="font-bold text-[24px]">{boardName}</div> */}
+                    <BoardTitle
+                        boardName={boardName}
+                        setBoardName={setBoardName}
+                    />
+                </div>
+                <button
+                    className="hover:shadow-lg rounded-md transition duration-300 ease-in-out p-2"
+                    onClick={openModal}
+                >
+                    <MoreHorizontal />
+                </button>
+            </div>
             {showModal && (
-                <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-md mx-auto">
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4">
+                    <div
+                        ref={modalRef}
+                        className="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-md mx-auto p-1"
+                    >
                         <div className="p-6">
                             <label className="block">
                                 <span className="sr-only">Choose file</span>
@@ -88,6 +117,7 @@ export const BoardHeader = ({
                             <button
                                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                 onClick={handleSubmit}
+                                disabled={!backgroundUrl}
                             >
                                 Save Changes
                             </button>
@@ -95,6 +125,6 @@ export const BoardHeader = ({
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 };
