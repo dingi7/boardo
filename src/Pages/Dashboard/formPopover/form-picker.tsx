@@ -62,7 +62,7 @@ export const FormPicker = ({
           <div 
             key={image.id}
             className={cn(
-              "cursor-pointer relative aspect-video group hover:opacity-75 transition bg-muted",
+              "w-[100%] h-full cursor-pointer relative aspect-square group hover:opacity-75 transition bg-muted ",
               // pending && "opacity-50 hover:opacity-50 cursor-auto"
             )}
             onClick={() => {
@@ -82,7 +82,7 @@ export const FormPicker = ({
             <img
               src={image.urls.thumb}
               alt="Unsplash image"
-              className="object-cover rounded-sm"
+              className="w-full h-full object-cover rounded-sm"
             />
             {selectedImageId === image.id && (
               <div className="absolute inset-y-0 h-full w-full bg-black/30 flex items-center justify-center">
