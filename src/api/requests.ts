@@ -14,19 +14,28 @@ export const endpoints = {
         boardId ? `/items/boards/${boardId}` : '/items/boards',
     card: (cardId: string | null) =>
         cardId ? `/items/cards/${cardId}` : '/items/cards',
+    list: (listId: string | null) =>
+        listId ? `/items/list/${listId}` : '/items/lists',
 
     addMemberToBoard: (boardId: string) => `/items/addMember/${boardId}`,
     // removeMemberFromBoard: (boardId: string) =>
     //     `/items/removeMember/${boardId}`,
 };
 
-export const createOrganization = async (data : {name: string, password: string}) => {
-    return api.post(endpoints.orgs, data);
+export const createList = async (boardId: string, name: string) => {
+    return api.post(endpoints.list(null), { boardId, name });
 }
+
+export const createOrganization = async (data: {
+    name: string;
+    password: string;
+}) => {
+    return api.post(endpoints.orgs, data);
+};
 
 export const getAllOrganizations = async () => {
     return api.get(endpoints.allOrgs);
-}
+};
 
 export const registerUser = async (userData: RegisterUserData) => {
     return api.post(endpoints.registerUser, userData);

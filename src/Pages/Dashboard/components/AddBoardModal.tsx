@@ -2,20 +2,21 @@ import { X } from 'lucide-react';
 import { useState } from 'react';
 import { createBoard } from '../../../api/requests';
 import { Button } from '../../../Components/ui/button';
+import { dataBaseBoard } from '../../../Interfaces/IDatabase';
 
 export const AddBoardModal = ({
     closeModal,
     orgId,
-    setUserOrganizations
+    setBoards,
 }: {
     orgId: string;
     closeModal: () => void;
-    setUserOrganizations: (organizations: any) => void;
+    setBoards: any;
 }) => {
     const [data, setData] = useState({
         name: '',
         backgroundUrl: '',
-        orgId
+        orgId,
     });
 
     const onChangeHandler = (e: any) => {
@@ -25,11 +26,11 @@ export const AddBoardModal = ({
         }));
     };
 
-    const handleCreateWorkspace = (e: any) => {
-        const result = createBoard(data);
-
-        closeModal();
+    const handleCreateWorkspace = async (e: any) => {
         e.preventDefault();
+        const result = await createBoard(data);
+        setBoards((prev: any) => [...prev, result]);
+        closeModal();
     };
 
     return (
@@ -42,9 +43,7 @@ export const AddBoardModal = ({
             </div>
 
             <div className='flex flex-row justify-center mt-[2%] w-[100%] gap-[10%] font-bold text-2xl'>
-                <div
-                    className={`text-center decoration-from-font`}
-                >
+                <div className={`text-center decoration-from-font`}>
                     <h1>Create board</h1>
                 </div>
             </div>
@@ -73,7 +72,9 @@ export const AddBoardModal = ({
                     />
 
                     <div className=''>
-                        <Button variant="gray" type='submit'>Create</Button>
+                        <Button variant='gray' type='submit'>
+                            Create
+                        </Button>
                     </div>
                 </form>
             </div>

@@ -1,6 +1,14 @@
 import { Plus } from 'lucide-react';
+import { Dispatch, SetStateAction } from 'react';
+import { dataBaseList } from '../../../Interfaces/IDatabase';
 
-export const ListPlaceholder = (): JSX.Element => {
+type AddListPlaceholderProps = {
+    setLists: Dispatch<SetStateAction<dataBaseList[] | null>>;
+};
+
+export const AddListPlaceholder = ({
+    setLists,
+}: AddListPlaceholderProps): JSX.Element => {
     return (
         <div
             className='inline-flex flex-col items-start gap-[10px] on:hover: cursor-pointer'
