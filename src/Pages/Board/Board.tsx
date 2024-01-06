@@ -11,7 +11,7 @@ import {
 } from '../../api/requests';
 import { dataBaseBoard, dataBaseList } from '../../Interfaces/IDatabase';
 import { successNotification } from '../../util/notificationHandler';
-import { ListPlaceholder } from './List/ListPlaceholder';
+import { AddListPlaceholder } from './List/AddListPlaceholder';
 import { Loading } from './_components/loading';
 
 export const Board = (): JSX.Element => {
@@ -20,7 +20,7 @@ export const Board = (): JSX.Element => {
     const [lists, setLists] = useState<dataBaseList[] | null>(null);
     const [backgroundUrl, setBackgroundUrl] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
-    console.log(backgroundUrl)
+    console.log(backgroundUrl);
     const fetchBoardData = useCallback(async () => {
         if (!boardId) return;
         try {
@@ -147,7 +147,7 @@ export const Board = (): JSX.Element => {
     return (
         <DragDropContext onDragEnd={onDragEnd}>
             <div
-                className='flex flex-col w-screen overflow-y-auto h-screen bg-slate-800'
+                className='flex flex-col w-screen overflow-y-auto h-screen bg-slate-800 overflow-hidden'
                 style={{
                     backgroundImage: `url('${backgroundUrl}')`,
                     backgroundSize: 'cover',
@@ -185,7 +185,9 @@ export const Board = (): JSX.Element => {
                                     onDeleteCard={onDeleteCard}
                                 />
                             ))}
-                            <ListPlaceholder></ListPlaceholder>
+                            <AddListPlaceholder
+                                setLists={setLists}
+                            ></AddListPlaceholder>
                             {provided.placeholder}
                         </div>
                     )}

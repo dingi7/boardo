@@ -27,7 +27,7 @@ interface IOrg {
     orgLogo: string;
 }
 
-interface IOrgLean{
+interface IOrgLean {
     name: string;
     _id: string;
 }
@@ -42,7 +42,7 @@ export const Dashboard = () => {
     const [isAddBoardModalOpen, setisAddBoardModalOpen] =
         useState<boolean>(false);
 
-    const [allOrganizations, setAllOrganizations] = useState<IOrgLean[]>([]); 
+    const [allOrganizations, setAllOrganizations] = useState<IOrgLean[]>([]);
     const [userOrganizations, setUserOrganizations] = useState<IOrg[]>([]);
     const [selectedOrganisation, setSelectedOrganisation] =
         useState<IOrg | null>(null);
@@ -59,7 +59,7 @@ export const Dashboard = () => {
     }, []);
 
     const fetchAllOrganizations = useCallback(async () => {
-        setAllOrganizations(await getAllOrganizations())
+        setAllOrganizations(await getAllOrganizations());
     }, []);
 
     const fetchOrganizations = useCallback(async () => {
@@ -209,7 +209,7 @@ export const Dashboard = () => {
                 <AddBoardModal
                     orgId={selectedOrganisation!._id}
                     closeModal={() => setisAddBoardModalOpen(false)}
-                    setUserOrganizations={setUserOrganizations}
+                    setBoards={setBoards}
                 />
             )}
         </div>
