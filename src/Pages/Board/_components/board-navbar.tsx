@@ -16,9 +16,12 @@ export const BoardHeader = ({
 }: any): JSX.Element => {
     const { boardId } = useParams();
     const [showModal, setShowModal] = useState<boolean>(false);
-    const [file, setFile] = useState<File>();
+    const [file, setFile] = useState<File | null>(null);
     const modalRef = useRef<HTMLDivElement>(null);
-    const openModal = useCallback(() => setShowModal(true), []);
+    const openModal = useCallback(() => {
+        setShowModal(true);
+        setFile(null)
+    }, []);
     const closeModal = useCallback(() => setShowModal(false), []);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,9 +118,11 @@ export const BoardHeader = ({
                                 Remove Background
                             </button>
                             <button
-                                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                className={`bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+                                    !file ? "opacity-50" : ""
+                                }`}
                                 onClick={handleSubmit}
-                                disabled={!backgroundUrl}
+                                disabled={!file}
                             >
                                 Save Changes
                             </button>
