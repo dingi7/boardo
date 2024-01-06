@@ -87,7 +87,7 @@ export const Register = () => {
                         />
                         <div className='text-black text-left'>
                             Already registered?{' '}
-                            <Link to='/login' className='font-bold '>
+                            <Link to='/auth/login' className='font-bold '>
                                 Login
                             </Link>
                         </div>
