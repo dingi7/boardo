@@ -13,7 +13,7 @@ export const Board = ({
         <>
             {img ? (
                 <div
-                    className='w-[30%] h-[100%] relative mt-2 rounded overflow-hidden bg-gradient-to-r from-slate-600 to-slate-900 text-white'
+                    className='w-[100%] h-[100%] relative mt-2 rounded overflow-hidden bg-gradient-to-r from-slate-600 to-slate-900 text-white'
                     onMouseEnter={() => setIsHovering(true)}
                     onMouseLeave={() => setIsHovering(false)}
                 >

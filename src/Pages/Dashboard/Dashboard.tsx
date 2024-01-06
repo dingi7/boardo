@@ -140,6 +140,7 @@ export const Dashboard = () => {
                                         <Link
                                             to={`/board/${board._id}`}
                                             key={board._id}
+                                            className="w-[30%]"
                                         >
                                             <Board
                                                 name={board.name}
