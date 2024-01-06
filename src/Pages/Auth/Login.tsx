@@ -8,7 +8,7 @@ import { LoginUserData } from '../../Interfaces/IUserData';
 import { useAuth } from './hooks/useAuth';
 import useFormData from '../../util/hooks/useFormData';
 import { errorNotification } from '../../util/notificationHandler';
-import { Navbar } from '../LandingPage/components/navbar';
+import { Navbar } from '../../Components/navbar';
 import { AuthInput } from '../../Components/auth/auth-input';
 
 export const Login = () => {

@@ -8,6 +8,7 @@ import { successNotification } from '../../util/notificationHandler';
 import { AddListPlaceholder } from './List/AddListPlaceholder';
 import { Loading } from './_components/loading';
 import { BoardContext } from './BoardContext';
+import { Navbar } from '../../Components/navbar';
 
 export const Board = (): JSX.Element => {
     const context = useContext(BoardContext);
@@ -134,9 +135,11 @@ export const Board = (): JSX.Element => {
     if (loading) return <Loading></Loading>;
 
     return (
+        <>
+        <Navbar />
         <DragDropContext onDragEnd={onDragEnd}>
             <div
-                className='flex flex-col w-screen overflow-y-auto h-screen bg-slate-800 overflow-hidden'
+                className='flex flex-col w-screen overflow-y-auto h-screen bg-slate-800 overflow-hidden pt-[15%] sm:pt-[10%] md:pt-[8%] lg:pt-[3.5%]'
                 style={{
                     backgroundImage: `url('${backgroundUrl}')`,
                     backgroundSize: 'cover',
@@ -181,5 +184,6 @@ export const Board = (): JSX.Element => {
                 </Droppable>
             </div>
         </DragDropContext>
+        </>
     );
 };
