@@ -2,10 +2,7 @@ import { useContext } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { BoardHeader } from './_components/board-navbar';
 import { List } from './List/List';
-import {
-    createCard,
-    deleteCard, updateBoard
-} from '../../api/requests';
+import { createCard, deleteCard, updateBoard } from '../../api/requests';
 import { dataBaseList } from '../../Interfaces/IDatabase';
 import { successNotification } from '../../util/notificationHandler';
 import { AddListPlaceholder } from './List/AddListPlaceholder';
@@ -18,7 +15,17 @@ export const Board = (): JSX.Element => {
     if (!context) {
         throw new Error('Board context is not available');
     }
-    const { boardId, boardInfo, setBoardInfo, lists, setLists, backgroundUrl, setBackgroundUrl, loading, setLoading } = context;
+    const {
+        boardId,
+        boardInfo,
+        setBoardInfo,
+        lists,
+        setLists,
+        backgroundUrl,
+        setBackgroundUrl,
+        loading,
+        setLoading,
+    } = context;
 
     const onDeleteCard = async (cardId: string) => {
         await deleteCard(cardId, boardId!);
@@ -167,9 +174,7 @@ export const Board = (): JSX.Element => {
                                     onDeleteCard={onDeleteCard}
                                 />
                             ))}
-                            <AddListPlaceholder
-                                setLists={setLists}
-                            ></AddListPlaceholder>
+                            <AddListPlaceholder></AddListPlaceholder>
                             {provided.placeholder}
                         </div>
                     )}

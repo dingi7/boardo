@@ -1,19 +1,12 @@
 import { Plus } from 'lucide-react';
-import { Dispatch, SetStateAction, useContext } from 'react';
-import { dataBaseList } from '../../../Interfaces/IDatabase';
+import { useContext } from 'react';
 import { BoardContext } from '../BoardContext';
 import { createList } from '../../../api/requests';
 
-type AddListPlaceholderProps = {
-    setLists: Dispatch<SetStateAction<dataBaseList[] | null>>;
-};
-
-export const AddListPlaceholder = ({
-    setLists,
-}: AddListPlaceholderProps): JSX.Element => {
+export const AddListPlaceholder = (): JSX.Element => {
     const context = useContext(BoardContext);
 
-    const {boardId} = context!;
+    const { boardId, setLists } = context!;
 
     const createListFunc = async () => {
         const newList = await createList(boardId!, 'New List');
@@ -21,14 +14,13 @@ export const AddListPlaceholder = ({
             if (!prev) return [newList];
             return [...prev, newList];
         });
-    }
+    };
 
     return (
         <div
             className='inline-flex flex-col items-start gap-[10px] on:hover: cursor-pointer'
             key={'add list'}
             onClick={() => createListFunc()}
-            
         >
             <div className=' bg-slate-300 rounded-[7px] shadow-lg '>
                 <div className='p-5'>
