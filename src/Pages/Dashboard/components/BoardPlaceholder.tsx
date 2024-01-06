@@ -13,22 +13,23 @@ export const Board = ({
         <>
             {img ? (
                 <div
-                    className='w-[100%] h-[100%] relative mt-2 rounded overflow-hidden bg-gradient-to-r from-slate-600 to-slate-900 text-white'
+                    className='w-[100%] aspect-[1/0.6] relative mt-2 rounded overflow-hidden bg-gradient-to-r from-slate-600 to-slate-900 text-white'
                     onMouseEnter={() => setIsHovering(true)}
                     onMouseLeave={() => setIsHovering(false)}
                 >
-                    <img
-                        src={img}
-                        alt='board display'
-                        className='w-full h-full object-cover duration-500 ease-in-out hover:blur '
-                        draggable={false}
-                    />
+                    <div className="brightness-50 w-full h-full">
+                        <img
+                            src={img}
+                            alt='board display'
+                            className='w-full h-full object-cover duration-500 ease-in-out'
+                            draggable={false}
+                        />
+                    </div>
 
-                    {isHovering && (
-                        <p className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center font-bold select-none pointer-events-none text-white'>
-                            {name}
-                        </p>
-                    )}
+                    <p className='absolute top-[5%] left-[4%] text-center font-bold select-none pointer-events-none text-white'>
+                        {name}
+                    </p>
+
                 </div>
             ) : (
                 <div className='w-30 h-40 mt-2 rounded bg-gradient-to-r from-slate-600 to-slate-900 text-white relative'>

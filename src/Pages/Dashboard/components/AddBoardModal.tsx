@@ -1,6 +1,7 @@
 import { X } from 'lucide-react';
 import { useState } from 'react';
 import { createBoard } from '../../../api/requests';
+import { Button } from '../../../Components/ui/button';
 
 export const AddBoardModal = ({
     closeModal,
@@ -32,7 +33,7 @@ export const AddBoardModal = ({
     };
 
     return (
-        <div className='fixed top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[40%] h-[60%] border-2 border-solid border-gray-300 p-8 rounded-md bg-slate-100'>
+        <div className='fixed top-[40%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[40%] h-[60%] border-2 border-solid border-gray-300 p-8 rounded-md bg-slate-100 select-none'>
             <div
                 className='absolute right-[5%] hover:cursor-pointer'
                 onClick={closeModal}
@@ -42,7 +43,7 @@ export const AddBoardModal = ({
 
             <div className='flex flex-row justify-center mt-[2%] w-[100%] gap-[10%] font-bold text-2xl'>
                 <div
-                    className={`text-center hover:underline decoration-from-font`}
+                    className={`text-center decoration-from-font`}
                 >
                     <h1>Create board</h1>
                 </div>
@@ -71,7 +72,9 @@ export const AddBoardModal = ({
                         value={data.backgroundUrl}
                     />
 
-                    <button type='submit'>Create</button>
+                    <div className=''>
+                        <Button variant="gray" type='submit'>Create</Button>
+                    </div>
                 </form>
             </div>
         </div>
