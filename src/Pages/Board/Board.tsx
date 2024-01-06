@@ -1,42 +1,24 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useContext } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { BoardHeader } from './_components/board-navbar';
 import { List } from './List/List';
 import {
     createCard,
-    deleteCard,
-    getBoardById,
-    updateBoard,
+    deleteCard, updateBoard
 } from '../../api/requests';
-import { dataBaseBoard, dataBaseList } from '../../Interfaces/IDatabase';
+import { dataBaseList } from '../../Interfaces/IDatabase';
 import { successNotification } from '../../util/notificationHandler';
 import { AddListPlaceholder } from './List/AddListPlaceholder';
 import { Loading } from './_components/loading';
+import { BoardContext } from './BoardContext';
 
 export const Board = (): JSX.Element => {
-    const { boardId } = useParams<{ boardId: string }>();
-    const [boardInfo, setBoardInfo] = useState<dataBaseBoard | null>(null);
-    const [lists, setLists] = useState<dataBaseList[] | null>(null);
-    const [backgroundUrl, setBackgroundUrl] = useState<string>('');
-    const [loading, setLoading] = useState<boolean>(true);
-    console.log(backgroundUrl);
-    const fetchBoardData = useCallback(async () => {
-        if (!boardId) return;
-        try {
-            const data = await getBoardById(boardId);
-            setBoardInfo(data);
-            setLists(data.lists);
-            setBackgroundUrl(data.backgroundUrl || '');
-        } catch (error) {
-            console.error('Failed to fetch board data:', error);
-        }
-        setLoading(false);
-    }, [boardId]);
+    const context = useContext(BoardContext);
 
-    useEffect(() => {
-        fetchBoardData();
-    }, [fetchBoardData]);
+    if (!context) {
+        throw new Error('Board context is not available');
+    }
+    const { boardId, boardInfo, setBoardInfo, lists, setLists, backgroundUrl, setBackgroundUrl, loading, setLoading } = context;
 
     const onDeleteCard = async (cardId: string) => {
         await deleteCard(cardId, boardId!);

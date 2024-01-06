@@ -15,7 +15,7 @@ export const endpoints = {
     card: (cardId: string | null) =>
         cardId ? `/items/cards/${cardId}` : '/items/cards',
     list: (listId: string | null) =>
-        listId ? `/items/list/${listId}` : '/items/lists',
+        listId ? `/items/list/${listId}` : '/items/list',
 
     addMemberToBoard: (boardId: string) => `/items/addMember/${boardId}`,
     // removeMemberFromBoard: (boardId: string) =>

@@ -7,6 +7,7 @@ import { AuthProvider } from 'react-auth-kit';
 
 //Board components
 import { Board } from './Pages/Board/Board';
+import { BoardLayout } from './Pages/Board/Layout';
 
 //AUTH COMPONENTS
 import { Register } from './Pages/Auth/Register';
@@ -37,7 +38,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<LandingPage />} />
                         <Route path="/landing" element={<LandingPage />} />
-                        <Route path="/board/:boardId" element={<Board />} />
+                        <Route path="/board/:boardId" element={<BoardLayout/>} />
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/auth/login" element={<Login />} />
 
