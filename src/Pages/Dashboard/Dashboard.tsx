@@ -81,6 +81,7 @@ export const Dashboard = () => {
 
     useEffect(() => {
         if (!user) return;
+        fetchAllOrganizations();
         fetchOrganizations();
     }, [user, fetchOrganizations]);
 

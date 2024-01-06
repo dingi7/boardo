@@ -2,10 +2,11 @@ import { X, Search } from 'lucide-react';
 import { useState, FormEvent } from 'react';
 import useFormData from '../../../util/hooks/useFormData';
 import { createOrganization } from '../../../api/requests';
+import { dataBaseOrganization } from '../../../Interfaces/IDatabase';
 
 type AddWorkspaceModalProps = {
     closeModal: () => void;
-    allOrganizations: any;
+    allOrganizations: dataBaseOrganization[];
     fetchAllOrganizations: any;
     setUserOrganizations: (organizations: any) => void;
 };
@@ -26,7 +27,9 @@ export const AddWorkspaceModal = ({
         password: '',
     });
 
-    const[loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
+    console.log(allOrganizations);
+    
 
     const handleCreateWorkspace = async (e: FormEvent) => {
         e.preventDefault();
@@ -56,7 +59,7 @@ export const AddWorkspaceModal = ({
                 <TabSelector option={option} setOption={setOption} />
 
                 {option === 'join' ? (
-                    <JoinWorkspaceForm onSubmit={handleJoinWorkspace} />
+                    <JoinWorkspaceForm onSubmit={handleJoinWorkspace} allOrganizations={allOrganizations} />
                 ) : (
                     <CreateWorkspaceForm
                         onSubmit={handleCreateWorkspace}
@@ -108,9 +111,10 @@ type FormProps = {
     onSubmit: (e: FormEvent) => void;
     handleInputChange?: (e: any) => void;
     loading?: boolean;
+    allOrganizations?: dataBaseOrganization[];
 };
 
-const JoinWorkspaceForm = ({ onSubmit }: FormProps) => (
+const JoinWorkspaceForm = ({ onSubmit, allOrganizations }: FormProps) => (
     <form className='flex flex-col w-3/4 mx-auto' onSubmit={onSubmit}>
         <label htmlFor='workspaceName' className='font-medium'>
             Workspace name
@@ -122,6 +126,21 @@ const JoinWorkspaceForm = ({ onSubmit }: FormProps) => (
                 className='flex-grow border-2 border-black p-2'
                 required
             />
+            {/* loop through the first 6 organizations and display them */}
+            <div className='flex flex-col gap-2'>
+                {allOrganizations!.map((org: dataBaseOrganization) => (
+                    <div className='flex items-center gap-2' key={org._id}>
+                        <input
+                            type='radio'
+                            name='workspace'
+                            id={org._id}
+                            className='border-2 border-black p-2'
+                            required
+                        />
+                        <label htmlFor={org._id}>{org.name}</label>
+                    </div>
+                ))}
+            </div>
 
             <button
                 type='submit'
@@ -133,7 +152,11 @@ const JoinWorkspaceForm = ({ onSubmit }: FormProps) => (
     </form>
 );
 
-const CreateWorkspaceForm = ({ onSubmit, handleInputChange, loading }: FormProps) => (
+const CreateWorkspaceForm = ({
+    onSubmit,
+    handleInputChange,
+    loading,
+}: FormProps) => (
     <form className='flex flex-col w-3/4 mx-auto mt-4' onSubmit={onSubmit}>
         {/* Repeat the above input for workspace name */}
         <label htmlFor='name' className='font-medium mt-4'>

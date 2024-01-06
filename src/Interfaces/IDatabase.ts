@@ -22,6 +22,6 @@ export interface dataBaseCard{
 export interface dataBaseOrganization{
     _id: string;
     name: string;
-    owner: string;
-    members: string[];
+    owner?: string;
+    members?: string[];
 }

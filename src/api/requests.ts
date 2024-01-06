@@ -8,7 +8,7 @@ export const endpoints = {
     orgs: `/auth/orgs`,
     createBoard: '/items/boards',
 
-    allOrgs: '/items/allOrgs',
+    allOrgs: '/auth/allOrgs',
     getBoardsByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     board: (boardId: string | null) =>
         boardId ? `/items/boards/${boardId}` : '/items/boards',
