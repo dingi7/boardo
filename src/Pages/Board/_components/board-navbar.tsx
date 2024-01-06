@@ -35,9 +35,9 @@ export const BoardHeader = ({
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "g3xeufp5");
-        const respons = await uploadBoardBackground(formData);
-        setBackgroundUrl(respons.url);
-        await updateBoardBackground(boardId, respons.url);
+        const response = await uploadBoardBackground(formData);
+        setBackgroundUrl(response.url);
+        await updateBoardBackground(boardId, response.url);
         setShowModal(false);
     };
 

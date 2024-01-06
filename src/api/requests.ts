@@ -111,7 +111,7 @@ export const getUserOrganizations = async () => {
     return api.get(endpoints.orgs);
 };
 export const updateBoardBackground = async (boardId: string, bgUrl: string) => {
-    return api.post(endpoints.board(boardId), { backgroundUrl: bgUrl });
+    return api.put(endpoints.board(boardId), { backgroundUrl: bgUrl });
 };
 
 export const removeBoardBackground = async (boardId: string) => {
