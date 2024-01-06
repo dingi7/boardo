@@ -5,21 +5,24 @@ import * as api from './api';
 export const endpoints = {
     registerUser: '/auth/register',
     loginUser: '/auth/login',
-    getUserOrganizations: `/auth/orgs`,
-    // logoutUser: '/users/logout',
+    orgs: `/auth/orgs`,
     createBoard: '/items/boards',
-    getByOwnerId: (id: string) => `/items/getBoardsByOwnerId/${id}`,
-    getByMemberId: (id: string) => `/items/getBoardsByMemberId/${id}`,
+
+
+    getBoardsByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
+    board: (boardId: string | null) =>
+        boardId ? `/items/boards/${boardId}` : '/items/boards',
+    card: (cardId: string | null) =>
+        cardId ? `/items/cards/${cardId}` : '/items/cards',
+
     addMemberToBoard: (boardId: string) => `/items/addMember/${boardId}`,
-    removeMemberFromBoard: (boardId: string) =>
-        `/items/removeMember/${boardId}`,
-    editBoard: (boardId: string) => `/items/boards/${boardId}`,
-    deleteBoard: (boardId: string) => `/items/deleteBoard/${boardId}`,
-    getBoardByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
-    getBoardById: (boardId: string) => `/items/boards/${boardId}`,
-    createCard: '/items/cards',
-    deleteCard: (cardId: string) => `/items/cards/${cardId}`,
+    // removeMemberFromBoard: (boardId: string) =>
+    //     `/items/removeMember/${boardId}`,
 };
+
+export const createOrganization = async (orgName: string, password: string) => {
+    return api.post(endpoints.orgs, { orgName, password });
+}
 
 export const registerUser = async (userData: RegisterUserData) => {
     return api.post(endpoints.registerUser, userData);
@@ -37,14 +40,6 @@ export const createBoard = async (data: {
     return api.post(endpoints.createBoard, data);
 };
 
-export const getBoardsByOwnerId = async (id: string) => {
-    return api.get(endpoints.getByOwnerId(id));
-};
-
-export const getBoardsByMemberId = async (id: string) => {
-    return api.get(endpoints.getByMemberId(id));
-};
-
 export const addMemberToBoard = async (boardId: string, memberId: string) => {
     return api.post(endpoints.addMemberToBoard(boardId), { userId: memberId });
 };
@@ -53,25 +48,25 @@ export const removeMemberFromBoard = async (
     boardId: string,
     memberId: string
 ) => {
-    return api.post(endpoints.removeMemberFromBoard(boardId), {
-        userId: memberId,
-    });
+    // return api.post(endpoints.removeMemberFromBoard(boardId), {
+    //     userId: memberId,
+    // });
 };
 
 export const editBoard = async (boardId: string, boardName: string) => {
-    return api.put(endpoints.editBoard(boardId), { boardName });
+    return api.put(endpoints.board(boardId), { boardName });
 };
 
 export const deleteBoard = async (boardId: string) => {
-    return api.del(endpoints.deleteBoard(boardId));
+    return api.del(endpoints.board(boardId));
 };
 
 export const getBoardsByOrgId = async (orgId: string) => {
-    return api.get(endpoints.getBoardByOrg(orgId));
+    return api.get(endpoints.getBoardsByOrg(orgId));
 };
 
 export const getBoardById = async (boardId: string): Promise<dataBaseBoard> => {
-    const data: dataBaseBoard = await api.get(endpoints.getBoardById(boardId));
+    const data: dataBaseBoard = await api.get(endpoints.board(boardId));
     return data;
 };
 
@@ -84,7 +79,7 @@ export const updateBoard = async (
     const cardIds = lists.map((list: dataBaseList) =>
         list.cards.map((card) => card._id)
     );
-    return api.put(endpoints.editBoard(boardId), {
+    return api.put(endpoints.board(boardId), {
         boardName,
         listIds,
         cardIds,
@@ -92,22 +87,22 @@ export const updateBoard = async (
 };
 
 export const createCard = async (listId: string, content: string) => {
-    return api.post(endpoints.createCard, { content, listId });
+    return api.post(endpoints.card(null), { content, listId });
 };
 
 export const deleteCard = async (cardId: string, boardId: string) => {
-    return api.del(endpoints.deleteCard(cardId), { boardId });
+    return api.del(endpoints.card(cardId), { boardId });
 };
 
 export const getUserOrganizations = async () => {
-    return api.get(endpoints.getUserOrganizations);
+    return api.get(endpoints.orgs);
 };
 export const updateBoardBackground = async (boardId: string, bgUrl: string) => {
-    return api.post(endpoints.getBoardById(boardId), { backgroundUrl: bgUrl });
+    return api.post(endpoints.board(boardId), { backgroundUrl: bgUrl });
 };
 
 export const removeBoardBackground = async (boardId: string) => {
-    return api.post(endpoints.getBoardById(boardId), { backgroundUrl: '' });
+    return api.post(endpoints.board(boardId), { backgroundUrl: '' });
 };
 
 export const uploadBoardBackground = async (formData: FormData) => {
