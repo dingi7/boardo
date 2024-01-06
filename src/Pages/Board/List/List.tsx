@@ -5,6 +5,7 @@ import { MoreHorizontal } from 'lucide-react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { dataBaseCard } from '../../../Interfaces/IDatabase';
 import { CardForm } from '../_components/card-form';
+import { ListTitle } from '../_components/list-title';
 
 export const List = ({
     id,
@@ -32,7 +33,10 @@ export const List = ({
                                 <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
                                     <div className="flex items-center justify-between w-full whitespace-nowrap min-w-[200px]">
                                         <div className="w-full mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-medium text-slate-900 text-[24px] tracking-[0] leading-[normal]">
-                                            {title}
+                                            
+                                            <ListTitle title={title}>
+
+                                            </ListTitle>
                                         </div>
                                         <MoreHorizontal
                                             className="h-6 w-6 on:hover:bg-slate-200 cursor-pointer"
