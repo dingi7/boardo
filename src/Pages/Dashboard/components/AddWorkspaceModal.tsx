@@ -5,6 +5,9 @@ import { createOrganization } from '../../../api/requests';
 
 type AddWorkspaceModalProps = {
     closeModal: () => void;
+    allOrganizations: any;
+    fetchAllOrganizations: any;
+    setUserOrganizations: (organizations: any) => void;
 };
 
 type WorkspaceData = {
@@ -12,18 +15,25 @@ type WorkspaceData = {
     password: string;
 };
 
-export const AddWorkspaceModal = ({ closeModal }: AddWorkspaceModalProps) => {
+export const AddWorkspaceModal = ({
+    closeModal,
+    allOrganizations,
+    setUserOrganizations,
+}: AddWorkspaceModalProps) => {
     const [option, setOption] = useState<'create' | 'join'>('create');
     const [workspaceData, handleInputChange] = useFormData<WorkspaceData>({
         name: '',
         password: '',
     });
 
+    const[loading, setLoading] = useState<boolean>(false);
+
     const handleCreateWorkspace = async (e: FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         const result = await createOrganization(workspaceData);
-        console.log(result);
-        
+        setUserOrganizations((prev: any) => [...prev, result]);
+        setLoading(false);
         closeModal();
     };
 
@@ -48,7 +58,11 @@ export const AddWorkspaceModal = ({ closeModal }: AddWorkspaceModalProps) => {
                 {option === 'join' ? (
                     <JoinWorkspaceForm onSubmit={handleJoinWorkspace} />
                 ) : (
-                    <CreateWorkspaceForm onSubmit={handleCreateWorkspace} handleInputChange={handleInputChange} />
+                    <CreateWorkspaceForm
+                        onSubmit={handleCreateWorkspace}
+                        handleInputChange={handleInputChange}
+                        loading={loading}
+                    />
                 )}
             </div>
         </div>
@@ -83,9 +97,7 @@ type TabProps = {
 
 const Tab = ({ title, isActive, onClick }: TabProps) => (
     <div
-        className={`text-center hover:underline ${
-            isActive ? 'underline' : ''
-        }`}
+        className={`text-center hover:underline ${isActive ? 'underline' : ''}`}
         onClick={onClick}
     >
         <h1>{title}</h1>
@@ -95,6 +107,7 @@ const Tab = ({ title, isActive, onClick }: TabProps) => (
 type FormProps = {
     onSubmit: (e: FormEvent) => void;
     handleInputChange?: (e: any) => void;
+    loading?: boolean;
 };
 
 const JoinWorkspaceForm = ({ onSubmit }: FormProps) => (
@@ -109,7 +122,7 @@ const JoinWorkspaceForm = ({ onSubmit }: FormProps) => (
                 className='flex-grow border-2 border-black p-2'
                 required
             />
-            
+
             <button
                 type='submit'
                 className='bg-indigo-500 p-2 rounded-md text-white'
@@ -120,7 +133,7 @@ const JoinWorkspaceForm = ({ onSubmit }: FormProps) => (
     </form>
 );
 
-const CreateWorkspaceForm = ({ onSubmit, handleInputChange }: FormProps) => (
+const CreateWorkspaceForm = ({ onSubmit, handleInputChange, loading }: FormProps) => (
     <form className='flex flex-col w-3/4 mx-auto mt-4' onSubmit={onSubmit}>
         {/* Repeat the above input for workspace name */}
         <label htmlFor='name' className='font-medium mt-4'>
@@ -142,9 +155,13 @@ const CreateWorkspaceForm = ({ onSubmit, handleInputChange }: FormProps) => (
             required
             onChange={handleInputChange}
         />
-        
-        <button type='submit' className='mt-4 py-2 px-4 bg-blue-500 text-white rounded'>
-            Create
+
+        <button
+            type='submit'
+            className='mt-4 py-2 px-4 bg-blue-500 text-white rounded'
+            disabled={loading}
+        >
+            {loading ? 'Creating...' : 'Create'}
         </button>
     </form>
 );

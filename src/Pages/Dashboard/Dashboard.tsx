@@ -5,7 +5,11 @@ import { Building2, Plus, User2 } from 'lucide-react';
 import { Board } from './components/BoardPlaceholder';
 import { CreatePlaceholder } from './components/CreatePlaceholder';
 import { Organisation } from './components/Organisation';
-import { getBoardsByOrgId, getUserOrganizations } from '../../api/requests';
+import {
+    getAllOrganizations,
+    getBoardsByOrgId,
+    getUserOrganizations,
+} from '../../api/requests';
 import { errorNotification } from '../../util/notificationHandler';
 import { dataBaseBoard } from '../../Interfaces/IDatabase';
 
@@ -23,6 +27,11 @@ interface IOrg {
     orgLogo: string;
 }
 
+interface IOrgLean{
+    name: string;
+    _id: string;
+}
+
 export const Dashboard = () => {
     const auth = useAuthUser();
     const user = auth()!;
@@ -33,7 +42,8 @@ export const Dashboard = () => {
     const [isAddBoardModalOpen, setisAddBoardModalOpen] =
         useState<boolean>(false);
 
-    const [organizations, setOrganizations] = useState<IOrg[]>([]);
+    const [allOrganizations, setAllOrganizations] = useState<IOrgLean[]>([]); 
+    const [userOrganizations, setUserOrganizations] = useState<IOrg[]>([]);
     const [selectedOrganisation, setSelectedOrganisation] =
         useState<IOrg | null>(null);
     const [boards, setBoards] = useState<dataBaseBoard[]>([]);
@@ -42,17 +52,21 @@ export const Dashboard = () => {
     const fetchBoards = useCallback(async (orgId: string) => {
         try {
             const data = await getBoardsByOrgId(orgId);
-            setBoards(data.boards);
+            setBoards(data.boards || []);
         } catch (err: any) {
             errorNotification(err);
         }
+    }, []);
+
+    const fetchAllOrganizations = useCallback(async () => {
+        setAllOrganizations(await getAllOrganizations())
     }, []);
 
     const fetchOrganizations = useCallback(async () => {
         try {
             const organizations = await getUserOrganizations();
             if (organizations.length > 0) {
-                setOrganizations(organizations);
+                setUserOrganizations(organizations);
                 setSelectedOrganisation(organizations[0]);
                 await fetchBoards(organizations[0]._id);
             } else {
@@ -94,13 +108,13 @@ export const Dashboard = () => {
                             />
                         </h1>
                         <div className='mt-[4%] hover:cursor-pointer'>
-                            {organizations.length === 0 && (
+                            {userOrganizations.length === 0 && (
                                 <p className='text-gray-500'>
                                     You don't have any workspaces yet. Create
                                     your first one!
                                 </p>
                             )}
-                            {organizations.map((org) => (
+                            {userOrganizations.map((org) => (
                                 <Organisation
                                     key={org._id}
                                     orgName={org.name}
@@ -140,7 +154,7 @@ export const Dashboard = () => {
                                         <Link
                                             to={`/board/${board._id}`}
                                             key={board._id}
-                                            className="w-[30%]"
+                                            className='w-[30%]'
                                         >
                                             <Board
                                                 name={board.name}
@@ -184,13 +198,17 @@ export const Dashboard = () => {
 
             {isAddWorkspaceModalOpen && (
                 <AddWorkspaceModal
+                    allOrganizations={allOrganizations}
+                    fetchAllOrganizations={fetchAllOrganizations}
                     closeModal={() => setIsAddWorkspaceModalOpen(false)}
+                    setUserOrganizations={setUserOrganizations}
                 />
             )}
             {isAddBoardModalOpen && (
                 <AddBoardModal
                     orgId={selectedOrganisation!._id}
                     closeModal={() => setisAddBoardModalOpen(false)}
+                    setUserOrganizations={setUserOrganizations}
                 />
             )}
         </div>

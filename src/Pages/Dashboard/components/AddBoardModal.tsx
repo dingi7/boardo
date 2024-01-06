@@ -5,9 +5,11 @@ import { createBoard } from '../../../api/requests';
 export const AddBoardModal = ({
     closeModal,
     orgId,
+    setUserOrganizations
 }: {
     orgId: string;
     closeModal: () => void;
+    setUserOrganizations: (organizations: any) => void;
 }) => {
     const [data, setData] = useState({
         name: '',

@@ -8,7 +8,7 @@ export const endpoints = {
     orgs: `/auth/orgs`,
     createBoard: '/items/boards',
 
-
+    allOrgs: '/items/allOrgs',
     getBoardsByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     board: (boardId: string | null) =>
         boardId ? `/items/boards/${boardId}` : '/items/boards',
@@ -22,6 +22,10 @@ export const endpoints = {
 
 export const createOrganization = async (data : {name: string, password: string}) => {
     return api.post(endpoints.orgs, data);
+}
+
+export const getAllOrganizations = async () => {
+    return api.get(endpoints.allOrgs);
 }
 
 export const registerUser = async (userData: RegisterUserData) => {
