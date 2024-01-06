@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAuthUser } from 'react-auth-kit';
-import { Building2, Plus, User2 } from 'lucide-react';
+import { Building2, HelpCircle, Plus, User2 } from 'lucide-react';
 
 import { Board } from './components/BoardPlaceholder';
 import { CreatePlaceholder } from './components/CreatePlaceholder';
@@ -19,6 +19,7 @@ import { AddBoardModal } from './components/AddBoardModal';
 import { Link } from 'react-router-dom';
 import { Loading } from '../Board/_components/loading';
 import { Navbar } from '../LandingPage/components/navbar';
+import { FormPopover } from './formPopover/form-popover';
 
 // Define interfaces at the start or in a separate file
 interface IOrg {
@@ -112,7 +113,7 @@ export const Dashboard = () => {
                             {userOrganizations.length === 0 && (
                                 <p className='text-gray-500'>
                                     You don't have any workspaces yet. Create
-                                    your first one! 
+                                    your first one!
                                 </p>
                             )}
                             {userOrganizations.map((org) => (
@@ -166,11 +167,33 @@ export const Dashboard = () => {
                                             />
                                         </Link>
                                     ))}
-                                    <CreatePlaceholder
+                                    {/* <CreatePlaceholder
                                         openModal={() =>
                                             setisAddBoardModalOpen(true)
                                         }
-                                    />
+                                    /> */}
+                                
+                                    <FormPopover sideOffset={10} side='right'>
+                                        <div
+                                            role='button'
+                                            className='aspect-video relative h-full w-full bg-muted rounded-sm flex flex-col gap-y-1 items-center justify-center hover:opacity-75 transition'
+                                        >
+                                            <p className='text-sm'>
+                                                Create new board
+                                            </p>
+                                            <span className='text-xs'>
+                                                {`3 remaining`}
+                                            </span>
+                                            {/* <Hint
+                                                sideOffset={40}
+                                                description={`
+                                                Free Workspaces can have up to 5 open boards. For unlimited boards upgrade this workspace.
+                                                `} */}
+                                            {/* > */}
+                                            <HelpCircle className='absolute bottom-2 right-2 h-[14px] w-[14px]' />
+                                            {/* </Hint> */}
+                                        </div>
+                                    </FormPopover>
                                 </div>
                             </div>
                         </>
