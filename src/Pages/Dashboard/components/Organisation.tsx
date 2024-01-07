@@ -30,9 +30,9 @@ export const Organisation = ({
                 if (selectedOrganisation === orgId) return;
                 onClick();
             }}
-            className='mb-3'
+            className='mb-3 pr-[4%]'
         >
-            <h1 className='flex flex-row justify-between font-medium gap-[4%]'>
+            <h1 className='w-full flex flex-row justify-between font-medium gap-[4%]'>
                 <div className='bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded min-content'>
                     <img
                         src={orgLogo}

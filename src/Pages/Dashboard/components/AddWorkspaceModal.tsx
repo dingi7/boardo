@@ -53,7 +53,7 @@ export const AddWorkspaceModal = ({
 
     return (
         <div className='fixed inset-0 flex items-center justify-center'>
-            <div className='relative w-[40%] h-[60%] border-2 border-gray-300 bg-slate-100 rounded-md p-8'>
+            <div className='relative w-[90%] md:w-[50%] lg:w-[40%] h-[60%] border-2 border-gray-300 bg-slate-100 rounded-md p-8'>
                 <button
                     className='absolute top-4 right-4 hover:cursor-pointer'
                     onClick={closeModal}
@@ -133,7 +133,7 @@ const JoinWorkspaceForm = ({ onSubmit, allOrganizations }: FormProps) => (
         <div className='h-[100%] flex flex-col gap-3  items-start justify-center overflow-hidden'>
             <SearchComponent />
             {/* loop through the first 6 organizations and display them */}
-            <div className='h-[70%] w-[40%] overflow-y-auto no-scrollbar mx-auto'>
+            <div className='h-[50%] w-[40%] overflow-y-auto no-scrollbar mx-auto'>
                 {allOrganizations!.map((org: dataBaseOrganization) => (
                     // <div
                     //   className="flex items-center gap-2 p-[4%] hover:bg-slate-200 rounded-lg cursor-pointer"
