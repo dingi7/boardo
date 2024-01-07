@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { BoardHeader } from './_components/board-navbar';
-import { List } from './List/List';
+import { List } from './_components/List/List';
 import { createCard, deleteCard, updateBoard } from '../../api/requests';
 import { dataBaseList } from '../../Interfaces/IDatabase';
 import { successNotification } from '../../util/notificationHandler';
-import { AddListPlaceholder } from './List/AddListPlaceholder';
+import { AddListPlaceholder } from './_components/List/AddListPlaceholder';
 import { Loading } from './_components/loading';
 import { BoardContext } from './BoardContext';
 import { Navbar } from '../../Components/navbar';

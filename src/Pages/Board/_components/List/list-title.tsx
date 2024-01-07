@@ -1,5 +1,5 @@
-import { FormInput } from '../../../Components/form/form-input';
-import { Button } from '../../../Components/ui/button';
+import { FormInput } from '../../../../Components/form/form-input';
+import { Button } from '../../../../Components/ui/button';
 import { useState } from 'react';
 
 export const ListTitle = ({ title, setTitle }: any): JSX.Element => {

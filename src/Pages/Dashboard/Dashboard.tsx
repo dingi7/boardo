@@ -38,8 +38,6 @@ export const Dashboard = () => {
     //modals states
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
         useState<boolean>(false);
-    const [isAddBoardModalOpen, setisAddBoardModalOpen] =
-        useState<boolean>(false);
 
     const [allOrganizations, setAllOrganizations] = useState<IOrgLean[]>([]);
     const [userOrganizations, setUserOrganizations] = useState<IOrg[]>([]);
@@ -93,9 +91,7 @@ export const Dashboard = () => {
         <div className={`h-screen duration-500 ease-in-out`}>
             <Navbar />
             <div
-                className={`h-screen mt-0 flex flex-row gap-[5%] duration-500 ease-in-out ${
-                    isAddBoardModalOpen || isAddWorkspaceModalOpen ? 'blur' : ''
-                }`}
+                className={`h-screen mt-0 flex flex-row gap-[5%] duration-500 ease-in-out`}
             >
                 <div className='w-[30%] ml-[2%] h-[90%] mt-auto border-r-2 pt-[5%] md:w-[25%] lg:w-[20%] md:pt-[2%] xl:pt-[1%] 2xl:pt-0'>
                     <div className='pl-[2%] pt-[3%] select-none'>
@@ -165,7 +161,7 @@ export const Dashboard = () => {
                                             </p>
                                         </Link>
                                     ))}
-                                    <AddBoard />
+                                    <AddBoard remainingBoards={5-boards.length} />
                                 </div>
                             </div>
                         </>

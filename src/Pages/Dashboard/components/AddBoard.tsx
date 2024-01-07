@@ -2,7 +2,7 @@ import { HelpCircle } from 'lucide-react';
 import { FormPopover } from '../../../Components/form/form-popover';
 import { Hint } from '../../../Components/hint';
 
-export const AddBoard = ({}) => {
+export const AddBoard = ({ remainingBoards }: { remainingBoards: number }) => {
     return (
         <FormPopover sideOffset={10} side='right'>
             <div
@@ -10,7 +10,7 @@ export const AddBoard = ({}) => {
                 className=' bg-slate-200 aspect-video relative h-full w-full bg-muted rounded-sm flex flex-col gap-y-1 items-center justify-center hover:opacity-75 transition'
             >
                 <p className='text-sm'>Create new board</p>
-                <span className='text-xs'>{`3 remaining`}</span>
+                <span className='text-xs'>{`${remainingBoards} remaining`}</span>
                 <Hint
                     sideOffset={40}
                     description={`

@@ -1,11 +1,11 @@
-import { ListItem } from '../../../Interfaces/IList';
-import { Card } from './Card';
+import { ListItem } from '../../../../Interfaces/IList';
+import { Card } from '../Card';
 
 import { MoreHorizontal } from 'lucide-react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
-import { dataBaseCard } from '../../../Interfaces/IDatabase';
-import { CardForm } from '../_components/card-form';
-import { ListTitle } from '../_components/list-title';
+import { dataBaseCard } from '../../../../Interfaces/IDatabase';
+import { CardForm } from '../card-form';
+import { ListTitle } from './list-title';
 
 export const List = ({
     id,
