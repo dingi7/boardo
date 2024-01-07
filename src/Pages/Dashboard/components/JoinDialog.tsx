@@ -21,7 +21,7 @@ export function JoinDialog({
     orgId: string;
 }) {
     return (
-        <Dialog>
+        <Dialog >
             <DialogTrigger asChild>
                 <div
                     className='flex items-center gap-2 p-[4%] hover:bg-slate-200 rounded-lg cursor-pointer'

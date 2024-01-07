@@ -6,6 +6,9 @@ import { dataBaseOrganization } from '../../../Interfaces/IDatabase';
 import { SearchComponent } from './Search';
 import { IOrgLean } from '../context/DashboardContext';
 import { JoinDialog } from './JoinDialog';
+import { Input } from '../../../Components/ui/input';
+import { Label } from '../../../Components/ui/label';
+import { Button } from '../../../Components/ui/button';
 
 type AddWorkspaceModalProps = {
     closeModal: () => void;
@@ -151,32 +154,30 @@ const CreateWorkspaceForm = ({
 }: FormProps) => (
     <form className='flex flex-col w-3/4 mx-auto mt-4' onSubmit={onSubmit}>
         {/* Repeat the above input for workspace name */}
-        <label htmlFor='name' className='font-medium mt-4'>
+        <Label htmlFor='name' className='font-medium mt-4'>
             Workspace name
-        </label>
-        <input
-            id='name'
-            className='border-2 border-black p-2'
-            required
-            onChange={handleInputChange}
-        />
-        <label htmlFor='password' className='font-medium mt-4'>
+        </Label>
+        <Input
+        id='name'
+        required
+        onChange={handleInputChange}></Input>
+        <Label htmlFor='password' className='font-medium mt-4'>
             Workspace password
-        </label>
-        <input
+        </Label>
+        <Input
             id='password'
             type='password'
-            className='border-2 border-black p-2'
             required
             onChange={handleInputChange}
         />
 
-        <button
+        <Button
             type='submit'
-            className='mt-4 py-2 px-4 bg-blue-500 text-white rounded'
+            variant={'primary'}
+            className='mt-4 py-2 px-4 text-white'
             disabled={loading}
         >
             {loading ? 'Creating...' : 'Create'}
-        </button>
+        </Button>
     </form>
 );
