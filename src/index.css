@@ -52,7 +52,7 @@ code {
   }
 
   .min-content {
-    max-height: min-content;
+    height: min-content;
   }
 }
 @tailwind base;

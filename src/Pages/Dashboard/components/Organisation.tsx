@@ -32,15 +32,15 @@ export const Organisation = ({
             }}
             className='mb-3'
         >
-            <h1 className='flex flex-row gap-[8%] font-medium'>
-                <div className='bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded'>
+            <h1 className='flex flex-row justify-between font-medium gap-[4%]'>
+                <div className='bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded min-content'>
                     <img
                         src={orgLogo}
                         // alt="organization logo"
                     />
                 </div>
                 <div
-                    className='flex flex-row gap-[5%] w-full'
+                    className='flex flex-row gap-[5%] w-full justify-between' 
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {orgName} {isOpen ? <ChevronUp /> : <ChevronDown />}
