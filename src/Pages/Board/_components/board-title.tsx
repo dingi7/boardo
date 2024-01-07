@@ -1,15 +1,29 @@
 import { FormInput } from '../../../Components/form/form-input';
 import { Button } from '../../../Components/ui/button';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { BoardContext } from '../context/BoardContext';
+import {  updateBoardName } from '../../../api/requests';
+import { useToast } from 'src/Components/use-toast';
+// import { useToast } from '@/src/Components/use-toast';
 
 export const BoardTitle = ({ boardName, setBoardName }: any): JSX.Element => {
+    const context = useContext(BoardContext)
+    const {toast} = useToast()
+    if (!context) {
+        throw new Error('Board context is not available');
+    }
+    const {boardId} = context;
+
     const [isEditing, setIsEditing] = useState(false);
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const title = formData.get('title') as string;
-        // send db rec
+        updateBoardName(boardId!, title);
+        toast({
+            title: 'Board name updated successfully',
+        })
         setBoardName(title);
         setIsEditing(false);
     };

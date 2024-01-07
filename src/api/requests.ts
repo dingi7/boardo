@@ -105,6 +105,10 @@ export const updateBoard = async (
     });
 };
 
+export const updateBoardName = async (boardId: string, boardName: string) => {
+    return api.put(endpoints.board(boardId), { boardName });
+}
+
 export const createCard = async (listId: string, content: string) => {
     return api.post(endpoints.card(null), { content, listId });
 };
