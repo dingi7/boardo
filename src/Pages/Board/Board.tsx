@@ -4,7 +4,6 @@ import { BoardHeader } from './_components/board-navbar';
 import { List } from './_components/List/List';
 import { createCard, deleteCard, updateBoard } from '../../api/requests';
 import { dataBaseList } from '../../Interfaces/IDatabase';
-import { successNotification } from '../../util/notificationHandler';
 import { AddListPlaceholder } from './_components/List/AddListPlaceholder';
 import { Loading } from './_components/loading';
 import { BoardContext } from './context/BoardContext';

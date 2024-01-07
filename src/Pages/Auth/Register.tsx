@@ -8,11 +8,13 @@ import React from 'react';
 import { useAuth } from './hooks/useAuth';
 import useFormData from '../../util/hooks/useFormData';
 import { RegisterUserData } from '../../Interfaces/IUserData';
-import { errorNotification } from '../../util/notificationHandler';
 import { AuthInput } from '../../Components/auth/auth-input';
 import { Navbar } from '../../Components/navbar';
+import { useToast } from '../../../src/Components/use-toast';
+
 
 export const Register = () => {
+    const { toast } = useToast()
     const [loading, setLoading] = React.useState<boolean>(false);
     const authenticateUser = useAuth();
     const navigate = useNavigate();
@@ -20,7 +22,9 @@ export const Register = () => {
     useEffect(() => {
         if (isAuth()) {
             navigate('/');
-            errorNotification('You are already logged in');
+            toast({
+                title: 'You are already logged in',
+            })
         }
     }, [isAuth, navigate]);
     const [loginData, handleInputChange] = useFormData<RegisterUserData>({
@@ -41,7 +45,9 @@ export const Register = () => {
             await authenticateUser(response);
             navigate('/');
         } catch (err: any) {
-            errorNotification(err.message);
+            toast({
+                title: err.message
+            })
         }
         setLoading(false);
     };

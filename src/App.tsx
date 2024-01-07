@@ -6,33 +6,22 @@ import { LandingPage } from './Pages/LandingPage/layout';
 import { AuthProvider } from 'react-auth-kit';
 
 //Board components
-import { Board } from './Pages/Board/Board';
 import { BoardLayout } from './Pages/Board/Layout';
 
 //AUTH COMPONENTS
 import { Register } from './Pages/Auth/Register';
 import { Login } from './Pages/Auth/Login';
 
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { DashboardLayout } from './Pages/Dashboard/Layout';
+import { Toaster } from './Components/toaster';
 
 
 function App() {
     return (
         <AuthProvider authType={'localstorage'} authName={'x-authorization'}>
-            <ToastContainer
-                position="top-center"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={true}
-                closeOnClick
-                rtl={false}
-                draggable
-                pauseOnHover
-                theme="dark"
-            />
+            <Toaster/>
             <div className="App">
                 <BrowserRouter>
                     <Routes>

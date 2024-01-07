@@ -7,20 +7,23 @@ import { loginUser } from '../../api/requests';
 import { LoginUserData } from '../../Interfaces/IUserData';
 import { useAuth } from './hooks/useAuth';
 import useFormData from '../../util/hooks/useFormData';
-import { errorNotification } from '../../util/notificationHandler';
 import { Navbar } from '../../Components/navbar';
 import { AuthInput } from '../../Components/auth/auth-input';
+import { useToast } from '../../../src/Components/use-toast';
 
 export const Login = () => {
     const [loading, setLoading] = React.useState<boolean>(false);
     const authenticateUser = useAuth();
+    const { toast } = useToast()
 
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
     useEffect(() => {
         if (isAuth()) {
             navigate('/');
-            errorNotification('You are already logged in');
+            toast({
+                title: 'You are already logged in',
+            })
         }
     }, [isAuth, navigate]);
     const [loginData, handleInputChange] = useFormData<LoginUserData>({
@@ -37,7 +40,9 @@ export const Login = () => {
             await authenticateUser(response);
             navigate('/');
         } catch (err: any) {
-            errorNotification(err.message);
+            toast({
+                title: err.message,
+            })
         }
         setLoading(false);
     };
