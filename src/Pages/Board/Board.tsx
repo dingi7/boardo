@@ -9,9 +9,11 @@ import { AddListPlaceholder } from './_components/List/AddListPlaceholder';
 import { Loading } from './_components/loading';
 import { BoardContext } from './context/BoardContext';
 import { Navbar } from '../../Components/navbar';
+import { useToast } from '../../Components/use-toast';
 
 export const Board = (): JSX.Element => {
     const context = useContext(BoardContext);
+    const {toast} = useToast();
 
     if (!context) {
         throw new Error('Board context is not available');
@@ -37,12 +39,17 @@ export const Board = (): JSX.Element => {
                 cards: list.cards.filter((card) => card._id !== cardId),
             }));
         });
-        successNotification('Card deleted successfully');
+        
+        toast({
+            title: 'Card deleted successfully',
+        })
     };
 
     const onCardAdd = async (listId: string, name: string) => {
         const card = await createCard(listId, name);
-        successNotification('Card created successfully');
+        toast({
+            title: 'Card created successfully',
+        })
         setLists((prev) => {
             if (!prev) return null;
             return prev.map((list) =>
