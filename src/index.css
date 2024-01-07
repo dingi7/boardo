@@ -51,8 +51,11 @@ code {
     background-color: #555;
   }
 
-  .min-content {
+  .min-height {
     height: min-content;
+  }
+  .min-width {
+    width: min-content;
   }
 }
 @tailwind base;
