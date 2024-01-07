@@ -13,7 +13,7 @@ import { useContext, useState } from 'react';
 import { createBoard } from '../../api/requests';
 import { DashboardContext } from '../../Pages/Dashboard/context/DashboardContext';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '../use-toast';
+import { useToast } from '../Toaster/use-toast';
 
 interface FormPopoverProps {
     children: React.ReactNode;

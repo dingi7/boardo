@@ -9,7 +9,7 @@ import { useAuth } from './hooks/useAuth';
 import useFormData from '../../util/hooks/useFormData';
 import { Navbar } from '../../Components/navbar';
 import { AuthInput } from '../../Components/auth/auth-input';
-import { useToast } from '../../../src/Components/use-toast';
+import { useToast } from '../../Components/Toaster/use-toast';
 
 export const Login = () => {
     const [loading, setLoading] = React.useState<boolean>(false);

@@ -8,7 +8,7 @@ import { AddListPlaceholder } from './_components/List/AddListPlaceholder';
 import { Loading } from './_components/loading';
 import { BoardContext } from './context/BoardContext';
 import { Navbar } from '../../Components/navbar';
-import { useToast } from '../../Components/use-toast';
+import { useToast } from '../../Components/Toaster/use-toast';
 
 export const Board = (): JSX.Element => {
     const context = useContext(BoardContext);

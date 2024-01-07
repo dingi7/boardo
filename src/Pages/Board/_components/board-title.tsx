@@ -3,7 +3,7 @@ import { Button } from '../../../Components/ui/button';
 import { useContext, useState } from 'react';
 import { BoardContext } from '../context/BoardContext';
 import {  updateBoardName } from '../../../api/requests';
-import { useToast } from 'src/Components/use-toast';
+import { useToast } from 'src/Components/Toaster/use-toast';
 // import { useToast } from '@/src/Components/use-toast';
 
 export const BoardTitle = ({ boardName, setBoardName }: any): JSX.Element => {

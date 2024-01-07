@@ -14,7 +14,7 @@ import {
     getBoardsByOrgId,
     getUserOrganizations,
 } from '../../../api/requests';
-import { useToast } from '../../../Components/use-toast';
+import { useToast } from '../../../Components/Toaster/use-toast';
 import { useAuthUser } from 'react-auth-kit';
 
 export interface DashboardContextType {

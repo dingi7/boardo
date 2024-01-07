@@ -1,4 +1,4 @@
-import { Toaster } from '../../Components/toaster';
+import { Toaster } from '../../Components/Toaster/toaster';
 import { Board } from './Board';
 import { BoardProvider } from './context/BoardContext';
 
