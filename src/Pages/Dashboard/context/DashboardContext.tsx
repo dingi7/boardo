@@ -14,7 +14,7 @@ import {
     getBoardsByOrgId,
     getUserOrganizations,
 } from '../../../api/requests';
-import { errorNotification } from '../../../util/notificationHandler';
+import { useToast } from '../../../Components/use-toast';
 import { useAuthUser } from 'react-auth-kit';
 
 export interface DashboardContextType {
@@ -47,6 +47,7 @@ export const DashboardContext = createContext<DashboardContextType | undefined>(
 );
 
 export const DashboardProvider = ({ children }: { children: any }) => {
+    const { toast } = useToast();
     const auth = useAuthUser();
     const user = auth()!;
 
@@ -62,7 +63,9 @@ export const DashboardProvider = ({ children }: { children: any }) => {
             const data = await getBoardsByOrgId(orgId);
             setBoards(data.boards || []);
         } catch (err: any) {
-            errorNotification(err);
+            toast({
+                title: err.message,
+            });
         }
     }, []);
 
@@ -81,7 +84,9 @@ export const DashboardProvider = ({ children }: { children: any }) => {
                 setSelectedOrganisation(null);
             }
         } catch (err: any) {
-            errorNotification(err);
+            toast({
+                title: err.message,
+            });
         } finally {
             setLoading(false);
         }
