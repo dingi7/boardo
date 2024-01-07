@@ -9,6 +9,8 @@ export const endpoints = {
     createBoard: '/items/boards',
 
     allOrgs: '/auth/allOrgs',
+    joinOrg: (orgId: string) => `/auth/joinOrg/${orgId}`,
+
     getBoardsByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     board: (boardId: string | null) =>
         boardId ? `/items/boards/${boardId}` : '/items/boards',
@@ -21,6 +23,10 @@ export const endpoints = {
     // removeMemberFromBoard: (boardId: string) =>
     //     `/items/removeMember/${boardId}`,
 };
+
+export const joinOrganization = async (orgId: string, password: string) => {
+    return api.post(endpoints.joinOrg(orgId), { password });
+}
 
 export const createList = async (boardId: string, name: string) => {
     return api.post(endpoints.list(null), { boardId, name });

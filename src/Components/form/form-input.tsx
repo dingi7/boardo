@@ -16,6 +16,7 @@ interface FormInputProps {
     className?: string;
     defaultValue?: string;
     onBlur?: () => void;
+    onChange?: (e: any) => void;
 }
 
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
@@ -31,6 +32,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             className,
             defaultValue = '',
             onBlur,
+            onChange
         },
         ref
     ) => {
@@ -57,6 +59,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
                         disabled={disabled}
                         className={cn('text-sm px-2 py-1 h-7', className)}
                         aria-describedby={`${id}-error`}
+                        onChange={onChange}
                     />
                 </div>
                 <FormErrors id={id} errors={errors} />

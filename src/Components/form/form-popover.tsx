@@ -1,9 +1,18 @@
-import { X } from "lucide-react";
-import { FormInput } from "./form-input";
-import { FormSubmit } from "./form-submit";
-import { Button } from "../ui/button";
-import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "./popover";
-import { FormPicker } from "./form-picker";
+import { X } from 'lucide-react';
+import { FormInput } from './form-input';
+import { FormSubmit } from './form-submit';
+import { Button } from '../ui/button';
+import {
+    Popover,
+    PopoverClose,
+    PopoverContent,
+    PopoverTrigger,
+} from './popover';
+import { FormPicker } from './form-picker';
+import { useContext, useState } from 'react';
+import { createBoard } from '../../api/requests';
+import { DashboardContext } from '../../Pages/Dashboard/context/DashboardContext';
+import { useNavigate } from 'react-router-dom';
 
 interface FormPopoverProps {
     children: React.ReactNode;
@@ -18,6 +27,32 @@ export const FormPopover = ({
     align,
     sideOffset = 0,
 }: FormPopoverProps) => {
+    const context = useContext(DashboardContext)
+    if (!context) {
+        throw new Error('Dashboard context is not available');
+    }
+    const {
+        selectedOrganization,
+    } = context;
+
+    const navigate = useNavigate();
+
+    const [image, setSelectedImage] = useState<string | null>(null);
+    const [title, setTitle] = useState<string>('');
+
+    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTitle(event.target.value);
+    };
+
+    const handleFormSubmit = async () => {
+        const result = await createBoard({
+            name: title,
+            backgroundUrl: image!,
+            orgId: selectedOrganization!._id,
+        });
+        navigate(`/board/${result._id}`)
+        console.log(image, title);
+    };
 
     return (
         <Popover>
@@ -39,13 +74,23 @@ export const FormPopover = ({
                         <X className='h-4 w-4' />
                     </Button>
                 </PopoverClose>
-                <form onSubmit={() => {}} className='space-y-4'>
+                <form
+                    onSubmit={async (e: any) => {
+                        e.preventDefault();
+                        await handleFormSubmit();
+                    }}
+                    className='space-y-4'
+                >
                     <div className='space-y-4'>
-                        <FormPicker id='image'/>
+                        <FormPicker
+                            id='image'
+                            setSelectedImage={setSelectedImage}
+                        />
                         <FormInput
                             id='title'
                             label='Board title'
                             type='text'
+                            onChange={handleTitleChange}
                         />
                     </div>
                     <FormSubmit className='w-full'>Create</FormSubmit>

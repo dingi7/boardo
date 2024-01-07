@@ -140,7 +140,7 @@ const JoinWorkspaceForm = ({ onSubmit, allOrganizations }: FormProps) => (
                     //   key={org._id}
                     // >
                     // </div>
-                    <JoinDialog orgName={org.name} orgId={org._id}></JoinDialog>
+                    <JoinDialog orgName={org.name} orgId={org._id} key={org._id}></JoinDialog>
                 ))}
             </div>
         </div>
