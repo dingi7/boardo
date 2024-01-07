@@ -33,7 +33,7 @@ export const Organisation = ({
             className='mb-3 pr-[4%]'
         >
             <h1 className='w-full flex flex-row justify-between font-medium gap-[4%]'>
-                <div className='bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded min-content'>
+                <div className='bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded min-height'>
                     <img
                         src={orgLogo}
                         // alt="organization logo"
@@ -50,7 +50,7 @@ export const Organisation = ({
             {isOpen && (
                 <ul className='mt-[2%] ml-[4%] flex flex-col'>
                     <li className='flex flex-row gap-[5%] p-[4%] hover:bg-teal-100 hover:text-teal-700 rounded'>
-                        <Layout /> Boards
+                        <Layout className="w-[20%] aspect-square"/> Boards
                     </li>
                     <li className='flex flex-row gap-[5%] p-[4%] hover:bg-teal-100 hover:text-teal-700 rounded'>
                         <Lightbulb /> Brainstorming

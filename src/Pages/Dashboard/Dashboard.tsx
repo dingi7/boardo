@@ -39,7 +39,7 @@ export const Dashboard = () => {
                 className={`h-screen mt-0 flex flex-row gap-[5%] duration-500 ease-in-out`}
             >
                 <div className="w-[30%] ml-[2%] h-[90%] mt-auto border-r-2 pt-[5%] md:w-[25%] lg:w-[20%] md:pt-[2%] xl:pt-[1%] 2xl:pt-0">
-                    <div className="pl-[2%] pt-[3%] pr-[5%] select-none">
+                    <div className="text-sm md:text-base lg:text-text-lg pl-[2%] pt-[3%] pr-[5%] select-none">
                         <h1 className="w-[95%] flex flex-row justify-between font-bold">
                             Workspaces{" "}
                             <Plus
