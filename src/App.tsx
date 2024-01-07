@@ -16,7 +16,7 @@ import { Login } from './Pages/Auth/Login';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Dashboard } from './Pages/Dashboard/Dashboard';
+import { DashboardLayout } from './Pages/Dashboard/Layout';
 
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/auth/login" element={<Login />} />
 
-                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/dashboard" element={<DashboardLayout />} />
                     </Routes>
                 </BrowserRouter>
             </div>

@@ -1,7 +1,7 @@
 import { createContext, useState, useCallback, useEffect, Dispatch, SetStateAction } from 'react';
 import { useParams } from 'react-router-dom';
-import { dataBaseBoard, dataBaseList } from '../../Interfaces/IDatabase';
-import { getBoardById } from '../../api/requests';
+import { dataBaseBoard, dataBaseList } from '../../../Interfaces/IDatabase';
+import { getBoardById } from '../../../api/requests';
 
 export interface BoardContextType {
     boardInfo: dataBaseBoard | null;

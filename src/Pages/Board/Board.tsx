@@ -7,7 +7,7 @@ import { dataBaseList } from '../../Interfaces/IDatabase';
 import { successNotification } from '../../util/notificationHandler';
 import { AddListPlaceholder } from './_components/List/AddListPlaceholder';
 import { Loading } from './_components/loading';
-import { BoardContext } from './BoardContext';
+import { BoardContext } from './context/BoardContext';
 import { Navbar } from '../../Components/navbar';
 
 export const Board = (): JSX.Element => {

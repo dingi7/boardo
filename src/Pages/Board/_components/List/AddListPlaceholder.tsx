@@ -1,6 +1,6 @@
 import { Plus } from 'lucide-react';
 import { useContext } from 'react';
-import { BoardContext } from '../../BoardContext';
+import { BoardContext } from '../../context/BoardContext';
 import { createList } from '../../../../api/requests';
 
 export const AddListPlaceholder = (): JSX.Element => {

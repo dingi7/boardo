@@ -1,5 +1,5 @@
 import { Board } from './Board';
-import { BoardProvider } from './BoardContext';
+import { BoardProvider } from './context/BoardContext';
 
 export const BoardLayout = () => {
     return (

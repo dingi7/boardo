@@ -4,10 +4,11 @@ import useFormData from "../../../util/hooks/useFormData";
 import { createOrganization } from "../../../api/requests";
 import { dataBaseOrganization } from "../../../Interfaces/IDatabase";
 import { SearchComponent } from "./Search";
+import { IOrgLean } from "../context/DashboardContext";
 
 type AddWorkspaceModalProps = {
     closeModal: () => void;
-    allOrganizations: dataBaseOrganization[];
+    allOrganizations: IOrgLean[];
     fetchAllOrganizations: any;
     setUserOrganizations: (organizations: any) => void;
 };
