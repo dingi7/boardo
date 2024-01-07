@@ -19,7 +19,7 @@ export const List = ({
         <Draggable draggableId={id} index={index!}>
             {(provided) => (
                 <div
-                    className="inline-flex flex-col items-start gap-[10px] "
+                    className="inline-flex flex-col items-start gap-[10px]  "
                     key={id}
                     {...provided.draggableProps}
                     ref={provided.innerRef}
@@ -28,9 +28,9 @@ export const List = ({
                         className=" bg-slate-300 rounded-[7px] shadow-lg"
                         {...provided.dragHandleProps}
                     >
-                        <div className="p-5">
-                            <div className="inline-flex flex-col items-start gap-[5px] ">
-                                <div className="inline-flex flex-col items-start gap-[13px] relative flex-[0_0_auto]">
+                        <div className="p-5 w-[90%]">
+                            <div className="inline-flex flex-col items-start gap-[5%] w-[90%]">
+                                <div className="inline-flex flex-col items-start gap-[4%] relative flex-[0_0_auto]">
                                     <div className="flex items-center justify-between w-full whitespace-nowrap min-w-[200px]">
                                         <div className="w-full mt-[-1.00px] [font-family:'Inter-Bold',Helvetica] font-medium text-slate-900 text-[24px] tracking-[0] leading-[normal]">
                                             
