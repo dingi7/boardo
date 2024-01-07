@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { cn } from "../../util/utils";
 import { unsplash } from "../../util/unsplash";
 import { defaultImages } from "../../util/images";
+import { Link } from "react-router-dom";
 
 
 interface FormPickerProps {
@@ -89,6 +90,13 @@ export const FormPicker = ({
                 <Check className="h-4 w-4 text-white" />
               </div>
             )}
+            <Link 
+              to={image.links.html}
+              target="_blank"
+              className="opacity-0 group-hover:opacity-100 absolute bottom-0 w-full text-[10px] truncate text-white hover:underline p-1 bg-black/20 font-sans"
+            >
+              {image.user.name}
+            </Link>
           </div>
         ))}
       </div>
