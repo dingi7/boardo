@@ -1,9 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useAuthUser } from 'react-auth-kit';
-import { Building2, HelpCircle, Plus, User2 } from 'lucide-react';
+import { Building2, Plus, User2 } from 'lucide-react';
 
-import { Board } from './components/BoardPlaceholder';
-import { CreatePlaceholder } from './components/CreatePlaceholder';
 import { Organisation } from './components/Organisation';
 import {
     getAllOrganizations,
@@ -15,11 +13,10 @@ import { dataBaseBoard } from '../../Interfaces/IDatabase';
 
 //modals
 import { AddWorkspaceModal } from './components/AddWorkspaceModal';
-import { AddBoardModal } from './components/AddBoardModal';
+import { AddBoard } from './components/AddBoard';
 import { Link } from 'react-router-dom';
 import { Loading } from '../Board/_components/loading';
 
-import { FormPopover } from './formPopover/form-popover';
 import { Navbar } from '../../Components/navbar';
 
 // Define interfaces at the start or in a separate file
@@ -150,51 +147,25 @@ export const Dashboard = () => {
 
                             <div className='mt-[4%] w-full'>
                                 <h1 className='flex flex-row gap-[1%] font-medium text-xl'>
-                                    <User2 size={35} /> Your boards
+                                    <User2 size={30} /> Your boards
                                 </h1>
-                                <div className='w-[95%] h-full mt-[1%] flex flex-row flex-wrap gap-[5%]'>
+                                <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-[2%]'>
                                     {boards.map((board) => (
                                         <Link
                                             to={`/board/${board._id}`}
                                             key={board._id}
-                                            className='w-[30%]'
+                                            className='group relative aspect-video bg-no-repeat bg-center bg-cover bg-sky-700 rounded-sm h-full w-full p-2 overflow-hidden'
+                                            style={{
+                                                backgroundImage: `url(${board.backgroundUrl})`,
+                                            }}
                                         >
-                                            <Board
-                                                name={board.name}
-                                                img={
-                                                    board.backgroundUrl ||
-                                                    imgUrl
-                                                }
-                                            />
+                                            <div className='absolute inset-0 bg-black/30 group-hover:bg-black/40 transition' />
+                                            <p className='relative font-semibold text-white'>
+                                                {board.name}
+                                            </p>
                                         </Link>
                                     ))}
-                                    {/* <CreatePlaceholder
-                                        openModal={() =>
-                                            setisAddBoardModalOpen(true)
-                                        }
-                                    /> */}
-                                
-                                    <FormPopover sideOffset={2} side='right'>
-                                        <div
-                                            role='button'
-                                            className=' absolute right-[20%] bottom-[2%] w-full bg-muted rounded-sm flex flex-col gap-y-1 items-center justify-center hover:opacity-75 transition'
-                                        >
-                                            <p className='text-sm'>
-                                                Create new board
-                                            </p>
-                                            <span className='text-xs'>
-                                                {`3 remaining`}
-                                            </span>
-                                            {/* <Hint
-                                                sideOffset={40}
-                                                description={`
-                                                Free Workspaces can have up to 5 open boards. For unlimited boards upgrade this workspace.
-                                                `} */}
-                                            {/* > */}
-                                            <HelpCircle className='absolute bottom-2 right-2 h-[14px] w-[14px]' />
-                                            {/* </Hint> */}
-                                        </div>
-                                    </FormPopover>
+                                    <AddBoard />
                                 </div>
                             </div>
                         </>
@@ -227,13 +198,6 @@ export const Dashboard = () => {
                     fetchAllOrganizations={fetchAllOrganizations}
                     closeModal={() => setIsAddWorkspaceModalOpen(false)}
                     setUserOrganizations={setUserOrganizations}
-                />
-            )}
-            {isAddBoardModalOpen && (
-                <AddBoardModal
-                    orgId={selectedOrganisation!._id}
-                    closeModal={() => setisAddBoardModalOpen(false)}
-                    setBoards={setBoards}
                 />
             )}
         </div>

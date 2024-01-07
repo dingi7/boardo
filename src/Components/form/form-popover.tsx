@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
-import { FormInput } from "../../../Components/form/form-input";
-import { FormSubmit } from "../../../Components/form/form-submit";
-import { Button } from "../../../Components/ui/button";
+import { FormInput } from "./form-input";
+import { FormSubmit } from "./form-submit";
+import { Button } from "../ui/button";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "./popover";
 import { FormPicker } from "./form-picker";
 
@@ -14,7 +14,7 @@ interface FormPopoverProps {
 
 export const FormPopover = ({
     children,
-    side = 'bottom',
+    side = 'right',
     align,
     sideOffset = 0,
 }: FormPopoverProps) => {
@@ -24,7 +24,7 @@ export const FormPopover = ({
             <PopoverTrigger asChild>{children}</PopoverTrigger>
             <PopoverContent
                 align={align}
-                className='w-80 pt-3'
+                className='w-80 pt-3 bg-slate-200'
                 side={side}
                 sideOffset={sideOffset}
             >

@@ -3,9 +3,9 @@
 import { Check, Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { cn } from "../../../util/utils";
-import { unsplash } from "../../../util/unsplash";
-import { defaultImages } from "../../../util/images";
+import { cn } from "../../util/utils";
+import { unsplash } from "../../util/unsplash";
+import { defaultImages } from "../../util/images";
 
 
 interface FormPickerProps {
