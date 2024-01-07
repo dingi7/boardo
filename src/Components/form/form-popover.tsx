@@ -13,6 +13,7 @@ import { useContext, useState } from 'react';
 import { createBoard } from '../../api/requests';
 import { DashboardContext } from '../../Pages/Dashboard/context/DashboardContext';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '../use-toast';
 
 interface FormPopoverProps {
     children: React.ReactNode;
@@ -28,6 +29,7 @@ export const FormPopover = ({
     sideOffset = 0,
 }: FormPopoverProps) => {
     const context = useContext(DashboardContext)
+    const { toast } = useToast()
     if (!context) {
         throw new Error('Dashboard context is not available');
     }
@@ -45,6 +47,7 @@ export const FormPopover = ({
     };
 
     const handleFormSubmit = async () => {
+        try{
         const result = await createBoard({
             name: title,
             backgroundUrl: image!,
@@ -52,6 +55,13 @@ export const FormPopover = ({
         });
         navigate(`/board/${result._id}`)
         console.log(image, title);
+    } catch (error: any) {
+        console.log(error)
+        toast({
+            title: 'Failed to create board',
+            description: error.message,
+        })
+    }
     };
 
     return (
