@@ -14,6 +14,7 @@ import {
     DropdownMenuTrigger,
 } from 'src/Components/dropdown';
 import { Button } from 'src/Components/ui/button';
+import { BoardDropdownMenu } from './dropdown';
 
 export const BoardHeader = ({
     boardName,
@@ -83,23 +84,8 @@ export const BoardHeader = ({
                         setBoardName={setBoardName}
                     />
                 </div>
-                <button
-                    className='hover:shadow-lg rounded-md transition duration-300 ease-in-out p-2'
-                    onClick={openModal}
-                >
-                    <MoreHorizontal />
-                </button>
-                {/* <DropdownMenu>
-                    <DropdownMenuTrigger>
-                        <MoreHorizontal />
-                        <Button variant="outline">Open</Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuGroup>
-                        <Settings className='mr-2 h-4 w-4' />
-                        <span>Change background</span>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                </DropdownMenu> */}
+                
+                <BoardDropdownMenu></BoardDropdownMenu>
             </div>
             {showModal && (
                 <div className='fixed inset-0 bg-gray-500 bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4'>
