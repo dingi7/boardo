@@ -24,7 +24,7 @@ export const Card: React.FC<CardItem> = ({
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
-                    className="flex w-[355px] h-9 items-center gap-[10px] px-[10px] py-[6px] relative bg-slate-100 rounded-[7px] overflow-hidden border-black cursor-pointer"
+                    className="flex w-full h-9 items-center gap-[10px] px-[10px] py-[6px] relative bg-slate-100 rounded-[7px] overflow-hidden border-black cursor-pointer"
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >

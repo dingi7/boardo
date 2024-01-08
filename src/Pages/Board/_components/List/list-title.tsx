@@ -24,7 +24,7 @@ export const ListTitle = ({ title, setTitle }: any): JSX.Element => {
                     id='title'
                     onBlur={onBlur}
                     defaultValue={title}
-                    className="text-lg h-auto w-auto p-1 px-2 [font-family:'Inter-Bold',Helvetica]  text-[24px] text-slate-700 font-medium py-1  bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none"
+                    className="text-lg h-auto w-auto py-1 px-2 text-[24px] text-slate-700 font-medium bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none"
                 />
             </form>
         );
@@ -34,7 +34,7 @@ export const ListTitle = ({ title, setTitle }: any): JSX.Element => {
         <Button
             onClick={() => setIsEditing(true)}
             variant='transparent'
-            className="font-medium text-lg h-auto w-auto p-1 px-2 [font-family:'Inter-Bold',Helvetica] text-slate-900 text-[24px]"
+            className="font-medium text-lg h-auto w-auto py-1` px-2 text-slate-900 text-[24px]"
         >
             {title}
         </Button>
