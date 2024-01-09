@@ -4,7 +4,7 @@ import { Card } from '../Card';
 import { MoreHorizontal } from 'lucide-react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { dataBaseCard } from '../../../../Interfaces/IDatabase';
-import { CardForm } from '../card-form';
+import { CardForm } from '../CardForm';
 import { ListTitle } from './list-title';
 
 export const List = ({

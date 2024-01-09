@@ -5,7 +5,7 @@ import { LandingPage } from "./Pages/LandingPage/layout";
 import { AuthProvider } from "react-auth-kit";
 
 //Board components
-import { BoardLayout } from "./Pages/Board/Layout";
+import { BoardLayout } from "./Pages/Board/BoardLayout";
 
 //AUTH COMPONENTS
 import { Register } from "./Pages/Auth/Register";

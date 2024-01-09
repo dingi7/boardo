@@ -11,7 +11,7 @@ import {
 } from 'src/Components/dropdown';
 import { BackgroundPicker } from './backgroundPicker';
 
-export const BoardDropdownMenu = () => {
+export const BoardSettingsDropdownMenu = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
