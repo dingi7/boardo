@@ -26,7 +26,6 @@ export const Organisation = ({
 }): JSX.Element => {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
-    const auth = useAuthUser()();
     return (
         <div
             onClick={() => {
@@ -65,15 +64,13 @@ export const Organisation = ({
                         <Activity className="w-[30%] md:w-[10%] h-full" />{" "}
                         Activity
                     </li>
-                    {auth && auth._id === selectedOrganization.owner ? (
-                        <li
-                            className="flex flex-row gap-[5%] p-[4%] hover:bg-teal-100 hover:text-teal-700 rounded"
-                            onClick={() => navigate("/dashboard/settings")}
-                        >
-                            <Settings className="w-[30%] md:w-[10%] h-full" />{" "}
-                            Settings
-                        </li>
-                    ) : null}
+                    <li
+                        className="flex flex-row gap-[5%] p-[4%] hover:bg-teal-100 hover:text-teal-700 rounded"
+                        onClick={() => navigate("/dashboard/settings")}
+                    >
+                        <Settings className="w-[30%] md:w-[10%] h-full" />{" "}
+                        Settings
+                    </li>
                 </ul>
             )}
         </div>
