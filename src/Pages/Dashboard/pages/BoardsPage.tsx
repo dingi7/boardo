@@ -8,13 +8,14 @@ type Props = {};
 
 export const BoardsPage = (props: Props) => {
     const context = useOutletContext<any>();
-    const { selectedOrganization, boards, loading } = context;
+    const { selectedOrganization, boards, fetching } = context;
 
-    
+    if(fetching){
+            return <Loading></Loading>
+    }
     return (
         
         <div>
-            {loading ? <Loading /> : null}
             {selectedOrganization !== null ? (
                 <>
                     <div className='flex flex-row gap-[2%] items-center'>

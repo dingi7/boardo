@@ -30,6 +30,7 @@ export interface DashboardContextType {
     setUserOrganizations: Dispatch<SetStateAction<IOrg[]>>;
     expandedOrganizationId: string;
     setExpandedOrganizationId: Dispatch<SetStateAction<string>>;
+    fetching: boolean
 }
 
 export interface IOrg {
@@ -58,12 +59,13 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         useState<IOrg | null>(null);
     const [boards, setBoards] = useState<dataBaseBoard[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [fetching, setFetching] = useState<boolean>(false);   
     const [expandedOrganizationId, setExpandedOrganizationId] =
         useState<string>('');
 
     const fetchBoards = useCallback(async (orgId: string) => {
         try {
-            setLoading(true);
+            setFetching(true);
             const data = await getBoardsByOrgId(orgId);
             setBoards(data.boards || []);
         } catch (err: any) {
@@ -71,7 +73,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
                 title: err.message,
             });
         } finally {
-            setLoading(false);
+            setFetching(false);
         }
     }, []);
 
@@ -121,6 +123,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
                 setUserOrganizations,
                 setExpandedOrganizationId,
                 expandedOrganizationId,
+                fetching
             }}
         >
             {children}

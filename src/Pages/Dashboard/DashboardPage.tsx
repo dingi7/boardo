@@ -29,6 +29,7 @@ export const Dashboard = () => {
         setUserOrganizations,
         expandedOrganizationId,
         setExpandedOrganizationId,
+        fetching
     } = context;
 
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
@@ -95,7 +96,7 @@ export const Dashboard = () => {
                             </button>
                         </div>
                     )}
-                    <Outlet context={{ selectedOrganization, boards, loading }} />
+                    <Outlet context={{ selectedOrganization, boards, fetching }} />
                 </div>
             </div>
 
