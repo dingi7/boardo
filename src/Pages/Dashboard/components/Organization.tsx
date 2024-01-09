@@ -1,4 +1,3 @@
-import { useState } from 'react';
 
 import {
     Activity,
@@ -8,8 +7,7 @@ import {
     ChevronDown,
     Building2,
 } from 'lucide-react';
-import { useNavigate, useOutletContext } from 'react-router-dom';
-import { useAuthUser } from 'react-auth-kit';
+import { useNavigate } from 'react-router-dom';
 import { IOrg } from '../contexts/DashboardContextProvider';
 
 export const Organization = ({
@@ -28,13 +26,14 @@ export const Organization = ({
     selectedOrganization: IOrg;
 }): JSX.Element => {
     const navigate = useNavigate();
-    const auth = useAuthUser()();
-    
+
     return (
         <div
             onClick={() => {
                 if (selectedOrganization._id === orgId) return;
-                setExpandedOrganizationId('');
+                if (orgId !== expandedOrganizationId) {
+                    setExpandedOrganizationId('');
+                }
                 onClick();
             }}
             className='mb-3 pr-[4%]'
@@ -71,9 +70,6 @@ export const Organization = ({
                     >
                         <Layout className='w-[30%] md:w-[10%] h-full' /> Boards
                     </li>
-                    {/* <li className='flex flex-row gap-[5%] p-[4%] hover:bg-teal-100 hover:text-teal-700 rounded'>
-                        <Lightbulb className="w-[40%] md:w-[10%] h-full"/> Brainstorming
-                    </li> */}
                     <li className='flex flex-row gap-[5%] p-[4%] hover:bg-teal-100 hover:text-teal-700 rounded'>
                         <Activity className='w-[30%] md:w-[10%] h-full' />{' '}
                         Activity

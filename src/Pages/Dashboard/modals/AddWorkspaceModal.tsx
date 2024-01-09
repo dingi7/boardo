@@ -153,11 +153,11 @@ const CreateWorkspaceForm = ({
     loading,
 }: FormProps) => (
     <form className='flex flex-col w-3/4 mx-auto mt-4' onSubmit={onSubmit}>
-        <Label htmlFor='name' className='font-medium mt-4'>
+        <Label htmlFor='name' className='font-medium mt-4 mb-2'>
             Workspace name
         </Label>
         <Input id='name' required onChange={handleInputChange}></Input>
-        <Label htmlFor='password' className='font-medium mt-4'>
+        <Label htmlFor='password' className='font-medium mt-4 mb-2'>
             Workspace password
         </Label>
         <Input
