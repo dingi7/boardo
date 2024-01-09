@@ -7,6 +7,7 @@ import {
     Settings,
     ChevronUp,
     ChevronDown,
+    Building2,
 } from 'lucide-react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useAuthUser } from 'react-auth-kit';
@@ -38,7 +39,7 @@ export const Organisation = ({
         >
             <h1 className='text-xs md:text-base lg:text-text-lg w-full flex flex-row justify-between font-medium gap-[4%]'>
                 <div className='bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded min-height'>
-                    <img src={orgLogo} />
+                    <Building2 color='white'></Building2>
                 </div>
                 <div className='flex flex-row gap-[5%] w-full justify-between'>
                     {orgName}{' '}
