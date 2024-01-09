@@ -108,7 +108,7 @@ type TabProps = {
 
 const Tab = ({ title, isActive, onClick }: TabProps) => (
     <div
-        className={`text-center hover:underline ${isActive ? "underline" : ""}`}
+        className={`text-center ${isActive ? "text-3xl" : ""} hover:cursor-pointer `}
         onClick={onClick}
     >
         <h1>{title}</h1>
