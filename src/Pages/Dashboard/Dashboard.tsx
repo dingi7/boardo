@@ -28,6 +28,7 @@ export const Dashboard = () => {
         fetchBoards,
         userOrganizations,
         fetchAllOrganizations,
+        setUserOrganizations
     } = context;
 
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
@@ -91,13 +92,6 @@ export const Dashboard = () => {
                     )}
                     <Outlet context={{ selectedOrganization, boards }} />
                 </div>
-
-                {/* {isAddWorkspaceModalOpen && (
-                    <div className=" duration-500 ease-in-out">
-                        <div className="background-animate absolute bottom-0 left-0 w-full h-[55%] bg-gradient-to-t from-purple-500  duration-500 ease-in-out to-transparent animate-gradient"></div>
-                        <div className="background-animate absolute top-0 left-0 w-full h-[55%] bg-gradient-to-b from-indigo-500 duration-500 ease-in-out  to-transparent animate-gradient"></div>
-                    </div>
-                )} */}
             </div>
 
             {isAddWorkspaceModalOpen && (
@@ -105,12 +99,12 @@ export const Dashboard = () => {
                     allOrganizations={allOrganizations!}
                     fetchAllOrganizations={fetchAllOrganizations}
                     closeModal={() => setIsAddWorkspaceModalOpen(false)}
-                    setUserOrganizations={setAllOrganizations}
+                    setUserOrganizations={setUserOrganizations}
+                    setSelectedOrganization={setSelectedOrganization}
                 />
             )}
         </div>
     ) : (
-        // Display loading indicator here
         <Loading />
     );
 };

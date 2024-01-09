@@ -28,6 +28,7 @@ export const Organisation = ({
     const navigate = useNavigate();
     const auth = useAuthUser()();
     return (
+        // fix needed
         <div
             onClick={() => {
                 if (selectedOrganization.id === orgId) return;

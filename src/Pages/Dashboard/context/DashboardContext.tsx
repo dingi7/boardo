@@ -29,6 +29,7 @@ export interface DashboardContextType {
     fetchBoards: (orgId: string) => Promise<void>;
     userOrganizations: IOrg[];
     fetchAllOrganizations: () => Promise<void>;
+    setUserOrganizations: Dispatch<SetStateAction<IOrg[]>>;
 }
 
 export interface IOrg {
@@ -111,7 +112,8 @@ export const DashboardProvider = ({ children }: { children: any }) => {
                 setLoading,
                 fetchBoards,
                 userOrganizations,
-                fetchAllOrganizations
+                fetchAllOrganizations,
+                setUserOrganizations
             }}
         >
             {children}

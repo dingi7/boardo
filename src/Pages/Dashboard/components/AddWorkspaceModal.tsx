@@ -15,6 +15,7 @@ type AddWorkspaceModalProps = {
     allOrganizations: IOrgLean[];
     fetchAllOrganizations: any;
     setUserOrganizations: (organizations: any) => void;
+    setSelectedOrganization: (organization: any) => void;
 };
 
 type WorkspaceData = {
@@ -26,6 +27,7 @@ export const AddWorkspaceModal = ({
     closeModal,
     allOrganizations,
     setUserOrganizations,
+    setSelectedOrganization
 }: AddWorkspaceModalProps) => {
     const [option, setOption] = useState<"create" | "join">("create");
     const [workspaceData, handleInputChange] = useFormData<WorkspaceData>({
@@ -41,6 +43,7 @@ export const AddWorkspaceModal = ({
         setLoading(true);
         const result = await createOrganization(workspaceData);
         setUserOrganizations((prev: any) => [...prev, result]);
+        setSelectedOrganization(result);
         setLoading(false);
         closeModal();
     };
@@ -157,7 +160,6 @@ const CreateWorkspaceForm = ({
     loading,
 }: FormProps) => (
     <form className="flex flex-col w-3/4 mx-auto mt-4" onSubmit={onSubmit}>
-        {/* Repeat the above input for workspace name */}
         <Label htmlFor="name" className="font-medium mt-4">
             Workspace name
         </Label>
