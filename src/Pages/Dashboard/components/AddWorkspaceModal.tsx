@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Eye, X } from "lucide-react";
 import { useState, FormEvent } from "react";
 import useFormData from "../../../util/hooks/useFormData";
 import { createOrganization } from "../../../api/requests";
@@ -53,7 +53,7 @@ export const AddWorkspaceModal = ({
 
     return (
         <div className="fixed inset-0 flex items-center justify-center">
-            <div className="relative w-[90%] md:w-[50%] lg:w-[40%] h-[60%] border-2 border-gray-300 bg-slate-100 rounded-md p-8">
+            <div className="relative w-[90%] md:w-[50%] lg:w-[40%] h-[45%] border-2 border-gray-300 rounded-md p-8 bg-slate-100">
                 <button
                     className="absolute top-4 right-4 hover:cursor-pointer"
                     onClick={closeModal}
@@ -158,24 +158,27 @@ const CreateWorkspaceForm = ({
 }: FormProps) => (
     <form className="flex flex-col w-3/4 mx-auto mt-4" onSubmit={onSubmit}>
         {/* Repeat the above input for workspace name */}
-        <Label htmlFor="name" className="font-medium mt-4">
+        <Label htmlFor="name" className="mt-4 block text-gray-700 text-sm font-bold">
             Workspace name
         </Label>
-        <Input id="name" required onChange={handleInputChange}></Input>
-        <Label htmlFor="password" className="font-medium mt-4">
+        <Input 
+        id="name" required onChange={handleInputChange}
+        className="bg-gray-200 rounded border-none focus:bg-white"
+        />
+        <Label htmlFor="password" className="mt-4 block text-gray-700 text-sm font-bold">
             Workspace password
         </Label>
         <Input
             id="password"
             type="password"
             required
+            className="bg-gray-200 rounded border-none focus:bg-white"
             onChange={handleInputChange}
         />
-
         <Button
             type="submit"
             variant={"primary"}
-            className="mt-4 py-2 px-4 text-white"
+            className="bg-blue-500 hover:bg-blue-400 text-white rounded mt-4 font-bold "
             disabled={loading}
         >
             {loading ? "Creating..." : "Create"}
