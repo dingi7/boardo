@@ -12,6 +12,14 @@ import {
 import { BackgroundPicker } from './backgroundPicker';
 
 export const BoardSettingsDropdownMenu = () => {
+    const deleteBoard = async() => {
+        // ask for user confirmation
+        // delete board
+        // redirect user to dashboard
+
+        
+    }
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
