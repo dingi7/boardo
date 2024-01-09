@@ -38,7 +38,6 @@ export function JoinDialog({
                 description: err.message,
             });
         }
-        // Add logic for joining a workspace
     };
 
     return (

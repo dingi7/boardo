@@ -47,7 +47,7 @@ export const DashboardContext = createContext<DashboardContextType | undefined>(
     undefined
 );
 
-export const DashboardProvider = ({ children }: { children: any }) => {
+export const DashboardContextProvider = ({ children }: { children: any }) => {
     const { toast } = useToast();
     const auth = useAuthUser();
     const user = auth()!;

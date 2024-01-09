@@ -13,9 +13,9 @@ import { Login } from "./Pages/Auth/Login";
 
 import "react-toastify/dist/ReactToastify.css";
 
-import { DashboardLayout } from "./Pages/Dashboard/Layout";
+import { DashboardLayout } from "./Pages/Dashboard/DashboardLayout";
 import { Toaster } from "./Components/Toaster/toaster";
-import { Settings } from "./Pages/Dashboard/components/Settings";
+import { Settings } from "./Pages/Dashboard/pages/SettingsPage";
 import { Boards } from "./Pages/Dashboard/components/Boards";
 
 function App() {

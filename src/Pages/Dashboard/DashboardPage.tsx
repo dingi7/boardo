@@ -1,16 +1,14 @@
 import { useContext, useState } from "react";
-import { Building2, Plus, User2 } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { Organization } from "./components/Organization";
 
-//modals
-import { AddWorkspaceModal } from "./components/AddWorkspaceModal";
-import { AddBoard } from "./components/AddBoard";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { AddWorkspaceModal } from "./modals/AddWorkspaceModal";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Loading } from "../Board/_components/loading";
 
 import { Navbar } from "../../Components/navbar";
-import { DashboardContext } from "./context/DashboardContext";
+import { DashboardContext } from "./contexts/DashboardContextProvider";
 
 export const Dashboard = () => {
     const navigate = useNavigate();
