@@ -6,13 +6,14 @@ import { Organisation } from "./components/Organisation";
 //modals
 import { AddWorkspaceModal } from "./components/AddWorkspaceModal";
 import { AddBoard } from "./components/AddBoard";
-import { Link } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { Loading } from "../Board/_components/loading";
 
 import { Navbar } from "../../Components/navbar";
 import { DashboardContext } from "./context/DashboardContext";
 
 export const Dashboard = () => {
+    const navigate = useNavigate();
     const context = useContext(DashboardContext);
     if (!context) {
         throw new Error("Dashboard context is not available");
@@ -31,7 +32,6 @@ export const Dashboard = () => {
 
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
         useState<boolean>(false);
-
     return !loading ? (
         <div className={`h-screen duration-500 ease-in-out`}>
             <Navbar />
@@ -65,9 +65,7 @@ export const Dashboard = () => {
                                         setSelectedOrganization(org);
                                         fetchBoards(org._id);
                                     }}
-                                    selectedOrganisation={
-                                        selectedOrganization!._id
-                                    }
+                                    selectedOrganization={selectedOrganization}
                                 />
                             ))}
                         </div>
@@ -75,60 +73,23 @@ export const Dashboard = () => {
                 </div>
 
                 <div className="w-[60%] p-[1%] pt-[20%] sm:pt-[15%] md:pt-[10%] xl:pt-[5%]">
-                    {selectedOrganization !== null ? (
-                        <>
-                            <div className="flex flex-row gap-[2%] items-center">
-                                <div className="p-[2%] w-[20%] aspect-square sm:w-[15%] md:w-[10%] lg:w-[8%] xl:w-[6%] aspect-square text-black flex justify-center items-center rounded bg-gradient-to-r from-purple-500 to-indigo-600">
-                                    <Building2
-                                        color="white"
-                                        className="w-[100%]"
-                                    />
-                                </div>
-
-                                <p className="font-extrabold text-2xl">
-                                    {selectedOrganization.name || "Loading..."}
-                                </p>
-                            </div>
-
-                            <div className="mt-[4%] w-full">
-                                <h1 className="flex flex-row gap-[1%] font-medium text-xl">
-                                    <User2 size={30} /> Your boards
-                                </h1>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-[2%]">
-                                    {boards!.map((board) => (
-                                        <Link
-                                            to={`/board/${board._id}`}
-                                            key={board._id}
-                                            className="group relative aspect-video bg-no-repeat bg-center bg-cover bg-sky-700 rounded-sm h-full w-full p-2 overflow-hidden"
-                                            style={{
-                                                backgroundImage: `url(${board.backgroundUrl})`,
-                                            }}
-                                        >
-                                            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition" />
-                                            <p className="relative font-semibold text-white">
-                                                {board.name}
-                                            </p>
-                                        </Link>
-                                    ))}
-                                    <AddBoard
-                                        remainingBoards={5 - boards!.length}
-                                    />
-                                </div>
-                            </div>
-                        </>
-                    ) : (
+                    {selectedOrganization !== null ? null : (
                         <div className="flex flex-col justify-center items-center h-full">
                             <h1 className="font-bold text-2xl">
                                 You don't have any workspaces yet.
                             </h1>
                             <button
                                 className="mt-[2%] bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md p-[2%] hover:cursor-pointer"
-                                onClick={() => setIsAddWorkspaceModalOpen(true)}
+                                onClick={() => {
+                                    setIsAddWorkspaceModalOpen(true);
+                                    navigate("/dashboard/boards");
+                                }}
                             >
                                 Create your first one!
                             </button>
                         </div>
                     )}
+                    <Outlet context={{ selectedOrganization, boards }} />
                 </div>
 
                 {/* {isAddWorkspaceModalOpen && (
