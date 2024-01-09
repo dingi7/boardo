@@ -6,9 +6,7 @@ import {
     Dispatch,
     SetStateAction,
 } from 'react';
-import {
-    dataBaseBoard
-} from '../../../Interfaces/IDatabase';
+import { dataBaseBoard } from '../../../Interfaces/IDatabase';
 import {
     getAllOrganizations,
     getBoardsByOrgId,
@@ -60,16 +58,20 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         useState<IOrg | null>(null);
     const [boards, setBoards] = useState<dataBaseBoard[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [expandedOrganizationId, setExpandedOrganizationId] = useState<string>('');
+    const [expandedOrganizationId, setExpandedOrganizationId] =
+        useState<string>('');
 
     const fetchBoards = useCallback(async (orgId: string) => {
         try {
+            setLoading(true);
             const data = await getBoardsByOrgId(orgId);
             setBoards(data.boards || []);
         } catch (err: any) {
             toast({
                 title: err.message,
             });
+        } finally {
+            setLoading(false);
         }
     }, []);
 
@@ -118,7 +120,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
                 fetchAllOrganizations,
                 setUserOrganizations,
                 setExpandedOrganizationId,
-                expandedOrganizationId
+                expandedOrganizationId,
             }}
         >
             {children}

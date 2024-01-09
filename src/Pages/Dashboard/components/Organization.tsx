@@ -29,7 +29,6 @@ export const Organization = ({
 }): JSX.Element => {
     const navigate = useNavigate();
     const auth = useAuthUser()();
-    console.log(orgId, selectedOrganization._id, expandedOrganizationId);
     
     return (
         <div

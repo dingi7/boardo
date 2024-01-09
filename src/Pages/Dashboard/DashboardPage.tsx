@@ -95,7 +95,7 @@ export const Dashboard = () => {
                             </button>
                         </div>
                     )}
-                    <Outlet context={{ selectedOrganization, boards }} />
+                    <Outlet context={{ selectedOrganization, boards, loading }} />
                 </div>
             </div>
 

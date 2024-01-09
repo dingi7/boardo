@@ -2,15 +2,19 @@ import { Building2, User2 } from 'lucide-react';
 import React from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { AddBoard } from '../components/AddBoard';
+import { Loading } from 'src/Components/loading';
 
 type Props = {};
 
 export const BoardsPage = (props: Props) => {
     const context = useOutletContext<any>();
-    const { selectedOrganization, boards } = context;
+    const { selectedOrganization, boards, loading } = context;
 
+    
     return (
+        
         <div>
+            {loading ? <Loading /> : null}
             {selectedOrganization !== null ? (
                 <>
                     <div className='flex flex-row gap-[2%] items-center'>
