@@ -103,6 +103,8 @@ export const Register = () => {
                         type='submit'
                         id='registerButton'
                         disabled={loading}
+                        variant={'ghost'}
+
                     >
                         {loading ? 'Loading...' : 'Register'}
                     </Button>
