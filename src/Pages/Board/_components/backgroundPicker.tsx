@@ -8,8 +8,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '../../../Components/ui/dialog';
-// import { Input } from "@/components/ui/input"
-// import { Label } from "@/components/ui/label"
 import { Button } from '../../../Components/ui/button';
 import { Label } from '../../../Components/ui/label';
 import { Input } from '../../../Components/ui/input';
@@ -18,7 +16,6 @@ import { Settings } from 'lucide-react';
 
 export function BackgroundPicker({}: {}) {
     return (
-        // <div className="h-[50%] w-[40%] overflow-y-auto no-scrollbar mx-auto">
 
         <Dialog>
             <DialogTrigger asChild>
@@ -29,7 +26,6 @@ export function BackgroundPicker({}: {}) {
             </DialogTrigger>
             <DialogContent
                 className='sm:max-w-[425px] bg-slate-200'
-                // onSubmit={handleFormSubmit}
             >
                 <DialogHeader>
                     <DialogTitle>Join Organization</DialogTitle>
@@ -45,7 +41,6 @@ export function BackgroundPicker({}: {}) {
                         </Label>
                         <Input
                             id='name'
-                            // defaultValue={orgName}
                             className='col-span-3'
                             disabled={true}
                         />
@@ -57,7 +52,6 @@ export function BackgroundPicker({}: {}) {
                         <Input
                             id='password'
                             className='col-span-3'
-                            // onChange={(e: any) => setPassword(e.target.value)}
                         />
                     </div>
                 </div>
@@ -67,7 +61,6 @@ export function BackgroundPicker({}: {}) {
                             type='submit'
                             className='color-black'
                             variant={'primary'}
-                            // onClick={handleFormSubmit}
                         >
                             Join
                         </Button>
