@@ -17,7 +17,7 @@ export interface BoardContextType {
 
 export const BoardContext = createContext<BoardContextType | undefined>(undefined);
 
-export const BoardProvider = ({ children }: { children: any }) => {
+export const BoardContextProvider = ({ children }: { children: any }) => {
     const { boardId } = useParams<{ boardId: string }>();
     const [boardInfo, setBoardInfo] = useState<dataBaseBoard | null>(null);
     const [lists, setLists] = useState<dataBaseList[] | null>(null);

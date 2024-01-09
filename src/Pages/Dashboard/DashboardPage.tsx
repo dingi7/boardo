@@ -5,7 +5,7 @@ import { Organization } from "./components/Organization";
 
 import { AddWorkspaceModal } from "./modals/AddWorkspaceModal";
 import { Outlet, useNavigate } from "react-router-dom";
-import { Loading } from "../Board/_components/loading";
+import { Loading } from "../../Components/loading";
 
 import { Navbar } from "../../Components/navbar";
 import { DashboardContext } from "./contexts/DashboardContextProvider";

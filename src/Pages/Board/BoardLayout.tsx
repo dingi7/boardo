@@ -1,13 +1,13 @@
 import { Toaster } from '../../Components/Toaster/toaster';
 import { Board } from './Board';
-import { BoardProvider } from './context/BoardContext';
+import { BoardContextProvider } from './contexts/BoardContextProvider';
 
 export const BoardLayout = () => {
     return (
-        <BoardProvider>
+        <BoardContextProvider>
             <Board />
             <Toaster></Toaster>
-        </BoardProvider>
+        </BoardContextProvider>
     );
 };
 
