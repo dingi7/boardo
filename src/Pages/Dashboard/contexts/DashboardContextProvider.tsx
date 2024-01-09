@@ -29,6 +29,7 @@ export interface DashboardContextType {
     fetchBoards: (orgId: string) => Promise<void>;
     userOrganizations: IOrg[];
     fetchAllOrganizations: () => Promise<void>;
+    setUserOrganizations: Dispatch<SetStateAction<IOrg[]>>;
 }
 
 export interface IOrg {
@@ -46,14 +47,14 @@ export const DashboardContext = createContext<DashboardContextType | undefined>(
     undefined
 );
 
-export const DashboardProvider = ({ children }: { children: any }) => {
+export const DashboardContextProvider = ({ children }: { children: any }) => {
     const { toast } = useToast();
     const auth = useAuthUser();
     const user = auth()!;
 
     const [allOrganizations, setAllOrganizations] = useState<IOrgLean[]>([]);
     const [userOrganizations, setUserOrganizations] = useState<IOrg[]>([]);
-    const [selectedOrganisation, setSelectedOrganisation] =
+    const [selectedOrganization, setSelectedOrganization] =
         useState<IOrg | null>(null);
     const [boards, setBoards] = useState<dataBaseBoard[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -78,10 +79,10 @@ export const DashboardProvider = ({ children }: { children: any }) => {
             const organizations = await getUserOrganizations();
             if (organizations.length > 0) {
                 setUserOrganizations(organizations);
-                setSelectedOrganisation(organizations[0]);
+                setSelectedOrganization(organizations[0]);
                 await fetchBoards(organizations[0]._id);
             } else {
-                setSelectedOrganisation(null);
+                setSelectedOrganization(null);
             }
         } catch (err: any) {
             toast({
@@ -103,15 +104,16 @@ export const DashboardProvider = ({ children }: { children: any }) => {
             value={{
                 allOrganizations,
                 setAllOrganizations,
-                selectedOrganization: selectedOrganisation,
-                setSelectedOrganization: setSelectedOrganisation,
+                selectedOrganization: selectedOrganization,
+                setSelectedOrganization: setSelectedOrganization,
                 boards,
                 setBoards,
                 loading,
                 setLoading,
                 fetchBoards,
                 userOrganizations,
-                fetchAllOrganizations
+                fetchAllOrganizations,
+                setUserOrganizations
             }}
         >
             {children}

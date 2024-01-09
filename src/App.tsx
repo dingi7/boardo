@@ -13,10 +13,10 @@ import { Login } from "./Pages/Auth/Login";
 
 import "react-toastify/dist/ReactToastify.css";
 
-import { DashboardLayout } from "./Pages/Dashboard/Layout";
+import { DashboardLayout } from "./Pages/Dashboard/DashboardLayout";
 import { Toaster } from "./Components/Toaster/toaster";
-import { Settings } from "./Pages/Dashboard/components/Settings";
-import { Boards } from "./Pages/Dashboard/components/Boards";
+import { Settings } from "./Pages/Dashboard/pages/SettingsPage";
+import { BoardsPage } from "./Pages/Dashboard/pages/BoardsPage";
 
 function App() {
     return (
@@ -35,7 +35,7 @@ function App() {
                         <Route path="/auth/login" element={<Login />} />
                         <Route path="/dashboard" element={<DashboardLayout />}>
                             <Route path="settings" element={<Settings />} />
-                            <Route path="boards" element={<Boards />} />
+                            <Route path="boards" element={<BoardsPage />} />
                         </Route>
                     </Routes>
                 </BrowserRouter>

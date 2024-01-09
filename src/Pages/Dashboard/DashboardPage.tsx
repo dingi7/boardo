@@ -1,16 +1,14 @@
 import { useContext, useState } from "react";
-import { Building2, Plus, User2 } from "lucide-react";
+import { Plus } from "lucide-react";
 
-import { Organisation } from "./components/Organisation";
+import { Organization } from "./components/Organization";
 
-//modals
-import { AddWorkspaceModal } from "./components/AddWorkspaceModal";
-import { AddBoard } from "./components/AddBoard";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { AddWorkspaceModal } from "./modals/AddWorkspaceModal";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Loading } from "../Board/_components/loading";
 
 import { Navbar } from "../../Components/navbar";
-import { DashboardContext } from "./context/DashboardContext";
+import { DashboardContext } from "./contexts/DashboardContextProvider";
 
 export const Dashboard = () => {
     const navigate = useNavigate();
@@ -28,6 +26,7 @@ export const Dashboard = () => {
         fetchBoards,
         userOrganizations,
         fetchAllOrganizations,
+        setUserOrganizations
     } = context;
 
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
@@ -56,7 +55,7 @@ export const Dashboard = () => {
                                 </p>
                             )}
                             {userOrganizations.map((org) => (
-                                <Organisation
+                                <Organization
                                     key={org._id}
                                     orgName={org.name}
                                     orgId={org._id}
@@ -91,13 +90,6 @@ export const Dashboard = () => {
                     )}
                     <Outlet context={{ selectedOrganization, boards }} />
                 </div>
-
-                {/* {isAddWorkspaceModalOpen && (
-                    <div className=" duration-500 ease-in-out">
-                        <div className="background-animate absolute bottom-0 left-0 w-full h-[55%] bg-gradient-to-t from-purple-500  duration-500 ease-in-out to-transparent animate-gradient"></div>
-                        <div className="background-animate absolute top-0 left-0 w-full h-[55%] bg-gradient-to-b from-indigo-500 duration-500 ease-in-out  to-transparent animate-gradient"></div>
-                    </div>
-                )} */}
             </div>
 
             {isAddWorkspaceModalOpen && (
@@ -105,12 +97,12 @@ export const Dashboard = () => {
                     allOrganizations={allOrganizations!}
                     fetchAllOrganizations={fetchAllOrganizations}
                     closeModal={() => setIsAddWorkspaceModalOpen(false)}
-                    setUserOrganizations={setAllOrganizations}
+                    setUserOrganizations={setUserOrganizations}
+                    setSelectedOrganization={setSelectedOrganization}
                 />
             )}
         </div>
     ) : (
-        // Display loading indicator here
         <Loading />
     );
 };
