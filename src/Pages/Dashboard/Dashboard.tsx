@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Building2, Plus, User2 } from "lucide-react";
 
-import { Organisation } from "./components/Organisation";
+import { Organization } from "./components/Organization";
 
 //modals
 import { AddWorkspaceModal } from "./components/AddWorkspaceModal";
@@ -57,7 +57,7 @@ export const Dashboard = () => {
                                 </p>
                             )}
                             {userOrganizations.map((org) => (
-                                <Organisation
+                                <Organization
                                     key={org._id}
                                     orgName={org.name}
                                     orgId={org._id}

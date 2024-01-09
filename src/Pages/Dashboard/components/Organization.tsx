@@ -12,7 +12,7 @@ import {
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { useAuthUser } from 'react-auth-kit';
 
-export const Organisation = ({
+export const Organization = ({
     orgName,
     orgLogo,
     orgId,
@@ -29,7 +29,6 @@ export const Organisation = ({
     const navigate = useNavigate();
     const auth = useAuthUser()();
     return (
-        // fix needed
         <div
             onClick={() => {
                 if (selectedOrganization.id === orgId) return;
