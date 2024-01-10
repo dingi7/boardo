@@ -33,11 +33,12 @@ export const List = ({
                         <div className='p-[2%] inline-flex flex-col items-start gap-[5%] w-full'>
                             <div className='inline-flex flex-col items-start gap-[4%] relative w-full'>
                                 <div className='flex items-center justify-between w-full whitespace-nowrap'>
-                                    <div className="[font-family:'Inter-Bold',Helvetica] font-medium text-[24px] tracking-[0] leading-[normal]">
+                                    <div className="[font-family:'Inter-Bold',Helvetica] font-medium text-[24px] mb-2 tracking-[0] leading-[normal]">
                                         <ListTitle
                                             title={listTitle}
                                             setTitle={setListTitle}
                                             listId={id}
+                                        
                                         />
                                     </div>
                                     <MoreHorizontal className='h-6 w-6 on:hover:bg-slate-200 cursor-pointer' />
