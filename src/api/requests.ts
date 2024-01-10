@@ -19,7 +19,6 @@ export const endpoints = {
     list: (listId: string | null) =>
         listId ? `/items/list/${listId}` : '/items/list',
 
-    addMemberToBoard: (boardId: string) => `/items/addMember/${boardId}`,
     // removeMemberFromBoard: (boardId: string) =>
     //     `/items/removeMember/${boardId}`,
 };
@@ -30,6 +29,10 @@ export const joinOrganization = async (orgId: string, password: string) => {
 
 export const createList = async (boardId: string, name: string) => {
     return api.post(endpoints.list(null), { boardId, name });
+}
+
+export const renameList = async (listId: string, name: string, organizationId:string) => {
+    return api.put(endpoints.list(listId), { name, organizationId });
 }
 
 export const createOrganization = async (data: {
@@ -59,9 +62,7 @@ export const createBoard = async (data: {
     return api.post(endpoints.createBoard, data);
 };
 
-export const addMemberToBoard = async (boardId: string, memberId: string) => {
-    return api.post(endpoints.addMemberToBoard(boardId), { userId: memberId });
-};
+
 
 export const removeMemberFromBoard = async (
     boardId: string,
@@ -109,12 +110,12 @@ export const updateBoardName = async (boardId: string, boardName: string) => {
     return api.put(endpoints.board(boardId), { boardName });
 }
 
-export const createCard = async (listId: string, content: string) => {
-    return api.post(endpoints.card(null), { content, listId });
+export const createCard = async (listId: string, content: string, organizationId: string) => {
+    return api.post(endpoints.card(null), { content, listId, organizationId });
 };
 
-export const deleteCard = async (cardId: string, boardId: string) => {
-    return api.del(endpoints.card(cardId), { boardId });
+export const deleteCard = async (cardId: string, boardId: string, organizationId: string) => {
+    return api.del(endpoints.card(cardId), { boardId, organizationId });
 };
 
 export const getUserOrganizations = async () => {

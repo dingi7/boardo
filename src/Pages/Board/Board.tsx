@@ -30,7 +30,7 @@ export const Board = (): JSX.Element => {
     } = context;
 
     const onDeleteCard = async (cardId: string) => {
-        await deleteCard(cardId, boardId!);
+        await deleteCard(cardId, boardId!, boardInfo?.owner!);
         setLists((prev) => {
             if (!prev) return null;
             return prev.map((list) => ({
@@ -45,7 +45,7 @@ export const Board = (): JSX.Element => {
     };
 
     const onCardAdd = async (listId: string, name: string) => {
-        const card = await createCard(listId, name);
+        const card = await createCard(listId, name, boardInfo?.owner!);
         toast({
             title: 'Card created successfully',
         })
