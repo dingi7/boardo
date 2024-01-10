@@ -12,7 +12,6 @@ export const Navbar = () => {
 
     const handleSignOut = () => {
         if (window.confirm("Are you sure you want to log out?")) {
-            // navigate to /
             signOut();
             navigate('/')
         }
@@ -27,11 +26,11 @@ export const Navbar = () => {
                     <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
                         {isAuth() ? (
                             <>
-                                <Button variant={'gray'} size="sm">
+                                <Button variant={'gray'} size="sm" asChild>
                                     <Link to="/dashboard">Dashboard</Link>
                                 </Button>
 
-                                <Button variant={'gray'} size="sm">
+                                <Button variant={'gray'} size="sm" asChild>
                                     <a onClick={handleSignOut}>Logout</a>
                                 </Button>
                             </>
@@ -40,11 +39,11 @@ export const Navbar = () => {
                                 <Button size="sm" variant="outline" asChild>
                                     <Link to="/auth/login">Login</Link>
                                 </Button>
-                                <button className="bg-neutral-200 text-secondary-foreground hover:bg-neutral-300 inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 rounded-md px-3">
+                                <Button size="sm" variant="primary" asChild>
                                     <Link to="/auth/register">
                                         Get Boardo for free
                                     </Link>
-                                </button>
+                                </Button>
                             </>
                         )}
                     </div>

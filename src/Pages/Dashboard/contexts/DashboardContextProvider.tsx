@@ -6,9 +6,7 @@ import {
     Dispatch,
     SetStateAction,
 } from 'react';
-import {
-    dataBaseBoard
-} from '../../../Interfaces/IDatabase';
+import { dataBaseBoard } from '../../../Interfaces/IDatabase';
 import {
     getAllOrganizations,
     getBoardsByOrgId,
@@ -29,6 +27,10 @@ export interface DashboardContextType {
     fetchBoards: (orgId: string) => Promise<void>;
     userOrganizations: IOrg[];
     fetchAllOrganizations: () => Promise<void>;
+    setUserOrganizations: Dispatch<SetStateAction<IOrg[]>>;
+    expandedOrganizationId: string;
+    setExpandedOrganizationId: Dispatch<SetStateAction<string>>;
+    fetching: boolean
 }
 
 export interface IOrg {
@@ -46,26 +48,32 @@ export const DashboardContext = createContext<DashboardContextType | undefined>(
     undefined
 );
 
-export const DashboardProvider = ({ children }: { children: any }) => {
+export const DashboardContextProvider = ({ children }: { children: any }) => {
     const { toast } = useToast();
     const auth = useAuthUser();
     const user = auth()!;
 
     const [allOrganizations, setAllOrganizations] = useState<IOrgLean[]>([]);
     const [userOrganizations, setUserOrganizations] = useState<IOrg[]>([]);
-    const [selectedOrganisation, setSelectedOrganisation] =
+    const [selectedOrganization, setSelectedOrganization] =
         useState<IOrg | null>(null);
     const [boards, setBoards] = useState<dataBaseBoard[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [fetching, setFetching] = useState<boolean>(false);   
+    const [expandedOrganizationId, setExpandedOrganizationId] =
+        useState<string>('');
 
     const fetchBoards = useCallback(async (orgId: string) => {
         try {
+            setFetching(true);
             const data = await getBoardsByOrgId(orgId);
             setBoards(data.boards || []);
         } catch (err: any) {
             toast({
                 title: err.message,
             });
+        } finally {
+            setFetching(false);
         }
     }, []);
 
@@ -78,10 +86,10 @@ export const DashboardProvider = ({ children }: { children: any }) => {
             const organizations = await getUserOrganizations();
             if (organizations.length > 0) {
                 setUserOrganizations(organizations);
-                setSelectedOrganisation(organizations[0]);
+                setSelectedOrganization(organizations[0]);
                 await fetchBoards(organizations[0]._id);
             } else {
-                setSelectedOrganisation(null);
+                setSelectedOrganization(null);
             }
         } catch (err: any) {
             toast({
@@ -103,15 +111,19 @@ export const DashboardProvider = ({ children }: { children: any }) => {
             value={{
                 allOrganizations,
                 setAllOrganizations,
-                selectedOrganization: selectedOrganisation,
-                setSelectedOrganization: setSelectedOrganisation,
+                selectedOrganization: selectedOrganization,
+                setSelectedOrganization: setSelectedOrganization,
                 boards,
                 setBoards,
                 loading,
                 setLoading,
                 fetchBoards,
                 userOrganizations,
-                fetchAllOrganizations
+                fetchAllOrganizations,
+                setUserOrganizations,
+                setExpandedOrganizationId,
+                expandedOrganizationId,
+                fetching
             }}
         >
             {children}

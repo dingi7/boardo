@@ -78,6 +78,7 @@ export const Login = () => {
                     <Button
                         className='shadow border-1 mt-4 font-semibold border-slate-800 bg-white rounded w-full py-3 px-3 leading-tight focus:outline-none focus:shadow-outline outline-none hover:bg-zinc-100'
                         type='submit'
+                        variant={'ghost'}
                         id='registerButton'
                         disabled={loading}
                     >

@@ -38,7 +38,7 @@ export const Card: React.FC<CardItem> = ({
                     >
                         <Button
                             className=" border-r-8"
-                            onClick={async () => await onDeleteCard(id)}
+                            onClick={async () => onDeleteCard(id)}
                         >
                             <Pencil />
                         </Button>

@@ -1,7 +1,7 @@
 import { FormInput } from '../../../Components/form/form-input';
 import { Button } from '../../../Components/ui/button';
 import { useContext, useState } from 'react';
-import { BoardContext } from '../context/BoardContext';
+import { BoardContext } from '../contexts/BoardContextProvider';
 import {  updateBoardName } from '../../../api/requests';
 import { useToast } from 'src/Components/Toaster/use-toast';
 // import { useToast } from '@/src/Components/use-toast';

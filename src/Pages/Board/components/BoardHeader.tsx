@@ -1,5 +1,4 @@
-import { MoreHorizontal, Settings } from 'lucide-react';
-import { BoardTitle } from './board-title';
+import { BoardTitle } from './BoardTitle';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
     removeBoardBackground,
@@ -7,14 +6,7 @@ import {
     uploadBoardBackground,
 } from '../../../api/requests';
 import { useParams } from 'react-router-dom';
-import {
-    DropdownMenu,
-    DropdownMenuGroup,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from 'src/Components/dropdown';
-import { Button } from 'src/Components/ui/button';
-import { BoardDropdownMenu } from './dropdown';
+import { BoardSettingsDropdownMenu } from './BoardSettingsDropdownMenu';
 
 export const BoardHeader = ({
     boardName,
@@ -85,7 +77,7 @@ export const BoardHeader = ({
                     />
                 </div>
                 
-                <BoardDropdownMenu></BoardDropdownMenu>
+                <BoardSettingsDropdownMenu></BoardSettingsDropdownMenu>
             </div>
             {showModal && (
                 <div className='fixed inset-0 bg-gray-500 bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4'>

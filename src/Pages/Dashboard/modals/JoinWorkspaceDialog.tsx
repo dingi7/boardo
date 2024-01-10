@@ -8,28 +8,52 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '../../../Components/ui/dialog';
-// import { Input } from "@/components/ui/input"
-// import { Label } from "@/components/ui/label"
 import { Button } from '../../../Components/ui/button';
 import { Label } from '../../../Components/ui/label';
 import { Input } from '../../../Components/ui/input';
-import { DropdownMenuItem } from 'src/Components/dropdown';
-import { Settings } from 'lucide-react';
+import { useState } from 'react';
+import { joinOrganization } from '../../../api/requests';
+import { useToast } from 'src/Components/Toaster/use-toast';
 
-export function BackgroundPicker({}: {}) {
+export function JoinDialog({
+    orgName,
+    orgId,
+}: {
+    orgName: string;
+    orgId: string;
+}) {
+    const { toast } = useToast();
+    const [password, setPassword] = useState<string>('');
+    const handleFormSubmit = async () => {
+        try {
+            const result = await joinOrganization(orgId, password);
+            console.log(result);
+            toast({
+                title: 'Joined!',
+                description: `You have joined ${orgName}`,
+            });
+        } catch (err: any) {
+            toast({
+                title: 'Error!',
+                description: err.message,
+            });
+        }
+    };
+
     return (
-        // <div className="h-[50%] w-[40%] overflow-y-auto no-scrollbar mx-auto">
-
         <Dialog>
             <DialogTrigger asChild>
-                <DropdownMenuItem>
-                    <Settings className='mr-2 h-4 w-4' />
-                    <span>Change background</span>
-                </DropdownMenuItem>
+                <div
+                    className='flex items-center gap-2 p-[4%] hover:bg-slate-200 rounded-lg cursor-pointer'
+                    key={orgId}
+                >
+                    {/* <Button variant="outline">Join {orgName}</Button> */}
+                    <label htmlFor={orgId}>{orgName}</label>
+                </div>
             </DialogTrigger>
             <DialogContent
                 className='sm:max-w-[425px] bg-slate-200'
-                // onSubmit={handleFormSubmit}
+                onSubmit={handleFormSubmit}
             >
                 <DialogHeader>
                     <DialogTitle>Join Organization</DialogTitle>
@@ -45,7 +69,7 @@ export function BackgroundPicker({}: {}) {
                         </Label>
                         <Input
                             id='name'
-                            // defaultValue={orgName}
+                            defaultValue={orgName}
                             className='col-span-3'
                             disabled={true}
                         />
@@ -57,7 +81,7 @@ export function BackgroundPicker({}: {}) {
                         <Input
                             id='password'
                             className='col-span-3'
-                            // onChange={(e: any) => setPassword(e.target.value)}
+                            onChange={(e: any) => setPassword(e.target.value)}
                         />
                     </div>
                 </div>
@@ -67,7 +91,7 @@ export function BackgroundPicker({}: {}) {
                             type='submit'
                             className='color-black'
                             variant={'primary'}
-                            // onClick={handleFormSubmit}
+                            onClick={handleFormSubmit}
                         >
                             Join
                         </Button>
@@ -75,6 +99,5 @@ export function BackgroundPicker({}: {}) {
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-        // </div>
     );
 }
