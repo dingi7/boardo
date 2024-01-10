@@ -42,7 +42,6 @@ export const List = ({
                                             <div
                                                 ref={provided.innerRef}
                                                 {...provided.droppableProps}
-                                                //className="inline-flex flex-col items-start gap-[0.5rem] relative flex-[0_0_auto] flex-grow-1 min-h-[100px] min-w-[365px]"
                                                 className="inline-flex flex-col items-start gap-[0.5rem] relative flex-[0_0_auto] flex-grow-1 min-h-[100px] min-w-full"
                                             >
                                                 {cards

@@ -1,4 +1,3 @@
-
 import {
     Activity,
     Layout,
@@ -7,7 +6,7 @@ import {
     ChevronDown,
     Building2,
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IOrg } from '../contexts/DashboardContextProvider';
 
 export const Organization = ({
@@ -23,16 +22,17 @@ export const Organization = ({
     setExpandedOrganizationId: (id: string) => void;
     orgId: string;
     onClick: () => void;
-    selectedOrganization: IOrg;
+    selectedOrganization: IOrg | null;
 }): JSX.Element => {
     const navigate = useNavigate();
+    const { pathname } = useLocation();
 
     return (
         <div
             onClick={() => {
-                if (selectedOrganization._id === orgId) return;
-                if (orgId !== expandedOrganizationId) {
-                    setExpandedOrganizationId('');
+                navigate('/dashboard/boards')
+                if (selectedOrganization!._id === orgId) {
+                    return;
                 }
                 onClick();
             }}
@@ -65,7 +65,12 @@ export const Organization = ({
             {expandedOrganizationId === orgId && (
                 <ul className='mt-[2%] ml-[4%] flex flex-col'>
                     <li
-                        className='flex flex-row gap-[5%] p-[4%] hover:bg-teal-100 hover:text-teal-700 rounded'
+                        className={`flex flex-row gap-[5%] p-[4%] hover:bg-teal-100 hover:text-teal-700 rounded ${
+                            selectedOrganization!._id === orgId &&
+                            pathname === '/dashboard/boards'
+                                ? 'bg-teal-100 text-teal-700'
+                                : ''
+                        }`}
                         onClick={() => navigate('/dashboard/boards')}
                     >
                         <Layout className='w-[30%] md:w-[10%] h-full' /> Boards
@@ -75,7 +80,12 @@ export const Organization = ({
                         Activity
                     </li>
                     <li
-                        className='flex flex-row gap-[5%] p-[4%] hover:bg-teal-100 hover:text-teal-700 rounded'
+                        className={`flex flex-row gap-[5%] p-[4%] hover:bg-teal-100 hover:text-teal-700 rounded ${
+                            selectedOrganization!._id === orgId &&
+                            pathname === '/dashboard/settings'
+                                ? 'bg-teal-100 text-teal-700'
+                                : ''
+                        }`}
                         onClick={() => navigate('/dashboard/settings')}
                     >
                         <Settings className='w-[30%] md:w-[10%] h-full' />{' '}

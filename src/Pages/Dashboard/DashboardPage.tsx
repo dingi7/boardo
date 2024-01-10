@@ -72,7 +72,7 @@ export const Dashboard = () => {
                                         setSelectedOrganization(org);
                                         fetchBoards(org._id);
                                     }}
-                                    selectedOrganization={selectedOrganization!}
+                                    selectedOrganization={selectedOrganization}
                                 />
                             ))}
                         </div>
