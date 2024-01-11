@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { BoardHeader } from './components/BoardHeader';
 import { List } from './components/List/List';
@@ -24,6 +24,7 @@ export const Board = (): JSX.Element => {
         lists,
         setLists,
         backgroundUrl,
+        setBackgroundUrl,
         loading,
     } = context;
 
@@ -143,7 +144,7 @@ export const Board = (): JSX.Element => {
             <Navbar />
             <DragDropContext onDragEnd={onDragEnd}>
                 <div
-                    className='flex flex-col w-screen overflow-y-auto h-screen bg-slate-800 overflow-hidden pt-[15%] sm:pt-[10%] md:pt-[8%] lg:pt-[3.5%]'
+                    className={`flex flex-col w-screen overflow-y-auto h-screen bg-transparent overflow-hidden pt-[15%] sm:pt-[10%] md:pt-[8%] lg:pt-[3.5%]`}
                     style={{
                         backgroundImage: `url('${backgroundUrl}')`,
                         backgroundSize: 'cover',
@@ -157,6 +158,7 @@ export const Board = (): JSX.Element => {
                             setBoardInfo({ ...boardInfo!, name })
                         }
                         boardId={boardId!}
+                        setBackgroundUrl={setBackgroundUrl}
                     />
                     <Droppable
                         droppableId='allcolumns'

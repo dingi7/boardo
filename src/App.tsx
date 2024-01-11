@@ -11,7 +11,6 @@ import { BoardLayout } from "./Pages/Board/BoardLayout";
 import { Register } from "./Pages/Auth/Register";
 import { Login } from "./Pages/Auth/Login";
 
-import "react-toastify/dist/ReactToastify.css";
 
 import { DashboardLayout } from "./Pages/Dashboard/DashboardLayout";
 import { Toaster } from "./Components/Toaster/toaster";

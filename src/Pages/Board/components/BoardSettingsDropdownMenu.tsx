@@ -7,10 +7,10 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from 'src/Components/dropdown';
-import { BackgroundPicker } from './backgroundPicker';
+import { BackgroundPicker } from './BackgroundPicker';
 import { DeleteHandler } from './DeleteHandler';
 
-export const BoardSettingsDropdownMenu = ({ boardId }: { boardId: string }) => {
+export const BoardSettingsDropdownMenu = ({ boardId, setBackgroundUrl }: { boardId: string, setBackgroundUrl: (bgUrl: string) => void }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -20,7 +20,7 @@ export const BoardSettingsDropdownMenu = ({ boardId }: { boardId: string }) => {
                 <DropdownMenuLabel>Settings</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    <BackgroundPicker />
+                    <BackgroundPicker boardId={boardId} setBackgroundUrl={setBackgroundUrl} />
                     <DeleteHandler boardId={boardId} />
                 </DropdownMenuGroup>
             </DropdownMenuContent>
