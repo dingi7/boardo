@@ -30,7 +30,6 @@ export const Organization = ({
     return (
         <div
             onClick={() => {
-                navigate('/dashboard/boards')
                 if (selectedOrganization!._id === orgId) {
                     return;
                 }
@@ -86,7 +85,11 @@ export const Organization = ({
                                 ? 'bg-teal-100 text-teal-700'
                                 : ''
                         }`}
-                        onClick={() => navigate('/dashboard/settings')}
+                        onClick={() =>{
+                            console.log('clicked');
+                            navigate('/dashboard/settings')
+                            
+                        }}
                     >
                         <Settings className='w-[30%] md:w-[10%] h-full' />{' '}
                         Settings
