@@ -3,7 +3,9 @@ import { useContext } from 'react';
 import { BoardContext } from '../../contexts/BoardContextProvider';
 import { createList } from '../../../../api/requests';
 
-export const AddListPlaceholder = (): JSX.Element => {
+export const AddListPlaceholder = ({
+    isDragging
+}: {isDragging: boolean}): JSX.Element => {
     const context = useContext(BoardContext);
 
     const { boardId, setLists } = context!;
@@ -18,7 +20,7 @@ export const AddListPlaceholder = (): JSX.Element => {
 
     return (
         <div
-            className='inline-flex flex-col items-start gap-[10px] on:hover: cursor-pointer'
+            className={`inline-flex flex-col items-start gap-[10px] on:hover: cursor-pointer ${isDragging ? "opacity-0" : "opacity-100"}`}
             key={'add list'}
             onClick={() => createListFunc()}
         >

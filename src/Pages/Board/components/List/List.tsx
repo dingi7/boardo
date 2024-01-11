@@ -15,6 +15,7 @@ export const List = ({
     index,
     onCardAdd,
     onDeleteCard,
+    
 }: ListItem): JSX.Element => {
     const [listTitle, setListTitle] = useState(title);
     return (

@@ -12,6 +12,7 @@ import { useToast } from '../../Components/Toaster/use-toast';
 import { useNavigate } from 'react-router-dom';
 
 export const Board = (): JSX.Element => {
+    const [isDragging, setIsDragging] = useState<boolean>(false);
     const navigate = useNavigate();
     const context = useContext(BoardContext);
     const { toast } = useToast();
@@ -62,6 +63,7 @@ export const Board = (): JSX.Element => {
     };
 
     const onDragEnd = (result: DropResult) => {
+        
         const { destination, source, type } = result;
 
         if (!destination) {
@@ -75,6 +77,8 @@ export const Board = (): JSX.Element => {
             return;
         }
 
+        setIsDragging(false)
+         
         if (type === 'column') {
             const newColumnOrder = [...lists!];
 
@@ -108,6 +112,7 @@ export const Board = (): JSX.Element => {
             });
 
             setLists(newState);
+            
             return updateBoard(boardInfo!._id, boardInfo!.name, newState);
         }
 
@@ -145,7 +150,7 @@ export const Board = (): JSX.Element => {
     return (
         <>
             <Navbar />
-            <DragDropContext onDragEnd={onDragEnd}>
+            <DragDropContext onDragEnd={onDragEnd} onDragStart={() => setIsDragging(true)}>
                 <div
                     className={`flex flex-col w-screen overflow-y-auto h-screen bg-transparent overflow-hidden pt-[15%] sm:pt-[10%] md:pt-[8%] lg:pt-[3.5%]`}
                     style={{
@@ -185,7 +190,7 @@ export const Board = (): JSX.Element => {
                                         onDeleteCard={onDeleteCard}
                                     />
                                 ))}
-                                <AddListPlaceholder />
+                                <AddListPlaceholder isDragging={isDragging}/>
                                 {provided.placeholder}
                             </div>
                         )}
