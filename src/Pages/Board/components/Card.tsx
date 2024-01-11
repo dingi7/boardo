@@ -29,7 +29,7 @@ export const Card: React.FC<CardItem> = ({
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
-                    <input className="relative w-fit mt-[-1.00px] [font-family:'Inter-Medium',Helvetica] font-medium text-slate-900 text-[16px] tracking-[0] leading-[normal] whitespace-nowrap disabled:opacity-85" 
+                    <input className="relative w-fit mt-[-1.00px] [font-family:'Inter-Medium',Helvetica] font-medium text-slate-900 text-[16px] tracking-[0] leading-[normal] whitespace-nowrap disabled:opacity-85 bg-inherit" 
                         value={content}
                         disabled={!isInputActive}
                         onBlur={() => setIsInputActive(false)}
