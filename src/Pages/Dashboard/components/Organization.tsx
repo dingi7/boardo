@@ -35,14 +35,16 @@ export const Organization = ({
                 }
                 onClick();
             }}
-            className="mb-3 pr-[4%]"
+            className="mb-3"
         >
-            <h1 className="text-xs md:text-base lg:text-text-lg w-full flex flex-row justify-between font-medium gap-[4%]">
-                <div className="bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded min-height">
-                    <Building2 color="white"></Building2>
+            <h1 className="text-xs md:text-base lg:text-text-lg w-full flex flex-row font-medium justify-between ">
+                <div className="flex flex-row w-[70%] gap-[4%]">
+                    <div className="bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded min-height">
+                        <Building2 color="white"></Building2>
+                    </div>
+                    <p className="truncate w-[40%]">{orgName} </p>
                 </div>
-                <div className="flex flex-row gap-[5%] w-full justify-between">
-                    {orgName}{" "}
+                <div className="flex flex-row justify-between">
                     {expandedOrganizationId === orgId ? (
                         <ChevronUp
                             onClick={(e: any) => {
