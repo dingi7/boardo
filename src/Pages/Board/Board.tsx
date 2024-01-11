@@ -12,7 +12,7 @@ import { useToast } from '../../Components/Toaster/use-toast';
 
 export const Board = (): JSX.Element => {
     const context = useContext(BoardContext);
-    const {toast} = useToast();
+    const { toast } = useToast();
 
     if (!context) {
         throw new Error('Board context is not available');
@@ -38,17 +38,17 @@ export const Board = (): JSX.Element => {
                 cards: list.cards.filter((card) => card._id !== cardId),
             }));
         });
-        
+
         toast({
             title: 'Card deleted successfully',
-        })
+        });
     };
 
     const onCardAdd = async (listId: string, name: string) => {
         const card = await createCard(listId, name, boardInfo?.owner!);
         toast({
             title: 'Card created successfully',
-        })
+        });
         setLists((prev) => {
             if (!prev) return null;
             return prev.map((list) =>
@@ -142,54 +142,52 @@ export const Board = (): JSX.Element => {
 
     return (
         <>
-        <Navbar />
-        <DragDropContext onDragEnd={onDragEnd}>
-            <div
-                className='flex flex-col w-screen overflow-y-auto h-screen bg-slate-800 overflow-hidden pt-[15%] sm:pt-[10%] md:pt-[8%] lg:pt-[3.5%]'
-                style={{
-                    backgroundImage: `url('${backgroundUrl}')`,
-                    backgroundSize: 'cover',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'center',
-                }}
-            >
-                <BoardHeader
-                    boardName={boardInfo?.name || ''}
-                    setBoardName={(name: string) =>
-                        setBoardInfo({ ...boardInfo!, name })
-                    }
-                    setBackgroundUrl={setBackgroundUrl}
-                    backgroundUrl={backgroundUrl}
-                />
-                <Droppable
-                    droppableId='allcolumns'
-                    direction='horizontal'
-                    type='column'
+            <Navbar />
+            <DragDropContext onDragEnd={onDragEnd}>
+                <div
+                    className='flex flex-col w-screen overflow-y-auto h-screen bg-slate-800 overflow-hidden pt-[15%] sm:pt-[10%] md:pt-[8%] lg:pt-[3.5%]'
+                    style={{
+                        backgroundImage: `url('${backgroundUrl}')`,
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+                    }}
                 >
-                    {(provided) => (
-                        <div
-                            className={`flex flex-col md:flex-row mt-[1%] p-[1%] pb-[5%]  md:w-full px-[2%] mx-auto h-screen overflow-auto pr-[10%] md:pretty-scrollBar gap-[4%]`}
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                        >
-                            {lists?.map((data, index) => (
-                                <List
-                                    key={data._id}
-                                    id={data._id}
-                                    title={data.name}
-                                    cards={data.cards}
-                                    index={index}
-                                    onCardAdd={onCardAdd}
-                                    onDeleteCard={onDeleteCard}
-                                />
-                            ))}
-                            <AddListPlaceholder />
-                            {provided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-            </div>
-        </DragDropContext>
+                    <BoardHeader
+                        boardName={boardInfo?.name || ''}
+                        setBoardName={(name: string) =>
+                            setBoardInfo({ ...boardInfo!, name })
+                        }
+                    />
+                    <Droppable
+                        droppableId='allcolumns'
+                        direction='horizontal'
+                        type='column'
+                    >
+                        {(provided) => (
+                            <div
+                                className={`flex flex-col md:flex-row mt-[1%] p-[1%] pb-[5%]  md:w-full px-[2%] mx-auto h-screen overflow-auto pr-[10%] md:pretty-scrollBar gap-[4%]`}
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                {lists?.map((data, index) => (
+                                    <List
+                                        key={data._id}
+                                        id={data._id}
+                                        title={data.name}
+                                        cards={data.cards}
+                                        index={index}
+                                        onCardAdd={onCardAdd}
+                                        onDeleteCard={onDeleteCard}
+                                    />
+                                ))}
+                                <AddListPlaceholder />
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </div>
+            </DragDropContext>
         </>
     );
 };
