@@ -22,6 +22,7 @@ export const BoardHeader = ({
             <BoardSettingsDropdownMenu
                 boardId={boardId}
                 setBackgroundUrl={setBackgroundUrl}
+                
             />
         </div>
     );

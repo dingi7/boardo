@@ -14,7 +14,7 @@ export const BoardSettingsDropdownMenu = ({ boardId, setBackgroundUrl }: { board
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <MoreHorizontal />
+                <MoreHorizontal className='on:hover: cursor-pointer' />
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-56'>
                 <DropdownMenuLabel>Settings</DropdownMenuLabel>
