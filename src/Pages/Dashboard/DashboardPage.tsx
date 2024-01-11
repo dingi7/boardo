@@ -39,7 +39,9 @@ export const Dashboard = () => {
         <div className={`h-screen duration-500 ease-in-out `}>
             <Navbar />
             <div
-                className={`h-screen mt-0 flex flex-row gap-[5%] duration-500 ease-in-out ${isAddWorkspaceModalOpen && "blur"}`}
+                className={`h-screen mt-0 flex flex-row gap-[5%] duration-500 ease-in-out ${
+                    isAddWorkspaceModalOpen && 'blur'
+                }`}
             >
                 <div className='w-[30%] ml-[2%] h-[90%] mt-auto border-r-2 pt-[5%] md:w-[25%] lg:w-[20%] md:pt-[2%] xl:pt-[1%] 2xl:pt-0'>
                     <div className='text-sm md:text-base lg:text-text-lg pl-[2%] pt-[3%] pr-[5%] select-none'>
@@ -105,16 +107,22 @@ export const Dashboard = () => {
 
             {isAddWorkspaceModalOpen && (
                 // <AddWorkspaceModal
-                //     allOrganizations={allOrganizations!}
-                //     fetchAllOrganizations={fetchAllOrganizations}
-                //     closeModal={() => setIsAddWorkspaceModalOpen(false)}
-                //     setUserOrganizations={setUserOrganizations}
-                //     setSelectedOrganization={setSelectedOrganization}
+                // allOrganizations={allOrganizations!}
+                // fetchAllOrganizations={fetchAllOrganizations}
+                // closeModal={() => setIsAddWorkspaceModalOpen(false)}
+                // setUserOrganizations={setUserOrganizations}
+                // setSelectedOrganization={setSelectedOrganization}
                 // />
 
                 // <div className='w-500'>
                 <div className='fixed inset-0 flex items-center justify-center'>
-                        <WorkspaceTabs></WorkspaceTabs>
+                    <WorkspaceTabs
+                        allOrganizations={allOrganizations!}
+                        fetchAllOrganizations={fetchAllOrganizations}
+                        closeModal={() => setIsAddWorkspaceModalOpen(false)}
+                        setUserOrganizations={setUserOrganizations}
+                        setSelectedOrganization={setSelectedOrganization}
+                    ></WorkspaceTabs>
                 </div>
             )}
         </div>
