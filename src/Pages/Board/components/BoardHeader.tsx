@@ -4,7 +4,7 @@ import { BoardSettingsDropdownMenu } from './BoardSettingsDropdownMenu';
 type Props = {
     boardName: string | undefined;
     setBoardName: (name: string) => void;
-  };
+};
 
 export const BoardHeader = ({
     boardName,
@@ -15,8 +15,7 @@ export const BoardHeader = ({
             <div className='flex items-center gap-1'>
                 <BoardTitle boardName={boardName} setBoardName={setBoardName} />
             </div>
-
-            <BoardSettingsDropdownMenu></BoardSettingsDropdownMenu>
+            <BoardSettingsDropdownMenu />
         </div>
     );
 };
