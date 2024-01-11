@@ -25,15 +25,19 @@ export const endpoints = {
 
 export const joinOrganization = async (orgId: string, password: string) => {
     return api.post(endpoints.joinOrg(orgId), { password });
-}
+};
 
 export const createList = async (boardId: string, name: string) => {
     return api.post(endpoints.list(null), { boardId, name });
-}
+};
 
-export const renameList = async (listId: string, name: string, organizationId:string) => {
+export const renameList = async (
+    listId: string,
+    name: string,
+    organizationId: string
+) => {
     return api.put(endpoints.list(listId), { name, organizationId });
-}
+};
 
 export const createOrganization = async (data: {
     name: string;
@@ -62,8 +66,6 @@ export const createBoard = async (data: {
     return api.post(endpoints.createBoard, data);
 };
 
-
-
 export const removeMemberFromBoard = async (
     boardId: string,
     memberId: string
@@ -82,7 +84,9 @@ export const deleteBoard = async (boardId: string) => {
 };
 
 export const getBoardsByOrgId = async (orgId: string) => {
-    return api.get(endpoints.getBoardsByOrg(orgId));
+    const queryParams = { populate: 'true' };
+    const queryString = new URLSearchParams(queryParams).toString();
+    return api.get(`${endpoints.getBoardsByOrg(orgId)}?${queryString}`);
 };
 
 export const getBoardById = async (boardId: string): Promise<dataBaseBoard> => {
@@ -108,13 +112,21 @@ export const updateBoard = async (
 
 export const updateBoardName = async (boardId: string, boardName: string) => {
     return api.put(endpoints.board(boardId), { boardName });
-}
+};
 
-export const createCard = async (listId: string, content: string, organizationId: string) => {
+export const createCard = async (
+    listId: string,
+    content: string,
+    organizationId: string
+) => {
     return api.post(endpoints.card(null), { content, listId, organizationId });
 };
 
-export const deleteCard = async (cardId: string, boardId: string, organizationId: string) => {
+export const deleteCard = async (
+    cardId: string,
+    boardId: string,
+    organizationId: string
+) => {
     return api.del(endpoints.card(cardId), { boardId, organizationId });
 };
 
