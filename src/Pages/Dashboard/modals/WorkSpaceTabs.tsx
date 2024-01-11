@@ -14,6 +14,9 @@ import {
     CardTitle,
 } from 'src/Components/ui/card';
 import { Input } from 'src/Components/ui/input';
+import { X } from 'lucide-react';
+import { createOrganization } from 'src/api/requests';
+import { useState } from 'react';
 
 type AddWorkspaceModalProps = {
     closeModal: () => void;
@@ -29,6 +32,21 @@ export const WorkspaceTabs = ({
     setUserOrganizations,
     setSelectedOrganization,
 }: AddWorkspaceModalProps) => {
+    const [workspaceData, setWorkspaceData] = useState<{
+        name: string;
+        password: string;
+    }>({
+        name: '',
+        password: '',
+    });
+
+    const handleCreateWorkspace = async () => {
+        const result = await createOrganization(workspaceData);
+        setUserOrganizations((prev: any) => [...prev, result]);
+        setSelectedOrganization(result);
+        closeModal();
+    };
+
     return (
         <Tabs defaultValue='join' className='w-[400px] justify-center'>
             <TabsList className='grid w-full grid-cols-2'>
@@ -36,16 +54,24 @@ export const WorkspaceTabs = ({
                 <TabsTrigger value='create'>Create</TabsTrigger>
             </TabsList>
             <TabsContent value='join'>
-                {/* <form className='h-[80%] flex flex-col w-full mx-auto text-center justify-center  '>
-                    <div className='h-[100%] flex flex-col gap-3  items-start justify-center overflow-hidden'>
-                        <label
-                            htmlFor='workspaceName'
-                            className='font-medium mx-auto'
-                        >
-                            Workspace name
-                        </label>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className=' relative on:hover cursor-pointer '>
+                            Join Workspace{' '}
+                            <X
+                                className=' absolute right-0 top-0 on:hover cursor-pointer '
+                                onClick={closeModal}
+                            ></X>
+                        </CardTitle>
+                        <CardDescription>
+                            Choose the organization you want to join. You can
+                            scroll to see all.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className='space-y-2'>
                         <SearchComponent />
-                        <div className='h-[50%] w-[40%] overflow-y-auto no-scrollbar mx-auto'>
+
+                        <div className=' h-40 w-[50%] overflow-y-auto no-scrollbar mx-auto'>
                             {allOrganizations!.map(
                                 (org: dataBaseOrganization) => (
                                     <JoinDialog
@@ -56,52 +82,61 @@ export const WorkspaceTabs = ({
                                 )
                             )}
                         </div>
-                    </div>
-                </form> */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Account</CardTitle>
-                        <CardDescription>
-                            Make changes to your account here. Click save when
-                            you're done.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className='space-y-2'>
-                        <div className='space-y-1'>
-                            <Label htmlFor='name'>Name</Label>
-                            <Input id='name' defaultValue='Pedro Duarte' />
-                        </div>
-                        <div className='space-y-1'>
-                            <Label htmlFor='username'>Username</Label>
-                            <Input id='username' defaultValue='@peduarte' />
-                        </div>
                     </CardContent>
-                    <CardFooter>
-                        <Button>Save changes</Button>
-                    </CardFooter>
                 </Card>
             </TabsContent>
+
             <TabsContent value='create'>
                 <Card>
                     <CardHeader>
-                        <CardTitle>Account</CardTitle>
+                        <CardTitle className=' relative'>
+                            Create Workspace{' '}
+                            <X
+                                className=' absolute right-0 top-0 on:hover cursor-pointer '
+                                onClick={closeModal}
+                            ></X>
+                        </CardTitle>
                         <CardDescription>
-                            Make changes to your account here. Click save when
+                            Choose your workspace details. Click create when
                             you're done.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className='space-y-2'>
                         <div className='space-y-1'>
-                            <Label htmlFor='name'>Name</Label>
-                            <Input id='name' defaultValue='Pedro Duarte' />
+                            <Label htmlFor='name'>Workspace name</Label>
+                            <Input
+                                id='name'
+                                value={workspaceData.name}
+                                onChange={(e) => {
+                                    setWorkspaceData((prevData) => ({
+                                        ...prevData,
+                                        name: e.target.value,
+                                    }));
+                                }}
+                            />
                         </div>
                         <div className='space-y-1'>
-                            <Label htmlFor='username'>Username</Label>
-                            <Input id='username' defaultValue='@peduarte' />
+                            <Label htmlFor='password'>Workspace password</Label>
+                            <Input
+                                id='password'
+                                type='password'
+                                value={workspaceData.password}
+                                onChange={(e) => {
+                                    setWorkspaceData((prevData) => ({
+                                        ...prevData,
+                                        password: e.target.value,
+                                    }));
+                                }}
+                            />
                         </div>
                     </CardContent>
                     <CardFooter>
-                        <Button>Save changes</Button>
+                        <Button
+                            variant={'primary'}
+                            onClick={handleCreateWorkspace}
+                        >
+                            Create
+                        </Button>
                     </CardFooter>
                 </Card>
             </TabsContent>
