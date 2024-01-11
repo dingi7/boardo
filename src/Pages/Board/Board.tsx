@@ -12,8 +12,9 @@ import { useToast } from '../../Components/Toaster/use-toast';
 import { useNavigate } from 'react-router-dom';
 
 export const Board = (): JSX.Element => {
+
     const [isDragging, setIsDragging] = useState<boolean>(false);
-    const navigate = useNavigate();
+
     const context = useContext(BoardContext);
     const { toast } = useToast();
 
