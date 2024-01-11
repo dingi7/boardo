@@ -1,7 +1,15 @@
-import { createContext, useState, useCallback, useEffect, Dispatch, SetStateAction } from 'react';
-import { useParams } from 'react-router-dom';
+import {
+    createContext,
+    useState,
+    useCallback,
+    useEffect,
+    Dispatch,
+    SetStateAction,
+} from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { dataBaseBoard, dataBaseList } from '../../../Interfaces/IDatabase';
 import { getBoardById } from '../../../api/requests';
+import { toast } from 'src/Components/Toaster/use-toast';
 
 export interface BoardContextType {
     boardInfo: dataBaseBoard | null;
@@ -15,7 +23,9 @@ export interface BoardContextType {
     boardId: string | undefined;
 }
 
-export const BoardContext = createContext<BoardContextType | undefined>(undefined);
+export const BoardContext = createContext<BoardContextType | undefined>(
+    undefined
+);
 
 export const BoardContextProvider = ({ children }: { children: any }) => {
     const { boardId } = useParams<{ boardId: string }>();
@@ -23,6 +33,7 @@ export const BoardContextProvider = ({ children }: { children: any }) => {
     const [lists, setLists] = useState<dataBaseList[] | null>(null);
     const [backgroundUrl, setBackgroundUrl] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
+    const navigate = useNavigate();
 
     const fetchBoardData = useCallback(async () => {
         if (!boardId) return;
@@ -33,6 +44,12 @@ export const BoardContextProvider = ({ children }: { children: any }) => {
             setBackgroundUrl(data.backgroundUrl || '');
         } catch (error) {
             console.error('Failed to fetch board data:', error);
+            navigate('/dashboard');
+            toast({
+                variant: 'destructive',
+                title: 'Board not found',
+                description: 'Board not found, redirecting to dashboard',
+            });
         }
         setLoading(false);
     }, [boardId]);
@@ -54,7 +71,7 @@ export const BoardContextProvider = ({ children }: { children: any }) => {
                 setBackgroundUrl,
                 loading,
                 setLoading,
-                boardId
+                boardId,
             }}
         >
             {children}

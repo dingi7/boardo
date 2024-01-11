@@ -9,8 +9,10 @@ import { Loading } from '../../Components/loading';
 import { BoardContext } from './contexts/BoardContextProvider';
 import { Navbar } from '../../Components/navbar';
 import { useToast } from '../../Components/Toaster/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 export const Board = (): JSX.Element => {
+    const navigate = useNavigate();
     const context = useContext(BoardContext);
     const { toast } = useToast();
 
@@ -27,6 +29,7 @@ export const Board = (): JSX.Element => {
         setBackgroundUrl,
         loading,
     } = context;
+
 
     const onDeleteCard = async (cardId: string) => {
         await deleteCard(cardId, boardId!, boardInfo?.owner!);
