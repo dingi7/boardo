@@ -16,17 +16,14 @@ import { Settings } from 'lucide-react';
 
 export function BackgroundPicker({}: {}) {
     return (
-
         <Dialog>
             <DialogTrigger asChild>
-                <DropdownMenuItem>
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                     <Settings className='mr-2 h-4 w-4' />
                     <span>Change background</span>
                 </DropdownMenuItem>
             </DialogTrigger>
-            <DialogContent
-                className='sm:max-w-[425px] bg-slate-200'
-            >
+            <DialogContent className='sm:max-w-[425px] bg-slate-200'>
                 <DialogHeader>
                     <DialogTitle>Join Organization</DialogTitle>
                     <DialogDescription>
@@ -49,10 +46,7 @@ export function BackgroundPicker({}: {}) {
                         <Label htmlFor='password' className='text-right'>
                             Password
                         </Label>
-                        <Input
-                            id='password'
-                            className='col-span-3'
-                        />
+                        <Input id='password' className='col-span-3' />
                     </div>
                 </div>
                 <DialogFooter className='sm:justify-center'>
@@ -68,6 +62,5 @@ export function BackgroundPicker({}: {}) {
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-        // </div>
     );
 }

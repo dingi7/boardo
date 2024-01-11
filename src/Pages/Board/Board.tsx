@@ -24,9 +24,7 @@ export const Board = (): JSX.Element => {
         lists,
         setLists,
         backgroundUrl,
-        setBackgroundUrl,
         loading,
-        setLoading,
     } = context;
 
     const onDeleteCard = async (cardId: string) => {
@@ -158,6 +156,7 @@ export const Board = (): JSX.Element => {
                         setBoardName={(name: string) =>
                             setBoardInfo({ ...boardInfo!, name })
                         }
+                        boardId={boardId!}
                     />
                     <Droppable
                         droppableId='allcolumns'
