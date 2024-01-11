@@ -1,50 +1,29 @@
-import {
-    MoreHorizontal, Settings,
-    Trash
-} from 'lucide-react';
+import { MoreHorizontal } from 'lucide-react';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from 'src/Components/dropdown';
-import { BackgroundPicker } from './backgroundPicker';
+import { BackgroundPicker } from './BackgroundPicker';
+import { DeleteHandler } from './DeleteHandler';
 
-export const BoardSettingsDropdownMenu = () => {
-    const deleteBoard = async() => {
-        // ask for user confirmation
-        // delete board
-        // redirect user to dashboard
-
-        
-    }
-
+export const BoardSettingsDropdownMenu = ({ boardId, setBackgroundUrl }: { boardId: string, setBackgroundUrl: (bgUrl: string) => void }) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <MoreHorizontal />
+                <MoreHorizontal className='on:hover: cursor-pointer' />
             </DropdownMenuTrigger>
             <DropdownMenuContent className='w-56'>
                 <DropdownMenuLabel>Settings</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    {/* <DropdownMenuItem>
-                        <User className='mr-2 h-4 w-4' />
-                        <span>Profile</span>
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-                    </DropdownMenuItem>  */}
-                    {/* <DropdownMenuItem>
-                        <Settings className='mr-2 h-4 w-4' />
-                        <span>Change background</span>
-                    </DropdownMenuItem> */}
-                    <BackgroundPicker />
-                    <DropdownMenuItem>
-                        <Trash className='mr-2 h-4 w-4' />
-                        <span>Delete</span>
-                    </DropdownMenuItem>
+                    <BackgroundPicker boardId={boardId} setBackgroundUrl={setBackgroundUrl} />
+                    <DeleteHandler boardId={boardId} />
                 </DropdownMenuGroup>
             </DropdownMenuContent>
         </DropdownMenu>
     );
-}
+};

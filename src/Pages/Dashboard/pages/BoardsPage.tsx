@@ -53,17 +53,6 @@ export const BoardsPage = (props: Props) => {
                     </div>
                 </>
             ) : null
-            // <div className="flex flex-col justify-center items-center h-full">
-            //     <h1 className="font-bold text-2xl">
-            //         You don't have any workspaces yet.
-            //     </h1>
-            //     <button
-            //         className="mt-[2%] bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md p-[2%] hover:cursor-pointer"
-            //         onClick={() => setIsAddWorkspaceModalOpen(true)}
-            //     >
-            //         Create your first one!
-            //     </button>
-            // </div>
             }
         </div>
     );

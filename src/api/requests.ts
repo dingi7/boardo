@@ -121,7 +121,7 @@ export const deleteCard = async (cardId: string, boardId: string, organizationId
 export const getUserOrganizations = async () => {
     return api.get(endpoints.orgs);
 };
-export const updateBoardBackground = async (boardId: string, bgUrl: string) => {
+export const changeBoardBackground = async (boardId: string, bgUrl: string) => {
     return api.put(endpoints.board(boardId), { backgroundUrl: bgUrl });
 };
 

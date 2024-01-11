@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
 import { BoardHeader } from './components/BoardHeader';
 import { List } from './components/List/List';
@@ -9,8 +9,10 @@ import { Loading } from '../../Components/loading';
 import { BoardContext } from './contexts/BoardContextProvider';
 import { Navbar } from '../../Components/navbar';
 import { useToast } from '../../Components/Toaster/use-toast';
+import { useNavigate } from 'react-router-dom';
 
 export const Board = (): JSX.Element => {
+    const navigate = useNavigate();
     const context = useContext(BoardContext);
     const { toast } = useToast();
 
@@ -26,8 +28,8 @@ export const Board = (): JSX.Element => {
         backgroundUrl,
         setBackgroundUrl,
         loading,
-        setLoading,
     } = context;
+
 
     const onDeleteCard = async (cardId: string) => {
         await deleteCard(cardId, boardId!, boardInfo?.owner!);
@@ -145,7 +147,7 @@ export const Board = (): JSX.Element => {
             <Navbar />
             <DragDropContext onDragEnd={onDragEnd}>
                 <div
-                    className='flex flex-col w-screen overflow-y-auto h-screen bg-slate-800 overflow-hidden pt-[15%] sm:pt-[10%] md:pt-[8%] lg:pt-[3.5%]'
+                    className={`flex flex-col w-screen overflow-y-auto h-screen bg-transparent overflow-hidden pt-[15%] sm:pt-[10%] md:pt-[8%] lg:pt-[3.5%]`}
                     style={{
                         backgroundImage: `url('${backgroundUrl}')`,
                         backgroundSize: 'cover',
@@ -158,6 +160,8 @@ export const Board = (): JSX.Element => {
                         setBoardName={(name: string) =>
                             setBoardInfo({ ...boardInfo!, name })
                         }
+                        boardId={boardId!}
+                        setBackgroundUrl={setBackgroundUrl}
                     />
                     <Droppable
                         droppableId='allcolumns'

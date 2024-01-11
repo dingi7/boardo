@@ -9,6 +9,7 @@ import { Loading } from '../../Components/loading';
 
 import { Navbar } from '../../Components/navbar';
 import { DashboardContext } from './contexts/DashboardContextProvider';
+import { WorkspaceTabs } from './modals/WorkSpaceTabs';
 
 export const Dashboard = () => {
     const navigate = useNavigate();
@@ -29,16 +30,18 @@ export const Dashboard = () => {
         setUserOrganizations,
         expandedOrganizationId,
         setExpandedOrganizationId,
-        fetching
+        fetching,
     } = context;
 
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
         useState<boolean>(false);
     return !loading ? (
-        <div className={`h-screen duration-500 ease-in-out`}>
+        <div className={`h-screen duration-500 ease-in-out `}>
             <Navbar />
             <div
-                className={`h-screen mt-0 flex flex-row gap-[5%] duration-500 ease-in-out`}
+                className={`h-screen mt-0 flex flex-row gap-[5%] duration-500 ease-in-out ${
+                    isAddWorkspaceModalOpen && 'blur'
+                }`}
             >
                 <div className='w-[30%] ml-[2%] h-[90%] mt-auto border-r-2 pt-[5%] md:w-[25%] lg:w-[20%] md:pt-[2%] xl:pt-[1%] 2xl:pt-0'>
                     <div className='text-sm md:text-base lg:text-text-lg pl-[2%] pt-[3%] pr-[5%] select-none'>
@@ -96,18 +99,31 @@ export const Dashboard = () => {
                             </button>
                         </div>
                     )}
-                    <Outlet context={{ selectedOrganization, boards, fetching }} />
+                    <Outlet
+                        context={{ selectedOrganization, boards, fetching }}
+                    />
                 </div>
             </div>
 
             {isAddWorkspaceModalOpen && (
-                <AddWorkspaceModal
-                    allOrganizations={allOrganizations!}
-                    fetchAllOrganizations={fetchAllOrganizations}
-                    closeModal={() => setIsAddWorkspaceModalOpen(false)}
-                    setUserOrganizations={setUserOrganizations}
-                    setSelectedOrganization={setSelectedOrganization}
-                />
+                // <AddWorkspaceModal
+                // allOrganizations={allOrganizations!}
+                // fetchAllOrganizations={fetchAllOrganizations}
+                // closeModal={() => setIsAddWorkspaceModalOpen(false)}
+                // setUserOrganizations={setUserOrganizations}
+                // setSelectedOrganization={setSelectedOrganization}
+                // />
+
+                // <div className='w-500'>
+                <div className='fixed inset-0 flex items-center justify-center'>
+                    <WorkspaceTabs
+                        allOrganizations={allOrganizations!}
+                        fetchAllOrganizations={fetchAllOrganizations}
+                        closeModal={() => setIsAddWorkspaceModalOpen(false)}
+                        setUserOrganizations={setUserOrganizations}
+                        setSelectedOrganization={setSelectedOrganization}
+                    ></WorkspaceTabs>
+                </div>
             )}
         </div>
     ) : (
