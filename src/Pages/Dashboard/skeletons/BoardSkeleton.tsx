@@ -1,3 +1,4 @@
+import { Navbar } from 'src/Components/navbar';
 import { Skeleton } from 'src/Components/ui/skeleton';
 
 export const BoardSkeleton = () => {
@@ -14,7 +15,6 @@ export const BoardSkeleton = () => {
                     <Skeleton className='font-extrabold text-2xl w-[200px] h-8' />
                 </div>
             </div>
-
             <div className='mt-[4%] w-full'>
                 <div className='flex flex-row gap-[1%] font-medium text-xl'>
                     <Skeleton className='w-8 h-8' />

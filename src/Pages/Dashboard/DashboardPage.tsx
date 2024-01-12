@@ -10,6 +10,7 @@ import { Loading } from '../../Components/loading';
 import { Navbar } from '../../Components/navbar';
 import { DashboardContext } from './contexts/DashboardContextProvider';
 import { WorkspaceTabs } from './modals/WorkSpaceTabs';
+import { DashboardSkeleton } from './skeletons/DashboardSkeleton';
 
 export const Dashboard = () => {
     const navigate = useNavigate();
@@ -127,6 +128,7 @@ export const Dashboard = () => {
             )}
         </div>
     ) : (
-        <Loading />
+        // <Loading />
+        <DashboardSkeleton/>
     );
 };

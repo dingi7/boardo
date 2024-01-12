@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { AddBoard } from '../components/AddBoard';
 import { Loading } from 'src/Components/loading';
-import { BoardSkeleton } from './BoardSkeleton';
+import { BoardSkeleton } from '../skeletons/BoardSkeleton';
 
 type Props = {};
 
