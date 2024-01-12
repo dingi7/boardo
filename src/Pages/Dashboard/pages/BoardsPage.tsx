@@ -3,6 +3,7 @@ import React from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { AddBoard } from '../components/AddBoard';
 import { Loading } from 'src/Components/loading';
+import { BoardSkeleton } from './BoardSkeleton';
 
 type Props = {};
 
@@ -11,7 +12,8 @@ export const BoardsPage = (props: Props) => {
     const { selectedOrganization, boards, fetching } = context;
 
     if(fetching){
-            return <Loading></Loading>
+            // return <Loading></Loading> 
+            return <BoardSkeleton/>
     }
     return (
         
