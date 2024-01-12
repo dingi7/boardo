@@ -1,4 +1,5 @@
 import { Trash } from 'lucide-react';
+import { list } from 'postcss';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'src/Components/Toaster/use-toast';
@@ -14,28 +15,66 @@ import {
     AlertDialogTrigger,
 } from 'src/Components/alertDialog';
 import { DropdownMenuItem } from 'src/Components/dropdown';
-import { deleteBoard } from 'src/api/requests';
+import { deleteBoard, deleteList } from 'src/api/requests';
 
 export const DeleteHandler = ({
-    boardId,
+    itemId,
+    option,
+    setLists,
+    deleteCard
 }: {
-    boardId: string;
+    itemId: string;
+    option: 'board' | 'list' | 'card';
+    setLists?: any;
+    deleteCard?: any
 }): JSX.Element => {
     const [loading, setLoading] = useState<boolean>(false);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const handleDeletion = async () => {
-        setLoading(true)
-        await deleteBoard(boardId);
-        navigate('/dashboard')
-        toast({
-            title: 'Board sucessfuly deleted',
-        });
+        setLoading(true);
+        if (option === 'board') {
+            await deleteBoard(itemId);
+            navigate('/dashboard');
+            toast({
+                title: 'Board sucessfuly deleted',
+            });
+        }
+        if (option === 'list') {
+            setLists((prev: any) =>
+                prev.filter((list: any) => list._id !== itemId)
+            )
+            try {
+                await deleteList(itemId);
+                toast({
+                    title: 'List sucessfuly deleted',
+                });
+            } catch (e) {
+                toast({
+                    title: 'List could not be deleted',
+                });
+            }
+        }
+        if (option === 'card') {
+            try{
+            await deleteCard(itemId);
+            toast({
+                title: 'Card deleted successfully',
+            });
+            }catch(e){
+                toast({
+                    title: 'Card could not be deleted',
+                });
+            }
+        }
     };
 
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()} disabled={loading}>
+                <DropdownMenuItem
+                    onSelect={(e) => e.preventDefault()}
+                    disabled={loading}
+                >
                     <Trash className='mr-2 h-4 w-4' />
                     <span>Delete</span>
                 </DropdownMenuItem>
@@ -47,7 +86,7 @@ export const DeleteHandler = ({
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                         This action cannot be undone. This will permanently
-                        delete your board and remove the data from our servers.
+                        delete this item and remove the data from our servers.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

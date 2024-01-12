@@ -23,6 +23,11 @@ export const endpoints = {
     //     `/items/removeMember/${boardId}`,
 };
 
+export const deleteList = async (listId: string) => {
+    return api.del(endpoints.list(listId));
+}
+
+
 export const joinOrganization = async (orgId: string, password: string) => {
     return api.post(endpoints.joinOrg(orgId), { password });
 };

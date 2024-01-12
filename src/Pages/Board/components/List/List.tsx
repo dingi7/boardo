@@ -7,6 +7,7 @@ import { dataBaseCard } from '../../../../Interfaces/IDatabase';
 import { CardForm } from '../CardForm';
 import { ListTitle } from './list-title';
 import { useState } from 'react';
+import { ListSettingsDropdownMenu } from '../ListSettingsDropdown';
 
 export const List = ({
     id,
@@ -42,7 +43,7 @@ export const List = ({
                                         
                                         />
                                     </div>
-                                    <MoreHorizontal className='h-6 w-6 on:hover:bg-slate-200 cursor-pointer' />
+                                    <ListSettingsDropdownMenu listId={id}/>
                                 </div>
                                 <Droppable droppableId={id} type='task'>
                                     {(provided) => (

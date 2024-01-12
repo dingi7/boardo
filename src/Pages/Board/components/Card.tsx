@@ -2,6 +2,8 @@ import { Draggable } from '@hello-pangea/dnd';
 import { Pencil } from 'lucide-react';
 import { Button } from '../../../Components/ui/button';
 import { useState } from 'react';
+import { ListSettingsDropdownMenu } from './ListSettingsDropdown';
+import { CardSettingsDropdownMenu } from './CardSettingsDropdow';
 
 type CardItem = {
     content: string;
@@ -39,18 +41,7 @@ export const Card: React.FC<CardItem> = ({
                             isHovered ? 'opacity-100' : 'opacity-0'
                         }`}
                     >
-                        {/* <Button
-                            className=" border-r-8"
-                            onClick={async () => onDeleteCard(id)}
-                        >
-                            <Pencil />
-                        </Button> */}
-                        <Button
-                            className=""
-                            onClick={() => setIsInputActive(!isInputActive)}
-                        >
-                            <Pencil />
-                        </Button>
+                        <CardSettingsDropdownMenu cardId={id} onDeleteCard={onDeleteCard}/>
                     </div>
                 </div>
             )}

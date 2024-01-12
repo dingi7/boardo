@@ -12,7 +12,6 @@ import { useToast } from '../../Components/Toaster/use-toast';
 import { useNavigate } from 'react-router-dom';
 
 export const Board = (): JSX.Element => {
-
     const [isDragging, setIsDragging] = useState<boolean>(false);
 
     const context = useContext(BoardContext);
@@ -32,20 +31,19 @@ export const Board = (): JSX.Element => {
         loading,
     } = context;
 
-
     const onDeleteCard = async (cardId: string) => {
-        await deleteCard(cardId, boardId!, boardInfo?.owner!);
-        setLists((prev) => {
-            if (!prev) return null;
-            return prev.map((list) => ({
-                ...list,
-                cards: list.cards.filter((card) => card._id !== cardId),
-            }));
-        });
-
-        toast({
-            title: 'Card deleted successfully',
-        });
+        try {
+            deleteCard(cardId, boardId!, boardInfo?.owner!);
+            setLists((prev) => {
+                if (!prev) return null;
+                return prev.map((list) => ({
+                    ...list,
+                    cards: list.cards.filter((card) => card._id !== cardId),
+                }));
+            });
+        } catch (e) {
+            throw new Error('Card could not be deleted');
+        }
     };
 
     const onCardAdd = async (listId: string, name: string) => {
@@ -64,7 +62,7 @@ export const Board = (): JSX.Element => {
     };
 
     const onDragEnd = (result: DropResult) => {
-        
+        setIsDragging(false);
         const { destination, source, type } = result;
 
         if (!destination) {
@@ -78,8 +76,6 @@ export const Board = (): JSX.Element => {
             return;
         }
 
-        setIsDragging(false)
-         
         if (type === 'column') {
             const newColumnOrder = [...lists!];
 
@@ -113,7 +109,7 @@ export const Board = (): JSX.Element => {
             });
 
             setLists(newState);
-            
+
             return updateBoard(boardInfo!._id, boardInfo!.name, newState);
         }
 
@@ -151,7 +147,10 @@ export const Board = (): JSX.Element => {
     return (
         <>
             <Navbar />
-            <DragDropContext onDragEnd={onDragEnd} onDragStart={() => setIsDragging(true)}>
+            <DragDropContext
+                onDragEnd={onDragEnd}
+                onDragStart={() => setIsDragging(true)}
+            >
                 <div
                     className={`flex flex-col w-screen overflow-y-auto h-screen bg-transparent overflow-hidden pt-[15%] sm:pt-[10%] md:pt-[8%] lg:pt-[3.5%]`}
                     style={{
@@ -191,7 +190,7 @@ export const Board = (): JSX.Element => {
                                         onDeleteCard={onDeleteCard}
                                     />
                                 ))}
-                                <AddListPlaceholder isDragging={isDragging}/>
+                                <AddListPlaceholder isDragging={isDragging} />
                                 {provided.placeholder}
                             </div>
                         )}
