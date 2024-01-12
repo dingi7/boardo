@@ -7,7 +7,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from 'src/Components/dropdown';
-import { BackgroundPicker } from './backgroundPicker';
+import { BackgroundPicker } from './BackgroundPicker';
 import { DeleteHandler } from './DeleteHandler';
 
 export const BoardSettingsDropdownMenu = ({ boardId, setBackgroundUrl }: { boardId: string, setBackgroundUrl: (bgUrl: string) => void }) => {
