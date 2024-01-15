@@ -10,6 +10,7 @@ export const Settings = (props: Props) => {
     const { selectedOrganization } = useOutletContext<any>();
     const auth = useAuthUser()();
     const isAuthenticated = auth && auth._id === selectedOrganization.owner;
+    console.log(selectedOrganization)
     return (
         <div className="flex flex-col justify-between">
             <div className="flex flex-col items-left">

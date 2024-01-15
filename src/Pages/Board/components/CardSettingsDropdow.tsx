@@ -7,7 +7,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from 'src/Components/dropdown';
-import { BackgroundPicker } from './BackgroundPicker';
+import { BackgroundPicker } from './backgroundPicker';
 import { DeleteHandler } from './DeleteHandler';
 import { BoardContext } from '../contexts/BoardContextProvider';
 import { useContext } from 'react';
