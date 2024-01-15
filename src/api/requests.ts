@@ -27,7 +27,6 @@ export const deleteList = async (listId: string) => {
     return api.del(endpoints.list(listId));
 }
 
-
 export const joinOrganization = async (orgId: string, password: string) => {
     return api.post(endpoints.joinOrg(orgId), { password });
 };
@@ -145,25 +144,3 @@ export const changeBoardBackground = async (boardId: string, bgUrl: string) => {
 export const removeBoardBackground = async (boardId: string) => {
     return api.post(endpoints.board(boardId), { backgroundUrl: '' });
 };
-
-export const uploadBoardBackground = async (formData: FormData) => {
-    try {
-        const response = await fetch(
-            'https://api.cloudinary.com/v1_1/drmxfdj5o/image/upload',
-            {
-                method: 'POST',
-                body: formData,
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error('Error uploading file:', error);
-    }
-};
-
-export const destroyBoardBackground = async (boardId: string) => {};
