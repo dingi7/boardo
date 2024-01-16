@@ -17,7 +17,7 @@ export interface IForgotPassword {
 
 export interface IResetPassword {
     password: string,
-    rePassword: string
+    confirmPassword: string
 }
 
 export interface AuthenticationResponse {

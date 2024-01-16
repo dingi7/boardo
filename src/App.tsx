@@ -19,8 +19,14 @@ import { BoardsPage } from "./Pages/Dashboard/pages/BoardsPage";
 import { ForgotPassword } from "./Pages/Auth/ForgotPassword";
 import { ResetPassword } from "./Pages/Auth/ResetPassword";
 import { ForgotPasswordSubmit } from "./Pages/Auth/ForgotPasswordSubmit";
+import { useState } from "react";
 
 function App() {
+
+    //change this later
+    const [resetEmail, setResetEmail] = useState('')
+
+
     return (
         <AuthProvider authType={"localstorage"} authName={"x-authorization"}>
             <Toaster />
@@ -35,8 +41,8 @@ function App() {
                         />
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/auth/login" element={<Login />} />
-                        <Route path="/auth/forgotPassword" element={<ForgotPassword />} />
-                        <Route path="/auth/forgotPassword/submit" element={<ForgotPasswordSubmit />} />
+                        <Route path="/auth/forgotPassword" element={<ForgotPassword setResetEmail={setResetEmail}/>} />
+                        <Route path="/auth/forgotPassword/submit" element={<ForgotPasswordSubmit resetEmail={resetEmail}/>} />
                         <Route path="/auth/resetPassword" element={<ResetPassword />} />
                         <Route path="/dashboard" element={<DashboardLayout />}>
                             <Route path="settings" element={<Settings />} />

@@ -3,17 +3,14 @@ import React, { useEffect } from 'react';
 import { Logo } from '../../Components/ui/logo';
 import { Button } from '../../Components/ui/button';
 import { useIsAuthenticated } from 'react-auth-kit';
-import { loginUser } from '../../api/requests';
-import { LoginUserData } from '../../Interfaces/IUserData';
-import { useAuth } from './hooks/useAuth';
 import useFormData from '../../util/hooks/useFormData';
 import { Navbar } from '../../Components/navbar';
 import { AuthInput } from '../../Components/auth/auth-input';
 import { useToast } from '../../Components/Toaster/use-toast';
+import { IForgotPassword } from './../../Interfaces/IUserData';
 
-export const ForgotPassword = () => {
+export const ForgotPassword = ({setResetEmail}: {setResetEmail: Function}) => {
     const [loading, setLoading] = React.useState<boolean>(false);
-    const authenticateUser = useAuth();
     const { toast } = useToast()
 
     const navigate = useNavigate();
@@ -26,19 +23,19 @@ export const ForgotPassword = () => {
             })
         }
     }, [isAuth, navigate]);
-    const [loginData, handleInputChange] = useFormData<LoginUserData>({
+    const [loginData, handleInputChange] = useFormData<IForgotPassword>({
         email: '',
-        password: '',
     });
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            if (!loginData?.email || !loginData?.password)
+            if (!loginData?.email)
                 throw new Error('Please fill in all the fields');
             setLoading(true);
-            const response = await loginUser(loginData!);
-            await authenticateUser(response);
-            navigate('/');
+            //const response = await loginUser(loginData);
+            //await authenticateUser(response);
+            setResetEmail(loginData.email)
+            navigate('/auth/forgotPassword/submit');
         } catch (err: any) {
             toast({
                 title: err.message,
