@@ -9,8 +9,8 @@ export const ForgotPasswordSubmit = () => {
                     <Logo />
                 </div>
                 <div className="h-full flex flex-col justify-center items-center">
-                    <div className="absolute right-[5%] top-[20%]">
-                        <Check />
+                    <div className="absolute right-[5%] top-[20%] p-[4%] bg-green-500 rounded-full">
+                        <Check className="text-white"/>
                     </div>
 
                     <div className="w-[60%]">
