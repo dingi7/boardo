@@ -90,7 +90,7 @@ export const Dashboard = () => {
                                 You don't have any workspaces yet.
                             </h1>
                             <button
-                                className='mt-[2%] bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md p-[2%] hover:cursor-pointer'
+                                className='mt-[2%] bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md p-[2%] hover:cursor-pointer font-semibold hover:opacity-90 ease-in-out duration-300'
                                 onClick={() => {
                                     setIsAddWorkspaceModalOpen(true);
                                     navigate('/dashboard/boards');

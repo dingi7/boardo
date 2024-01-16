@@ -1,23 +1,23 @@
-import { dataBaseBoard, dataBaseList } from '../Interfaces/IDatabase';
-import { LoginUserData, RegisterUserData } from '../Interfaces/IUserData';
-import * as api from './api';
+import { dataBaseBoard, dataBaseList } from "../Interfaces/IDatabase";
+import { LoginUserData, RegisterUserData } from "../Interfaces/IUserData";
+import * as api from "./api";
 
 export const endpoints = {
-    registerUser: '/auth/register',
-    loginUser: '/auth/login',
+    registerUser: "/auth/register",
+    loginUser: "/auth/login",
     orgs: `/auth/orgs`,
-    createBoard: '/items/boards',
+    createBoard: "/items/boards",
 
-    allOrgs: '/auth/allOrgs',
+    allOrgs: "/auth/allOrgs",
     joinOrg: (orgId: string) => `/auth/joinOrg/${orgId}`,
 
     getBoardsByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     board: (boardId: string | null) =>
-        boardId ? `/items/boards/${boardId}` : '/items/boards',
+        boardId ? `/items/boards/${boardId}` : "/items/boards",
     card: (cardId: string | null) =>
-        cardId ? `/items/cards/${cardId}` : '/items/cards',
+        cardId ? `/items/cards/${cardId}` : "/items/cards",
     list: (listId: string | null) =>
-        listId ? `/items/list/${listId}` : '/items/list',
+        listId ? `/items/list/${listId}` : "/items/list",
 
     // removeMemberFromBoard: (boardId: string) =>
     //     `/items/removeMember/${boardId}`,
@@ -25,7 +25,7 @@ export const endpoints = {
 
 export const deleteList = async (listId: string) => {
     return api.del(endpoints.list(listId));
-}
+};
 
 export const joinOrganization = async (orgId: string, password: string) => {
     return api.post(endpoints.joinOrg(orgId), { password });
@@ -88,7 +88,7 @@ export const deleteBoard = async (boardId: string) => {
 };
 
 export const getBoardsByOrgId = async (orgId: string) => {
-    const queryParams = { populate: 'true' };
+    const queryParams = { populate: "true" };
     const queryString = new URLSearchParams(queryParams).toString();
     return api.get(`${endpoints.getBoardsByOrg(orgId)}?${queryString}`);
 };
@@ -142,5 +142,5 @@ export const changeBoardBackground = async (boardId: string, bgUrl: string) => {
 };
 
 export const removeBoardBackground = async (boardId: string) => {
-    return api.post(endpoints.board(boardId), { backgroundUrl: '' });
+    return api.post(endpoints.board(boardId), { backgroundUrl: "" });
 };
