@@ -16,6 +16,9 @@ import { DashboardLayout } from "./Pages/Dashboard/DashboardLayout";
 import { Toaster } from "./Components/Toaster/toaster";
 import { Settings } from "./Pages/Dashboard/pages/SettingsPage";
 import { BoardsPage } from "./Pages/Dashboard/pages/BoardsPage";
+import { ForgotPassword } from "./Pages/Auth/ForgotPassword";
+import { ResetPassword } from "./Pages/Auth/ResetPassword";
+import { ForgotPasswordSubmit } from "./Pages/Auth/ForgotPasswordSubmit";
 
 function App() {
     return (
@@ -32,6 +35,9 @@ function App() {
                         />
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/auth/login" element={<Login />} />
+                        <Route path="/auth/forgotPassword" element={<ForgotPassword />} />
+                        <Route path="/auth/forgotPassword/submit" element={<ForgotPasswordSubmit />} />
+                        <Route path="/auth/resetPassword" element={<ResetPassword />} />
                         <Route path="/dashboard" element={<DashboardLayout />}>
                             <Route path="settings" element={<Settings />} />
                             <Route path="boards" element={<BoardsPage />} />

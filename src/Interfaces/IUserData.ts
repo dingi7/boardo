@@ -11,6 +11,15 @@ export interface LoginUserData {
     password: string;
 }
 
+export interface IForgotPassword {
+    email: string
+}
+
+export interface IResetPassword {
+    password: string,
+    rePassword: string
+}
+
 export interface AuthenticationResponse {
     _id: string;
     username: string;

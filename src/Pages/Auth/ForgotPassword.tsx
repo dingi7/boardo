@@ -11,7 +11,7 @@ import { Navbar } from '../../Components/navbar';
 import { AuthInput } from '../../Components/auth/auth-input';
 import { useToast } from '../../Components/Toaster/use-toast';
 
-export const Login = () => {
+export const ForgotPassword = () => {
     const [loading, setLoading] = React.useState<boolean>(false);
     const authenticateUser = useAuth();
     const { toast } = useToast()
@@ -62,22 +62,10 @@ export const Login = () => {
                             id='email'
                             onChange={handleInputChange}
                         />
-                        <AuthInput
-                            type='password'
-                            text='Password'
-                            id='password'
-                            onChange={handleInputChange}
-                        />
                         <div className='text-black text-left'>
                             Not registered?{' '}
                             <Link to={'/auth/register'} className='font-semibold'>
                                 Register
-                            </Link>
-                        </div>
-                        <div className='text-black text-left'>
-                            Forgot your password?{' '}
-                            <Link to={'/auth/forgotPassword'} className='font-semibold'>
-                                Reset it
                             </Link>
                         </div>
                     </div>
@@ -88,7 +76,7 @@ export const Login = () => {
                         id='registerButton'
                         disabled={loading}
                     >
-                        {loading ? 'Loading...' : 'Login'}
+                        {loading ? 'Loading...' : 'Send reset email'}
                     </Button>
                 </form>
             </div>
