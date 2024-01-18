@@ -7,7 +7,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from 'src/Components/dropdown';
-import { BackgroundPicker } from './BackgroundPicker';
 import { DeleteHandler } from './DeleteHandler';
 import { BoardContext } from '../contexts/BoardContextProvider';
 import { useContext } from 'react';
@@ -25,7 +24,6 @@ export const ListSettingsDropdownMenu = ({ listId }: { listId: string, onDeleteC
                 <DropdownMenuLabel>List Settings</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                    {/* <BackgroundPicker boardId={"boardId"} setBackgroundUrl={() => {}} /> */}
                     <DeleteHandler itemId={listId} option='list' setLists={setLists} />
                 </DropdownMenuGroup>
             </DropdownMenuContent>
