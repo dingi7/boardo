@@ -8,7 +8,8 @@ import useFormData from "../../util/hooks/useFormData";
 //import { Navbar } from '../../Components/navbar';
 import { AuthInput } from "../../Components/auth/auth-input";
 import { useToast } from "../../Components/Toaster/use-toast";
-import { resetPassword } from "src/api/requests";
+import { resetPassword, tokenValidator } from "src/api/requests";
+import { Loading } from "src/Components/loading";
 
 export const ResetPassword = () => {
     const { uuid } = useParams<{ uuid: string }>();
@@ -18,12 +19,28 @@ export const ResetPassword = () => {
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
     useEffect(() => {
+        setLoading(true);
         if (isAuth()) {
             navigate("/");
             toast({
                 title: "You are already logged in",
+                variant: "destructive" 
             });
         }
+        const isTokenValid = async () => {
+            try {
+                const response = await tokenValidator(uuid!);
+                console.log(response);
+            } catch (err: any) {
+                toast({
+                    title: err.message,
+                    variant: "destructive" 
+                });
+                navigate("/auth/login");
+            }
+            setLoading(false);
+        }
+        isTokenValid();
     }, [isAuth, navigate]);
     const [resetPassData, handleInputChange] = useFormData<IResetPassword>({
         password: "",
@@ -51,6 +68,12 @@ export const ResetPassword = () => {
         }
         setLoading(false);
     };
+
+    if (loading){
+        return (
+            <Loading/>
+        )
+    }
 
     return (
         <div className="h-screen bg-white flex justify-center items-center">

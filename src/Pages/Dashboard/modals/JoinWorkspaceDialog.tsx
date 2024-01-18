@@ -36,6 +36,7 @@ export function JoinDialog({
             toast({
                 title: 'Error!',
                 description: err.message,
+                variant: "destructive" 
             });
         }
     };

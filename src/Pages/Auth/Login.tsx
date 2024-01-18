@@ -23,6 +23,7 @@ export const Login = () => {
             navigate('/');
             toast({
                 title: 'You are already logged in',
+                variant: "destructive" 
             })
         }
     }, [isAuth, navigate]);
@@ -42,6 +43,7 @@ export const Login = () => {
         } catch (err: any) {
             toast({
                 title: err.message,
+                variant: "destructive" 
             })
         }
         setLoading(false);

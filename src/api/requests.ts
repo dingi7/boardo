@@ -21,10 +21,14 @@ export const endpoints = {
 
     resetPasswordRequest: `/auth/resetPasswordRequest`,
     requestResetPassword: (uuid: string): string => `/auth/resetPassword/${uuid}`,
-
+    tokenValidator: (uuid: string): string => `/auth/tokenValidator/${uuid}`,
     // removeMemberFromBoard: (boardId: string) =>
     //     `/items/removeMember/${boardId}`,
 };
+
+export const tokenValidator = async (uuid: string) => {
+    return api.post(endpoints.tokenValidator(uuid));
+}
 
 export const requestResetPassword = async (email: string) => {
     return api.post(endpoints.resetPasswordRequest, { email });

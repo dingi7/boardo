@@ -51,6 +51,7 @@ export const DeleteHandler = ({
             } catch (e) {
                 toast({
                     title: 'List could not be deleted',
+                    variant: "destructive" 
                 });
             }
         }
@@ -63,6 +64,7 @@ export const DeleteHandler = ({
             }catch(e){
                 toast({
                     title: 'Card could not be deleted',
+                    variant: "destructive" 
                 });
             }
         }

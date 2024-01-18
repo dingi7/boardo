@@ -16,25 +16,33 @@ import { useState } from 'react';
 import { changeBoardBackground } from 'src/api/requests';
 import { toast } from 'src/Components/Toaster/use-toast';
 
-export function BackgroundPicker({boardId, setBackgroundUrl}: {boardId : string, setBackgroundUrl: (bgUrl: string) => void}) {
+export function BackgroundPicker({
+    boardId,
+    setBackgroundUrl,
+}: {
+    boardId: string;
+    setBackgroundUrl: (bgUrl: string) => void;
+}) {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    
-    const handleSubmit = async(e: any) => {
-        if(!selectedImage){
-            e.preventDefault()
+
+    const handleSubmit = async (e: any) => {
+        if (!selectedImage) {
+            e.preventDefault();
             toast({
                 title: 'Failed to change background',
-                description: "You did not select a background"
-            })
-            return
+                description: 'You did not select a background',
+                variant: 'destructive',
+            });
+            return;
         }
-        setBackgroundUrl(selectedImage)
-        changeBoardBackground(boardId, selectedImage)
+        setBackgroundUrl(selectedImage);
+        changeBoardBackground(boardId, selectedImage);
         toast({
             title: 'Background changed',
-            description: "Background changed sucessfuly"
-        })
-    }
+            description: 'Background changed sucessfuly',
+            variant: 'destructive',
+        });
+    };
 
     return (
         <Dialog>

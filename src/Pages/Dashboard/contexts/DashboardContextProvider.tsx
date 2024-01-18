@@ -71,6 +71,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         } catch (err: any) {
             toast({
                 title: err.message,
+                variant: "destructive" 
             });
         } finally {
             setFetching(false);
@@ -94,6 +95,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         } catch (err: any) {
             toast({
                 title: err.message,
+                variant: "destructive" 
             });
         } finally {
             setLoading(false);

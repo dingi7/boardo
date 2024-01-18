@@ -60,6 +60,7 @@ export const FormPopover = ({
         toast({
             title: 'Failed to create board',
             description: error.message,
+            variant: "destructive" 
         })
     }
     };

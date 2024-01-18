@@ -24,6 +24,7 @@ export const ForgotPassword = () => {
             navigate('/');
             toast({
                 title: 'You are already logged in',
+                variant: 'destructive',
             });
         }
     }, [isAuth, navigate]);
@@ -44,6 +45,7 @@ export const ForgotPassword = () => {
             setError(err.message);
             toast({
                 title: err.message,
+                variant: "destructive" 
             });
         }
         setLoading(false);

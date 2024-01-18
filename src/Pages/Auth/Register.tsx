@@ -24,6 +24,7 @@ export const Register = () => {
             navigate('/');
             toast({
                 title: 'You are already logged in',
+                variant: "destructive" 
             })
         }
     }, [isAuth, navigate]);
@@ -46,7 +47,8 @@ export const Register = () => {
             navigate('/');
         } catch (err: any) {
             toast({
-                title: err.message
+                title: err.message,
+                variant: "destructive" 
             })
         }
         setLoading(false);
