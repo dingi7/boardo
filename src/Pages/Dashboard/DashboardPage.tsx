@@ -34,6 +34,8 @@ export const Dashboard = () => {
         fetching,
     } = context;
 
+    console.log(userOrganizations)
+
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
         useState<boolean>(false);
     return !loading ? (

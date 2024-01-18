@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect } from "react";
 import { Logo } from "../../Components/ui/logo";
 import { Button } from "../../Components/ui/button";
@@ -8,8 +8,10 @@ import useFormData from "../../util/hooks/useFormData";
 //import { Navbar } from '../../Components/navbar';
 import { AuthInput } from "../../Components/auth/auth-input";
 import { useToast } from "../../Components/Toaster/use-toast";
+import { resetPassword } from "src/api/requests";
 
 export const ResetPassword = () => {
+    const { uuid } = useParams<{ uuid: string }>();
     const [loading, setLoading] = React.useState<boolean>(false);
     const { toast } = useToast();
 
@@ -36,9 +38,11 @@ export const ResetPassword = () => {
             if (resetPassData.password !== resetPassData.confirmPassword)
                 throw new Error("Password do not match!");
             setLoading(true);
+            const response = await resetPassword(uuid!, resetPassData!.password)
+            console.log(response);
             //const response = await loginUser(resetPassData!);
             //await authenticateUser(response);
-            navigate("/");
+            navigate("/auth/login");
             toast({ title: "Password sucesfully reseted!" });
         } catch (err: any) {
             toast({
