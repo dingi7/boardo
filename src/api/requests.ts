@@ -18,6 +18,8 @@ export const endpoints = {
         cardId ? `/items/cards/${cardId}` : "/items/cards",
     list: (listId: string | null) =>
         listId ? `/items/list/${listId}` : "/items/list",
+    organization: (orgId: string | null) =>
+        orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
 
     resetPasswordRequest: `/auth/resetPasswordRequest`,
     requestResetPassword: (uuid: string): string => `/auth/resetPassword/${uuid}`,
@@ -25,6 +27,10 @@ export const endpoints = {
     // removeMemberFromBoard: (boardId: string) =>
     //     `/items/removeMember/${boardId}`,
 };
+
+export const deleteOrganization = async (orgId: string) => {
+    return api.del(endpoints.organization(orgId));
+}
 
 export const tokenValidator = async (uuid: string) => {
     return api.post(endpoints.tokenValidator(uuid));

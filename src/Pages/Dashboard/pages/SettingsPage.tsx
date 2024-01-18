@@ -1,116 +1,63 @@
 import React, { useState } from 'react';
 // import { useAuthUser } from "react-auth-kit";
-import { useOutletContext } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import MemberCard from '../components/MemberCard';
 import { Input } from 'src/Components/ui/input';
 import { Button } from 'src/Components/ui/button';
+import { deleteOrganization } from 'src/api/requests';
+import { useToast } from 'src/Components/Toaster/use-toast';
 type Props = {};
 
 export const Settings = (props: Props) => {
-    const { selectedOrganization } = useOutletContext<any>();
-    // const auth = useAuthUser()();
-    // const isAuthenticated = auth && auth._id === selectedOrganization.owner;
+    const { toast } = useToast();
+    const navigate = useNavigate();
+    const {
+        selectedOrganization,
+        setUserOrganizations,
+    } = useOutletContext<any>();
+    const [loading, setLoading] = useState<boolean>(false);
     const [name, setName] = useState(selectedOrganization.name);
     const [activeTab, setActiveTab] = useState('members');
     const handleTabClick = (tabId: string) => {
         setActiveTab(tabId);
     };
-    console.log(selectedOrganization);
+
+    async function handleDeleteOrganization() {
+        // alert for confirmation
+        // delete organization
+        // navigate to dashboard
+        if (
+            !window.confirm(
+                'Are you sure you want to delete this organization?'
+            )
+        ) {
+            return;
+        }
+        setLoading(true);
+        try {
+            await deleteOrganization(selectedOrganization._id);
+            // remove from all organizations
+            setUserOrganizations((prev: any) =>
+                prev.filter((org: any) => org._id !== selectedOrganization._id)
+            );
+            toast({
+                title: 'Organization deleted successfully',
+            });
+            navigate('/dashboard');
+        } catch (e: any) {
+            console.log(e);
+            toast({
+                title: 'Error',
+                description: e.message,
+                variant: 'destructive',
+            });
+        }
+        setLoading(false);
+
+        console.log('delete');
+    }
+
     return (
-        // <div className="flex flex-col justify-between">
-        //     <div className="flex flex-col items-left">
-        //         <h1 className="font-semibold text-lg">
-        //             {isAuthenticated
-        //                 ? "Authorized as Owner"
-        //                 : "Authorized as Member"}
-        //         </h1>
-
-        //         {/* {selectedOrganization.members.map(
-        //             (name: string, index: number) => (
-        //                 <div
-        //                     key={index}
-        //                     className="bg-gray-200 p-2 m-2 rounded"
-        //                 >
-        //                     {name}
-        //                 </div>
-        //             )
-        //         )} */}
-        //     </div>
-        //     {isAuthenticated && (
-        //         // <div className="flex flex-col items-left">
-        //         //     <h1 className="font-semibold text-lg">
-        //         //         Organization Settings
-        //         //     </h1>
-        //         //     <div className="flex bg-gray-200 p-2 m-2 rounded justify-between items-center gap-3">
-        //         //         <Button>Edit organization</Button>
-        //         //         <Button>Delete organization</Button>
-        //         //     </div>
-        //         //     <h1 className="font-semibold text-lg">
-        //         //         Memebers Settings
-        //         //     </h1>
-        //         //     <div className="flex bg-gray-200 p-2 m-2 rounded justify-between gap-3">
-        //         //         <Button>Invite members</Button>
-        //         //         <Button>Remove members</Button>
-        //         //     </div>
-        //         // </div>
-
-        //         <div className="flex flex-col items-left">
-        //             <section className="flex flex-col gap-[1rem] mt-[4%]">
-        //                 <h2 className="font-bold text-[24px]">
-        //                     General settings
-        //                 </h2>
-
-        //                 <div className="flex flex-col gap-[0.2rem]">
-        //                     <label htmlFor="org-name">Organisation name:</label>
-        //                     <Input
-        //                         name="org-name"
-        //                         value={selectedOrganization.name}
-        //                     />
-
-        //                 </div>
-        //                 <Button>Save</Button>
-        //             </section>
-
-        //             <section className="flex flex-col gap-[1rem] mt-[4%]">
-        //                 <h2 className="font-bold text-[24px]">
-        //                     Privacy settings
-        //                 </h2>
-
-        //                 <div className="flex flex-col gap-[0.2rem]">
-        //                     <label htmlFor="org-name">Authorized users:</label>
-        //                     <ul className="list-none">
-        //                         {selectedOrganization.members.filter(
-        //                             (member: any) =>
-        //                                 member._id ===
-        //                                 selectedOrganization.owner
-        //                         ).length > 0 ? (
-        //                             selectedOrganization.members
-        //                                 .filter(
-        //                                     (member: any) =>
-        //                                         member._id ===
-        //                                         selectedOrganization.owner
-        //                                 )
-        //                                 .map((name: string, index: number) => (
-        //                                     <li
-        //                                         key={index}
-        //                                         className="bg-gray-200 p-2 m-2 rounded"
-        //                                     >
-        //                                         {name}
-        //                                     </li>
-        //                                 ))
-        //                         ) : (
-        //                             <li className="font-bold">No members yet!</li>
-        //                         )}
-        //                     </ul>
-        //                 </div>
-
-        //                 <div>
-        //                     <Button variant="gray">Change password</Button>
-        //                 </div>
-        //             </section>
-        //         </div>
-        //     )}
-        // </div>
         <div className='mb-4 border-b border-gray-200 dark:border-gray-700'>
             <ul
                 className='flex flex-wrap -mb-px text-sm font-medium text-center'
@@ -222,10 +169,16 @@ export const Settings = (props: Props) => {
                             </ul>
                             <div className='flex flex-row gap-[1rem] mt-[4%]'>
                                 {/* <Button variant='outline'>Reset</Button> */}
-                                <Button variant={'destructive'}>
+                                <Button
+                                    variant={'destructive'}
+                                    disabled={loading}
+                                    onClick={handleDeleteOrganization}
+                                >
                                     Delete organization
                                 </Button>
-                                <Button variant='primary'>Save Changes</Button>
+                                <Button variant='primary' disabled={loading}>
+                                    Save Changes
+                                </Button>
                             </div>
                         </div>
                     </section>

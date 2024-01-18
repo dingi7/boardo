@@ -103,21 +103,12 @@ export const Dashboard = () => {
                         </div>
                     )}
                     <Outlet
-                        context={{ selectedOrganization, boards, fetching }}
+                        context={{ selectedOrganization, boards, fetching, setUserOrganizations }}
                     />
                 </div>
             </div>
 
             {isAddWorkspaceModalOpen && (
-                // <AddWorkspaceModal
-                // allOrganizations={allOrganizations!}
-                // fetchAllOrganizations={fetchAllOrganizations}
-                // closeModal={() => setIsAddWorkspaceModalOpen(false)}
-                // setUserOrganizations={setUserOrganizations}
-                // setSelectedOrganization={setSelectedOrganization}
-                // />
-
-                // <div className='w-500'>
                 <div className='fixed inset-0 flex items-center justify-center'>
                     <WorkspaceTabs
                         allOrganizations={allOrganizations!}
