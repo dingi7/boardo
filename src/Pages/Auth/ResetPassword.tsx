@@ -41,7 +41,7 @@ export const ResetPassword = () => {
             setLoading(false);
         }
         isTokenValid();
-    }, [isAuth, navigate]);
+    }, []);
     const [resetPassData, handleInputChange] = useFormData<IResetPassword>({
         password: "",
         confirmPassword: "",
