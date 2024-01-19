@@ -20,7 +20,7 @@ export const AddListPlaceholder = ({
 
     return (
         <div
-            className={`inline-flex flex-col items-start gap-[10px] on:hover: cursor-pointer ${isDragging ? "opacity-0" : "opacity-100"}`}
+            className={`h-[10%] inline-flex flex-col items-start gap-[10px] on:hover: cursor-pointer ${isDragging ? "opacity-0" : "opacity-100"}`}
             key={'add list'}
             onClick={() => createListFunc()}
         >

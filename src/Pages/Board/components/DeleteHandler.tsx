@@ -76,6 +76,7 @@ export const DeleteHandler = ({
                 <DropdownMenuItem
                     onSelect={(e) => e.preventDefault()}
                     disabled={loading}
+                    className="cursor-pointer"
                 >
                     <Trash className='mr-2 h-4 w-4' />
                     <span>Delete</span>

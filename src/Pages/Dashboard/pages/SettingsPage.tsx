@@ -185,8 +185,8 @@ export const Settings = (props: Props) => {
 
                         <div className="flex flex-col gap-[4%]">
                             <ul className="list-none mt-[4%]">
-                                <li className="flex flex-row justify-between items-center gap-2">
-                                    <label htmlFor="nameInput">Name: </label>
+                                <li className="flex flex-col sm:flex-row justify-between items-center gap-2">
+                                    <label className="text-left w-full sm:w-fit" htmlFor="nameInput">Name: </label>
                                     <Input
                                         id="nameInput"
                                         value={name}
