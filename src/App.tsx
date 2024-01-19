@@ -19,6 +19,7 @@ import { BoardsPage } from "./Pages/Dashboard/pages/BoardsPage";
 import { ForgotPassword } from "./Pages/Auth/ForgotPassword";
 import { ResetPassword } from "./Pages/Auth/ResetPassword";
 import { useState } from "react";
+import { ActivityPage } from "./Pages/Dashboard/pages/ActivityPage";
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
                         <Route path="/auth/resetPassword/:uuid" element={<ResetPassword />} />
                         <Route path="/dashboard" element={<DashboardLayout />}>
                             <Route path="settings" element={<Settings />} />
+                            <Route path="activity" element={<ActivityPage />} />
                             <Route path="boards" element={<BoardsPage />} />
                         </Route>
                     </Routes>

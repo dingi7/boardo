@@ -30,7 +30,10 @@ export const Organization = ({
     return (
         <div
             onClick={() => {
-                if (selectedOrganization?._id === orgId && pathname === "/dashboard/boards") {
+                if (
+                    selectedOrganization?._id === orgId &&
+                    pathname === "/dashboard/boards"
+                ) {
                     return;
                 } // bug when page is refreshed and selectedOrganization is orgId fix later
                 onClick();
@@ -91,6 +94,10 @@ export const Organization = ({
                                 ? "bg-blue-100 text-sky-800"
                                 : "hover:bg-sky-50 hover:text-sky-700"
                         }`}
+                        onClick={() => {
+                            console.log("clicked");
+                            navigate("/dashboard/activity");
+                        }}
                     >
                         <Activity
                             className={`w-[20%] md:w-[10%] ${
