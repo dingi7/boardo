@@ -149,6 +149,7 @@ export const Settings = (props: Props) => {
                                     selectedOrganization.members.map(
                                         (member: any) => (
                                             <MemberCard
+                                                isOwner={isOwner}
                                                 key={member._id}
                                                 member={member}
                                                 handleRemoveMember={
