@@ -18,7 +18,6 @@ export const Dashboard = () => {
     }
     const {
         allOrganizations,
-        setAllOrganizations,
         selectedOrganization,
         setSelectedOrganization,
         boards,
@@ -31,8 +30,6 @@ export const Dashboard = () => {
         setExpandedOrganizationId,
         fetching,
     } = context;
-
-    console.log(userOrganizations);
 
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
         useState<boolean>(false);
