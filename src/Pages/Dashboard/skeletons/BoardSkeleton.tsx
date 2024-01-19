@@ -1,8 +1,6 @@
-import { Navbar } from 'src/Components/navbar';
 import { Skeleton } from 'src/Components/ui/skeleton';
 
 export const BoardSkeleton = () => {
-    // const array = new Array(8).fill(Map(0, 8, (i) => i)));
     const array = Array.from(Array(8).keys());
 
     return (
