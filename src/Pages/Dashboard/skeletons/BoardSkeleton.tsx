@@ -1,8 +1,7 @@
-import { Navbar } from 'src/Components/navbar';
 import { Skeleton } from 'src/Components/ui/skeleton';
 
 export const BoardSkeleton = () => {
-    const array = new Array(8).fill(0);
+    const array = Array.from(Array(8).keys());
 
     return (
         <>
@@ -23,8 +22,9 @@ export const BoardSkeleton = () => {
 
                 <Skeleton className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-[2%]'>
                     {array.map((index) => (
+                        
                         <Skeleton
-                            key={index}
+                            key={index + Math.random() * 1000}
                             className='group relative aspect-video bg-no-repeat bg-center bg-cover bg-slate-300 rounded-sm h-[150px] w-full p-2 overflow-hidden'
                         >
                             <Skeleton className='absolute inset-0 bg-black/30 group-hover:bg-black/40 transition' />

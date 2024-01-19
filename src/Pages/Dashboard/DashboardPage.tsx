@@ -3,9 +3,7 @@ import { Plus } from 'lucide-react';
 
 import { Organization } from './components/Organization';
 
-import { AddWorkspaceModal } from './modals/AddWorkspaceModal';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Loading } from '../../Components/loading';
 
 import { Navbar } from '../../Components/navbar';
 import { DashboardContext } from './contexts/DashboardContextProvider';
@@ -20,7 +18,6 @@ export const Dashboard = () => {
     }
     const {
         allOrganizations,
-        setAllOrganizations,
         selectedOrganization,
         setSelectedOrganization,
         boards,
@@ -33,8 +30,6 @@ export const Dashboard = () => {
         setExpandedOrganizationId,
         fetching,
     } = context;
-
-    console.log(userOrganizations)
 
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
         useState<boolean>(false);
@@ -103,7 +98,12 @@ export const Dashboard = () => {
                         </div>
                     )}
                     <Outlet
-                        context={{ selectedOrganization, boards, fetching, setUserOrganizations }}
+                        context={{
+                            selectedOrganization,
+                            boards,
+                            fetching,
+                            setUserOrganizations,
+                        }}
                     />
                 </div>
             </div>
@@ -122,6 +122,6 @@ export const Dashboard = () => {
         </div>
     ) : (
         // <Loading />
-        <DashboardSkeleton/>
+        <DashboardSkeleton />
     );
 };

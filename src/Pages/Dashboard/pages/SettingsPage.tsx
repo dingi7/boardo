@@ -54,9 +54,6 @@ export const Settings = (props: Props) => {
     };
 
     async function handleDeleteOrganization() {
-        // alert for confirmation
-        // delete organization
-        // navigate to dashboard
         if (
             !window.confirm(
                 "Are you sure you want to delete this organization?"
@@ -152,7 +149,7 @@ export const Settings = (props: Props) => {
                                     selectedOrganization.members.map(
                                         (member: any) => (
                                             <MemberCard
-                                                isOwner={isOwner}
+                                                key={member._id}
                                                 member={member}
                                                 handleRemoveMember={
                                                     handleRemoveMember

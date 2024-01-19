@@ -30,9 +30,9 @@ export const Organization = ({
     return (
         <div
             onClick={() => {
-                if (selectedOrganization!._id === orgId) {
+                if (selectedOrganization?._id === orgId && pathname === "/dashboard/boards") {
                     return;
-                }
+                } // bug when page is refreshed and selectedOrganization is orgId fix later
                 onClick();
             }}
             className="mb-3"
@@ -67,7 +67,7 @@ export const Organization = ({
                 <ul className="mt-[2%] ml-[4%] flex flex-col">
                     <li
                         className={`flex flex-row items-center gap-[2%] px-[2%] py-[3%] rounded ${
-                            selectedOrganization!._id === orgId &&
+                            selectedOrganization?._id === orgId &&
                             pathname === "/dashboard/boards"
                                 ? "bg-blue-100 text-sky-800"
                                 : "hover:bg-sky-50 hover:text-sky-700"
@@ -76,7 +76,7 @@ export const Organization = ({
                     >
                         <Layout
                             className={`w-[20%] md:w-[10%] ${
-                                selectedOrganization!._id === orgId &&
+                                selectedOrganization?._id === orgId &&
                                 pathname === "/dashboard/boards"
                                     ? "bg-blue-100"
                                     : "hover:bg-sky-50"
@@ -86,7 +86,7 @@ export const Organization = ({
                     </li>
                     <li
                         className={`flex flex-row items-center gap-[2%] px-[2%] py-[3%] rounded ${
-                            selectedOrganization!._id === orgId &&
+                            selectedOrganization?._id === orgId &&
                             pathname === "/dashboard/activity"
                                 ? "bg-blue-100 text-sky-800"
                                 : "hover:bg-sky-50 hover:text-sky-700"
@@ -94,7 +94,7 @@ export const Organization = ({
                     >
                         <Activity
                             className={`w-[20%] md:w-[10%] ${
-                                selectedOrganization!._id === orgId &&
+                                selectedOrganization?._id === orgId &&
                                 pathname === "/dashboard/activity"
                                     ? "bg-blue-100"
                                     : "hover:bg-sky-50"

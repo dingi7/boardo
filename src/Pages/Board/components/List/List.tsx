@@ -29,7 +29,7 @@ export const List = ({
                     ref={provided.innerRef}
                 >
                     <div
-                        className=' bg-slate-300 rounded-lg shadow-lg p-[4%] w-full'
+                        className=' bg-slate-200 rounded-lg shadow-lg p-[4%] w-full '
                         {...provided.dragHandleProps}
                     >
                         <div className='p-[2%] inline-flex flex-col items-start gap-[5%] w-full'>

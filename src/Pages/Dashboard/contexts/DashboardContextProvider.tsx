@@ -30,7 +30,7 @@ export interface DashboardContextType {
     setUserOrganizations: Dispatch<SetStateAction<IOrg[]>>;
     expandedOrganizationId: string;
     setExpandedOrganizationId: Dispatch<SetStateAction<string>>;
-    fetching: boolean
+    fetching: boolean;
 }
 
 export interface IOrg {
@@ -59,7 +59,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         useState<IOrg | null>(null);
     const [boards, setBoards] = useState<dataBaseBoard[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [fetching, setFetching] = useState<boolean>(false);   
+    const [fetching, setFetching] = useState<boolean>(false);
     const [expandedOrganizationId, setExpandedOrganizationId] =
         useState<string>('');
 
@@ -71,7 +71,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         } catch (err: any) {
             toast({
                 title: err.message,
-                variant: "destructive" 
+                variant: 'destructive',
             });
         } finally {
             setFetching(false);
@@ -88,14 +88,14 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
             if (organizations.length > 0) {
                 setUserOrganizations(organizations);
                 setSelectedOrganization(organizations[0]);
-                await fetchBoards(organizations[0]._id);
+                // await fetchBoards(organizations[0]._id);
             } else {
                 setSelectedOrganization(null);
             }
         } catch (err: any) {
             toast({
                 title: err.message,
-                variant: "destructive" 
+                variant: 'destructive',
             });
         } finally {
             setLoading(false);
@@ -113,7 +113,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
             value={{
                 allOrganizations,
                 setAllOrganizations,
-                selectedOrganization: selectedOrganization,
+                selectedOrganization,
                 setSelectedOrganization: setSelectedOrganization,
                 boards,
                 setBoards,
@@ -125,7 +125,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
                 setUserOrganizations,
                 setExpandedOrganizationId,
                 expandedOrganizationId,
-                fetching
+                fetching,
             }}
         >
             {children}
