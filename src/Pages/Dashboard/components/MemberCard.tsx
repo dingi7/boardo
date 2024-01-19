@@ -1,5 +1,4 @@
-import { Menu } from 'lucide-react';
-import { DropdownMenu, DropdownMenuItem } from 'src/Components/dropdown';
+import { Menu } from "lucide-react";
 import {
     Select,
     SelectContent,
@@ -8,8 +7,8 @@ import {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-} from 'src/Components/select';
-import { Button } from 'src/Components/ui/button';
+} from "src/Components/select";
+import { Button } from "src/Components/ui/button";
 import {
     Dialog,
     DialogClose,
@@ -18,46 +17,60 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from 'src/Components/ui/dialog';
+} from "src/Components/ui/dialog";
 
-const MemberCard = ({ member }: { member: any }) => {
+const MemberCard = ({
+    member,
+    isOwner,
+    handleRemoveMember,
+    selectedOrganization,
+}: {
+    member: any;
+    isOwner: boolean;
+    handleRemoveMember: any;
+    selectedOrganization: any;
+}) => {
     return (
         <li
             key={member._id}
-            className='bg-gray-200 p-2 m-2 rounded flex flex-row justify-between items-center'
+            className="bg-gray-200 p-2 m-2 rounded flex flex-row justify-between items-center h-12"
         >
-            <span className='text-md'>
-                {`${member.firstName} ${member.lastName}`}
-            </span>
+            <span className="text-md">{member.username}</span>
             <Dialog>
-                <DialogTrigger asChild>
-                    <Button variant='transparent'>
-                        <Menu color='black'></Menu>
-                    </Button>
-                </DialogTrigger>
-                <DialogContent className='sm:max-w-[425px]'>
+                {isOwner && (
+                    <DialogTrigger asChild>
+                        <Button variant="transparent">
+                            <Menu color="black"></Menu>
+                        </Button>
+                    </DialogTrigger>
+                )}
+                <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
                         <DialogTitle>Member Actions</DialogTitle>
                     </DialogHeader>
-                    <div className='flex flex-col gap-3'>
-                        <Button className='bg-red-800'>Kick</Button>
-                        <Button className='bg-purple-800'>Ban</Button>
-                        <div className='flex flex-row justify-between item-center'>
+                    <div className="flex flex-col gap-3">
+                        <Button
+                            className="bg-red-800"
+                            onClick={() => handleRemoveMember(selectedOrganization._id, member._id)}
+                        >
+                            Kick
+                        </Button>
+                        <div className="flex flex-row justify-between item-center">
                             <span>Change roles: </span>
                             <Select>
-                                <SelectTrigger className='w-[180px]'>
-                                    <SelectValue placeholder='Select a role' />
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Select a role" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
                                         <SelectLabel>Roles</SelectLabel>
-                                        <SelectItem value='owner'>
+                                        <SelectItem value="owner">
                                             Owner
                                         </SelectItem>
-                                        <SelectItem value='member'>
+                                        <SelectItem value="member">
                                             Member
                                         </SelectItem>
-                                        <SelectItem value='guest'>
+                                        <SelectItem value="guest">
                                             Guest
                                         </SelectItem>
                                     </SelectGroup>
@@ -67,10 +80,10 @@ const MemberCard = ({ member }: { member: any }) => {
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant='outline'>Cancel</Button>
+                            <Button variant="outline">Cancel</Button>
                         </DialogClose>
                         <DialogClose asChild>
-                            <Button variant='primary'>Save</Button>
+                            <Button variant="primary">Save</Button>
                         </DialogClose>
                     </DialogFooter>
                 </DialogContent>

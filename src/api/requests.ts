@@ -22,27 +22,31 @@ export const endpoints = {
         orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
 
     resetPasswordRequest: `/auth/resetPasswordRequest`,
-    requestResetPassword: (uuid: string): string => `/auth/resetPassword/${uuid}`,
+    requestResetPassword: (uuid: string): string =>
+        `/auth/resetPassword/${uuid}`,
     tokenValidator: (uuid: string): string => `/auth/tokenValidator/${uuid}`,
-    // removeMemberFromBoard: (boardId: string) =>
-    //     `/items/removeMember/${boardId}`,
+    removeMemberFromBoard: (boardId: string) =>
+        `/auth/orgs/${boardId}/kickMember`,
 };
 
 export const deleteOrganization = async (orgId: string) => {
     return api.del(endpoints.organization(orgId));
-}
+};
 
 export const tokenValidator = async (uuid: string) => {
     return api.post(endpoints.tokenValidator(uuid));
-}
+};
 
 export const requestResetPassword = async (email: string) => {
     return api.post(endpoints.resetPasswordRequest, { email });
-}
+};
 
 export const resetPassword = async (uuid: string, password: string) => {
-    return api.post(endpoints.requestResetPassword(uuid), { newPassword: password, token:uuid });
-}
+    return api.post(endpoints.requestResetPassword(uuid), {
+        newPassword: password,
+        token: uuid,
+    });
+};
 
 export const deleteList = async (listId: string) => {
     return api.del(endpoints.list(listId));
@@ -68,6 +72,7 @@ export const createOrganization = async (data: {
     name: string;
     password: string;
 }) => {
+    console.log(data)
     return api.post(endpoints.orgs, data);
 };
 
@@ -95,9 +100,9 @@ export const removeMemberFromBoard = async (
     boardId: string,
     memberId: string
 ) => {
-    // return api.post(endpoints.removeMemberFromBoard(boardId), {
-    //     userId: memberId,
-    // });
+    return api.post(endpoints.removeMemberFromBoard(boardId), {
+        memberId,
+    });
 };
 
 export const editBoard = async (boardId: string, boardName: string) => {

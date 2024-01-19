@@ -4,8 +4,9 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import MemberCard from "../components/MemberCard";
 import { Input } from "src/Components/ui/input";
 import { Button } from "src/Components/ui/button";
-import { deleteOrganization } from "src/api/requests";
+import { deleteOrganization, removeMemberFromBoard } from "src/api/requests";
 import { useToast } from "src/Components/Toaster/use-toast";
+import { useAuthUser } from "react-auth-kit";
 type Props = {};
 
 export const Settings = (props: Props) => {
@@ -18,6 +19,38 @@ export const Settings = (props: Props) => {
     const [activeTab, setActiveTab] = useState("members");
     const handleTabClick = (tabId: string) => {
         setActiveTab(tabId);
+    };
+    const auth = useAuthUser()();
+    const isOwner = auth?._id === selectedOrganization.owner;
+    const handleRemoveMember = async (boardId: string, memberId: string) => {
+        if (!window.confirm("Are you sure you want to kick this member?")) {
+            return;
+        }
+        setLoading(true);
+        try {
+            await removeMemberFromBoard(boardId, memberId);
+            const newMembers = selectedOrganization.members.filter(
+                (member: any) => member._id !== memberId
+            );
+            setUserOrganizations((prev: any) => {
+                return prev.map((org: any) => {
+                    if (org._id === selectedOrganization._id) {
+                        org.members = newMembers;
+                        return org;
+                    }
+                    return org;
+                });
+            });
+            toast({
+                title: "Member removed successfully",
+            });
+        } catch (e: any) {
+            console.log(e);
+            toast({
+                title: e.message,
+                variant: "destructive",
+            });
+        }
     };
 
     async function handleDeleteOrganization() {
@@ -115,22 +148,21 @@ export const Settings = (props: Props) => {
 
                         <div className="flex flex-col gap-[0.2rem]">
                             <ul className="list-none">
-                                {selectedOrganization.members.filter(
-                                    (member: any) =>
-                                        member._id ===
-                                        selectedOrganization.owner
-                                ).length > 0 ? (
-                                    selectedOrganization.members
-                                        .filter(
-                                            (member: any) =>
-                                                member._id ===
-                                                selectedOrganization.owner
-                                        )
-                                        .map((member: any) => (
+                                {selectedOrganization.members.length > 0 ? (
+                                    selectedOrganization.members.map(
+                                        (member: any) => (
                                             <MemberCard
+                                                isOwner={isOwner}
                                                 member={member}
+                                                handleRemoveMember={
+                                                    handleRemoveMember
+                                                }
+                                                selectedOrganization={
+                                                    selectedOrganization
+                                                }
                                             ></MemberCard>
-                                        ))
+                                        )
+                                    )
                                 ) : (
                                     <li className="font-bold">
                                         No members yet!
@@ -148,13 +180,13 @@ export const Settings = (props: Props) => {
                     role="tabpanel"
                     aria-labelledby="settings-tab"
                 >
-                    <section className="flex flex-col mt-4 md:mt-8 lg:mt-12 overflow-hidden">
-                        <h2 className="font-bold text-2xl md:text-3xl lg:text-4xl">
+                    <section className="flex flex-col mt-[4%]">
+                        <h2 className="font-bold text-[16px] sm:text-[24px]">
                             Organisation settings
                         </h2>
 
-                        <div className="flex flex-col md:gap-8 lg:gap-12 mt-4 md:mt-8 lg:mt-12">
-                            <ul className="list-none mt-4 md:mt-8 lg:mt-12">
+                        <div className="flex flex-col gap-[4%]">
+                            <ul className="list-none mt-[4%]">
                                 <li className="flex flex-row justify-between items-center gap-2">
                                     <label htmlFor="nameInput">Name: </label>
                                     <Input
