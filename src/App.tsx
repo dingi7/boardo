@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Toaster } from "./Components/Toaster/toaster";
 // import './App.css';
 
 import { LandingPage } from "./Pages/LandingPage/layout";
@@ -10,15 +11,14 @@ import { BoardLayout } from "./Pages/Board/BoardLayout";
 //AUTH COMPONENTS
 import { Register } from "./Pages/Auth/Register";
 import { Login } from "./Pages/Auth/Login";
+import { ForgotPassword } from "./Pages/Auth/ForgotPassword";
+import { ResetPassword } from "./Pages/Auth/ResetPassword";
+import { Profile } from "./Pages/Auth/Profile";
 
 
 import { DashboardLayout } from "./Pages/Dashboard/DashboardLayout";
-import { Toaster } from "./Components/Toaster/toaster";
-import { Settings } from "./Pages/Dashboard/pages/SettingsPage";
 import { BoardsPage } from "./Pages/Dashboard/pages/BoardsPage";
-import { ForgotPassword } from "./Pages/Auth/ForgotPassword";
-import { ResetPassword } from "./Pages/Auth/ResetPassword";
-import { useState } from "react";
+import { Settings } from "./Pages/Dashboard/pages/SettingsPage";
 import { ActivityPage } from "./Pages/Dashboard/pages/ActivityPage";
 
 function App() {
@@ -40,6 +40,7 @@ function App() {
                         <Route path="/auth/login" element={<Login />} />
                         <Route path="/auth/forgotPassword" element={<ForgotPassword/>} />
                         <Route path="/auth/resetPassword/:uuid" element={<ResetPassword />} />
+                        <Route path="/profile" element={<Profile />} />
                         <Route path="/dashboard" element={<DashboardLayout />}>
                             <Route path="settings" element={<Settings />} />
                             <Route path="activity" element={<ActivityPage />} />
