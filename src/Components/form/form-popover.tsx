@@ -54,9 +54,7 @@ export const FormPopover = ({
             orgId: selectedOrganization!._id,
         });
         navigate(`/board/${result._id}`)
-        console.log(image, title);
     } catch (error: any) {
-        console.log(error)
         toast({
             title: 'Failed to create board',
             description: error.message,

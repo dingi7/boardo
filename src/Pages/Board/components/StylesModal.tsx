@@ -8,7 +8,6 @@ export const StylesModal = ({}: {}) => {
         { name: "red", value: "bg-red-200" },
         { name: "purple", value: "bg-purple-200" },
     ];
-    console.log(selectedColor);
 
     return (
         <div className="flex flex-col w-[25%] h-[40%] items-center gap-2 p-[4%] bg-slate-200 rounded-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50">

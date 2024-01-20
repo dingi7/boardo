@@ -72,7 +72,6 @@ export const createOrganization = async (data: {
     name: string;
     password: string;
 }) => {
-    console.log(data)
     return api.post(endpoints.orgs, data);
 };
 

@@ -47,7 +47,6 @@ const request = async (
 
         return responseData;
     } catch (error: any) {
-        console.log(error);
         throw new Error(error.message);
     }
 };

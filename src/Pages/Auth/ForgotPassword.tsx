@@ -39,7 +39,6 @@ export const ForgotPassword = () => {
                 throw new Error('Please fill in all the fields');
             setLoading(true);
             const response = await requestResetPassword(loginData.email);
-            console.log(response);
             setIsSent(true);
         } catch (err: any) {
             setError(err.message);

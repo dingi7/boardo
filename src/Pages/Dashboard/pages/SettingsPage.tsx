@@ -45,7 +45,6 @@ export const Settings = (props: Props) => {
                 title: "Member removed successfully",
             });
         } catch (e: any) {
-            console.log(e);
             toast({
                 title: e.message,
                 variant: "destructive",
@@ -73,7 +72,6 @@ export const Settings = (props: Props) => {
             });
             navigate("/dashboard");
         } catch (e: any) {
-            console.log(e);
             toast({
                 title: "Error",
                 description: e.message,
@@ -82,7 +80,6 @@ export const Settings = (props: Props) => {
         }
         setLoading(false);
 
-        console.log("delete");
     }
 
     return (

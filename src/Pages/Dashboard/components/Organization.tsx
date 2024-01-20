@@ -95,7 +95,6 @@ export const Organization = ({
                                 : "hover:bg-sky-50 hover:text-sky-700"
                         }`}
                         onClick={() => {
-                            console.log("clicked");
                             navigate("/dashboard/activity");
                         }}
                     >
@@ -117,7 +116,6 @@ export const Organization = ({
                                 : "hover:bg-sky-50 hover:text-sky-700"
                         }`}
                         onClick={() => {
-                            console.log("clicked");
                             navigate("/dashboard/settings");
                         }}
                     >

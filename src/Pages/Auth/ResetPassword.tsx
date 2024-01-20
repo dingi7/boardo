@@ -30,7 +30,6 @@ export const ResetPassword = () => {
         const isTokenValid = async () => {
             try {
                 const response = await tokenValidator(uuid!);
-                console.log(response);
             } catch (err: any) {
                 toast({
                     title: err.message,
@@ -56,7 +55,6 @@ export const ResetPassword = () => {
                 throw new Error("Password do not match!");
             setLoading(true);
             const response = await resetPassword(uuid!, resetPassData!.password)
-            console.log(response);
             //const response = await loginUser(resetPassData!);
             //await authenticateUser(response);
             navigate("/auth/login");
