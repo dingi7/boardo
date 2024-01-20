@@ -1,7 +1,6 @@
 import { ListItem } from '../../../../Interfaces/IList';
 import { Card } from '../Card';
 
-import { MoreHorizontal } from 'lucide-react';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { dataBaseCard } from '../../../../Interfaces/IDatabase';
 import { CardForm } from '../CardForm';
