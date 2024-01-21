@@ -29,6 +29,10 @@ export const endpoints = {
         `/auth/orgs/${boardId}/kickMember`,
 };
 
+export const renameCard =async (cardId:string, organizationId: string, name: string) => {
+    return api.put(endpoints.card(cardId), { organizationId, name })
+}
+
 export const deleteOrganization = async (orgId: string) => {
     return api.del(endpoints.organization(orgId));
 };

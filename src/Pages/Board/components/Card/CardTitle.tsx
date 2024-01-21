@@ -1,4 +1,4 @@
-import { renameList } from 'src/api/requests';
+import { renameCard, renameList } from 'src/api/requests';
 import { FormInput } from '../../../../Components/form/form-input';
 import { Button } from '../../../../Components/ui/button';
 import { useContext, useState } from 'react';
@@ -8,7 +8,7 @@ interface CardTitleProps {
     title: string;
     setTitle: React.Dispatch<React.SetStateAction<string>>;
     cardId: string;
-    isEditing: boolean,
+    isEditing: boolean;
     setIsEditing: (editing: boolean) => void;
 }
 
@@ -17,21 +17,21 @@ export const CardTitle: React.FC<CardTitleProps> = ({
     setTitle,
     cardId,
     isEditing,
-    setIsEditing
-
+    setIsEditing,
 }): JSX.Element => {
     const context = useContext(BoardContext);
 
     if (!context) {
         throw new Error('Board context is not available');
     }
+    const { boardInfo } = context;
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         const title = formData.get('title') as string;
         setTitle(title);
-        // renameList(listId, title, boardInfo!.owner);
+        renameCard(cardId, boardInfo!.owner, title);
         setIsEditing(false);
     };
 
