@@ -12,7 +12,6 @@ export const BoardsPage = () => {
     }
     const { selectedOrganization, boards, fetching } = context;
     
-
     if (fetching) {
         return <BoardSkeleton />;
     }

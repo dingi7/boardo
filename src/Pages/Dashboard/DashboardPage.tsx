@@ -21,7 +21,6 @@ export const Dashboard = () => {
         selectedOrganization,
         setSelectedOrganization,
         loading,
-        fetchBoards,
         userOrganizations,
         fetchAllOrganizations,
         setUserOrganizations,
@@ -69,7 +68,6 @@ export const Dashboard = () => {
                                     }
                                     onClick={() => {
                                         setSelectedOrganization(org);
-                                        fetchBoards(org._id);
                                     }}
                                     selectedOrganization={selectedOrganization}
                                 />

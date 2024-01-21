@@ -1,9 +1,4 @@
-import {
-    createContext,
-    useState,
-    useCallback,
-    useEffect,
-} from 'react';
+import { createContext, useState, useCallback, useEffect } from 'react';
 import { dataBaseBoard } from '../../../Interfaces/IDatabase';
 import {
     getAllOrganizations,
@@ -33,21 +28,24 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
     const [expandedOrganizationId, setExpandedOrganizationId] =
         useState<string>('');
 
-    const fetchBoards = useCallback(async (orgId: string) => {
-        try {
-            setFetching(true);
-            const data = await getBoardsByOrgId(orgId);
-            setBoards(data.boards || []);
-            setExpandedOrganizationId(orgId);
-        } catch (err: any) {
-            toast({
-                title: err.message,
-                variant: 'destructive',
-            });
-        } finally {
-            setFetching(false);
-        }
-    }, [toast]);
+    const fetchBoards = useCallback(
+        async (orgId: string) => {
+            try {
+                setFetching(true);
+                const data = await getBoardsByOrgId(orgId);
+                setBoards(data.boards || []);
+                setExpandedOrganizationId(orgId);
+            } catch (err: any) {
+                toast({
+                    title: err.message,
+                    variant: 'destructive',
+                });
+            } finally {
+                setFetching(false);
+            }
+        },
+        [toast]
+    );
 
     const fetchAllOrganizations = useCallback(async () => {
         setAllOrganizations(await getAllOrganizations());
@@ -59,7 +57,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
             if (organizations.length > 0) {
                 setUserOrganizations(organizations);
                 setSelectedOrganization(organizations[0]);
-                await fetchBoards(organizations[0]._id);
+                if (!boards) await fetchBoards(organizations[0]._id);
             } else {
                 setSelectedOrganization(null);
             }
@@ -78,6 +76,12 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         fetchAllOrganizations();
         fetchOrganizations();
     }, [user, fetchOrganizations, fetchAllOrganizations]);
+
+    useEffect(() => {
+        if (selectedOrganization) {
+            fetchBoards(selectedOrganization._id);
+        }
+    }, [selectedOrganization, fetchBoards]);
 
     return (
         <DashboardContext.Provider
