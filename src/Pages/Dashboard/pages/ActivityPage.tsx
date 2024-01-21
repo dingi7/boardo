@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Activity } from '../components/Activity';
 import { DashboardContext } from '../contexts/DashboardContextProvider';
 
@@ -10,12 +10,13 @@ export const ActivityPage = (props: Props) => {
         throw new Error('Dashboard context is not available');
     }
     const { selectedOrganization } = context;
+    const activity = selectedOrganization!.activity.slice().reverse();
 
     return (
         <div className='mb-4 border-gray-200 dark:border-gray-700 flex flex-col gap-[1rem]'>
             <h1 className='text-lg font-bold'>Activity</h1>
             <div className='flex flex-col gap-[1rem]'>
-                {selectedOrganization!.activity.map((activity: any) => (
+                {activity.map((activity: any) => (
                     <Activity
                         key={activity._id}
                         action={activity.action}

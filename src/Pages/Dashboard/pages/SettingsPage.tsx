@@ -1,13 +1,11 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import MemberCard from '../components/MemberCard';
 import { Input } from 'src/Components/ui/input';
 import { Button } from 'src/Components/ui/button';
-import { deleteOrganization, removeMemberFromBoard } from 'src/api/requests';
+import { removeMemberFromBoard } from 'src/api/requests';
 import { useToast } from 'src/Components/Toaster/use-toast';
 import { useAuthUser } from 'react-auth-kit';
 import { DashboardContext } from '../contexts/DashboardContextProvider';
-import { IOrg } from 'src/Interfaces/IContexts';
 import { DeleteOrganizationDialog } from '../modals/DeleteOrganizationDialog';
 type Props = {};
 
@@ -17,12 +15,11 @@ export const SettingsPage = (props: Props) => {
     if (!context) {
         throw new Error('Dashboard context is not available');
     }
-    const { selectedOrganization, setUserOrganizations, setAllOrganizations } = context;
+    const { selectedOrganization, setUserOrganizations } = context;
     console.log(selectedOrganization);
     
 
     const { toast } = useToast();
-    const navigate = useNavigate();
 
     const [loading, setLoading] = useState<boolean>(false);
     const [name, setName] = useState(selectedOrganization!.name);
@@ -64,39 +61,6 @@ export const SettingsPage = (props: Props) => {
             });
         }
     };
-
-    // async function handleDeleteOrganization() {
-    //     if (
-    //         !window.confirm(
-    //             'Are you sure you want to delete this organization?'
-    //         )
-    //     ) {
-    //         return;
-    //     }
-    //     setLoading(true);
-    //     try {
-    //         await deleteOrganization(selectedOrganization!._id);
-    //         // remove from all organizations
-    //         setUserOrganizations((prev: any) =>
-    //             prev.filter((org: IOrg) => org._id !== selectedOrganization!._id)
-    //         );
-    //         setAllOrganizations((prev: any) =>
-    //             prev.filter((org: IOrg) => org._id !== selectedOrganization!._id)
-    //         );
-            
-    //         toast({
-    //             title: "Organization " +  selectedOrganization?.name + ' deleted successfully',
-    //         });
-    //         navigate('/dashboard');
-    //     } catch (e: any) {
-    //         toast({
-    //             title: 'Error',
-    //             description: e.message,
-    //             variant: 'destructive',
-    //         });
-    //     }
-    //     setLoading(false);
-    // }
 
     return (
         <div className='mb-4 border-b border-gray-200 dark:border-gray-700'>
@@ -215,7 +179,6 @@ export const SettingsPage = (props: Props) => {
                                 </li>
                             </ul>
                             <div className='flex flex-col md:flex-row gap-4 lg:gap-8 mt-4 md:mt-8 lg:mt-12'>
-                                {/* <Button variant='outline'>Reset</Button> */}
                                 <DeleteOrganizationDialog/>
                                 <Button variant='primary' disabled={loading}>
                                     Save Changes
