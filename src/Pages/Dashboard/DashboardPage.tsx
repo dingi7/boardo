@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react';
 
 import { Organization } from './components/Organization';
 
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Navbar } from '../../Components/navbar';
 import { DashboardContext } from './contexts/DashboardContextProvider';
@@ -97,15 +97,6 @@ export const Dashboard = () => {
                             </button>
                         </div>
                     )}
-                    <Outlet
-                        context={{
-                            selectedOrganization,
-                            fetchBoards,
-                            boards,
-                            fetching,
-                            setUserOrganizations,
-                        }}
-                    />
                 </div>
             </div>
 

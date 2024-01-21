@@ -26,3 +26,10 @@ export interface AuthenticationResponse {
     email: string;
     accessToken: string;
 }
+
+export interface IUserData {
+    _id: string;
+    username: string;
+    email: string;
+    firstName: string;
+}
