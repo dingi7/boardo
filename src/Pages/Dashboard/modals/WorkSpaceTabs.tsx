@@ -48,7 +48,7 @@ export const WorkspaceTabs = ({
     };
 
     return (
-        <Tabs defaultValue='join' className='w-[400px] justify-center'>
+        <Tabs defaultValue='create' className='w-[400px] justify-center'>
             <TabsList className='grid w-full grid-cols-2'>
                 <TabsTrigger value='join'>Join</TabsTrigger>
                 <TabsTrigger value='create'>Create</TabsTrigger>
