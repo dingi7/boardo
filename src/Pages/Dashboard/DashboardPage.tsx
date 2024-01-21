@@ -49,13 +49,13 @@ export const Dashboard = () => {
                             />
                         </h1>
                         <div className='mt-[4%] hover:cursor-pointer'>
-                            {userOrganizations.length === 0 && (
+                            {userOrganizations?.length === 0 && (
                                 <p className='text-gray-500'>
                                     You don't have any workspaces yet. Create
                                     your first one!
                                 </p>
                             )}
-                            {userOrganizations.map((org) => (
+                            {userOrganizations?.map((org) => (
                                 <Organization
                                     key={org._id}
                                     orgName={org.name}
@@ -77,7 +77,7 @@ export const Dashboard = () => {
                 </div>
 
                 <div className='w-[60%] p-[1%] pt-[20%] sm:pt-[15%] md:pt-[10%] xl:pt-[5%]'>
-                    {selectedOrganization !== null ? null : (
+                    {userOrganizations.length !== 0 ? null : (
                         <div className='flex flex-col justify-center items-center h-full'>
                             <h1 className='font-bold text-2xl'>
                                 You don't have any workspaces yet.
