@@ -33,6 +33,10 @@ export const renameCard =async (cardId:string, organizationId: string, name: str
     return api.put(endpoints.card(cardId), { organizationId, name })
 }
 
+export const changeCardPriority = async (cardId: string, organizationId: string, priority: string) => {
+    return api.put(endpoints.card(cardId), { organizationId, priority })
+}
+
 export const deleteOrganization = async (orgId: string) => {
     return api.del(endpoints.organization(orgId));
 };

@@ -12,19 +12,29 @@ import { DeleteHandler } from '../DeleteHandler';
 import { BoardContext } from '../../contexts/BoardContextProvider';
 import { useContext, useState } from 'react';
 import { PriorityDropdown } from './PriorityDropdown';
+import { changeCardPriority } from 'src/api/requests';
 
 export const CardSettingsDropdownMenu = ({
     cardId,
     onDeleteCard,
     setIsInputActive,
+    priority,
+    setPriority,
 }: {
     cardId: string;
     onDeleteCard?: any;
     setIsInputActive: (active: boolean) => void;
+    priority: string;
+    setPriority: (priority: string) => void;
 }) => {
     const context = useContext(BoardContext);
-    const {} = context!;
-    const [priority, setPriority] = useState<string>('Normal');
+    if (!context) throw new Error('Board context is not available');
+    const { boardInfo } = context!;
+
+    const handleChangePriority = async (priority: string) => {
+        setPriority(priority);
+        await changeCardPriority(cardId, boardInfo!.owner, priority);
+    };
 
     return (
         <DropdownMenu>
@@ -40,7 +50,7 @@ export const CardSettingsDropdownMenu = ({
                         <span>Edit</span>
                     </DropdownMenuItem>
                     <PriorityDropdown
-                        setPriority={setPriority}
+                        setPriority={handleChangePriority}
                     ></PriorityDropdown>
                     <DeleteHandler
                         itemId={cardId}

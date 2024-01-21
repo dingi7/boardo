@@ -1,4 +1,4 @@
-import { AlertCircle, AlertOctagon, AlertTriangle, CircleDotDashed } from 'lucide-react';
+import { AlertCircle, AlertOctagon, AlertTriangle } from 'lucide-react';
 
 import {
     DropdownMenuItem,
@@ -34,7 +34,7 @@ export const PriorityDropdown = ({
                             onClick={() => setPriority('Important')}
                         >
                             <AlertOctagon
-                                color='red'
+                                color='yellow'
                                 className='mr-2 h-4 w-4'
                             />
                             <span>Important</span>

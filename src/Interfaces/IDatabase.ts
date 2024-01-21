@@ -20,6 +20,9 @@ export interface dataBaseCard {
     _id: string;
     name: string;
     list: string;
+    styles: {
+        priority: string;
+    };
 }
 
 export interface dataBaseOrganization {

@@ -2,12 +2,20 @@ import { Draggable } from '@hello-pangea/dnd';
 import { useState } from 'react';
 import { CardSettingsDropdownMenu } from './CardSettingsDropdow';
 import { CardTitle } from './CardTitle';
+import { AlertCircle, AlertOctagon, AlertTriangle } from 'lucide-react';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from 'src/Components/ui/tooltip';
 
 type CardItem = {
     content: string;
     index: number;
     id: string;
     onDeleteCard: (cardId: string) => void;
+    storedPriority: string;
 };
 
 export const Card: React.FC<CardItem> = ({
@@ -15,10 +23,12 @@ export const Card: React.FC<CardItem> = ({
     index,
     id,
     onDeleteCard,
+    storedPriority,
 }) => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [title, setTitle] = useState<string>(content);
+    const [priority, setPriority] = useState<string>(storedPriority || "Normal");
     return (
         <Draggable draggableId={id} index={index}>
             {(provided) => (
@@ -30,6 +40,30 @@ export const Card: React.FC<CardItem> = ({
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <div className='flex items-center gap-[10px]'>
+                                    {priority === 'Urgent' ? (
+                                        <AlertTriangle
+                                            color='red'
+                                            className='h-5 w-5'
+                                        />
+                                    ) : priority === 'Important' ? (
+                                        <AlertOctagon
+                                            color='#FF8200'
+                                            className='h-5 w-5 '
+                                        />
+                                    ) : priority === 'Normal' ? (
+                                        <AlertCircle className='h-5 w-5' />
+                                    ) : null}
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>This card has priority of {priority}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
                     <CardTitle
                         title={title}
                         setTitle={setTitle}
@@ -37,6 +71,7 @@ export const Card: React.FC<CardItem> = ({
                         isEditing={isEditing}
                         setIsEditing={setIsEditing}
                     ></CardTitle>
+
                     <div
                         className={`absolute p-[2%] top-0 right-0 transition-opacity duration-100 ${
                             isHovered ? 'opacity-100' : 'opacity-0'
@@ -46,6 +81,8 @@ export const Card: React.FC<CardItem> = ({
                             cardId={id}
                             onDeleteCard={onDeleteCard}
                             setIsInputActive={() => setIsEditing(true)}
+                            priority={priority}
+                            setPriority={setPriority}
                         />
                     </div>
                 </div>
