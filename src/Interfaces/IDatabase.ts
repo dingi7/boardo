@@ -1,4 +1,4 @@
-export interface dataBaseBoard{
+export interface dataBaseBoard {
     backgroundUrl: string;
     name: string;
     _id: string;
@@ -6,20 +6,23 @@ export interface dataBaseBoard{
     owner: string;
 }
 
-export interface dataBaseList{
+export interface dataBaseList {
     name: string;
+    styles?: {
+        backgroundColor: string;
+    };
     _id: string;
     board: string;
     cards: dataBaseCard[];
 }
 
-export interface dataBaseCard{
-    _id:string,
+export interface dataBaseCard {
+    _id: string;
     name: string;
     list: string;
 }
 
-export interface dataBaseOrganization{
+export interface dataBaseOrganization {
     _id: string;
     name: string;
     owner?: string;
