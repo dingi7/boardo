@@ -5,9 +5,9 @@ import {
     ChevronUp,
     ChevronDown,
     Building2,
-} from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { IOrg } from "../contexts/DashboardContextProvider";
+} from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { IOrg } from 'src/Interfaces/IContexts';
 
 export const Organization = ({
     orgName,
@@ -32,27 +32,27 @@ export const Organization = ({
             onClick={() => {
                 if (
                     selectedOrganization?._id === orgId &&
-                    pathname === "/dashboard/boards"
+                    pathname === '/dashboard/boards'
                 ) {
                     return;
                 } // bug when page is refreshed and selectedOrganization is orgId fix later
-                onClick();
+                // onClick();
             }}
-            className="mb-3"
+            className='mb-3'
         >
-            <h1 className="text-xs md:text-base lg:text-text-lg w-full flex flex-row font-medium justify-between ">
-                <div className="flex flex-row w-[70%] gap-[4%]">
-                    <div className="bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded min-height">
-                        <Building2 color="white"></Building2>
+            <h1 className='text-xs md:text-base lg:text-text-lg w-full flex flex-row font-medium justify-between '>
+                <div className='flex flex-row w-[70%] gap-[4%]'>
+                    <div className='bg-gradient-to-r from-purple-500 to-indigo-600 p-[3%] rounded min-height'>
+                        <Building2 color='white'></Building2>
                     </div>
-                    <p className="truncate w-[40%]">{orgName} </p>
+                    <p className='truncate w-[40%]'>{orgName} </p>
                 </div>
-                <div className="flex flex-row justify-between">
+                <div className='flex flex-row justify-between'>
                     {expandedOrganizationId === orgId ? (
                         <ChevronUp
                             onClick={(e: any) => {
                                 e.stopPropagation();
-                                setExpandedOrganizationId("");
+                                setExpandedOrganizationId('');
                             }}
                         />
                     ) : (
@@ -67,66 +67,69 @@ export const Organization = ({
             </h1>
 
             {expandedOrganizationId === orgId && (
-                <ul className="mt-[2%] ml-[4%] flex flex-col">
+                <ul className='mt-[2%] ml-[4%] flex flex-col'>
                     <li
                         className={`flex flex-row items-center gap-[2%] px-[2%] py-[3%] rounded ${
                             selectedOrganization?._id === orgId &&
-                            pathname === "/dashboard/boards"
-                                ? "bg-blue-100 text-sky-800"
-                                : "hover:bg-sky-50 hover:text-sky-700"
+                            pathname === '/dashboard/boards'
+                                ? 'bg-blue-100 text-sky-800'
+                                : 'hover:bg-sky-50 hover:text-sky-700'
                         }`}
-                        onClick={() => navigate("/dashboard/boards")}
+                        onClick={() => {
+                            onClick();
+                            navigate('/dashboard/boards');
+                        }}
                     >
                         <Layout
                             className={`w-[20%] md:w-[10%] ${
                                 selectedOrganization?._id === orgId &&
-                                pathname === "/dashboard/boards"
-                                    ? "bg-blue-100"
-                                    : "hover:bg-sky-50"
+                                pathname === '/dashboard/boards'
+                                    ? 'bg-blue-100'
+                                    : 'hover:bg-sky-50'
                             }`}
-                        />{" "}
+                        />{' '}
                         Boards
                     </li>
                     <li
                         className={`flex flex-row items-center gap-[2%] px-[2%] py-[3%] rounded ${
                             selectedOrganization?._id === orgId &&
-                            pathname === "/dashboard/activity"
-                                ? "bg-blue-100 text-sky-800"
-                                : "hover:bg-sky-50 hover:text-sky-700"
+                            pathname === '/dashboard/activity'
+                                ? 'bg-blue-100 text-sky-800'
+                                : 'hover:bg-sky-50 hover:text-sky-700'
                         }`}
                         onClick={() => {
-                            navigate("/dashboard/activity");
+                            navigate('/dashboard/activity');
                         }}
                     >
                         <Activity
                             className={`w-[20%] md:w-[10%] ${
                                 selectedOrganization?._id === orgId &&
-                                pathname === "/dashboard/activity"
-                                    ? "bg-blue-100"
-                                    : "hover:bg-sky-50"
+                                pathname === '/dashboard/activity'
+                                    ? 'bg-blue-100'
+                                    : 'hover:bg-sky-50'
                             }`}
-                        />{" "}
+                        />{' '}
                         Activity
                     </li>
                     <li
                         className={`flex flex-row items-center gap-[2%] px-[2%] py-[3%] rounded ${
                             selectedOrganization!._id === orgId &&
-                            pathname === "/dashboard/settings"
-                                ? "bg-blue-100 text-sky-800"
-                                : "hover:bg-sky-50 hover:text-sky-700"
+                            pathname === '/dashboard/settings'
+                                ? 'bg-blue-100 text-sky-800'
+                                : 'hover:bg-sky-50 hover:text-sky-700'
                         }`}
                         onClick={() => {
-                            navigate("/dashboard/settings");
+                            navigate('/dashboard/settings');
                         }}
                     >
                         <Settings
                             className={`w-[20%] md:w-[10%] ${
                                 selectedOrganization!._id === orgId &&
-                                pathname === "/dashboard/settings"
-                                    ? "bg-blue-100"
-                                    : "hover:bg-sky-50"
+                                pathname === '/dashboard/settings'
+                                    ? 'bg-blue-100'
+                                    : 'hover:bg-sky-50'
                             }`}
-                        />{" "}
+                        />{' '}
                         Settings
                     </li>
                 </ul>

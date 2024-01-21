@@ -100,6 +100,7 @@ export const Dashboard = () => {
                     <Outlet
                         context={{
                             selectedOrganization,
+                            fetchBoards,
                             boards,
                             fetching,
                             setUserOrganizations,

@@ -1,4 +1,3 @@
-import { timeStamp } from 'console';
 import { Link } from 'react-router-dom';
 
 type Props = {
@@ -29,7 +28,7 @@ export const Activity = (props: Props) => {
                         <span className='font-bold'>
                             {props.user?.username || 'unknown'}
                         </span>{' '}
-                        <Link to={`/board/${props.board}`}>
+                        <Link to={`/board/${props.board}`} className=' hover:underline'>
                         {props.action}</Link>
                     </p>
                 </div>

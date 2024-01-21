@@ -3,8 +3,6 @@ import {
     useState,
     useCallback,
     useEffect,
-    Dispatch,
-    SetStateAction,
 } from 'react';
 import { dataBaseBoard } from '../../../Interfaces/IDatabase';
 import {
@@ -14,37 +12,9 @@ import {
 } from '../../../api/requests';
 import { useToast } from '../../../Components/Toaster/use-toast';
 import { useAuthUser } from 'react-auth-kit';
+import { IDashboardContext, IOrg, IOrgLean } from 'src/Interfaces/IContexts';
 
-export interface DashboardContextType {
-    allOrganizations: IOrgLean[] | null;
-    setAllOrganizations: Dispatch<SetStateAction<IOrgLean[]>>;
-    selectedOrganization: IOrg | null;
-    setSelectedOrganization: Dispatch<SetStateAction<IOrg | null>>;
-    boards: dataBaseBoard[] | null;
-    setBoards: Dispatch<SetStateAction<dataBaseBoard[]>>;
-    loading: boolean;
-    setLoading: Dispatch<SetStateAction<boolean>>;
-    fetchBoards: (orgId: string) => Promise<void>;
-    userOrganizations: IOrg[];
-    fetchAllOrganizations: () => Promise<void>;
-    setUserOrganizations: Dispatch<SetStateAction<IOrg[]>>;
-    expandedOrganizationId: string;
-    setExpandedOrganizationId: Dispatch<SetStateAction<string>>;
-    fetching: boolean;
-}
-
-export interface IOrg {
-    name: string;
-    _id: string;
-    orgLogo: string;
-}
-
-export interface IOrgLean {
-    name: string;
-    _id: string;
-}
-
-export const DashboardContext = createContext<DashboardContextType | undefined>(
+export const DashboardContext = createContext<IDashboardContext | undefined>(
     undefined
 );
 
@@ -76,7 +46,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         } finally {
             setFetching(false);
         }
-    }, []);
+    }, [toast]);
 
     const fetchAllOrganizations = useCallback(async () => {
         setAllOrganizations(await getAllOrganizations());
@@ -88,7 +58,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
             if (organizations.length > 0) {
                 setUserOrganizations(organizations);
                 setSelectedOrganization(organizations[0]);
-                // await fetchBoards(organizations[0]._id);
+                await fetchBoards(organizations[0]._id);
             } else {
                 setSelectedOrganization(null);
             }
@@ -100,13 +70,13 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         } finally {
             setLoading(false);
         }
-    }, [fetchBoards]);
+    }, [toast]);
 
     useEffect(() => {
         if (!user) return;
         fetchAllOrganizations();
         fetchOrganizations();
-    }, [user, fetchOrganizations]);
+    }, [user, fetchOrganizations, fetchAllOrganizations]);
 
     return (
         <DashboardContext.Provider

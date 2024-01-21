@@ -1,22 +1,23 @@
+import React, { useContext, useEffect } from 'react';
 import { Building2, User2 } from 'lucide-react';
-import React from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
 import { AddBoard } from '../components/AddBoard';
-import { Loading } from 'src/Components/loading';
 import { BoardSkeleton } from '../skeletons/BoardSkeleton';
+import { DashboardContext } from '../contexts/DashboardContextProvider';
 
 type Props = {};
 
 export const BoardsPage = (props: Props) => {
-    const context = useOutletContext<any>();
+    const context = useContext(DashboardContext);
+    if (!context) {
+        throw new Error('Dashboard context is not available');
+    }
     const { selectedOrganization, boards, fetching } = context;
 
-    if(fetching){
-            // return <Loading></Loading> 
-            return <BoardSkeleton/>
+    if (fetching) {
+        return <BoardSkeleton />;
     }
     return (
-        
         <div>
             {selectedOrganization !== null ? (
                 <>
@@ -54,8 +55,7 @@ export const BoardsPage = (props: Props) => {
                         </div>
                     </div>
                 </>
-            ) : null
-            }
+            ) : null}
         </div>
     );
 };
