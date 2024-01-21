@@ -66,7 +66,8 @@ export const Organization = ({
                                 ? 'bg-blue-100 text-sky-800'
                                 : 'hover:bg-sky-50 hover:text-sky-700'
                         }`}
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
                             onClick();
                             navigate('/dashboard/boards');
                         }}
@@ -88,7 +89,9 @@ export const Organization = ({
                                 ? 'bg-blue-100 text-sky-800'
                                 : 'hover:bg-sky-50 hover:text-sky-700'
                         }`}
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onClick();
                             navigate('/dashboard/activity');
                         }}
                     >
@@ -109,7 +112,9 @@ export const Organization = ({
                                 ? 'bg-blue-100 text-sky-800'
                                 : 'hover:bg-sky-50 hover:text-sky-700'
                         }`}
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onClick();
                             navigate('/dashboard/settings');
                         }}
                     >

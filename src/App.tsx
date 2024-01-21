@@ -18,7 +18,7 @@ import { Profile } from "./Pages/Auth/Profile";
 
 import { DashboardLayout } from "./Pages/Dashboard/DashboardLayout";
 import { BoardsPage } from "./Pages/Dashboard/pages/BoardsPage";
-import { Settings } from "./Pages/Dashboard/pages/SettingsPage";
+import { SettingsPage } from "./Pages/Dashboard/pages/SettingsPage";
 import { ActivityPage } from "./Pages/Dashboard/pages/ActivityPage";
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
                         <Route path="/auth/resetPassword/:uuid" element={<ResetPassword />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/dashboard" element={<DashboardLayout />}>
-                            <Route path="settings" element={<Settings />} />
+                            <Route path="settings" element={<SettingsPage />} />
                             <Route path="activity" element={<ActivityPage />} />
                             <Route path="boards" element={<BoardsPage />} />
                         </Route>

@@ -7,15 +7,18 @@ import { deleteOrganization, removeMemberFromBoard } from 'src/api/requests';
 import { useToast } from 'src/Components/Toaster/use-toast';
 import { useAuthUser } from 'react-auth-kit';
 import { DashboardContext } from '../contexts/DashboardContextProvider';
+import { IOrg } from 'src/Interfaces/IContexts';
 type Props = {};
 
-export const Settings = (props: Props) => {
+export const SettingsPage = (props: Props) => {
 
     const context = useContext(DashboardContext);
     if (!context) {
         throw new Error('Dashboard context is not available');
     }
-    const { selectedOrganization, setUserOrganizations } = context;
+    const { selectedOrganization, setUserOrganizations, setAllOrganizations } = context;
+    console.log(selectedOrganization);
+    
 
     const { toast } = useToast();
     const navigate = useNavigate();
@@ -74,10 +77,14 @@ export const Settings = (props: Props) => {
             await deleteOrganization(selectedOrganization!._id);
             // remove from all organizations
             setUserOrganizations((prev: any) =>
-                prev.filter((org: any) => org._id !== selectedOrganization!._id)
+                prev.filter((org: IOrg) => org._id !== selectedOrganization!._id)
             );
+            setAllOrganizations((prev: any) =>
+                prev.filter((org: IOrg) => org._id !== selectedOrganization!._id)
+            );
+            
             toast({
-                title: 'Organization deleted successfully',
+                title: "Organization " +  selectedOrganization?.name + ' deleted successfully',
             });
             navigate('/dashboard');
         } catch (e: any) {
@@ -199,7 +206,7 @@ export const Settings = (props: Props) => {
                                     </label>
                                     <Input
                                         id='nameInput'
-                                        value={name}
+                                        value={selectedOrganization?.name}
                                         onChange={(e) =>
                                             setName(e.target.value)
                                         }
