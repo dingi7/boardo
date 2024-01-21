@@ -38,6 +38,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
             setFetching(true);
             const data = await getBoardsByOrgId(orgId);
             setBoards(data.boards || []);
+            setExpandedOrganizationId(orgId);
         } catch (err: any) {
             toast({
                 title: err.message,

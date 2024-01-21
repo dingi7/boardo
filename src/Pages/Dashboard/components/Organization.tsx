@@ -29,15 +29,6 @@ export const Organization = ({
 
     return (
         <div
-            onClick={() => {
-                if (
-                    selectedOrganization?._id === orgId &&
-                    pathname === '/dashboard/boards'
-                ) {
-                    return;
-                } // bug when page is refreshed and selectedOrganization is orgId fix later
-                // onClick();
-            }}
             className='mb-3'
         >
             <h1 className='text-xs md:text-base lg:text-text-lg w-full flex flex-row font-medium justify-between '>
