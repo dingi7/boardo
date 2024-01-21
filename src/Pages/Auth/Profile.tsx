@@ -1,15 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Button } from "../../Components/ui/button";
 import { useIsAuthenticated, useAuthUser } from "react-auth-kit";
 
-import { useAuth } from "./hooks/useAuth";
-import useFormData from "../../util/hooks/useFormData";
 import { Navbar } from "../../Components/navbar";
-import { AuthInput } from "../../Components/auth/auth-input";
 import { useToast } from "../../Components/Toaster/use-toast";
-import { Settings, UserCircleIcon } from "lucide-react";
+import { Pencil, UserCircleIcon } from "lucide-react";
 import { Loading } from "src/Components/loading";
+import { ProfileInput } from "src/Components/auth/ProfileInput";
 
 export const Profile = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -18,7 +16,8 @@ export const Profile = () => {
 
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
-    const [authUser, setAuthUser] = useState(useAuthUser()());
+    const defaultAuthUser = useAuthUser()()
+    const [authUser, setAuthUser] = useState(defaultAuthUser);
     const [isEdditing, setIsEdditing] = useState<boolean>(false);
     useEffect(() => {
         console.log(authUser);
@@ -32,8 +31,19 @@ export const Profile = () => {
         }
     }, [isAuth, navigate, authUser]);
 
+    const handleUpdateUserData = (e: FormEvent) => {
+        e.preventDefault()
+        setIsEdditing(false)
+        setLoading(true)
+    }
+
+    const handleUpdateCancel = () => {
+        setAuthUser(defaultAuthUser)
+        setIsEdditing(false)
+    }
+
     return (
-        <div className="h-screen bg-white flex justify-center items-center pt-[4%]">
+        <div className="h-screen bg-white flex justify-center items-center pt-[4%] overflow-hidden">
             <Navbar />
             {loading ? (
                 <Loading />
@@ -46,12 +56,9 @@ export const Profile = () => {
                             </div>
                             <div className="flex items-center">
                                 <p className="font-bold text-xl">
-                                    {authUser?.username}
+                                    {defaultAuthUser?.username}
                                 </p>
                             </div>
-                        </div>
-                        <div>
-                            <Settings onClick={() => setIsEdditing(!isEdditing)}/>
                         </div>
                     </div>
 
@@ -61,29 +68,48 @@ export const Profile = () => {
                         </h2>
                     </div>
 
-                    <div className="h-[50%] flex flex-col gap-[6%]">
-                        <div className="w-[65%]">
+                    <form className="h-[50%] w-[60%] flex flex-col gap-[6%] relative pt-[2%] pr-[7%]" onSubmit={handleUpdateUserData}>
+                        <div className="w-full flex flex-col">
+                            <ProfileInput 
+                                id="username"
+                                onChange={setAuthUser}
+                                value={authUser?.username}
+                                text="Username:"
+                                type="text"
+                            />
+                        </div>
+                        <div className="w-full flex flex-col">
                             <label>Email:</label>
                             <input
-                                className={`bg-gray-50 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
+                                className={`bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
                                     !isEdditing ? "opacity-60" : ""
                                 }`}
-                                disabled
+                                type="email"
+                                disabled={!isEdditing}
                                 value={authUser?.email}
+                                onChange={setAuthUser}
                             />
                         </div>
-                        <div className="w-[65%] flex flex-col">
+                        <div className="w-full flex flex-col">
                             <label>Password:</label>
                             <input
-                                className={`bg-gray-50 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
+                                className={`bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
                                     !isEdditing ? "opacity-60" : ""
                                 }`}
-                                disabled
+                                disabled={!isEdditing}
                                 type="password"
                                 value={authUser?.email}
+                                onChange={setAuthUser}
                             />
                         </div>
-                    </div>
+
+                        {isEdditing && (
+                            <div className="w-full flex justify-end pr-[2%] gap-[1%]">
+                                <Button variant="outline" onClick={handleUpdateCancel}>Cancel</Button>
+                                <Button className="w-1/4" type="submit">Save</Button>
+                            </div>
+                        )}
+                    </form>
                 </div>
             )}
         </div>
