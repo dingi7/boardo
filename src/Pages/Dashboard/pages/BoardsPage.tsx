@@ -11,6 +11,7 @@ export const BoardsPage = () => {
         throw new Error('Dashboard context is not available');
     }
     const { selectedOrganization, boards, fetching } = context;
+    
 
     if (fetching) {
         return <BoardSkeleton />;

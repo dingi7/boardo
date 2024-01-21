@@ -46,6 +46,7 @@ function App() {
                             <Route path="activity" element={<ActivityPage />} />
                             <Route path="boards" element={<BoardsPage />} />
                         </Route>
+                        <Route path="*" element={<h1>Not Found</h1>} />
                     </Routes>
                 </BrowserRouter>
             </div>
