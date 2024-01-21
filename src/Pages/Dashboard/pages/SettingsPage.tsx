@@ -8,6 +8,7 @@ import { useToast } from 'src/Components/Toaster/use-toast';
 import { useAuthUser } from 'react-auth-kit';
 import { DashboardContext } from '../contexts/DashboardContextProvider';
 import { IOrg } from 'src/Interfaces/IContexts';
+import { DeleteOrganizationDialog } from '../modals/DeleteOrganizationDialog';
 type Props = {};
 
 export const SettingsPage = (props: Props) => {
@@ -64,38 +65,38 @@ export const SettingsPage = (props: Props) => {
         }
     };
 
-    async function handleDeleteOrganization() {
-        if (
-            !window.confirm(
-                'Are you sure you want to delete this organization?'
-            )
-        ) {
-            return;
-        }
-        setLoading(true);
-        try {
-            await deleteOrganization(selectedOrganization!._id);
-            // remove from all organizations
-            setUserOrganizations((prev: any) =>
-                prev.filter((org: IOrg) => org._id !== selectedOrganization!._id)
-            );
-            setAllOrganizations((prev: any) =>
-                prev.filter((org: IOrg) => org._id !== selectedOrganization!._id)
-            );
+    // async function handleDeleteOrganization() {
+    //     if (
+    //         !window.confirm(
+    //             'Are you sure you want to delete this organization?'
+    //         )
+    //     ) {
+    //         return;
+    //     }
+    //     setLoading(true);
+    //     try {
+    //         await deleteOrganization(selectedOrganization!._id);
+    //         // remove from all organizations
+    //         setUserOrganizations((prev: any) =>
+    //             prev.filter((org: IOrg) => org._id !== selectedOrganization!._id)
+    //         );
+    //         setAllOrganizations((prev: any) =>
+    //             prev.filter((org: IOrg) => org._id !== selectedOrganization!._id)
+    //         );
             
-            toast({
-                title: "Organization " +  selectedOrganization?.name + ' deleted successfully',
-            });
-            navigate('/dashboard');
-        } catch (e: any) {
-            toast({
-                title: 'Error',
-                description: e.message,
-                variant: 'destructive',
-            });
-        }
-        setLoading(false);
-    }
+    //         toast({
+    //             title: "Organization " +  selectedOrganization?.name + ' deleted successfully',
+    //         });
+    //         navigate('/dashboard');
+    //     } catch (e: any) {
+    //         toast({
+    //             title: 'Error',
+    //             description: e.message,
+    //             variant: 'destructive',
+    //         });
+    //     }
+    //     setLoading(false);
+    // }
 
     return (
         <div className='mb-4 border-b border-gray-200 dark:border-gray-700'>
@@ -215,13 +216,7 @@ export const SettingsPage = (props: Props) => {
                             </ul>
                             <div className='flex flex-col md:flex-row gap-4 lg:gap-8 mt-4 md:mt-8 lg:mt-12'>
                                 {/* <Button variant='outline'>Reset</Button> */}
-                                <Button
-                                    variant={'destructive'}
-                                    disabled={loading}
-                                    onClick={handleDeleteOrganization}
-                                >
-                                    Delete organization
-                                </Button>
+                                <DeleteOrganizationDialog/>
                                 <Button variant='primary' disabled={loading}>
                                     Save Changes
                                 </Button>
