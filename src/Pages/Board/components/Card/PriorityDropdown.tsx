@@ -34,15 +34,13 @@ export const PriorityDropdown = ({
                             onClick={() => setPriority('Important')}
                         >
                             <AlertOctagon
-                                color='yellow'
+                                color='#FF8200'
                                 className='mr-2 h-4 w-4'
                             />
                             <span>Important</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => setPriority('Normal')}>
-                            <AlertCircle
-                                className='mr-2 h-4 w-4'
-                            />
+                            <AlertCircle className='mr-2 h-4 w-4' />
                             <span>Regular</span>
                         </DropdownMenuItem>
                     </DropdownMenuSubContent>
