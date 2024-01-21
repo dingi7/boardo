@@ -8,14 +8,6 @@ export const Navbar = () => {
     const isAuth = useIsAuthenticated();
     const navigate = useNavigate();
 
-    const signOut = useSignOut();
-
-    const handleSignOut = () => {
-        if (window.confirm("Are you sure you want to log out?")) {
-            signOut();
-            navigate("/");
-        }
-    };
 
     return (
         <div className="fixed top-0 w-full h-16 px-4 border-b shadow-sm bg-white flex items-center z-50">
@@ -32,9 +24,8 @@ export const Navbar = () => {
                                 variant={"gray"}
                                 size="sm"
                                 asChild
-                                onClick={handleSignOut}
                             >
-                                <span className="cursor-pointer">Logout</span>
+                                <Link to="/profile">Profile</Link>
                             </Button>
                         </>
                     ) : (

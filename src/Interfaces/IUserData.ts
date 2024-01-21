@@ -33,3 +33,9 @@ export interface IUserData {
     email: string;
     firstName: string;
 }
+
+export interface EditingState {
+    username: boolean;
+    email: boolean;
+    password: boolean;
+}

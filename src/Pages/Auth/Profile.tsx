@@ -1,24 +1,39 @@
 import { useNavigate } from "react-router-dom";
 import { FormEvent, useEffect, useState } from "react";
 import { Button } from "../../Components/ui/button";
-import { useIsAuthenticated, useAuthUser } from "react-auth-kit";
+import { useIsAuthenticated, useAuthUser, useSignOut } from "react-auth-kit";
 
 import { Navbar } from "../../Components/navbar";
 import { useToast } from "../../Components/Toaster/use-toast";
 import { Pencil, UserCircleIcon } from "lucide-react";
 import { Loading } from "src/Components/loading";
 import { ProfileInput } from "src/Components/auth/ProfileInput";
+import { EditingState } from "src/Interfaces/IUserData";
 
 export const Profile = () => {
     const [loading, setLoading] = useState<boolean>(false);
+    const [isEdditing, setIsEdditing] = useState<EditingState>({
+        username: false,
+        email: false,
+        password: false,
+    });
+
+    const signOut = useSignOut();
+
+    const handleSignOut = () => {
+        if (window.confirm("Are you sure you want to log out?")) {
+            signOut();
+            navigate("/");
+        }
+    };
     //const authenticateUser = useAuth();
     const { toast } = useToast();
 
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
-    const defaultAuthUser = useAuthUser()()
+    const defaultAuthUser = useAuthUser()();
     const [authUser, setAuthUser] = useState(defaultAuthUser);
-    const [isEdditing, setIsEdditing] = useState<boolean>(false);
+
     useEffect(() => {
         console.log(authUser);
 
@@ -32,15 +47,13 @@ export const Profile = () => {
     }, [isAuth, navigate, authUser]);
 
     const handleUpdateUserData = (e: FormEvent) => {
-        e.preventDefault()
-        setIsEdditing(false)
-        setLoading(true)
-    }
+        e.preventDefault();
+        setLoading(true);
+    };
 
     const handleUpdateCancel = () => {
-        setAuthUser(defaultAuthUser)
-        setIsEdditing(false)
-    }
+        setAuthUser(defaultAuthUser);
+    };
 
     return (
         <div className="h-screen bg-white flex justify-center items-center pt-[4%] overflow-hidden">
@@ -62,54 +75,96 @@ export const Profile = () => {
                         </div>
                     </div>
 
-                    <div>
-                        <h2 className="text-lg font-semibold">
-                            Current organisations:
-                        </h2>
-                    </div>
-
-                    <form className="h-[50%] w-[60%] flex flex-col gap-[6%] relative pt-[2%] pr-[7%]" onSubmit={handleUpdateUserData}>
-                        <div className="w-full flex flex-col">
-                            <ProfileInput 
-                                id="username"
-                                onChange={setAuthUser}
-                                value={authUser?.username}
-                                text="Username:"
-                                type="text"
-                            />
-                        </div>
-                        <div className="w-full flex flex-col">
-                            <label>Email:</label>
-                            <input
-                                className={`bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
-                                    !isEdditing ? "opacity-60" : ""
-                                }`}
-                                type="email"
-                                disabled={!isEdditing}
-                                value={authUser?.email}
-                                onChange={setAuthUser}
-                            />
-                        </div>
-                        <div className="w-full flex flex-col">
-                            <label>Password:</label>
-                            <input
-                                className={`bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${
-                                    !isEdditing ? "opacity-60" : ""
-                                }`}
-                                disabled={!isEdditing}
-                                type="password"
-                                value={authUser?.email}
-                                onChange={setAuthUser}
-                            />
+                    <div className="w-full flex flex-row justify-between">
+                        <div>
+                            <h2 className="text-lg font-semibold">
+                                Current organisations:
+                            </h2>
                         </div>
 
-                        {isEdditing && (
-                            <div className="w-full flex justify-end pr-[2%] gap-[1%]">
-                                <Button variant="outline" onClick={handleUpdateCancel}>Cancel</Button>
-                                <Button className="w-1/4" type="submit">Save</Button>
+                        <form
+                            className="h-full w-[40%] flex flex-col gap-[6%] relative pt-[2%] "
+                            onSubmit={handleUpdateUserData}
+                        >
+                            <div className="w-full flex flex-col">
+                                <ProfileInput
+                                    id="username"
+                                    onChange={setAuthUser}
+                                    value={authUser?.username}
+                                    text="Username:"
+                                    type="text"
+                                    isEdditing={isEdditing.username}
+                                    name="username"
+                                    setIsEdditing={(
+                                        inputField: string,
+                                        value: boolean
+                                    ) =>
+                                        setIsEdditing((prevState) => ({
+                                            ...prevState,
+                                            [inputField]: value,
+                                        }))
+                                    }
+                                />
                             </div>
-                        )}
-                    </form>
+                            <div className="w-full flex flex-col">
+                                <ProfileInput
+                                    id="email"
+                                    name="email"
+                                    onChange={setAuthUser}
+                                    value={authUser?.email}
+                                    text="Email:"
+                                    type="text"
+                                    isEdditing={isEdditing.email}
+                                    setIsEdditing={(
+                                        inputField: string,
+                                        value: boolean
+                                    ) =>
+                                        setIsEdditing((prevState) => ({
+                                            ...prevState,
+                                            [inputField]: value,
+                                        }))
+                                    }
+                                />
+                            </div>
+                            <div className="w-full flex flex-col">
+                                <ProfileInput
+                                    id="password"
+                                    name="password"
+                                    onChange={setAuthUser}
+                                    value={authUser?.email}
+                                    text="Password:"
+                                    type="password"
+                                    isEdditing={isEdditing.password}
+                                    setIsEdditing={(
+                                        inputField: string,
+                                        value: boolean
+                                    ) =>
+                                        setIsEdditing((prevState) => ({
+                                            ...prevState,
+                                            [inputField]: value,
+                                        }))
+                                    }
+                                />
+                            </div>
+
+                            {Object.values(isEdditing).some(
+                                (value) => value
+                            ) && (
+                                <div className="w-full flex justify-end pr-[2%] gap-[1%]">
+                                    <Button
+                                        variant="outline"
+                                        onClick={handleUpdateCancel}
+                                        type="button"
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button className="w-1/4" type="submit">
+                                        Save
+                                    </Button>
+                                </div>
+                            )}
+                        </form>
+                    </div>
                 </div>
             )}
         </div>

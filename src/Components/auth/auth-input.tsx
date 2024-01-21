@@ -29,7 +29,7 @@ export const AuthInput = (props: Props) => {
 
             <div className="flex items-center border border-gray-300 rounded-lg">
                 <input
-                    className="bg-gray-50 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    className={`bg-gray-50 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${isPasswordInput ? 'rounded-l-lg' : 'rounded-lg'}`}
                     id={props.id}
                     type={isPasswordInput && showPassword ? 'text' : props.type}
                     placeholder={props.text}

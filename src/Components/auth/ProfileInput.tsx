@@ -1,23 +1,29 @@
 import React, { useState } from "react";
-import { LoginUserData, RegisterUserData } from "../../Interfaces/IUserData";
+import {
+    EditingState,
+    LoginUserData,
+    RegisterUserData,
+} from "../../Interfaces/IUserData";
 import { Eye, EyeOff, Pencil } from "lucide-react";
 
 type Props = {
     value: string;
     type: string;
     text: string;
+    name: string;
     id: keyof LoginUserData | keyof RegisterUserData;
     // setUserData:
     //     | React.Dispatch<React.SetStateAction<RegisterUserData>>
     //     | React.Dispatch<React.SetStateAction<LoginUserData>>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    isEdditing: boolean;
+    setIsEdditing: any;
 };
 
 export const ProfileInput = (props: Props) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const isPasswordInput = props.type === "password";
-    const toggleShowPassword = () => setShowPassword(!showPassword);
 
     return (
         <div className="mb-4 relative">
@@ -25,34 +31,56 @@ export const ProfileInput = (props: Props) => {
                 className="block mb-2 text-md font-medium text-gray-900"
                 htmlFor={props.id}
             >
-                {props.text}
+                {(isPasswordInput && props.isEdditing) ? "Old password:" : props.text}
             </label>
 
             <div className="flex items-center border border-gray-300 rounded-lg">
                 <input
-                    className="bg-gray-50 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    className={`bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 relative ${
+                        !props.isEdditing && "opacity-60"
+                    }`}
                     id={props.id}
                     type={isPasswordInput && showPassword ? "text" : props.type}
                     value={props.value}
                     onChange={props.onChange}
+                    disabled={!props.isEdditing}
                 />
-                <div className="absolute right-[7%] top-[0]">
+                <div
+                    className="absolute right-[0] p-2"
+                    onClick={() =>
+                        props.setIsEdditing(props.name, !props.isEdditing)
+                    }
+                >
                     <Pencil />
                 </div>
-                {isPasswordInput && (
-                    <button
-                        type="button"
-                        onClick={toggleShowPassword}
-                        className="p-2 rounded-r-lg"
-                    >
-                        {showPassword ? (
-                            <EyeOff size="20" />
-                        ) : (
-                            <Eye size="20" />
-                        )}
-                    </button>
-                )}
             </div>
+
+            {isPasswordInput && props.isEdditing && (
+                <>
+                    <label
+                        className="block mb-2 text-md font-medium text-gray-900"
+                        htmlFor={props.id}
+                    >
+                        New password:
+                    </label>
+                    <div className="flex items-center border border-gray-300 rounded-lg">
+                        <input
+                            className={`bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 relative ${
+                                !props.isEdditing && "opacity-60"
+                            }`}
+                            id={props.id}
+                            type={
+                                isPasswordInput && showPassword
+                                    ? "text"
+                                    : props.type
+                            }
+                            value={props.value}
+                            onChange={props.onChange}
+                            disabled={!props.isEdditing}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 };
