@@ -71,7 +71,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         } finally {
             setLoading(false);
         }
-    }, [toast]);
+    }, [toast, fetchBoards]);
 
     useEffect(() => {
         if (!user) return;

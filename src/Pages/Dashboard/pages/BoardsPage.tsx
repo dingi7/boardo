@@ -1,13 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Building2, User2 } from 'lucide-react';
-import { Link, useOutletContext } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AddBoard } from '../components/AddBoard';
 import { BoardSkeleton } from '../skeletons/BoardSkeleton';
 import { DashboardContext } from '../contexts/DashboardContextProvider';
 
-type Props = {};
-
-export const BoardsPage = (props: Props) => {
+export const BoardsPage = () => {
     const context = useContext(DashboardContext);
     if (!context) {
         throw new Error('Dashboard context is not available');
