@@ -9,8 +9,6 @@ import { Loading } from '../../Components/loading';
 import { BoardContext } from './contexts/BoardContextProvider';
 import { Navbar } from '../../Components/navbar';
 import { useToast } from '../../Components/Toaster/use-toast';
-import { useNavigate } from 'react-router-dom';
-import { StylesModal } from './components/StylesModal';
 
 export const Board = (): JSX.Element => {
     const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -184,6 +182,7 @@ export const Board = (): JSX.Element => {
                                     <List
                                         key={data._id}
                                         id={data._id}
+                                        styles={data.styles}
                                         title={data.name}
                                         cards={data.cards}
                                         index={index}

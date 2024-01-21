@@ -1,10 +1,10 @@
 import { ListItem } from '../../../../Interfaces/IList';
-import { Card } from '../Card';
+import { Card } from '../Card/Card';
 
 import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { dataBaseCard } from '../../../../Interfaces/IDatabase';
-import { CardForm } from '../CardForm';
-import { ListTitle } from './list-title';
+import { CardForm } from '../Card/CardForm';
+import { ListTitle } from './ListTitle';
 import { useState } from 'react';
 import { ListSettingsDropdownMenu } from '../ListSettingsDropdown';
 
@@ -15,9 +15,12 @@ export const List = ({
     index,
     onCardAdd,
     onDeleteCard,
-    
+    styles,
 }: ListItem): JSX.Element => {
     const [listTitle, setListTitle] = useState(title);
+    const [backgroundColor, setBackgroundColor] = useState<string>(
+        styles?.backgroundColor || 'bg-slate-200'
+    );
     return (
         <Draggable draggableId={id} index={index!}>
             {(provided) => (
@@ -28,7 +31,7 @@ export const List = ({
                     ref={provided.innerRef}
                 >
                     <div
-                        className=' bg-slate-200 rounded-lg shadow-lg p-[4%] w-full '
+                        className={`rounded-lg shadow-lg p-[4%] w-full ${backgroundColor}`}
                         {...provided.dragHandleProps}
                     >
                         <div className='p-[2%] inline-flex flex-col items-start gap-[5%] w-full'>
@@ -39,10 +42,9 @@ export const List = ({
                                             title={listTitle}
                                             setTitle={setListTitle}
                                             listId={id}
-                                        
                                         />
                                     </div>
-                                    <ListSettingsDropdownMenu listId={id}/>
+                                    <ListSettingsDropdownMenu listId={id} setBackgroundColor={setBackgroundColor} />
                                 </div>
                                 <Droppable droppableId={id} type='task'>
                                     {(provided) => (

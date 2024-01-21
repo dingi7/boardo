@@ -1,9 +1,7 @@
 import { Draggable } from '@hello-pangea/dnd';
-import { Pencil } from 'lucide-react';
-import { Button } from '../../../Components/ui/button';
 import { useState } from 'react';
-import { ListSettingsDropdownMenu } from './ListSettingsDropdown';
 import { CardSettingsDropdownMenu } from './CardSettingsDropdow';
+import { CardTitle } from './CardTitle';
 
 type CardItem = {
     content: string;
@@ -18,8 +16,9 @@ export const Card: React.FC<CardItem> = ({
     id,
     onDeleteCard,
 }) => {
+    const [isEditing, setIsEditing] = useState<boolean>(false);
     const [isHovered, setIsHovered] = useState<boolean>(false);
-    const [isInputActive, setIsInputActive] = useState<boolean>(false)
+    const [title, setTitle] = useState<string>(content);
     return (
         <Draggable draggableId={id} index={index}>
             {(provided) => (
@@ -27,21 +26,27 @@ export const Card: React.FC<CardItem> = ({
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
-                    className="flex w-full h-9 items-center gap-[10px] px-[10px] py-[2%] relative bg-slate-100 rounded-[7px] overflow-hidden border-black cursor-pointer "
+                    className='flex w-full h-9 items-center gap-[10px] px-[10px] py-[2%] relative bg-slate-100 rounded-[7px] overflow-hidden border-black cursor-pointer '
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
-                    <input className="relative w-fit mt-[-1.00px] [font-family:'Inter-Medium',Helvetica] font-medium text-slate-900 text-[16px] tracking-[0] leading-[normal] whitespace-nowrap disabled:opacity-85 bg-inherit" 
-                        value={content}
-                        disabled={!isInputActive}
-                        onBlur={() => setIsInputActive(false)}
-                    />
+                    <CardTitle
+                        title={title}
+                        setTitle={setTitle}
+                        cardId={id}
+                        isEditing={isEditing}
+                        setIsEditing={setIsEditing}
+                    ></CardTitle>
                     <div
                         className={`absolute p-[2%] top-0 right-0 transition-opacity duration-100 ${
                             isHovered ? 'opacity-100' : 'opacity-0'
                         }`}
                     >
-                        <CardSettingsDropdownMenu cardId={id} onDeleteCard={onDeleteCard}/>
+                        <CardSettingsDropdownMenu
+                            cardId={id}
+                            onDeleteCard={onDeleteCard}
+                            setIsInputActive={() => setIsEditing(true)}
+                        />
                     </div>
                 </div>
             )}
