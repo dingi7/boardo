@@ -57,6 +57,14 @@ export const deleteOrganization = async (orgId: string, password: string) => {
     return api.del(endpoints.organization(orgId), { password });
 };
 
+export const updateOrganization = async (
+    orgId: string,
+    password: string,
+    name: string
+) => {
+    return api.put(endpoints.organization(orgId), { password, name });
+};
+
 export const tokenValidator = async (uuid: string) => {
     return api.post(endpoints.tokenValidator(uuid));
 };
