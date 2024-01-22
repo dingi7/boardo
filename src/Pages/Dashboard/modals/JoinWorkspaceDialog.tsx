@@ -18,15 +18,18 @@ import { useToast } from 'src/Components/Toaster/use-toast';
 export function JoinDialog({
     orgName,
     orgId,
+    setUserOrganizations,
 }: {
     orgName: string;
     orgId: string;
+    setUserOrganizations: (organizations: any) => void;
 }) {
     const { toast } = useToast();
     const [password, setPassword] = useState<string>('');
     const handleFormSubmit = async () => {
         try {
             const result = await joinOrganization(orgId, password);
+            setUserOrganizations((prev: any) => [...prev, result]);
             toast({
                 title: 'Joined!',
                 description: `You have joined ${orgName}`,
@@ -35,7 +38,7 @@ export function JoinDialog({
             toast({
                 title: 'Error!',
                 description: err.message,
-                variant: "destructive" 
+                variant: 'destructive',
             });
         }
     };

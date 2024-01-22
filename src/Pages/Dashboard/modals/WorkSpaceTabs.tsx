@@ -78,6 +78,7 @@ export const WorkspaceTabs = ({
                                         orgName={org.name}
                                         orgId={org._id}
                                         key={org._id}
+                                        setUserOrganizations={setUserOrganizations}
                                     ></JoinDialog>
                                 )
                             )}
