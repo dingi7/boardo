@@ -2,7 +2,12 @@ import { Draggable } from '@hello-pangea/dnd';
 import { useState } from 'react';
 import { CardSettingsDropdownMenu } from './CardSettingsDropdow';
 import { CardTitle } from './CardTitle';
-import { AlertCircle, AlertOctagon, AlertTriangle } from 'lucide-react';
+import {
+    AlertCircle,
+    AlertOctagon,
+    AlertTriangle,
+    Calendar,
+} from 'lucide-react';
 import {
     Tooltip,
     TooltipContent,
@@ -71,6 +76,34 @@ export const Card: React.FC<CardItem> = ({
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
+                    {storedDueDate && (
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div className='flex items-center gap-[10px]'>
+                                        {date! > new Date() ? (
+                                            <Calendar
+                                                color='green'
+                                                className='h-5 w-5'
+                                            />
+                                        ) : (
+                                            <Calendar
+                                                color='red'
+                                                className='h-5 w-5'
+                                            />
+                                        )}
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>
+                                        This card's due date is{' '}
+                                        {date?.toLocaleString() ||
+                                            'Not asigned'}
+                                    </p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    )}
                     <CardTitle
                         title={title}
                         setTitle={setTitle}
