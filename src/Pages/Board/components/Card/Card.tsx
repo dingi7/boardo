@@ -39,7 +39,7 @@ export const Card: React.FC<CardItem> = ({
         storedPriority || 'Normal'
     );
     const [date, setDate] = useState<Date | undefined>(
-        new Date(storedDueDate || '')
+        storedDueDate ? new Date(storedDueDate) : undefined
     );
     return (
         <Draggable draggableId={id} index={index}>
@@ -76,7 +76,7 @@ export const Card: React.FC<CardItem> = ({
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
-                    {storedDueDate && (
+                    {date && (
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
