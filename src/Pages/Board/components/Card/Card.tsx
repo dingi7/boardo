@@ -16,6 +16,7 @@ type CardItem = {
     id: string;
     onDeleteCard: (cardId: string) => void;
     storedPriority: string;
+    storedDueDate?: Date;
 };
 
 export const Card: React.FC<CardItem> = ({
@@ -24,11 +25,17 @@ export const Card: React.FC<CardItem> = ({
     id,
     onDeleteCard,
     storedPriority,
+    storedDueDate,
 }) => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [title, setTitle] = useState<string>(content);
-    const [priority, setPriority] = useState<string>(storedPriority || "Normal");
+    const [priority, setPriority] = useState<string>(
+        storedPriority || 'Normal'
+    );
+    const [date, setDate] = useState<Date | undefined>(
+        new Date(storedDueDate || '')
+    );
     return (
         <Draggable draggableId={id} index={index}>
             {(provided) => (
@@ -83,6 +90,8 @@ export const Card: React.FC<CardItem> = ({
                             setIsInputActive={() => setIsEditing(true)}
                             priority={priority}
                             setPriority={setPriority}
+                            date={date}
+                            setDate={setDate}
                         />
                     </div>
                 </div>

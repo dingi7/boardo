@@ -70,6 +70,7 @@ export const List = ({
                                                                   onDeleteCard
                                                               }
                                                               storedPriority={item.styles.priority}
+                                                              storedDueDate={item.dueDate}
                                                           />
                                                       )
                                                   )

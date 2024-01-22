@@ -27,9 +27,9 @@ const request = async (
         options.headers['content-type'] = 'application/json';
         options.body = JSON.stringify(data);
     }
-    
-    if (localStorage["x-authorization"]) {
-        const token = localStorage["x-authorization"];
+
+    if (localStorage['x-authorization']) {
+        const token = localStorage['x-authorization'];
         options.headers['x-authorization'] = token;
     }
 
