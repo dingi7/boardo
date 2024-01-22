@@ -1,25 +1,25 @@
-import { dataBaseBoard, dataBaseList } from '../Interfaces/IDatabase';
-import { LoginUserData, RegisterUserData } from '../Interfaces/IUserData';
-import * as api from './api';
+import { dataBaseBoard, dataBaseList } from "../Interfaces/IDatabase";
+import { LoginUserData, RegisterUserData } from "../Interfaces/IUserData";
+import * as api from "./api";
 
 export const endpoints = {
-    registerUser: '/auth/register',
-    loginUser: '/auth/login',
+    registerUser: "/auth/register",
+    loginUser: "/auth/login",
     orgs: `/auth/orgs`,
-    createBoard: '/items/boards',
+    createBoard: "/items/boards",
 
-    allOrgs: '/auth/allOrgs',
+    allOrgs: "/auth/allOrgs",
     joinOrg: (orgId: string) => `/auth/joinOrg/${orgId}`,
 
     getBoardsByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     board: (boardId: string | null) =>
-        boardId ? `/items/boards/${boardId}` : '/items/boards',
+        boardId ? `/items/boards/${boardId}` : "/items/boards",
     card: (cardId: string | null) =>
-        cardId ? `/items/cards/${cardId}` : '/items/cards',
+        cardId ? `/items/cards/${cardId}` : "/items/cards",
     list: (listId: string | null) =>
-        listId ? `/items/list/${listId}` : '/items/list',
+        listId ? `/items/list/${listId}` : "/items/list",
     organization: (orgId: string | null) =>
-        orgId ? `/auth/orgs/${orgId}` : '/auth/orgs',
+        orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
 
     resetPasswordRequest: `/auth/resetPasswordRequest`,
     requestResetPassword: (uuid: string): string =>
@@ -60,9 +60,15 @@ export const deleteOrganization = async (orgId: string, password: string) => {
 export const updateOrganization = async (
     orgId: string,
     password: string,
+    oldPassword: string,
     name: string
 ) => {
-    return api.put(endpoints.organization(orgId), { password, name });
+    console.log(orgId, password, oldPassword, name);
+    return api.put(endpoints.organization(orgId), {
+        password,
+        oldPassword,
+        name,
+    });
 };
 
 export const tokenValidator = async (uuid: string) => {
@@ -145,7 +151,7 @@ export const deleteBoard = async (boardId: string) => {
 };
 
 export const getBoardsByOrgId = async (orgId: string) => {
-    const queryParams = { populate: 'true' };
+    const queryParams = { populate: "true" };
     const queryString = new URLSearchParams(queryParams).toString();
     return api.get(`${endpoints.getBoardsByOrg(orgId)}?${queryString}`);
 };
@@ -199,5 +205,5 @@ export const changeBoardBackground = async (boardId: string, bgUrl: string) => {
 };
 
 export const removeBoardBackground = async (boardId: string) => {
-    return api.post(endpoints.board(boardId), { backgroundUrl: '' });
+    return api.post(endpoints.board(boardId), { backgroundUrl: "" });
 };
