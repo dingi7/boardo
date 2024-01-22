@@ -2,7 +2,12 @@ import { Draggable } from '@hello-pangea/dnd';
 import { useState } from 'react';
 import { CardSettingsDropdownMenu } from './CardSettingsDropdow';
 import { CardTitle } from './CardTitle';
-import { AlertCircle, AlertOctagon, AlertTriangle } from 'lucide-react';
+import {
+    AlertCircle,
+    AlertOctagon,
+    AlertTriangle,
+    Calendar,
+} from 'lucide-react';
 import {
     Tooltip,
     TooltipContent,
@@ -34,7 +39,7 @@ export const Card: React.FC<CardItem> = ({
         storedPriority || 'Normal'
     );
     const [date, setDate] = useState<Date | undefined>(
-        new Date(storedDueDate || '')
+        storedDueDate ? new Date(storedDueDate) : undefined
     );
     return (
         <Draggable draggableId={id} index={index}>
@@ -43,7 +48,7 @@ export const Card: React.FC<CardItem> = ({
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
-                    className='flex w-full h-9 items-center gap-[10px] px-[10px] py-[2%] relative bg-slate-100 rounded-[7px] overflow-hidden border-black cursor-pointer '
+                    className='flex w-full h-auto items-center gap-[10px] px-[10px] py-[2%] relative bg-slate-100 rounded-[7px] overflow-hidden border-black cursor-pointer '
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
@@ -71,6 +76,34 @@ export const Card: React.FC<CardItem> = ({
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
+                    {date && (
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div className='flex items-center gap-[10px]'>
+                                        {date! > new Date() ? (
+                                            <Calendar
+                                                color='green'
+                                                className='h-5 w-5'
+                                            />
+                                        ) : (
+                                            <Calendar
+                                                color='red'
+                                                className='h-5 w-5'
+                                            />
+                                        )}
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>
+                                        This card's due date is{' '}
+                                        {date?.toLocaleString() ||
+                                            'Not asigned'}
+                                    </p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    )}
                     <CardTitle
                         title={title}
                         setTitle={setTitle}

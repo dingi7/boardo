@@ -55,7 +55,7 @@ export const CardTitle: React.FC<CardTitleProps> = ({
     return (
         <Button
             variant='transparent'
-            className='leading-normal whitespace-nowrap font-medium text-[16px] h-auto w-auto py-1 px-2 text-slate-900 '
+            className='leading-normal whitespace-nowrap font-medium text-[16px] h-auto w-auto py-1 px-2 text-slate-900 overflow-hidden '
         >
             {title}
         </Button>
