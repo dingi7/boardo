@@ -24,6 +24,7 @@ export const SettingsPage = (props: Props) => {
     const [orgData, handleInputChange] = useFormData({
         name: selectedOrganization?.name,
         password: "",
+        oldPassword: ""
     });
     console.log(orgData)
     const [activeTab, setActiveTab] = useState("members");
@@ -52,7 +53,7 @@ export const SettingsPage = (props: Props) => {
         }
         setLoading(true);
         try {
-            await updateOrganization(selectedOrganization!._id, orgData.password, orgData.name);
+            await updateOrganization(selectedOrganization!._id, orgData.password,orgData.oldPassword, orgData.name);
             toast({
                 title: "Organization updated successfully",
                 variant: "default",
@@ -208,6 +209,21 @@ export const SettingsPage = (props: Props) => {
                                         id="name"
                                         className="w-[80%]"
                                         value={orgData.name}
+                                        onChange={handleInputChange}
+                                    ></Input>
+                                </li>
+                                <li className="flex flex-col sm:flex-row justify-between items-center gap-2">
+                                    <label
+                                        className="text-left w-full sm:w-fit"
+                                        htmlFor="oldPassword"
+                                    >
+                                        Old Password:{" "}
+                                    </label>
+                                    <Input
+                                        id="oldPassword"
+                                        type="password"
+                                        className="w-[80%]"
+                                        value={orgData.oldPassword}
                                         onChange={handleInputChange}
                                     ></Input>
                                 </li>
