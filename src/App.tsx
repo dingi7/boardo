@@ -15,15 +15,12 @@ import { ForgotPassword } from "./Pages/Auth/ForgotPassword";
 import { ResetPassword } from "./Pages/Auth/ResetPassword";
 import { Profile } from "./Pages/Auth/Profile";
 
-
 import { DashboardLayout } from "./Pages/Dashboard/DashboardLayout";
 import { BoardsPage } from "./Pages/Dashboard/pages/BoardsPage";
 import { SettingsPage } from "./Pages/Dashboard/pages/SettingsPage";
 import { ActivityPage } from "./Pages/Dashboard/pages/ActivityPage";
 
 function App() {
-
-
     return (
         <AuthProvider authType={"localstorage"} authName={"x-authorization"}>
             <Toaster />
@@ -38,10 +35,24 @@ function App() {
                         />
                         <Route path="/auth/register" element={<Register />} />
                         <Route path="/auth/login" element={<Login />} />
-                        <Route path="/auth/forgotPassword" element={<ForgotPassword/>} />
-                        <Route path="/auth/resetPassword/:uuid" element={<ResetPassword />} />
+                        <Route
+                            path="/auth/forgotPassword"
+                            element={<ForgotPassword />}
+                        />
+                        <Route
+                            path="/auth/resetPassword/:uuid"
+                            element={<ResetPassword />}
+                        />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/dashboard" element={<DashboardLayout />}>
+                            <Route
+                                path=""
+                                element={
+                                    <div className="flex justify-center items-center min-h-full">
+                                        <h1 className="text-2xl font-bold">Select Organisation!</h1>
+                                    </div>
+                                }
+                            />
                             <Route path="settings" element={<SettingsPage />} />
                             <Route path="activity" element={<ActivityPage />} />
                             <Route path="boards" element={<BoardsPage />} />

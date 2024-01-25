@@ -20,7 +20,6 @@ export const Profile = () => {
         email: false,
         password: false,
     });
-
     const signOut = useSignOut();
 
     const handleSignOut = () => {
