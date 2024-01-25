@@ -1,14 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import { FormEvent, useEffect, useState } from "react";
+import { ChangeEventHandler, FormEvent, useEffect, useState } from "react";
 import { Button } from "../../Components/ui/button";
 import { useIsAuthenticated, useAuthUser, useSignOut } from "react-auth-kit";
 
 import { Navbar } from "../../Components/navbar";
 import { useToast } from "../../Components/Toaster/use-toast";
-import { Pencil, UserCircleIcon } from "lucide-react";
+import { UserCircleIcon } from "lucide-react";
 import { Loading } from "src/Components/loading";
 import { ProfileInput } from "src/Components/auth/ProfileInput";
 import { EditingState } from "src/Interfaces/IUserData";
+import { ProfileOrganisationComponent } from "./components/ProfileOrganisationComponent";
+
+
 
 export const Profile = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -36,7 +39,7 @@ export const Profile = () => {
 
     useEffect(() => {
         console.log(authUser);
-
+        
         if (!authUser) {
             navigate("/");
             toast({
@@ -53,7 +56,16 @@ export const Profile = () => {
 
     const handleUpdateCancel = () => {
         setAuthUser(defaultAuthUser);
+        setIsEdditing({
+            username: false,
+            email: false,
+            password: false,
+        });
     };
+
+    const onChangeHandler = (e: any) =>{
+        setAuthUser((prevState: any) => ({...prevState, [e.target.name]: e.target.value}))
+    }
 
     return (
         <div className="h-screen bg-white flex justify-center items-center pt-[4%] overflow-hidden">
@@ -76,24 +88,33 @@ export const Profile = () => {
                     </div>
 
                     <div className="w-full flex flex-row justify-between">
-                        <div>
+                        <div className="w-[50%]">
                             <h2 className="text-lg font-semibold">
                                 Current organisations:
                             </h2>
+                            <div className="w-full grid grid-cols-3 gap-[1dvw] pt-[2%]">
+                                {authUser?.joinedOrganizations?.map((x: any) => (
+                                    <ProfileOrganisationComponent
+                                        name={x.name}
+                                        owner={x.owner}
+                                        key={x._id}
+                                    />
+                                ))}
+                            </div>
                         </div>
 
                         <form
-                            className="h-full w-[40%] flex flex-col gap-[6%] relative pt-[2%] "
+                            className="h-full w-[35%] flex flex-col gap-[6%] relative pt-[2%] "
                             onSubmit={handleUpdateUserData}
                         >
                             <div className="w-full flex flex-col">
                                 <ProfileInput
                                     id="username"
-                                    onChange={setAuthUser}
+                                    onChange={onChangeHandler}
                                     value={authUser?.username}
                                     text="Username:"
                                     type="text"
-                                    isEdditing={isEdditing.username}
+                                    isEdditing={isEdditing}
                                     name="username"
                                     setIsEdditing={(
                                         inputField: string,
@@ -110,11 +131,11 @@ export const Profile = () => {
                                 <ProfileInput
                                     id="email"
                                     name="email"
-                                    onChange={setAuthUser}
+                                    onChange={onChangeHandler}
                                     value={authUser?.email}
                                     text="Email:"
                                     type="text"
-                                    isEdditing={isEdditing.email}
+                                    isEdditing={isEdditing}
                                     setIsEdditing={(
                                         inputField: string,
                                         value: boolean
@@ -130,11 +151,11 @@ export const Profile = () => {
                                 <ProfileInput
                                     id="password"
                                     name="password"
-                                    onChange={setAuthUser}
-                                    value={authUser?.email}
+                                    onChange={onChangeHandler}
+                                    value=""
                                     text="Password:"
                                     type="password"
-                                    isEdditing={isEdditing.password}
+                                    isEdditing={isEdditing}
                                     setIsEdditing={(
                                         inputField: string,
                                         value: boolean

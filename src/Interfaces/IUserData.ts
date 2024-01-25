@@ -25,6 +25,7 @@ export interface AuthenticationResponse {
     username: string;
     email: string;
     accessToken: string;
+    joinedOrganisations: Array<object>;
 }
 
 export interface IUserData {
@@ -35,7 +36,5 @@ export interface IUserData {
 }
 
 export interface EditingState {
-    username: boolean;
-    email: boolean;
-    password: boolean;
+        [key: string]: boolean;
 }
