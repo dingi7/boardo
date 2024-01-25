@@ -26,7 +26,6 @@ export const SettingsPage = (props: Props) => {
         password: "",
         oldPassword: ""
     });
-    console.log(orgData)
     const [activeTab, setActiveTab] = useState("members");
 
     const auth = useAuthUser()();
