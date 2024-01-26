@@ -68,7 +68,7 @@ export const Profile = () => {
     };
 
     return (
-        <div className="h-full py-[7%] bg-white flex justify-center">
+        <div className="h-full pt-[7%] pb-[5%] bg-white flex justify-center">
             <Navbar />
             {loading ? (
                 <Loading />
@@ -87,7 +87,7 @@ export const Profile = () => {
                         </div>
 
                         <form
-                            className="h-full w-[60%] flex flex-col gap-[6%] relative pt-[2%] bg-[#e2e2e2]/80 p-[4%] py-[10%] rounded-xl"
+                            className="relative h-[60%] w-[60%] flex flex-col gap-[6%] relative pt-[2%] bg-[#e2e2e2]/80 p-[4%] py-[10%] rounded-xl"
                             onSubmit={handleUpdateUserData}
                         >
                             <div className="w-full flex flex-col">
@@ -154,7 +154,7 @@ export const Profile = () => {
                             {Object.values(isEdditing).some(
                                 (value) => value
                             ) && (
-                                <div className="w-full flex justify-end pr-[2%] gap-[1%]">
+                                <div className="w-full flex justify-end pr-[3%] gap-[1%] absolute bottom-[24%] right-[5%]">
                                     <Button
                                         variant="outline"
                                         onClick={handleUpdateCancel}
@@ -172,6 +172,13 @@ export const Profile = () => {
 
                     <div className="w-full flex flex-row justify-between">
                         <div className="w-[39%] bg-[#e2e2e2]/80 rounded-xl p-[4%]">
+                            <h2 className="text-lg font-semibold">
+                                Activity:
+                            </h2>
+
+                        </div>
+
+                        <div className="w-[60%] bg-[#e2e2e2]/80 rounded-xl p-[4%]">
                             <h2 className="text-lg font-semibold">
                                 Current organisations:
                             </h2>
