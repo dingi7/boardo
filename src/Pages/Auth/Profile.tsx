@@ -11,8 +11,6 @@ import { ProfileInput } from "src/Components/auth/ProfileInput";
 import { EditingState } from "src/Interfaces/IUserData";
 import { ProfileOrganisationComponent } from "./components/ProfileOrganisationComponent";
 
-
-
 export const Profile = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [isEdditing, setIsEdditing] = useState<EditingState>({
@@ -38,7 +36,7 @@ export const Profile = () => {
 
     useEffect(() => {
         console.log(authUser);
-        
+
         if (!authUser) {
             navigate("/");
             toast({
@@ -62,19 +60,22 @@ export const Profile = () => {
         });
     };
 
-    const onChangeHandler = (e: any) =>{
-        setAuthUser((prevState: any) => ({...prevState, [e.target.name]: e.target.value}))
-    }
+    const onChangeHandler = (e: any) => {
+        setAuthUser((prevState: any) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    };
 
     return (
-        <div className="h-screen bg-white flex justify-center items-center pt-[4%] overflow-hidden">
+        <div className="h-full py-[7%] bg-white flex justify-center">
             <Navbar />
             {loading ? (
                 <Loading />
             ) : (
-                <div className="w-[95%] px-[2.5%] h-[92%] border-1 bg-[#e2e2e2] rounded-md flex flex-col p-12 pb-16 gap-[8%]">
-                    <div className="w-full flex flex-row justify-between">
-                        <div className="w-[20%] flex flex-row gap-[3%]">
+                <div className="w-[95%] px-[2%] py-[2%] h-[100%]  border-1 bg-[#e2e2e2]/40 rounded-md flex flex-col gap-[2vh] ">
+                    <div className="w-full h-full flex flex-row justify-between">
+                        <div className="w-[39%] flex flex-row gap-[3%] items-start bg-[#e2e2e2]/80 rounded-xl p-[4%]">
                             <div className="w-[20%] aspect-square">
                                 <UserCircleIcon className="w-full h-full" />
                             </div>
@@ -84,26 +85,9 @@ export const Profile = () => {
                                 </p>
                             </div>
                         </div>
-                    </div>
-
-                    <div className="w-full flex flex-row justify-between">
-                        <div className="w-[50%]">
-                            <h2 className="text-lg font-semibold">
-                                Current organisations:
-                            </h2>
-                            <div className="w-full grid grid-cols-3 gap-[1dvw] pt-[2%]">
-                                {authUser?.joinedOrganizations?.map((x: any) => (
-                                    <ProfileOrganisationComponent
-                                        name={x.name}
-                                        owner={x.owner}
-                                        key={x._id}
-                                    />
-                                ))}
-                            </div>
-                        </div>
 
                         <form
-                            className="h-full w-[35%] flex flex-col gap-[6%] relative pt-[2%] "
+                            className="h-full w-[60%] flex flex-col gap-[6%] relative pt-[2%] bg-[#e2e2e2]/80 p-[4%] py-[10%] rounded-xl"
                             onSubmit={handleUpdateUserData}
                         >
                             <div className="w-full flex flex-col">
@@ -184,6 +168,25 @@ export const Profile = () => {
                                 </div>
                             )}
                         </form>
+                    </div>
+
+                    <div className="w-full flex flex-row justify-between">
+                        <div className="w-[39%] bg-[#e2e2e2]/80 rounded-xl p-[4%]">
+                            <h2 className="text-lg font-semibold">
+                                Current organisations:
+                            </h2>
+                            <div className="w-full grid grid-cols-3 gap-[1dvw] pt-[2%]">
+                                {authUser?.joinedOrganizations?.map(
+                                    (x: any) => (
+                                        <ProfileOrganisationComponent
+                                            name={x.name}
+                                            owner={x.owner}
+                                            key={x._id}
+                                        />
+                                    )
+                                )}
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
