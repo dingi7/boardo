@@ -3,6 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useIsAuthenticated, useSignOut } from "react-auth-kit";
 import React from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "./dropdown";
 
 export const Navbar = () => {
     const isAuth = useIsAuthenticated();
@@ -23,21 +32,43 @@ export const Navbar = () => {
                 <Logo />
                 <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
                     {isAuth() ? (
-                        <>
+                        <div className="flex items-center gap-2">
                             <Button variant={"gray"} size="sm" asChild>
                                 <Link to="/dashboard">Dashboard</Link>
                             </Button>
 
-                            <Button
+                            {/* <Button
                                 variant={"gray"}
                                 size="sm"
                                 
                                 onClick={handleSignOut}
                             >
                                 Logout
-                                {/* <Link to="/profile">Profile</Link> */}
-                            </Button>
-                        </>
+                                <Link to="/profile">Profile</Link>
+                            </Button> */}
+
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <Avatar>
+                                        {/* Porfile image here  */}
+                                        <AvatarImage src="https://github.com/shadcn.png" />
+                                        <AvatarFallback>CN</AvatarFallback>
+                                    </Avatar>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuLabel>
+                                        My Account
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem>
+                                        <Link to="/profile" >Profile</Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={handleSignOut}>
+                                        Logout
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
                     ) : (
                         <>
                             <Button size="sm" variant="outline" asChild>
