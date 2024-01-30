@@ -2,12 +2,26 @@ import { useCallback, useContext, useState } from "react";
 import MemberCard from "../components/MemberCard";
 import { Input } from "src/Components/ui/input";
 import { Button } from "src/Components/ui/button";
-import { removeMemberFromBoard, updateOrganization } from "src/api/requests";
+import {
+    removeMemberFromBoard,
+    updateOrganization,
+    updateOrganizationName,
+    updateOrganizationPassword,
+} from "src/api/requests";
 import { useToast } from "src/Components/Toaster/use-toast";
 import { useAuthUser } from "react-auth-kit";
 import { DashboardContext } from "../contexts/DashboardContextProvider";
 import { DeleteOrganizationDialog } from "../modals/DeleteOrganizationDialog";
 import useFormData from "src/util/hooks/useFormData";
+import { Label } from "src/Components/ui/label";
+import { Textarea } from "src/Components/ui/textarea";
+import {
+    Table,
+    TableBody,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "src/Components/table";
 type Props = {};
 
 export const SettingsPage = (props: Props) => {
@@ -20,12 +34,13 @@ export const SettingsPage = (props: Props) => {
     const { toast } = useToast();
 
     const [loading, setLoading] = useState<boolean>(false);
-    
+
     const [orgData, handleInputChange] = useFormData({
         name: selectedOrganization?.name,
         password: "",
-        oldPassword: ""
+        oldPassword: "",
     });
+    console.log(orgData);
     const [activeTab, setActiveTab] = useState("members");
 
     const auth = useAuthUser()();
@@ -35,7 +50,7 @@ export const SettingsPage = (props: Props) => {
         setActiveTab(tabId);
     };
 
-    const handleUpateOrganization = async () => {
+    const handleUpdateOrganizationName = async () => {
         if (!orgData.name) {
             toast({
                 title: "Name is required",
@@ -43,6 +58,37 @@ export const SettingsPage = (props: Props) => {
             });
             return;
         }
+        setLoading(true);
+        try {
+            await updateOrganizationName(
+                selectedOrganization!._id,
+                orgData.name
+            );
+            toast({
+                title: "Organization updated successfully",
+                variant: "default",
+            });
+        } catch (err: any) {
+            toast({
+                title: err.message,
+                variant: "destructive",
+            });
+        } finally {
+            setLoading(false);
+            setUserOrganizations((prev: any) => {
+                return prev.map((org: any) => {
+                    if (org._id === selectedOrganization!._id) {
+                        org.name = orgData.name;
+                        return org;
+                    }
+                    return org;
+                });
+            });
+        }
+    };
+
+    const handleUpdateOrganizationPassword = async () => {
+        console.log("Clicked");
         if (!orgData.password) {
             toast({
                 title: "Password is required",
@@ -50,9 +96,21 @@ export const SettingsPage = (props: Props) => {
             });
             return;
         }
+        if (!orgData.oldPassword) {
+            toast({
+                title: "Old password is required",
+                variant: "destructive",
+            });
+            return;
+        }
+
         setLoading(true);
         try {
-            await updateOrganization(selectedOrganization!._id, orgData.password,orgData.oldPassword, orgData.name);
+            await updateOrganizationPassword(
+                selectedOrganization!._id,
+                orgData.password,
+                orgData.oldPassword
+            );
             toast({
                 title: "Organization updated successfully",
                 variant: "default",
@@ -150,37 +208,50 @@ export const SettingsPage = (props: Props) => {
                     role="tabpanel"
                     aria-labelledby="members-tab"
                 >
-                    <section className="flex flex-col gap-[1rem] mt-[4%]">
-                        <h2 className="font-bold text-[24px]">
-                            Organisation members
-                        </h2>
-
-                        <div className="flex flex-col gap-[0.2rem]">
-                            <ul className="list-none">
-                                {selectedOrganization!.members.length > 0 ? (
-                                    selectedOrganization!.members.map(
-                                        (member: any) => (
-                                            <MemberCard
-                                                isOwner={isOwner}
-                                                key={member._id}
-                                                member={member}
-                                                handleRemoveMember={
-                                                    handleKickMember
-                                                }
-                                                selectedOrganization={
-                                                    selectedOrganization
-                                                }
-                                            ></MemberCard>
-                                        )
-                                    )
-                                ) : (
-                                    <li className="font-bold">
-                                        No members yet!
-                                    </li>
-                                )}
-                            </ul>
+                    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+                        <div className="flex items-center">
+                            <h2 className="text-xl font-bold">
+                                Members
+                            </h2>
                         </div>
-                    </section>
+                        <div className="border shadow-sm rounded-lg">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead className="max-w-[150px]">
+                                            Name
+                                        </TableHead>
+                                        <TableHead className="hidden md:table-cell">
+                                            Email
+                                        </TableHead>
+                                        <TableHead className="hidden md:table-cell">
+                                            Role
+                                        </TableHead>
+                                        <TableHead>Actions</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {selectedOrganization!.members.length > 0
+                                        ? selectedOrganization!.members.map(
+                                              (member: any) => (
+                                                  <MemberCard
+                                                      isOwner={isOwner}
+                                                      key={member._id}
+                                                      member={member}
+                                                      handleRemoveMember={
+                                                          handleKickMember
+                                                      }
+                                                      selectedOrganization={
+                                                          selectedOrganization
+                                                      }
+                                                  ></MemberCard>
+                                              )
+                                          )
+                                        : null}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    </main>
                 </div>
                 <div
                     className={`h-full overflow-y-auto p-6 ${
@@ -190,70 +261,69 @@ export const SettingsPage = (props: Props) => {
                     role="tabpanel"
                     aria-labelledby="settings-tab"
                 >
-                    <section className="flex flex-col mt-[4%]">
-                        <h2 className="font-bold text-[16px] sm:text-[24px]">
-                            Organisation settings
-                        </h2>
-
-                        <div className="flex flex-col gap-[4%]">
-                            <ul className="list-none mt-[4%] flex flex-col gap-3">
-                                <li className="flex flex-col sm:flex-row justify-between items-center gap-2">
-                                    <label
-                                        className="text-left w-full sm:w-fit"
-                                        htmlFor="name"
-                                    >
-                                        Name:{" "}
-                                    </label>
+                    <main className="flex-1 p-6">
+                        <section className="mb-8" id="general">
+                            <h2 className="text-xl font-bold">
+                                General Settings
+                            </h2>
+                            <div className="mt-4 space-y-4">
+                                <div className="space-y-1">
+                                    <Label htmlFor="name">
+                                        Organization Name
+                                    </Label>
                                     <Input
                                         id="name"
-                                        className="w-[80%]"
+                                        placeholder="Enter organization name"
                                         value={orgData.name}
                                         onChange={handleInputChange}
-                                    ></Input>
-                                </li>
-                                <li className="flex flex-col sm:flex-row justify-between items-center gap-2">
-                                    <label
-                                        className="text-left w-full sm:w-fit"
-                                        htmlFor="oldPassword"
-                                    >
-                                        Old Password:{" "}
-                                    </label>
-                                    <Input
-                                        id="oldPassword"
-                                        type="password"
-                                        className="w-[80%]"
-                                        value={orgData.oldPassword}
-                                        onChange={handleInputChange}
-                                    ></Input>
-                                </li>
-                                <li className="flex flex-col sm:flex-row justify-between items-center gap-2">
-                                    <label
-                                        className="text-left w-full sm:w-fit"
-                                        htmlFor="password"
-                                    >
-                                        New Password:{" "}
-                                    </label>
-                                    <Input
-                                        id="password"
-                                        type="password"
-                                        className="w-[80%]"
-                                        value={orgData.password}
-                                        onChange={handleInputChange}
-                                    ></Input>
-                                </li>
-                            </ul>
-                            <div className="flex flex-col md:flex-row gap-4 lg:gap-8 mt-4 md:mt-8 lg:mt-12">
-                                <DeleteOrganizationDialog />
-                                <Button
-                                    variant="primary"
-                                    disabled={loading}
-                                    onClick={handleUpateOrganization}
-                                >
-                                    Save Changes
+                                    />
+                                </div>
+                                <div className="space-y-1">
+                                    <Label htmlFor="org-desc">
+                                        Organization Description
+                                    </Label>
+                                    <Textarea
+                                        className="min-h-[100px]"
+                                        id="org-desc"
+                                        placeholder="Enter organization description"
+                                    />
+                                </div>
+                                <Button onClick={handleUpdateOrganizationName}>
+                                    Save
                                 </Button>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                        <section className="mb-8" id="security">
+                            <h2 className="text-xl font-bold">Security</h2>
+                            <div className="mt-4 space-y-4">
+                                <div className="space-y-1">
+                                    <Label htmlFor="password">Password</Label>
+                                    <Input
+                                        id="password"
+                                        placeholder="Enter new password"
+                                        type="password"
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <div className="space-y-1">
+                                    <Label htmlFor="old-password">
+                                        Old Password
+                                    </Label>
+                                    <Input
+                                        id="oldPassword"
+                                        placeholder="Old new password"
+                                        type="password"
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+                                <Button
+                                    onClick={handleUpdateOrganizationPassword}
+                                >
+                                    Change Password
+                                </Button>
+                            </div>
+                        </section>
+                    </main>
                 </div>
             </div>
         </div>

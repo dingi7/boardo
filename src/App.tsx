@@ -49,7 +49,7 @@ function App() {
                                 path=""
                                 element={
                                     <div className="flex justify-center items-center min-h-full">
-                                        <h1 className="text-2xl font-bold">Select Organisation!</h1>
+                                        <h1 className="text-2xl font-bold">Select Organization!</h1>
                                     </div>
                                 }
                             />

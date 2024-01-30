@@ -25,7 +25,7 @@ export interface AuthenticationResponse {
     username: string;
     email: string;
     accessToken: string;
-    joinedOrganisations: Array<object>;
+    joinedOrganizations: Array<object>;
 }
 
 export interface IUserData {

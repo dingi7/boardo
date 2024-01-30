@@ -9,7 +9,7 @@ import { UserCircleIcon } from "lucide-react";
 import { Loading } from "src/Components/loading";
 import { ProfileInput } from "src/Components/auth/ProfileInput";
 import { EditingState } from "src/Interfaces/IUserData";
-import { ProfileOrganisationComponent } from "./components/ProfileOrganisationComponent";
+import { ProfileOrganizationComponent } from "./components/ProfileOrganizationComponent";
 
 export const Profile = () => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -180,12 +180,12 @@ export const Profile = () => {
 
                         <div className="w-[60%] bg-[#e2e2e2]/80 rounded-xl p-[4%]">
                             <h2 className="text-lg font-semibold">
-                                Current organisations:
+                                Current organizations:
                             </h2>
                             <div className="w-full grid grid-cols-3 gap-[1dvw] pt-[2%]">
                                 {authUser?.joinedOrganizations?.map(
                                     (x: any) => (
-                                        <ProfileOrganisationComponent
+                                        <ProfileOrganizationComponent
                                             name={x.name}
                                             owner={x.owner}
                                             key={x._id}

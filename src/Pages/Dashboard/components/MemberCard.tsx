@@ -8,6 +8,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "src/Components/select";
+import { TableCell, TableRow } from "src/Components/table";
 import { Button } from "src/Components/ui/button";
 import {
     Dialog,
@@ -31,64 +32,77 @@ const MemberCard = ({
     selectedOrganization: any;
 }) => {
     return (
-        <li
-            key={member._id}
-            className="bg-gray-200 p-2 m-2 rounded flex flex-row justify-between items-center h-12"
-        >
-            <span className="text-md">{member.username}</span>
-            <Dialog>
-                {isOwner && (
-                    <DialogTrigger asChild>
-                        <Button variant="transparent">
-                            <Menu color="black"></Menu>
-                        </Button>
-                    </DialogTrigger>
+        <TableRow>
+            <TableCell className="font-medium">{member.username}</TableCell>
+            <TableCell className="hidden md:table-cell">
+                {member.email}
+            </TableCell>
+            <TableCell>
+                {member._id === selectedOrganization.owner ? (
+                    <span className="text-red-500">Owner</span>
+                ) : (
+                    <span className="text-blue-500">Member</span>
                 )}
-                <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                        <DialogTitle>Member Actions</DialogTitle>
-                    </DialogHeader>
-                    <div className="flex flex-col gap-3">
-                        <Button
-                            className="bg-red-800"
-                            onClick={() => handleRemoveMember(selectedOrganization._id, member._id)}
-                        >
-                            Kick
-                        </Button>
-                        <div className="flex flex-row justify-between item-center">
-                            <span>Change roles: </span>
-                            <Select>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Select a role" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Roles</SelectLabel>
-                                        <SelectItem value="owner">
-                                            Owner
-                                        </SelectItem>
-                                        <SelectItem value="member">
-                                            Member
-                                        </SelectItem>
-                                        <SelectItem value="guest">
-                                            Guest
-                                        </SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
+            </TableCell>
+            <TableCell className="hidden md:table-cell">
+                <Dialog>
+                        <DialogTrigger asChild>
+                            {isOwner &&
+                                member._id !== selectedOrganization.owner && (
+                                    <Button size="sm">View Options</Button>
+                                )}
+                        </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle>Member Actions</DialogTitle>
+                        </DialogHeader>
+                        <div className="flex flex-col gap-3">
+                            <Button
+                                className="bg-red-800"
+                                onClick={() =>
+                                    handleRemoveMember(
+                                        selectedOrganization._id,
+                                        member._id
+                                    )
+                                }
+                            >
+                                Kick
+                            </Button>
+                            <div className="flex flex-row justify-between item-center">
+                                <span>Change roles: </span>
+                                <Select>
+                                    <SelectTrigger className="w-[180px]">
+                                        <SelectValue placeholder="Select a role" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Roles</SelectLabel>
+                                            <SelectItem value="owner">
+                                                Owner
+                                            </SelectItem>
+                                            <SelectItem value="member">
+                                                Member
+                                            </SelectItem>
+                                            <SelectItem value="guest">
+                                                Guest
+                                            </SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
-                    </div>
-                    <DialogFooter>
-                        <DialogClose asChild>
-                            <Button variant="outline">Cancel</Button>
-                        </DialogClose>
-                        <DialogClose asChild>
-                            <Button variant="primary">Save</Button>
-                        </DialogClose>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
-        </li>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button variant="outline">Cancel</Button>
+                            </DialogClose>
+                            <DialogClose asChild>
+                                <Button variant="primary">Save</Button>
+                            </DialogClose>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            </TableCell>
+        </TableRow>
     );
 };
 

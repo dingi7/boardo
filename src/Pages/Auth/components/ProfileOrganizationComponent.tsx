@@ -1,7 +1,7 @@
 import { X } from "lucide-react";
 import { IUserData } from "src/Interfaces/IUserData";
 
-export const ProfileOrganisationComponent = ({
+export const ProfileOrganizationComponent = ({
     name,
     owner,
 }: {

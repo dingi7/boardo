@@ -71,6 +71,21 @@ export const updateOrganization = async (
     });
 };
 
+export const updateOrganizationName = async (
+    orgId: string,
+    name: string
+) => {
+    return api.put(endpoints.organization(orgId), { name });
+}
+
+export const updateOrganizationPassword = async (
+    orgId: string,
+    password: string,
+    oldPassword: string
+) => {
+    return api.put(endpoints.organization(orgId), { password, oldPassword });
+}
+
 export const tokenValidator = async (uuid: string) => {
     return api.post(endpoints.tokenValidator(uuid));
 };
