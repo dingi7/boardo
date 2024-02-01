@@ -19,6 +19,7 @@ import { DashboardLayout } from "./Pages/Dashboard/DashboardLayout";
 import { BoardsPage } from "./Pages/Dashboard/pages/BoardsPage";
 import { SettingsPage } from "./Pages/Dashboard/pages/SettingsPage";
 import { ActivityPage } from "./Pages/Dashboard/pages/ActivityPage";
+import { Navbar } from "./Components/navbar";
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
             <Toaster />
             <div className="App">
                 <BrowserRouter>
+                    <Navbar />
                     <Routes>
                         <Route path="/" element={<LandingPage />} />
                         <Route path="/landing" element={<LandingPage />} />
@@ -49,7 +51,9 @@ function App() {
                                 path=""
                                 element={
                                     <div className="flex justify-center items-center min-h-full">
-                                        <h1 className="text-2xl font-bold">Select Organization!</h1>
+                                        <h1 className="text-2xl font-bold">
+                                            Select Organization!
+                                        </h1>
                                     </div>
                                 }
                             />

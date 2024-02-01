@@ -5,7 +5,6 @@ export const DashboardSkeleton = () => {
     const array = new Array(8).fill(0);
     return (
         <div className={`h-screen duration-500 ease-in-out `}>
-            <Navbar />
             <div
                 className={`h-screen mt-0 flex flex-row gap-[5%] duration-500 ease-in-out`}
             >

@@ -145,13 +145,12 @@ export const Board = (): JSX.Element => {
 
   return (
     <>
-      <Navbar />
       <DragDropContext
         onDragEnd={onDragEnd}
         onDragStart={() => setIsDragging(true)}
       >
         <div
-          className={`flex h-screen w-screen flex-col overflow-hidden overflow-y-auto bg-transparent pt-[15%] sm:pt-[10%] md:pt-[8%] lg:pt-[3.5%]`}
+          className={`flex h-[1243px] w-screen flex-col overflow-hidden overflow-y-auto bg-transparent]`}
           style={{
             backgroundImage: `url('${backgroundUrl}')`,
             backgroundSize: "cover",

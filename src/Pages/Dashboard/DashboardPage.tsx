@@ -31,15 +31,14 @@ export const Dashboard = () => {
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
         useState<boolean>(false);
     return !loading ? (
-        <div className={`h-screen duration-500 ease-in-out `}>
-            <Navbar />
+        <>
             <div
-                className={`h-screen mt-0 flex flex-row gap-[5%] duration-500 ease-in-out ${
+                className={`h-full mt-0 flex flex-row gap-[5%] duration-500 ease-in-out ${
                     isAddWorkspaceModalOpen && 'blur'
                 }`}
             >
-                <div className='w-[30%] ml-[2%] h-[90%] mt-auto border-r-2 pt-[5%] md:w-[25%] lg:w-[20%] md:pt-[2%] xl:pt-[1%] 2xl:pt-0'>
-                    <div className='text-sm md:text-base lg:text-text-lg pl-[2%] pt-[3%] pr-[5%] select-none'>
+                <div className='w-[30%] ml-[2%] h-[1200px] border-r-2 pt-[8%] md:w-[25%] lg:w-[20%] md:pt-[2%] xl:pt-[1%] 2xl:pt-0'>
+                    <div className='text-sm md:text-base lg:text-text-lg pl-[2%] pt-[8%] pr-[5%] select-none'>
                         <h1 className='w-[95%] flex flex-row justify-between font-bold'>
                             Workspaces{' '}
                             <Plus
@@ -96,7 +95,6 @@ export const Dashboard = () => {
                     <Outlet />
                 </div>
             </div>
-
             {isAddWorkspaceModalOpen && (
                 <div className='fixed inset-0 flex items-center justify-center'>
                     <WorkspaceTabs
@@ -108,7 +106,8 @@ export const Dashboard = () => {
                     ></WorkspaceTabs>
                 </div>
             )}
-        </div>
+
+        </>
     ) : (
         // <Loading />
         <DashboardSkeleton />

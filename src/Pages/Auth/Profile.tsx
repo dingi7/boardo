@@ -69,7 +69,6 @@ export const Profile = () => {
 
     return (
         <div className="h-full pt-[7%] pb-[5%] bg-white flex justify-center">
-            <Navbar />
             {loading ? (
                 <Loading />
             ) : (
