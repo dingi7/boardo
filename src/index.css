@@ -63,9 +63,6 @@ code {
     width: min-content;
   }
 }
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 @layer base {
   :root {

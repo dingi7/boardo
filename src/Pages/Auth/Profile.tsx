@@ -68,11 +68,11 @@ export const Profile = () => {
     };
 
     return (
-        <div className="h-full pt-[7%] pb-[5%] bg-white flex justify-center">
+        <div className="h-full bg-white flex justify-center">
             {loading ? (
                 <Loading />
             ) : (
-                <div className="w-[95%] px-[2%] py-[2%] h-[100%]  border-1 bg-[#e2e2e2]/40 rounded-md flex flex-col gap-[2vh] ">
+                <div className="w-[95%] px-[2%] py-[2%] h-[100%]  border-1 bg-[#e2e2e2]/40 rounded-md flex flex-col gap-[2vh] mt-[3%]">
                     <div className="w-full h-full flex flex-row justify-between">
                         <div className="w-[39%] flex flex-row gap-[3%] items-start bg-[#e2e2e2]/80 rounded-xl p-[4%]">
                             <div className="w-[20%] aspect-square">
@@ -86,7 +86,7 @@ export const Profile = () => {
                         </div>
 
                         <form
-                            className="relative h-[60%] w-[60%] flex flex-col gap-[6%] relative pt-[2%] bg-[#e2e2e2]/80 p-[4%] py-[10%] rounded-xl"
+                            className="relative h-[60%] w-[60%] flex flex-col gap-[6%] pt-[2%] bg-[#e2e2e2]/80 p-[4%] py-[10%] rounded-xl"
                             onSubmit={handleUpdateUserData}
                         >
                             <div className="w-full flex flex-col">
