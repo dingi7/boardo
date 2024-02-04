@@ -193,7 +193,7 @@ export const Board = (): JSX.Element => {
         onDragStart={() => setIsDragging(true)}
       >
         <div
-          className={`bg-transparent] flex h-[1243px] w-screen flex-col overflow-hidden overflow-y-auto`}
+          className={`flex flex-1 w-screen flex-col overflow-hidden overflow-y-auto bg-transparent]`}
           style={{
             backgroundImage: `url('${backgroundUrl}')`,
             backgroundSize: "cover",
