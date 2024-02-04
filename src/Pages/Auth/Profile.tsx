@@ -68,28 +68,26 @@ export const Profile = () => {
     };
 
     return (
-        <div>
+        <div className="flex flex-1">
             {loading ? (
                 <Loading />
             ) : (
-                <div className="w-full px-[2%] flex-1  border-1 bg-[#e2e2e2]/40 rounded-md flex flex-col gap-[2vh] ">
-                    <div className="w-full flex flex-row justify-between">
-                        <div className="w-[39%] flex flex-row gap-[3%] items-start bg-[#e2e2e2]/80 rounded-xl p-[4%]">
+                <div className="w-full p-[2%] border-1 bg-[#e2e2e2]/40 rounded-md grid gap-[2vh]">
+                    <div className="w-full grid grid-cols-2 gap-[2vh]">
+                        <div className="col-span-1 bg-[#e2e2e2]/80 rounded-xl p-[4%] flex items-start gap-[3%]">
                             <div className="w-[20%] aspect-square">
                                 <UserCircleIcon className="w-full h-full" />
                             </div>
                             <div className="flex items-center">
-                                <p className="font-bold text-xl">
-                                    {defaultAuthUser?.username}
-                                </p>
+                                <p className="font-bold text-xl">{defaultAuthUser?.username}</p>
                             </div>
                         </div>
 
                         <form
-                            className="w-[60%] flex flex-col gap-[6%] relative pt-[2%] bg-[#e2e2e2]/80 p-[4%] py-[10%] rounded-xl"
+                            className="col-span-1 bg-[#e2e2e2]/80 rounded-xl p-[4%] py-[5%] flex flex-col relative"
                             onSubmit={handleUpdateUserData}
                         >
-                            <div className="w-full flex flex-col">
+                            <div className="flex flex-col">
                                 <ProfileInput
                                     id="username"
                                     onChange={onChangeHandler}
@@ -98,10 +96,7 @@ export const Profile = () => {
                                     type="text"
                                     isEdditing={isEdditing}
                                     name="username"
-                                    setIsEdditing={(
-                                        inputField: string,
-                                        value: boolean
-                                    ) =>
+                                    setIsEdditing={(inputField: string, value: boolean) =>
                                         setIsEdditing((prevState) => ({
                                             ...prevState,
                                             [inputField]: value,
@@ -109,7 +104,7 @@ export const Profile = () => {
                                     }
                                 />
                             </div>
-                            <div className="w-full flex flex-col">
+                            <div className="flex flex-col">
                                 <ProfileInput
                                     id="email"
                                     name="email"
@@ -118,10 +113,7 @@ export const Profile = () => {
                                     text="Email:"
                                     type="text"
                                     isEdditing={isEdditing}
-                                    setIsEdditing={(
-                                        inputField: string,
-                                        value: boolean
-                                    ) =>
+                                    setIsEdditing={(inputField: string, value: boolean) =>
                                         setIsEdditing((prevState) => ({
                                             ...prevState,
                                             [inputField]: value,
@@ -129,19 +121,16 @@ export const Profile = () => {
                                     }
                                 />
                             </div>
-                            <div className="w-full flex flex-col">
+                            <div className="flex flex-col">
                                 <ProfileInput
                                     id="password"
                                     name="password"
                                     onChange={onChangeHandler}
                                     value=""
-                                    text="Password:"
+                                    text="Change Password:"
                                     type="password"
                                     isEdditing={isEdditing}
-                                    setIsEdditing={(
-                                        inputField: string,
-                                        value: boolean
-                                    ) =>
+                                    setIsEdditing={(inputField: string, value: boolean) =>
                                         setIsEdditing((prevState) => ({
                                             ...prevState,
                                             [inputField]: value,
@@ -150,18 +139,12 @@ export const Profile = () => {
                                 />
                             </div>
 
-                            {Object.values(isEdditing).some(
-                                (value) => value
-                            ) && (
-                                <div className="w-full flex justify-end pr-[3%] gap-[1%] absolute bottom-[24%] right-[5%]">
-                                    <Button
-                                        variant="outline"
-                                        onClick={handleUpdateCancel}
-                                        type="button"
-                                    >
+                            {Object.values(isEdditing).some((value) => value) && (
+                                <div className="flex justify-end pr-[3%] gap-[3%] absolute bottom-[3%] right-[5%]">
+                                    <Button variant="outline" onClick={handleUpdateCancel} type="button">
                                         Cancel
                                     </Button>
-                                    <Button className="w-1/4" type="submit">
+                                    <Button className="w-2/4" type="submit">
                                         Save
                                     </Button>
                                 </div>
@@ -169,28 +152,17 @@ export const Profile = () => {
                         </form>
                     </div>
 
-                    <div className="w-full flex flex-row justify-between">
-                        <div className="w-[39%] bg-[#e2e2e2]/80 rounded-xl p-[4%]">
-                            <h2 className="text-lg font-semibold">
-                                Activity:
-                            </h2>
-
+                    <div className="w-full grid grid-cols-2 gap-[2vh]">
+                        <div className="col-span-1 bg-[#e2e2e2]/80 rounded-xl p-[4%]">
+                            <h2 className="text-lg font-semibold">Activity:</h2>
                         </div>
 
-                        <div className="w-[60%] bg-[#e2e2e2]/80 rounded-xl p-[4%]">
-                            <h2 className="text-lg font-semibold">
-                                Current organizations:
-                            </h2>
+                        <div className="col-span-1 bg-[#e2e2e2]/80 rounded-xl p-[4%]">
+                            <h2 className="text-lg font-semibold">Current organizations:</h2>
                             <div className="w-full grid grid-cols-3 gap-[1dvw] pt-[2%]">
-                                {authUser?.joinedOrganizations?.map(
-                                    (x: any) => (
-                                        <ProfileOrganizationComponent
-                                            name={x.name}
-                                            owner={x.owner}
-                                            key={x._id}
-                                        />
-                                    )
-                                )}
+                                {authUser?.joinedOrganizations?.map((x: any) => (
+                                    <ProfileOrganizationComponent name={x.name} owner={x.owner} key={x._id} />
+                                ))}
                             </div>
                         </div>
                     </div>
