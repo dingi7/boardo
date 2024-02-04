@@ -33,11 +33,11 @@ export const Dashboard = () => {
     return !loading ? (
         <>
             <div
-                className={`h-full mt-0 flex flex-row gap-[5%] duration-500 ease-in-out ${
+                className={`flex-1 mt-0 flex flex-row gap-[5%] duration-500 ease-in-out ${
                     isAddWorkspaceModalOpen && 'blur'
                 }`}
             >
-                <div className='w-[30%] ml-[2%] h-[1200px] border-r-2 pt-[8%] md:w-[25%] lg:w-[20%] md:pt-[2%] xl:pt-[1%] 2xl:pt-0'>
+                <div className='w-[30%] ml-[2%] border-r-2 pt-[8%] md:w-[25%] lg:w-[20%] md:pt-[2%] xl:pt-[1%] 2xl:pt-0'>
                     <div className='text-sm md:text-base lg:text-text-lg pl-[2%] pt-[8%] pr-[5%] select-none'>
                         <h1 className='w-[95%] flex flex-row justify-between font-bold'>
                             Workspaces{' '}

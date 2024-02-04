@@ -23,9 +23,12 @@ import { Navbar } from "./Components/navbar";
 
 function App() {
     return (
-        <AuthProvider authType={"localstorage"} authName={"x-authorization"}>
-            <Toaster />
-            <div className="App">
+        <div className="flex h-screen flex-col">
+            <AuthProvider
+                authType={"localstorage"}
+                authName={"x-authorization"}
+            >
+                <Toaster />
                 <BrowserRouter>
                     <Navbar />
                     <Routes>
@@ -64,8 +67,8 @@ function App() {
                         <Route path="*" element={<h1>Not Found</h1>} />
                     </Routes>
                 </BrowserRouter>
-            </div>
-        </AuthProvider>
+            </AuthProvider>
+        </div>
     );
 }
 

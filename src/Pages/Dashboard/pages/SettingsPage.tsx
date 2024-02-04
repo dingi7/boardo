@@ -201,7 +201,7 @@ export const SettingsPage = (props: Props) => {
 
             <div id="default-tab-content">
                 <div
-                    className={`h-full overflow-y-auto p-6 ${
+                    className={`overflow-y-auto p-6 ${
                         activeTab === "members" ? "block" : "hidden"
                     }`}
                     id="members"
