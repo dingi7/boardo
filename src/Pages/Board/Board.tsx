@@ -1,5 +1,5 @@
 import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { createCard, deleteCard, updateBoard } from "../../api/requests";
 import { Loading } from "../../Components/loading";
 import { Navbar } from "../../Components/navbar";
@@ -9,6 +9,9 @@ import { BoardHeader } from "./components/BoardHeader";
 import { AddListPlaceholder } from "./components/List/AddListPlaceholder";
 import { List } from "./components/List/List";
 import { BoardContext } from "./contexts/BoardContextProvider";
+
+import { io } from "socket.io-client";
+const socket = io("http://localhost:3009");
 
 export const Board = (): JSX.Element => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -30,9 +33,16 @@ export const Board = (): JSX.Element => {
     loading,
   } = context;
 
+  useEffect(() => {
+    if (boardId) {
+      socket.emit("join-board", boardId);
+    }
+  }, [boardId]);
+
   const onDeleteCard = async (cardId: string) => {
     try {
       deleteCard(cardId, boardId!, boardInfo?.owner!);
+      socket.emit("delete-card", cardId, boardId!);
       setLists((prev) => {
         if (!prev) return null;
         return prev.map((list) => ({
@@ -44,9 +54,19 @@ export const Board = (): JSX.Element => {
       throw new Error("Card could not be deleted");
     }
   };
+  socket.on("card-deleted", (cardId) => {
+    setLists((prev) => {
+      if (!prev) return null;
+      return prev.map((list) => ({
+        ...list,
+        cards: list.cards.filter((card) => card._id !== cardId),
+      }));
+    });
+  });
 
   const onCardAdd = async (listId: string, name: string) => {
     const card = await createCard(listId, name, boardInfo?.owner!);
+    socket.emit("create-card", card, boardId!);
     toast({
       title: "Card created successfully",
     });
@@ -59,6 +79,29 @@ export const Board = (): JSX.Element => {
       );
     });
   };
+
+  socket.on("card-created", (card) => {
+    setLists((prev) => {
+      if (!prev) return null;
+      return prev.map((list) =>
+        list._id === card.list
+          ? { ...list, cards: [...list.cards, card] }
+          : list,
+      );
+    });
+  });
+  // socket.on("list-created", (newList: any) => {
+  //   setLists((prev: any) => {
+  //     // if (!Array.isArray(prev)) return [newList];
+  //     return [...prev, newList];
+  //     // return prev?.map((list: any) => {
+  //     //   if (list._id === newList._id) {
+  //     //     return newList;
+  //     //   }
+  //     //   return list;
+  //     // });
+  //   });
+  // });
 
   const onDragEnd = (result: DropResult) => {
     setIsDragging(false);
@@ -150,7 +193,7 @@ export const Board = (): JSX.Element => {
         onDragStart={() => setIsDragging(true)}
       >
         <div
-          className={`flex h-[1243px] w-screen flex-col overflow-hidden overflow-y-auto bg-transparent]`}
+          className={`bg-transparent] flex h-[1243px] w-screen flex-col overflow-hidden overflow-y-auto`}
           style={{
             backgroundImage: `url('${backgroundUrl}')`,
             backgroundSize: "cover",
@@ -189,7 +232,7 @@ export const Board = (): JSX.Element => {
                     onDeleteCard={onDeleteCard}
                   />
                 ))}
-                <AddListPlaceholder isDragging={isDragging} />
+                <AddListPlaceholder isDragging={isDragging} socket={socket} />
                 {provided.placeholder}
               </div>
             )}
