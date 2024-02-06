@@ -156,7 +156,7 @@ export const SettingsPage = (props: Props) => {
     };
 
     return (
-        <div className="mb-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="border-b border-gray-200 dark:border-gray-700">
             <ul
                 className="flex flex-wrap -mb-px text-sm font-medium text-center"
                 role="tablist"
@@ -201,7 +201,7 @@ export const SettingsPage = (props: Props) => {
 
             <div id="default-tab-content">
                 <div
-                    className={`overflow-y-auto p-6 ${
+                    className={`overflow-y-auto p-2 ${
                         activeTab === "members" ? "block" : "hidden"
                     }`}
                     id="members"
@@ -254,7 +254,7 @@ export const SettingsPage = (props: Props) => {
                     </main>
                 </div>
                 <div
-                    className={`h-full overflow-y-auto p-6 ${
+                    className={`h-full overflow-y-auto p-2 ${
                         activeTab === "settings" ? "block" : "hidden"
                     }`}
                     id="settings"
