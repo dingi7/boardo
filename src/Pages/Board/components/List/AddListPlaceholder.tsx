@@ -5,10 +5,10 @@ import { createList } from "../../../../api/requests";
 
 export const AddListPlaceholder = ({
   isDragging,
-  socket,
+  // socket,
 }: {
   isDragging: boolean;
-  socket: any;
+  // socket: any;
 }): JSX.Element => {
   const context = useContext(BoardContext);
 
@@ -16,7 +16,7 @@ export const AddListPlaceholder = ({
 
   const createListFunc = async () => {
     const newList = await createList(boardId!, "New List");
-    socket.emit("create-list", newList, boardId!);
+    // socket.emit("create-list", newList, boardId!);
     setLists((prev) => {
       if (!Array.isArray(prev)) return [newList];
       return [...prev, newList];

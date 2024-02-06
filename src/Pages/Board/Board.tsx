@@ -10,10 +10,10 @@ import { AddListPlaceholder } from "./components/List/AddListPlaceholder";
 import { List } from "./components/List/List";
 import { BoardContext } from "./contexts/BoardContextProvider";
 
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 // const socket = io("http://localhost:3000");
-// const socket = io("https://boardo-back-end.vercel.app");
-const socket = io("wss://boardo-back-end.vercel.app");
+// const socket = io("https://boardo-back-end.vercel.app/");
+// const socket = io("wss://boardo-back-end.vercel.app");
 
 export const Board = (): JSX.Element => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -37,14 +37,14 @@ export const Board = (): JSX.Element => {
 
   useEffect(() => {
     if (boardId) {
-      socket.emit("join-board", boardId);
+      // socket.emit("join-board", boardId);
     }
   }, [boardId]);
 
   const onDeleteCard = async (cardId: string) => {
     try {
       deleteCard(cardId, boardId!, boardInfo?.owner!);
-      socket.emit("delete-card", cardId, boardId!);
+      // socket.emit("delete-card", cardId, boardId!);
       setLists((prev) => {
         if (!prev) return null;
         return prev.map((list) => ({
@@ -56,19 +56,19 @@ export const Board = (): JSX.Element => {
       throw new Error("Card could not be deleted");
     }
   };
-  socket.on("card-deleted", (cardId) => {
-    setLists((prev) => {
-      if (!prev) return null;
-      return prev.map((list) => ({
-        ...list,
-        cards: list.cards.filter((card) => card._id !== cardId),
-      }));
-    });
-  });
+  // socket.on("card-deleted", (cardId) => {
+  //   setLists((prev) => {
+  //     if (!prev) return null;
+  //     return prev.map((list) => ({
+  //       ...list,
+  //       cards: list.cards.filter((card) => card._id !== cardId),
+  //     }));
+  //   });
+  // });
 
   const onCardAdd = async (listId: string, name: string) => {
     const card = await createCard(listId, name, boardInfo?.owner!);
-    socket.emit("create-card", card, boardId!);
+    // socket.emit("create-card", card, boardId!);
     toast({
       title: "Card created successfully",
     });
@@ -82,17 +82,17 @@ export const Board = (): JSX.Element => {
     });
   };
 
-  socket.on("card-created", (card) => {
-    console.log("Got card info " + card);
-    setLists((prev) => {
-      if (!prev) return null;
-      return prev.map((list) =>
-        list._id === card.list
-          ? { ...list, cards: [...list.cards, card] }
-          : list,
-      );
-    });
-  });
+  // socket.on("card-created", (card) => {
+  //   console.log("Got card info " + card);
+  //   setLists((prev) => {
+  //     if (!prev) return null;
+  //     return prev.map((list) =>
+  //       list._id === card.list
+  //         ? { ...list, cards: [...list.cards, card] }
+  //         : list,
+  //     );
+  //   });
+  // });
   // socket.on("list-created", (newList: any) => {
   //   setLists((prev: any) => {
   //     // if (!Array.isArray(prev)) return [newList];
@@ -235,7 +235,9 @@ export const Board = (): JSX.Element => {
                     onDeleteCard={onDeleteCard}
                   />
                 ))}
-                <AddListPlaceholder isDragging={isDragging} socket={socket} />
+                {/* <AddListPlaceholder isDragging={isDragging} socket={socket} /> */}
+                <AddListPlaceholder isDragging={isDragging} />
+
                 {provided.placeholder}
               </div>
             )}
