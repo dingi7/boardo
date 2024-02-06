@@ -11,7 +11,9 @@ import { List } from "./components/List/List";
 import { BoardContext } from "./contexts/BoardContextProvider";
 
 import { io } from "socket.io-client";
-const socket = io("http://localhost:3009");
+// const socket = io("http://localhost:3000");
+// const socket = io("https://boardo-back-end.vercel.app");
+const socket = io("wss://boardo-back-end.vercel.app");
 
 export const Board = (): JSX.Element => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -81,6 +83,7 @@ export const Board = (): JSX.Element => {
   };
 
   socket.on("card-created", (card) => {
+    console.log("Got card info " + card);
     setLists((prev) => {
       if (!prev) return null;
       return prev.map((list) =>
