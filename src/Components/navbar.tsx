@@ -1,9 +1,10 @@
 import { Logo } from "./ui/logo";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
-import { useIsAuthenticated, useSignOut } from "react-auth-kit";
+import { useAuthUser, useIsAuthenticated, useSignOut } from "react-auth-kit";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { User2Icon } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,11 +13,12 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "./dropdown";
+import { useAuth } from "src/Pages/Auth/hooks/useAuth";
 
 export const Navbar = () => {
     const isAuth = useIsAuthenticated();
     const navigate = useNavigate();
-
+    const authUser = useAuthUser()();
     const signOut = useSignOut();
 
     const handleSignOut = () => {
@@ -27,7 +29,7 @@ export const Navbar = () => {
     };
 
     return (
-        <div className="top-0 w-full h-16 px-4 border-b shadow-sm bg-white flex items-center z-50">
+        <div className="w-full px-4 py-2 border-b shadow-sm bg-white flex items-center">
             <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between">
                 <Logo />
                 <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
@@ -50,9 +52,10 @@ export const Navbar = () => {
                             <DropdownMenu>
                                 <DropdownMenuTrigger>
                                     <Avatar>
-                                        {/* Porfile image here  */}
-                                        <AvatarImage src="https://github.com/shadcn.png" />
-                                        <AvatarFallback>CN</AvatarFallback>
+                                        <AvatarImage
+                                            src={`https://api.dicebear.com/7.x/initials/svg?seed=${authUser?.username}&radius=50&backgroundColor=a3a3a3&fontSize=35&bold=true`}
+                                            alt="User avatar"
+                                        />
                                     </Avatar>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent>
@@ -61,7 +64,7 @@ export const Navbar = () => {
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem>
-                                        <Link to="/profile" >Profile</Link>
+                                        <Link to="/profile">Profile</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onClick={handleSignOut}>
                                         Logout
