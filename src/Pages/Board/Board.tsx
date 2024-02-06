@@ -12,7 +12,7 @@ import { BoardContext } from "./contexts/BoardContextProvider";
 
 import { io } from "socket.io-client";
 // const socket = io("http://localhost:3000");
-const socket = io("https://boardo-back-end.vercel.app/api/v1");
+const socket = io("https://boardo-back-end.vercel.app");
 
 export const Board = (): JSX.Element => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
