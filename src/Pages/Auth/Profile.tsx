@@ -12,6 +12,8 @@ import {
 import { Label } from "src/Components/ui/label";
 import { Input } from "src/Components/ui/input";
 import { Button } from "src/Components/ui/button";
+import { ProfileOrganizationComponent } from "./components/ProfileOrganizationComponent";
+import { IOrg } from "src/Interfaces/IContexts";
 
 export const Profile = () => {
     const { toast } = useToast();
@@ -36,7 +38,6 @@ export const Profile = () => {
 
     useEffect(() => {
         console.log(authUser);
-
         if (!authUser) {
             navigate("/");
             toast({
@@ -52,7 +53,7 @@ export const Profile = () => {
 
     return (
         <div className="flex flex-col lg:flex-row gap-6 p-6">
-            <section className="w-full lg:w-1/2 space-y-6">
+            <section className="w-full lg:w-1/3 space-y-6">
                 <Card>
                     <CardHeader>
                         <CardTitle>Account Settings</CardTitle>
@@ -76,7 +77,9 @@ export const Profile = () => {
                             />
                         </div>
                         <div className="text-right pt-4">
-                            <Button className="ml-auto">Update Information</Button>
+                            <Button className="ml-auto">
+                                Update Information
+                            </Button>
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="oldPassword">
@@ -114,41 +117,8 @@ export const Profile = () => {
                         <Button className="ml-auto">Update Password</Button>
                     </CardFooter>
                 </Card>
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Organizations</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <span>Organization 1</span>
-                                <Button size="sm" variant="destructive">
-                                    <span className="font-semibold text-base">
-                                        Leave
-                                    </span>
-                                </Button>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span>Organization 1</span>
-                                <Button size="sm" variant="destructive">
-                                    <span className="font-semibold text-base">
-                                        Leave
-                                    </span>
-                                </Button>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <span>Organization 1</span>
-                                <Button size="sm" variant="destructive">
-                                    <span className="font-semibold text-base">
-                                        Leave
-                                    </span>
-                                </Button>
-                            </div>
-                        </div>
-                    </CardContent>
-                </Card>
             </section>
-            <section className="w-full lg:w-/3 space-y-6">
+            <section className="w-full lg:w-2/3 space-y-6">
                 <Card>
                     <CardHeader>
                         <CardTitle>Activity Feed</CardTitle>
@@ -178,6 +148,19 @@ export const Profile = () => {
                                 2 hours ago
                             </span>
                         </div>
+                    </CardContent>
+                </Card>
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Organizations</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        {authUser?.joinedOrganizations.map((org: IOrg) =>
+                            ProfileOrganizationComponent({
+                                name: org.name,
+                                owner: org.owner,
+                            })
+                        )}
                     </CardContent>
                 </Card>
             </section>

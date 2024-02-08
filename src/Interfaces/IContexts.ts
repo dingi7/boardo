@@ -23,7 +23,7 @@ export interface IDashboardContext {
 export interface IOrg {
     name: string;
     _id: string;
-    owner: string;
+    owner: IUserData;
     members: IUserData[];
     orgLogo: string;
     activity: IActivity[];
