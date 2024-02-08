@@ -38,7 +38,7 @@ const MemberCard = ({
                 {member.email}
             </TableCell>
             <TableCell>
-                {member._id === selectedOrganization.owner ? (
+                {member._id === selectedOrganization.owner._id ? (
                     <span className="text-red-500">Owner</span>
                 ) : (
                     <span className="text-blue-500">Member</span>

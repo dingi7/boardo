@@ -40,11 +40,12 @@ export const SettingsPage = (props: Props) => {
         password: "",
         oldPassword: "",
     });
-    console.log(orgData);
     const [activeTab, setActiveTab] = useState("members");
 
     const auth = useAuthUser()();
-    const isOwner = auth?._id === selectedOrganization!.owner;
+    
+    const isOwner = auth?._id == selectedOrganization!.owner._id;
+    
 
     const handleTabClick = (tabId: string) => {
         setActiveTab(tabId);
@@ -88,7 +89,6 @@ export const SettingsPage = (props: Props) => {
     };
 
     const handleUpdateOrganizationPassword = async () => {
-        console.log("Clicked");
         if (!orgData.password) {
             toast({
                 title: "Password is required",
