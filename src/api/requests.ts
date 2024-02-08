@@ -27,6 +27,7 @@ export const endpoints = {
     tokenValidator: (uuid: string): string => `/auth/tokenValidator/${uuid}`,
     removeMemberFromBoard: (boardId: string) =>
         `/auth/orgs/${boardId}/kickMember`,
+    leaveOrganization: (orgId: string) => `/auth/orgs/${orgId}/leave`,
 };
 
 export const renameCard = async (
@@ -36,6 +37,10 @@ export const renameCard = async (
 ) => {
     return api.put(endpoints.card(cardId), { organizationId, name });
 };
+
+export const leaveOrganization = async (orgId: string) => {
+    return api.post(endpoints.leaveOrganization(orgId));
+}
 
 export const changeCardPriority = async (
     cardId: string,
