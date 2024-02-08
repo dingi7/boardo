@@ -48,7 +48,6 @@ export const Profile = () => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        // Handle form submission logic here
     };
 
     return (
