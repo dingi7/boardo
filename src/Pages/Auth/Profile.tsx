@@ -67,7 +67,9 @@ export const Profile = () => {
     const handleOrganizationLeave = async (orgId: string) => {
         try {
             await leaveOrganization(orgId);
-
+            setUserOrganizations((prev: any) =>
+                prev.filter((org: IOrg) => org._id !== orgId)
+            );
             toast({
                 title: 'Organization ' + orgId + ' left successfully',
             });

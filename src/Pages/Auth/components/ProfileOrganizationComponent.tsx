@@ -1,7 +1,5 @@
-import { toast } from 'src/Components/Toaster/use-toast';
 import { Button } from 'src/Components/ui/button';
 import { IUserData } from 'src/Interfaces/IUserData';
-import { leaveOrganization } from 'src/api/requests';
 
 export const ProfileOrganizationComponent = ({
     name,
