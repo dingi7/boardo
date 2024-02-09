@@ -329,10 +329,14 @@ export const SettingsPage = (props: Props) => {
                                     </Button>
                                 </div>
 
-                                <div>
-                                <h2 className="text-lg font-bold">Delete organisation</h2>
-                                    <DeleteOrganizationDialog />
-                                </div>
+                                {isOwner && (
+                                    <div>
+                                        <h2 className="text-lg font-bold">
+                                            Delete organisation
+                                        </h2>
+                                        <DeleteOrganizationDialog />
+                                    </div>
+                                )}
                             </div>
                         </section>
                     </main>
