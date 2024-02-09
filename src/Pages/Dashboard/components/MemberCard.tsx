@@ -59,7 +59,7 @@ const MemberCard = ({
                             <DialogTitle>Member Actions</DialogTitle>
                         </DialogHeader>
                         <div className="flex flex-col gap-3">
-                            {!isOwner ? (
+                            {member._id !== selectedOrganization.owner._id ? (
                                 <Button
                                     className="bg-red-800"
                                     onClick={() =>

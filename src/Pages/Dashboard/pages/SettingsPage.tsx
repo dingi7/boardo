@@ -276,6 +276,7 @@ export const SettingsPage = (props: Props) => {
                                         placeholder="Enter organization name"
                                         value={orgData.name}
                                         onChange={handleInputChange}
+                                        disabled={!isOwner}
                                     />
                                 </div>
                                 <div className="space-y-1">
@@ -286,59 +287,66 @@ export const SettingsPage = (props: Props) => {
                                         className="min-h-[100px]"
                                         id="org-desc"
                                         placeholder="Enter organization description"
+                                        disabled={!isOwner}
                                     />
                                 </div>
-                                <Button onClick={handleUpdateOrganizationName}>
-                                    Save
-                                </Button>
-                            </div>
-                        </section>
-                        <section className="mb-8" id="security">
-                            <h2 className="text-xl font-bold">Security</h2>
-
-                            <div className="flex flex-col gap-4">
-                                <div className="mt-4 space-y-4">
-                                    <div className="space-y-1">
-                                        <Label htmlFor="password">
-                                            Password
-                                        </Label>
-                                        <Input
-                                            id="password"
-                                            placeholder="Enter new password"
-                                            type="password"
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <Label htmlFor="old-password">
-                                            Old Password
-                                        </Label>
-                                        <Input
-                                            id="oldPassword"
-                                            placeholder="Old new password"
-                                            type="password"
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                    <Button
-                                        onClick={
-                                            handleUpdateOrganizationPassword
-                                        }
-                                    >
-                                        Change Password
-                                    </Button>
-                                </div>
-
                                 {isOwner && (
-                                    <div>
-                                        <h2 className="text-lg font-bold">
-                                            Delete organization
-                                        </h2>
-                                        <DeleteOrganizationDialog />
-                                    </div>
+                                    <Button
+                                        onClick={handleUpdateOrganizationName}
+                                    >
+                                        Save
+                                    </Button>
                                 )}
                             </div>
                         </section>
+                        {isOwner && (
+                            <section className="mb-8" id="security">
+                                <h2 className="text-xl font-bold">Security</h2>
+
+                                <div className="flex flex-col gap-4">
+                                    <div className="mt-4 space-y-4">
+                                        <div className="space-y-1">
+                                            <Label htmlFor="password">
+                                                Password
+                                            </Label>
+                                            <Input
+                                                id="password"
+                                                placeholder="Enter new password"
+                                                type="password"
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <Label htmlFor="old-password">
+                                                Old Password
+                                            </Label>
+                                            <Input
+                                                id="oldPassword"
+                                                placeholder="Old new password"
+                                                type="password"
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                        <Button
+                                            onClick={
+                                                handleUpdateOrganizationPassword
+                                            }
+                                        >
+                                            Change Password
+                                        </Button>
+                                    </div>
+
+                                    {isOwner && (
+                                        <div>
+                                            <h2 className="text-lg font-bold">
+                                                Delete organization
+                                            </h2>
+                                            <DeleteOrganizationDialog />
+                                        </div>
+                                    )}
+                                </div>
+                            </section>
+                        )}
                     </main>
                 </div>
             </div>
