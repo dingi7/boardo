@@ -25,11 +25,13 @@ const MemberCard = ({
     isOwner,
     handleRemoveMember,
     selectedOrganization,
+    DeleteOrganizationDialog,
 }: {
     member: any;
     isOwner: boolean;
     handleRemoveMember: any;
     selectedOrganization: any;
+    DeleteOrganizationDialog: any;
 }) => {
     return (
         <TableRow>
@@ -46,28 +48,32 @@ const MemberCard = ({
             </TableCell>
             <TableCell className="hidden md:table-cell">
                 <Dialog>
-                        <DialogTrigger asChild>
-                            {isOwner &&
-                                member._id !== selectedOrganization.owner && (
-                                    <Button size="sm">View Options</Button>
-                                )}
-                        </DialogTrigger>
+                    <DialogTrigger asChild>
+                        {isOwner &&
+                            member._id !== selectedOrganization.owner && (
+                                <Button size="sm">View Options</Button>
+                            )}
+                    </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
                             <DialogTitle>Member Actions</DialogTitle>
                         </DialogHeader>
                         <div className="flex flex-col gap-3">
-                            <Button
-                                className="bg-red-800"
-                                onClick={() =>
-                                    handleRemoveMember(
-                                        selectedOrganization._id,
-                                        member._id
-                                    )
-                                }
-                            >
-                                Kick
-                            </Button>
+                            {!isOwner ? (
+                                <Button
+                                    className="bg-red-800"
+                                    onClick={() =>
+                                        handleRemoveMember(
+                                            selectedOrganization._id,
+                                            member._id
+                                        )
+                                    }
+                                >
+                                    Kick
+                                </Button>
+                            ) : (
+                                <DeleteOrganizationDialog />
+                            )}
                             <div className="flex flex-row justify-between item-center">
                                 <span>Change roles: </span>
                                 <Select>
