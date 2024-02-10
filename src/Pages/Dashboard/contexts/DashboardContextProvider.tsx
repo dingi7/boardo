@@ -70,7 +70,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         } finally {
             setLoading(false);
         }
-    }, [toast, fetchBoards]);
+    }, [toast, fetchBoards, boards]);
 
     useEffect(() => {
         if (!user) return;

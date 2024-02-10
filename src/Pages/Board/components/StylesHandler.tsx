@@ -1,13 +1,10 @@
 import { Paintbrush } from 'lucide-react';
-import { useState } from 'react';
 
 import {
     DropdownMenuItem,
-    DropdownMenuPortal,
-    DropdownMenuSeparator,
-    DropdownMenuSub,
+    DropdownMenuPortal, DropdownMenuSub,
     DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
+    DropdownMenuSubTrigger
 } from 'src/Components/dropdown';
 
 export const StylesHandler = ({

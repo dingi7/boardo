@@ -7,7 +7,6 @@ import { loginUser } from '../../api/requests';
 import { LoginUserData } from '../../Interfaces/IUserData';
 import { useAuth } from './hooks/useAuth';
 import useFormData from '../../util/hooks/useFormData';
-import { Navbar } from '../../Components/navbar';
 import { AuthInput } from '../../Components/auth/auth-input';
 import { useToast } from '../../Components/Toaster/use-toast';
 
@@ -26,7 +25,7 @@ export const Login = () => {
                 variant: "destructive" 
             })
         }
-    }, [isAuth, navigate]);
+    }, [isAuth, navigate, toast]);
     const [loginData, handleInputChange] = useFormData<LoginUserData>({
         email: '',
         password: '',

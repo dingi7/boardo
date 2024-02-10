@@ -1,7 +1,7 @@
-import { renameCard, renameList } from 'src/api/requests';
+import { renameCard } from 'src/api/requests';
 import { FormInput } from '../../../../Components/form/form-input';
 import { Button } from '../../../../Components/ui/button';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { BoardContext } from '../../contexts/BoardContextProvider';
 
 interface CardTitleProps {

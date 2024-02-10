@@ -10,7 +10,7 @@ import {
 import { StylesHandler } from './StylesHandler';
 import { DeleteHandler } from './DeleteHandler';
 import { BoardContext } from '../contexts/BoardContextProvider';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 export const ListSettingsDropdownMenu = ({
     listId,

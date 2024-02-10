@@ -8,7 +8,6 @@ import { Navbar } from '../../Components/navbar';
 import { AuthInput } from '../../Components/auth/auth-input';
 import { useToast } from '../../Components/Toaster/use-toast';
 import { IForgotPassword } from './../../Interfaces/IUserData';
-import { Check } from 'lucide-react';
 import { requestResetPassword } from 'src/api/requests';
 
 export const ForgotPassword = () => {
@@ -27,7 +26,7 @@ export const ForgotPassword = () => {
                 variant: 'destructive',
             });
         }
-    }, [isAuth, navigate]);
+    }, [isAuth, navigate, toast]);
     const [loginData, handleInputChange] = useFormData<IForgotPassword>({
         email: '',
     });
@@ -38,7 +37,7 @@ export const ForgotPassword = () => {
             if (!loginData?.email)
                 throw new Error('Please fill in all the fields');
             setLoading(true);
-            const response = await requestResetPassword(loginData.email);
+            await requestResetPassword(loginData.email);
             setIsSent(true);
         } catch (err: any) {
             setError(err.message);

@@ -1,5 +1,4 @@
 import { Trash } from 'lucide-react';
-import { list } from 'postcss';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'src/Components/Toaster/use-toast';

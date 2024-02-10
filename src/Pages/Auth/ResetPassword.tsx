@@ -5,7 +5,6 @@ import { Button } from "../../Components/ui/button";
 import { useIsAuthenticated } from "react-auth-kit";
 import { IResetPassword } from "../../Interfaces/IUserData";
 import useFormData from "../../util/hooks/useFormData";
-//import { Navbar } from '../../Components/navbar';
 import { AuthInput } from "../../Components/auth/auth-input";
 import { useToast } from "../../Components/Toaster/use-toast";
 import { resetPassword, tokenValidator } from "src/api/requests";
@@ -29,7 +28,7 @@ export const ResetPassword = () => {
         }
         const isTokenValid = async () => {
             try {
-                const response = await tokenValidator(uuid!);
+                await tokenValidator(uuid!);
             } catch (err: any) {
                 toast({
                     title: err.message,
@@ -40,7 +39,7 @@ export const ResetPassword = () => {
             setLoading(false);
         }
         isTokenValid();
-    }, []);
+    }, [isAuth, navigate, toast, uuid]);
     const [resetPassData, handleInputChange] = useFormData<IResetPassword>({
         password: "",
         confirmPassword: "",
@@ -54,9 +53,7 @@ export const ResetPassword = () => {
             if (resetPassData.password !== resetPassData.confirmPassword)
                 throw new Error("Password do not match!");
             setLoading(true);
-            const response = await resetPassword(uuid!, resetPassData!.password)
-            //const response = await loginUser(resetPassData!);
-            //await authenticateUser(response);
+            await resetPassword(uuid!, resetPassData!.password)
             navigate("/auth/login");
             toast({ title: "Password sucesfully reseted!" });
         } catch (err: any) {

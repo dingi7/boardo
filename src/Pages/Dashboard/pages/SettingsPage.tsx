@@ -13,7 +13,6 @@ import { DashboardContext } from '../contexts/DashboardContextProvider';
 import { DeleteOrganizationDialog } from '../modals/DeleteOrganizationDialog';
 import useFormData from 'src/util/hooks/useFormData';
 import { Label } from 'src/Components/ui/label';
-import { Textarea } from 'src/Components/ui/textarea';
 import {
     Table,
     TableBody,
@@ -34,7 +33,6 @@ export const SettingsPage = (props: Props) => {
 
     const { toast } = useToast();
 
-    const [loading, setLoading] = useState<boolean>(false);
     const [org, setOrg] = useState<IOrg | null>(selectedOrganization);
 
     const [orgData, handleInputChange] = useFormData({
@@ -49,7 +47,7 @@ export const SettingsPage = (props: Props) => {
 
     const auth = useAuthUser()();
 
-    const isOwner = auth?._id == selectedOrganization!.owner._id;
+    const isOwner = auth?._id === selectedOrganization!.owner._id;
 
     const handleTabClick = (tabId: string) => {
         setActiveTab(tabId);
@@ -63,7 +61,6 @@ export const SettingsPage = (props: Props) => {
             });
             return;
         }
-        setLoading(true);
         try {
             await updateOrganizationName(
                 selectedOrganization!._id,
@@ -79,7 +76,7 @@ export const SettingsPage = (props: Props) => {
                 variant: "destructive",
             });
         } finally {
-            setLoading(false);
+            
             setUserOrganizations((prev: IOrg[]) => {
                 return prev.map((org: IOrg) => {
                     if (org._id === selectedOrganization!._id) {
@@ -108,7 +105,7 @@ export const SettingsPage = (props: Props) => {
             return;
         }
 
-        setLoading(true);
+        
         try {
             await updateOrganizationPassword(
                 selectedOrganization!._id,
@@ -125,7 +122,7 @@ export const SettingsPage = (props: Props) => {
                 variant: "destructive",
             });
         } finally {
-            setLoading(false);
+            
         }
     };
 
@@ -133,7 +130,7 @@ export const SettingsPage = (props: Props) => {
         if (!window.confirm("Are you sure you want to kick this member?")) {
             return;
         }
-        setLoading(true);
+        
         try {
             await removeMemberFromBoard(boardId, memberId);
             const newMembers = selectedOrganization!.members.filter(

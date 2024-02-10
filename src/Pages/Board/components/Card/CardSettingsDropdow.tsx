@@ -10,7 +10,7 @@ import {
 } from 'src/Components/dropdown';
 import { DeleteHandler } from '../DeleteHandler';
 import { BoardContext } from '../../contexts/BoardContextProvider';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { PriorityDropdown } from './PriorityDropdown';
 import { changeCardPriority, setCardDueDate } from 'src/api/requests';
 import { DueDatePicker } from './DueDatePicker';

@@ -1,4 +1,3 @@
-import { Navbar } from 'src/Components/navbar';
 import { Skeleton } from 'src/Components/ui/skeleton';
 
 export const DashboardSkeleton = () => {

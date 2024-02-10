@@ -12,7 +12,7 @@ import { Button } from '../../../Components/ui/button';
 import { Label } from '../../../Components/ui/label';
 import { Input } from '../../../Components/ui/input';
 import { useContext, useState } from 'react';
-import { deleteOrganization, joinOrganization } from '../../../api/requests';
+import { deleteOrganization } from '../../../api/requests';
 import { useToast } from 'src/Components/Toaster/use-toast';
 import { IOrg } from 'src/Interfaces/IContexts';
 import { DashboardContext } from '../contexts/DashboardContextProvider';

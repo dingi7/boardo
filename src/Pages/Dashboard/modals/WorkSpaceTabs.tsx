@@ -4,7 +4,7 @@ import { Label } from 'src/Components/ui/label';
 import { SearchComponent } from '../components/SearchComponent';
 import { JoinDialog } from './JoinWorkspaceDialog';
 import { dataBaseOrganization } from 'src/Interfaces/IDatabase';
-import { IOrg, IOrgLean } from 'src/Interfaces/IContexts';
+import { IOrgLean } from 'src/Interfaces/IContexts';
 import {
     Card,
     CardContent,

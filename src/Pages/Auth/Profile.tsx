@@ -58,7 +58,7 @@ export const Profile = () => {
         } else {
             fetchOrganizations();
         }
-    }, [authUser, navigate, toast]);
+    }, [authUser, navigate, toast, fetchOrganizations]);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();

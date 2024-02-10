@@ -85,7 +85,7 @@ export const FormPicker = ({
 
                         <img
                             src={image.urls.thumb}
-                            alt='Unsplash image'
+                            alt='Unsplash content'
                             className='w-full h-full object-cover rounded-sm'
                         />
                         {selectedImageId === image.id && (

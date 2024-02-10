@@ -1,6 +1,5 @@
 import { MarketingPage } from './LandingPage';
 import { Footer } from './components/footer';
-import { Navbar } from '../../Components/navbar';
 
 export const LandingPage = () => {
     return (

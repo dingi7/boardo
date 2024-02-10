@@ -2,9 +2,7 @@ import { Logo } from './ui/logo';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { useAuthUser, useIsAuthenticated, useSignOut } from 'react-auth-kit';
-import React from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { User2Icon } from 'lucide-react';
+import { Avatar, AvatarImage } from './ui/avatar';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -13,7 +11,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from './dropdown';
-import { useAuth } from 'src/Pages/Auth/hooks/useAuth';
 
 export const Navbar = () => {
     const isAuth = useIsAuthenticated();
