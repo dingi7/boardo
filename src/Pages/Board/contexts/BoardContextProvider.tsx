@@ -1,16 +1,16 @@
 import {
-    createContext,
-    useState,
-    useCallback,
-    useEffect,
-    Dispatch,
-    SetStateAction,
+  createContext,
+  useState,
+  useCallback,
+  useEffect,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { dataBaseBoard, dataBaseList } from '../../../Interfaces/IDatabase';
 import { getBoardById } from '../../../api/requests';
 import { toast } from 'src/Components/Toaster/use-toast';
-import { useTimeout } from 'usehooks-ts';
+import { useInterval } from 'usehooks-ts';
 
 export interface BoardContextType {
     boardInfo: dataBaseBoard | null;
@@ -59,10 +59,9 @@ export const BoardContextProvider = ({ children }: { children: any }) => {
         fetchBoardData();
     }, [fetchBoardData]);
 
-    useTimeout(() => {
+    useInterval(() => {
         fetchBoardData();
     }, 5000);
-
 
     return (
         <BoardContext.Provider
