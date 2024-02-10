@@ -84,6 +84,7 @@ export function DeleteOrganizationDialog() {
                         </Label>
                         <Input
                             id='password'
+                            type='password'
                             className='col-span-3'
                             onChange={(e: any) => setPassword(e.target.value)}
                         />

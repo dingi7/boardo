@@ -6,13 +6,13 @@ import {
     removeMemberFromBoard,
     updateOrganizationName,
     updateOrganizationPassword,
-} from 'src/api/requests';
-import { useToast } from 'src/Components/Toaster/use-toast';
-import { useAuthUser } from 'react-auth-kit';
-import { DashboardContext } from '../contexts/DashboardContextProvider';
-import { DeleteOrganizationDialog } from '../modals/DeleteOrganizationDialog';
-import useFormData from 'src/util/hooks/useFormData';
-import { Label } from 'src/Components/ui/label';
+} from "src/api/requests";
+import { useToast } from "src/Components/Toaster/use-toast";
+import { useAuthUser } from "react-auth-kit";
+import { DashboardContext } from "../contexts/DashboardContextProvider";
+import { DeleteOrganizationDialog } from "../modals/DeleteOrganizationDialog";
+import useFormData from "src/util/hooks/useFormData";
+import { Label } from "src/Components/ui/label";
 import {
     Table,
     TableBody,
@@ -76,7 +76,6 @@ export const SettingsPage = (props: Props) => {
                 variant: "destructive",
             });
         } finally {
-            
             setUserOrganizations((prev: IOrg[]) => {
                 return prev.map((org: IOrg) => {
                     if (org._id === selectedOrganization!._id) {
@@ -105,13 +104,13 @@ export const SettingsPage = (props: Props) => {
             return;
         }
 
-        
         try {
             await updateOrganizationPassword(
                 selectedOrganization!._id,
                 orgData.password,
                 orgData.oldPassword
             );
+            
             toast({
                 title: "Organization updated successfully",
                 variant: "default",
@@ -122,7 +121,6 @@ export const SettingsPage = (props: Props) => {
                 variant: "destructive",
             });
         } finally {
-            
         }
     };
 
@@ -130,7 +128,7 @@ export const SettingsPage = (props: Props) => {
         if (!window.confirm("Are you sure you want to kick this member?")) {
             return;
         }
-        
+
         try {
             await removeMemberFromBoard(boardId, memberId);
             const newMembers = selectedOrganization!.members.filter(
@@ -292,7 +290,7 @@ export const SettingsPage = (props: Props) => {
 
                                 <div className="flex flex-col gap-4">
                                     <div className="mt-4 space-y-4">
-                                    <div className="space-y-1">
+                                        <div className="space-y-1">
                                             <Label htmlFor="old-password">
                                                 Old Password
                                             </Label>
@@ -303,7 +301,7 @@ export const SettingsPage = (props: Props) => {
                                                 onChange={handleInputChange}
                                             />
                                         </div>
-                                        
+
                                         <div className="space-y-1">
                                             <Label htmlFor="password">
                                                 Password
@@ -334,7 +332,6 @@ export const SettingsPage = (props: Props) => {
                                         </div>
                                     )}
                                 </div>
-
                             </section>
                         </main>
                     ) : (
