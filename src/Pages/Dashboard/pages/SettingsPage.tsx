@@ -292,6 +292,18 @@ export const SettingsPage = (props: Props) => {
 
                                 <div className="flex flex-col gap-4">
                                     <div className="mt-4 space-y-4">
+                                    <div className="space-y-1">
+                                            <Label htmlFor="old-password">
+                                                Old Password
+                                            </Label>
+                                            <Input
+                                                id="oldPassword"
+                                                placeholder="Enter оld password"
+                                                type="password"
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                        
                                         <div className="space-y-1">
                                             <Label htmlFor="password">
                                                 Password
@@ -303,17 +315,7 @@ export const SettingsPage = (props: Props) => {
                                                 onChange={handleInputChange}
                                             />
                                         </div>
-                                        <div className="space-y-1">
-                                            <Label htmlFor="old-password">
-                                                Old Password
-                                            </Label>
-                                            <Input
-                                                id="oldPassword"
-                                                placeholder="Enter оld password"
-                                                type="password"
-                                                onChange={handleInputChange}
-                                            />
-                                        </div>
+
                                         <Button
                                             onClick={
                                                 handleUpdateOrganizationPassword
@@ -332,22 +334,7 @@ export const SettingsPage = (props: Props) => {
                                         </div>
                                     )}
                                 </div>
-                                <div className="space-y-1">
-                                    <Label htmlFor="old-password">
-                                        Old Password
-                                    </Label>
-                                    <Input
-                                        id="oldPassword"
-                                        placeholder="Old new password"
-                                        type="password"
-                                        onChange={handleInputChange}
-                                    />
-                                </div>
-                                <Button
-                                    onClick={handleUpdateOrganizationPassword}
-                                >
-                                    Change Password
-                                </Button>
+
                             </section>
                         </main>
                     ) : (
