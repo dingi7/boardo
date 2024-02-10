@@ -33,11 +33,8 @@ export interface IActivity {
     action: string;
     board: string;
     timeStamp: string;
-    user: {
-        username: string;
-        _id: string;
-    };
-    _id:string
+    user: string;
+    _id: string;
 }
 
 export interface IOrgLean {
