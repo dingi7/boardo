@@ -12,9 +12,6 @@ type Props = {
     text: string;
     name: string;
     id: keyof LoginUserData | keyof RegisterUserData;
-    // setUserData:
-    //     | React.Dispatch<React.SetStateAction<RegisterUserData>>
-    //     | React.Dispatch<React.SetStateAction<LoginUserData>>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     isEdditing: EditingState;
     setIsEdditing: any;

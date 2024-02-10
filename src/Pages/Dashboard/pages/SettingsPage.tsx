@@ -1,46 +1,51 @@
-import { useCallback, useContext, useState } from "react";
-import MemberCard from "../components/MemberCard";
-import { Input } from "src/Components/ui/input";
-import { Button } from "src/Components/ui/button";
+import { useContext, useEffect, useState } from 'react';
+import MemberCard from '../components/MemberCard';
+import { Input } from 'src/Components/ui/input';
+import { Button } from 'src/Components/ui/button';
 import {
     removeMemberFromBoard,
-    updateOrganization,
     updateOrganizationName,
     updateOrganizationPassword,
-} from "src/api/requests";
-import { useToast } from "src/Components/Toaster/use-toast";
-import { useAuthUser } from "react-auth-kit";
-import { DashboardContext } from "../contexts/DashboardContextProvider";
-import { DeleteOrganizationDialog } from "../modals/DeleteOrganizationDialog";
-import useFormData from "src/util/hooks/useFormData";
-import { Label } from "src/Components/ui/label";
-import { Textarea } from "src/Components/ui/textarea";
+} from 'src/api/requests';
+import { useToast } from 'src/Components/Toaster/use-toast';
+import { useAuthUser } from 'react-auth-kit';
+import { DashboardContext } from '../contexts/DashboardContextProvider';
+import { DeleteOrganizationDialog } from '../modals/DeleteOrganizationDialog';
+import useFormData from 'src/util/hooks/useFormData';
+import { Label } from 'src/Components/ui/label';
+import { Textarea } from 'src/Components/ui/textarea';
 import {
     Table,
     TableBody,
     TableHead,
     TableHeader,
     TableRow,
-} from "src/Components/table";
+} from 'src/Components/table';
+import { IOrg } from 'src/Interfaces/IContexts';
+import { IUserData } from 'src/Interfaces/IUserData';
 type Props = {};
 
 export const SettingsPage = (props: Props) => {
     const context = useContext(DashboardContext);
     if (!context) {
-        throw new Error("Dashboard context is not available");
+        throw new Error('Dashboard context is not available');
     }
     const { selectedOrganization, setUserOrganizations } = context;
 
     const { toast } = useToast();
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [org, setOrg] = useState<IOrg | null>(selectedOrganization);
 
     const [orgData, handleInputChange] = useFormData({
-        name: selectedOrganization?.name,
-        password: "",
-        oldPassword: "",
+        name: org!.name,
+        password: '',
+        oldPassword: '',
     });
-    const [activeTab, setActiveTab] = useState("members");
+    useEffect(() => {
+        setOrg(selectedOrganization);
+    }, [selectedOrganization]);
+    const [activeTab, setActiveTab] = useState('members');
 
     const auth = useAuthUser()();
 
@@ -53,8 +58,8 @@ export const SettingsPage = (props: Props) => {
     const handleUpdateOrganizationName = async () => {
         if (!orgData.name) {
             toast({
-                title: "Name is required",
-                variant: "destructive",
+                title: 'Name is required',
+                variant: 'destructive',
             });
             return;
         }
@@ -65,18 +70,18 @@ export const SettingsPage = (props: Props) => {
                 orgData.name
             );
             toast({
-                title: "Organization updated successfully",
-                variant: "default",
+                title: 'Organization updated successfully',
+                variant: 'default',
             });
         } catch (err: any) {
             toast({
                 title: err.message,
-                variant: "destructive",
+                variant: 'destructive',
             });
         } finally {
             setLoading(false);
-            setUserOrganizations((prev: any) => {
-                return prev.map((org: any) => {
+            setUserOrganizations((prev: IOrg[]) => {
+                return prev.map((org: IOrg) => {
                     if (org._id === selectedOrganization!._id) {
                         org.name = orgData.name;
                         return org;
@@ -90,15 +95,15 @@ export const SettingsPage = (props: Props) => {
     const handleUpdateOrganizationPassword = async () => {
         if (!orgData.password) {
             toast({
-                title: "Password is required",
-                variant: "destructive",
+                title: 'Password is required',
+                variant: 'destructive',
             });
             return;
         }
         if (!orgData.oldPassword) {
             toast({
-                title: "Old password is required",
-                variant: "destructive",
+                title: 'Old password is required',
+                variant: 'destructive',
             });
             return;
         }
@@ -111,13 +116,13 @@ export const SettingsPage = (props: Props) => {
                 orgData.oldPassword
             );
             toast({
-                title: "Organization updated successfully",
-                variant: "default",
+                title: 'Organization updated successfully',
+                variant: 'default',
             });
         } catch (err: any) {
             toast({
                 title: err.message,
-                variant: "destructive",
+                variant: 'destructive',
             });
         } finally {
             setLoading(false);
@@ -125,17 +130,17 @@ export const SettingsPage = (props: Props) => {
     };
 
     const handleKickMember = async (boardId: string, memberId: string) => {
-        if (!window.confirm("Are you sure you want to kick this member?")) {
+        if (!window.confirm('Are you sure you want to kick this member?')) {
             return;
         }
         setLoading(true);
         try {
             await removeMemberFromBoard(boardId, memberId);
             const newMembers = selectedOrganization!.members.filter(
-                (member: any) => member._id !== memberId
+                (member: IUserData) => member._id !== memberId
             );
-            setUserOrganizations((prev: any) => {
-                return prev.map((org: any) => {
+            setUserOrganizations((prev: IOrg[]) => {
+                return prev.map((org: IOrg) => {
                     if (org._id === selectedOrganization!._id) {
                         org.members = newMembers;
                         return org;
@@ -144,84 +149,84 @@ export const SettingsPage = (props: Props) => {
                 });
             });
             toast({
-                title: "Member removed successfully",
+                title: 'Member removed successfully',
             });
         } catch (e: any) {
             toast({
                 title: e.message,
-                variant: "destructive",
+                variant: 'destructive',
             });
         }
     };
 
     return (
-        <div className="border-b border-gray-200 dark:border-gray-700">
+        <div className='border-b border-gray-200 dark:border-gray-700'>
             <ul
-                className="flex flex-wrap -mb-px text-sm font-medium text-center"
-                role="tablist"
+                className='flex flex-wrap -mb-px text-sm font-medium text-center'
+                role='tablist'
             >
-                <li className="me-2 flex-grow" role="presentation">
+                <li className='me-2 flex-grow' role='presentation'>
                     <button
                         className={`inline-block w-full p-4 border-b-2 rounded-t-lg ${
-                            activeTab === "members"
-                                ? "border-blue-500 text-blue-500 font-semibold"
-                                : "hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                            activeTab === 'members'
+                                ? 'border-blue-500 text-blue-500 font-semibold'
+                                : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
                         }`}
-                        id="members-tab"
-                        data-tabs-target="#members"
-                        type="button"
-                        role="tab"
-                        aria-controls="members"
-                        aria-selected={activeTab === "members"}
-                        onClick={() => handleTabClick("members")}
+                        id='members-tab'
+                        data-tabs-target='#members'
+                        type='button'
+                        role='tab'
+                        aria-controls='members'
+                        aria-selected={activeTab === 'members'}
+                        onClick={() => handleTabClick('members')}
                     >
-                        <span className="text-lg">Members</span>
+                        <span className='text-lg'>Members</span>
                     </button>
                 </li>
-                <li className="me-2 flex-grow" role="presentation">
+                <li className='me-2 flex-grow' role='presentation'>
                     <button
                         className={`inline-block w-full p-4 border-b-2 rounded-t-lg ${
-                            activeTab === "settings"
-                                ? "border-blue-500 text-blue-500 font-semibold"
-                                : "hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                            activeTab === 'settings'
+                                ? 'border-blue-500 text-blue-500 font-semibold'
+                                : 'hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300'
                         }`}
-                        id="settings-tab"
-                        data-tabs-target="#settings"
-                        type="button"
-                        role="tab"
-                        aria-controls="settings"
-                        aria-selected={activeTab === "settings"}
-                        onClick={() => handleTabClick("settings")}
+                        id='settings-tab'
+                        data-tabs-target='#settings'
+                        type='button'
+                        role='tab'
+                        aria-controls='settings'
+                        aria-selected={activeTab === 'settings'}
+                        onClick={() => handleTabClick('settings')}
                     >
-                        <span className="text-lg">Settings</span>
+                        <span className='text-lg'>Settings</span>
                     </button>
                 </li>
             </ul>
 
-            <div id="default-tab-content">
+            <div id='default-tab-content'>
                 <div
                     className={`overflow-y-auto p-2 ${
-                        activeTab === "members" ? "block" : "hidden"
+                        activeTab === 'members' ? 'block' : 'hidden'
                     }`}
-                    id="members"
-                    role="tabpanel"
-                    aria-labelledby="members-tab"
+                    id='members'
+                    role='tabpanel'
+                    aria-labelledby='members-tab'
                 >
-                    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-                        <div className="flex items-center">
-                            <h2 className="text-xl font-bold">Members</h2>
+                    <main className='flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6'>
+                        <div className='flex items-center'>
+                            <h2 className='text-xl font-bold'>Members</h2>
                         </div>
-                        <div className="border shadow-sm rounded-lg">
+                        <div className='border shadow-sm rounded-lg'>
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead className="max-w-[150px]">
+                                        <TableHead className='max-w-[150px]'>
                                             Name
                                         </TableHead>
-                                        <TableHead className="hidden md:table-cell">
+                                        <TableHead className='hidden md:table-cell'>
                                             Email
                                         </TableHead>
-                                        <TableHead className="hidden md:table-cell">
+                                        <TableHead className='hidden md:table-cell'>
                                             Role
                                         </TableHead>
                                         <TableHead>Actions</TableHead>
@@ -230,7 +235,7 @@ export const SettingsPage = (props: Props) => {
                                 <TableBody>
                                     {selectedOrganization!.members.length > 0
                                         ? selectedOrganization!.members.map(
-                                              (member: any) => (
+                                              (member: IUserData) => (
                                                   <MemberCard
                                                       isOwner={isOwner}
                                                       key={member._id}
@@ -238,11 +243,8 @@ export const SettingsPage = (props: Props) => {
                                                       handleRemoveMember={
                                                           handleKickMember
                                                       }
-                                                      DeleteOrganizationDialog={
-                                                          DeleteOrganizationDialog
-                                                      }
                                                       selectedOrganization={
-                                                          selectedOrganization
+                                                          selectedOrganization!
                                                       }
                                                   ></MemberCard>
                                               )
@@ -255,38 +257,39 @@ export const SettingsPage = (props: Props) => {
                 </div>
                 <div
                     className={`h-full overflow-y-auto p-2 ${
-                        activeTab === "settings" ? "block" : "hidden"
+                        activeTab === 'settings' ? 'block' : 'hidden'
                     }`}
-                    id="settings"
-                    role="tabpanel"
-                    aria-labelledby="settings-tab"
+                    id='settings'
+                    role='tabpanel'
+                    aria-labelledby='settings-tab'
                 >
-                    <main className="flex-1 p-6">
-                        <section className="mb-8" id="general">
-                            <h2 className="text-xl font-bold">
+                    <main className='flex-1 p-6'>
+                        <section className='mb-8' id='general'>
+                            <h2 className='text-xl font-bold'>
                                 General Settings
                             </h2>
-                            <div className="mt-4 space-y-4">
-                                <div className="space-y-1">
-                                    <Label htmlFor="name">
+                            <div className='mt-4 space-y-4'>
+                                <div className='space-y-1'>
+                                    <Label htmlFor='name'>
                                         Organization Name
                                     </Label>
                                     <Input
-                                        id="name"
-                                        placeholder="Enter organization name"
-                                        value={orgData.name}
+                                        id='name'
+                                        placeholder='Enter organization name'
+                                        // value={orgData.name}
+                                        value={selectedOrganization!.name}
                                         onChange={handleInputChange}
                                         disabled={!isOwner}
                                     />
                                 </div>
-                                <div className="space-y-1">
-                                    <Label htmlFor="org-desc">
+                                <div className='space-y-1'>
+                                    <Label htmlFor='org-desc'>
                                         Organization Description
                                     </Label>
                                     <Textarea
-                                        className="min-h-[100px]"
-                                        id="org-desc"
-                                        placeholder="Enter organization description"
+                                        className='min-h-[100px]'
+                                        id='org-desc'
+                                        placeholder='Enter organization description'
                                         disabled={!isOwner}
                                     />
                                 </div>
@@ -300,30 +303,30 @@ export const SettingsPage = (props: Props) => {
                             </div>
                         </section>
                         {isOwner && (
-                            <section className="mb-8" id="security">
-                                <h2 className="text-xl font-bold">Security</h2>
+                            <section className='mb-8' id='security'>
+                                <h2 className='text-xl font-bold'>Security</h2>
 
-                                <div className="flex flex-col gap-4">
-                                    <div className="mt-4 space-y-4">
-                                        <div className="space-y-1">
-                                            <Label htmlFor="password">
+                                <div className='flex flex-col gap-4'>
+                                    <div className='mt-4 space-y-4'>
+                                        <div className='space-y-1'>
+                                            <Label htmlFor='password'>
                                                 Password
                                             </Label>
                                             <Input
-                                                id="password"
-                                                placeholder="Enter new password"
-                                                type="password"
+                                                id='password'
+                                                placeholder='Enter new password'
+                                                type='password'
                                                 onChange={handleInputChange}
                                             />
                                         </div>
-                                        <div className="space-y-1">
-                                            <Label htmlFor="old-password">
+                                        <div className='space-y-1'>
+                                            <Label htmlFor='old-password'>
                                                 Old Password
                                             </Label>
                                             <Input
-                                                id="oldPassword"
-                                                placeholder="Old new password"
-                                                type="password"
+                                                id='oldPassword'
+                                                placeholder='Old new password'
+                                                type='password'
                                                 onChange={handleInputChange}
                                             />
                                         </div>
@@ -338,7 +341,7 @@ export const SettingsPage = (props: Props) => {
 
                                     {isOwner && (
                                         <div>
-                                            <h2 className="text-lg font-bold">
+                                            <h2 className='text-lg font-bold'>
                                                 Delete organization
                                             </h2>
                                             <DeleteOrganizationDialog />

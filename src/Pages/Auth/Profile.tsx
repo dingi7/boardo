@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
-import { useIsAuthenticated, useAuthUser } from 'react-auth-kit';
+import { useAuthUser } from 'react-auth-kit';
 import { useToast } from '../../Components/Toaster/use-toast';
 import {
     Card,
@@ -200,11 +200,3 @@ export const Profile = () => {
         </div>
     );
 };
-function signIn(arg0: {
-    token: any;
-    expiresIn: number; // change this later
-    tokenType: string;
-    authState: any;
-}) {
-    throw new Error('Function not implemented.');
-}

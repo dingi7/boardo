@@ -25,8 +25,8 @@ export const DeleteHandler = ({
 }: {
     itemId: string;
     option: 'board' | 'list' | 'card';
-    setLists?: any;
-    deleteCard?: any
+    setLists: (lists: any) => void;
+    deleteCard: (cardId: string) => void;
 }): JSX.Element => {
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -57,7 +57,7 @@ export const DeleteHandler = ({
         }
         if (option === 'card') {
             try{
-            await deleteCard(itemId);
+            deleteCard(itemId);
             toast({
                 title: 'Card deleted successfully',
             });
