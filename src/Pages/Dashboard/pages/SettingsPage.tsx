@@ -309,7 +309,7 @@ export const SettingsPage = (props: Props) => {
                                             </Label>
                                             <Input
                                                 id="oldPassword"
-                                                placeholder="Old new password"
+                                                placeholder="Enter оld password"
                                                 type="password"
                                                 onChange={handleInputChange}
                                             />
