@@ -94,7 +94,7 @@ export function DeleteOrganizationDialog() {
                         <Button
                             type='submit'
                             className='color-black'
-                            variant={'primary'}
+                            variant={'delete'}
                             onClick={handleFormSubmit}
                         >
                             Delete

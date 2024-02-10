@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MemberCard from "../components/MemberCard";
 import { Input } from "src/Components/ui/input";
 import { Button } from "src/Components/ui/button";
@@ -6,14 +6,14 @@ import {
     removeMemberFromBoard,
     updateOrganizationName,
     updateOrganizationPassword,
-} from "src/api/requests";
-import { useToast } from "src/Components/Toaster/use-toast";
-import { useAuthUser } from "react-auth-kit";
-import { DashboardContext } from "../contexts/DashboardContextProvider";
-import { DeleteOrganizationDialog } from "../modals/DeleteOrganizationDialog";
-import useFormData from "src/util/hooks/useFormData";
-import { Label } from "src/Components/ui/label";
-import { Textarea } from "src/Components/ui/textarea";
+} from 'src/api/requests';
+import { useToast } from 'src/Components/Toaster/use-toast';
+import { useAuthUser } from 'react-auth-kit';
+import { DashboardContext } from '../contexts/DashboardContextProvider';
+import { DeleteOrganizationDialog } from '../modals/DeleteOrganizationDialog';
+import useFormData from 'src/util/hooks/useFormData';
+import { Label } from 'src/Components/ui/label';
+import { Textarea } from 'src/Components/ui/textarea';
 import {
     Table,
     TableBody,
@@ -35,16 +35,21 @@ export const SettingsPage = (props: Props) => {
     const { toast } = useToast();
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [org, setOrg] = useState<IOrg | null>(selectedOrganization);
 
     const [orgData, handleInputChange] = useFormData({
-        name: selectedOrganization?.name,
+        name: org!.name,
         password: "",
         oldPassword: "",
     });
+    useEffect(() => {
+        setOrg(selectedOrganization);
+    }, [selectedOrganization]);
     const [activeTab, setActiveTab] = useState("members");
 
     const auth = useAuthUser()();
-    const isOwner = auth?._id === selectedOrganization!.owner._id;
+
+    const isOwner = auth?._id == selectedOrganization!.owner._id;
 
     const handleTabClick = (tabId: string) => {
         setActiveTab(tabId);
@@ -88,7 +93,6 @@ export const SettingsPage = (props: Props) => {
     };
 
     const handleUpdateOrganizationPassword = async () => {
-        console.log("Clicked");
         if (!orgData.password) {
             toast({
                 title: "Password is required",
@@ -126,6 +130,9 @@ export const SettingsPage = (props: Props) => {
     };
 
     const handleKickMember = async (boardId: string, memberId: string) => {
+        if (!window.confirm("Are you sure you want to kick this member?")) {
+            return;
+        }
         setLoading(true);
         try {
             await removeMemberFromBoard(boardId, memberId);
@@ -207,9 +214,7 @@ export const SettingsPage = (props: Props) => {
                 >
                     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
                         <div className="flex items-center">
-                            <h2 className="text-xl font-bold">
-                                Members
-                            </h2>
+                            <h2 className="text-xl font-bold">Members</h2>
                         </div>
                         <div className="border shadow-sm rounded-lg">
                             <Table>
@@ -239,7 +244,7 @@ export const SettingsPage = (props: Props) => {
                                                           handleKickMember
                                                       }
                                                       selectedOrganization={
-                                                          selectedOrganization
+                                                          selectedOrganization!
                                                       }
                                                   ></MemberCard>
                                               )
@@ -258,41 +263,77 @@ export const SettingsPage = (props: Props) => {
                     role="tabpanel"
                     aria-labelledby="settings-tab"
                 >
-                    {
-                        isOwner ?
+                    {isOwner ? (
                         <main className="flex-1 p-6">
-                        <section className="mb-8" id="general">
-                            <h2 className="text-xl font-bold">
-                                General Settings
-                            </h2>
-                            <div className="mt-4 space-y-4">
-                                <div className="space-y-1">
-                                    <Label htmlFor="name">
-                                        Organization Name
-                                    </Label>
-                                    <Input
-                                        id="name"
-                                        placeholder="Enter organization name"
-                                        value={orgData.name}
-                                        onChange={handleInputChange}
-                                    />
+                            <section className="mb-8" id="general">
+                                <h2 className="text-xl font-bold">
+                                    General Settings
+                                </h2>
+                                <div className="mt-4 space-y-4">
+                                    <div className="space-y-1">
+                                        <Label htmlFor="name">
+                                            Organization Name
+                                        </Label>
+                                        <Input
+                                            id="name"
+                                            placeholder="Enter organization name"
+                                            // value={orgData.name}
+                                            value={selectedOrganization!.name}
+                                            onChange={handleInputChange}
+                                            disabled={!isOwner}
+                                        />
+                                    </div>
+                                    <Button
+                                        onClick={handleUpdateOrganizationName}
+                                    >
+                                        Save
+                                    </Button>
                                 </div>
-                                <Button onClick={handleUpdateOrganizationName}>
-                                    Save
-                                </Button>
-                            </div>
-                        </section>
-                        <section className="mb-8" id="security">
-                            <h2 className="text-xl font-bold">Security</h2>
-                            <div className="mt-4 space-y-4">
-                                <div className="space-y-1">
-                                    <Label htmlFor="password">Password</Label>
-                                    <Input
-                                        id="password"
-                                        placeholder="Enter new password"
-                                        type="password"
-                                        onChange={handleInputChange}
-                                    />
+                            </section>
+                            <section className="mb-8" id="security">
+                                <h2 className="text-xl font-bold">Security</h2>
+
+                                <div className="flex flex-col gap-4">
+                                    <div className="mt-4 space-y-4">
+                                        <div className="space-y-1">
+                                            <Label htmlFor="password">
+                                                Password
+                                            </Label>
+                                            <Input
+                                                id="password"
+                                                placeholder="Enter new password"
+                                                type="password"
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <Label htmlFor="old-password">
+                                                Old Password
+                                            </Label>
+                                            <Input
+                                                id="oldPassword"
+                                                placeholder="Old new password"
+                                                type="password"
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                        <Button
+                                            onClick={
+                                                handleUpdateOrganizationPassword
+                                            }
+                                        >
+                                            Change Password
+                                        </Button>
+                                    </div>
+
+                                    {isOwner && (
+                                        <div>
+                                            <h2 className="text-lg font-bold">
+                                                Delete organization
+                                            </h2>
+                                            <DeleteOrganizationDialog />
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="space-y-1">
                                     <Label htmlFor="old-password">
@@ -310,11 +351,15 @@ export const SettingsPage = (props: Props) => {
                                 >
                                     Change Password
                                 </Button>
-                            </div>
-                        </section>
-                    </main> : 
-                        <div className="flex flex-1 justify-center items-center h-32"><h1 className="text-xl text-red-900">Forbiden For Members</h1></div>
-                    }
+                            </section>
+                        </main>
+                    ) : (
+                        <div className="flex flex-1 justify-center items-center h-32">
+                            <h1 className="text-xl text-red-900">
+                                Forbiden For Members
+                            </h1>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

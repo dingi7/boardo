@@ -1,24 +1,14 @@
-import { Menu } from "lucide-react";
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from "src/Components/select";
 import { TableCell, TableRow } from "src/Components/table";
 import { Button } from "src/Components/ui/button";
 import {
     Dialog,
-    DialogClose,
     DialogContent,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "src/Components/ui/dialog";
+import { IOrg } from "src/Interfaces/IContexts";
+import { IUserData } from "src/Interfaces/IUserData";
 
 const MemberCard = ({
     member,
@@ -26,10 +16,10 @@ const MemberCard = ({
     handleRemoveMember,
     selectedOrganization,
 }: {
-    member: any;
+    member: IUserData;
     isOwner: boolean;
-    handleRemoveMember: any;
-    selectedOrganization: any;
+    handleRemoveMember: (orgId: string, memberId: string) => void;
+    selectedOrganization: IOrg;
 }) => {
     return (
         <TableRow>
@@ -46,12 +36,12 @@ const MemberCard = ({
             </TableCell>
             <TableCell className="hidden md:table-cell">
                 <Dialog>
-                        <DialogTrigger asChild>
-                            {isOwner &&
-                                member._id !== selectedOrganization.owner._id && (
-                                    <Button size="sm">View Options</Button>
-                                )}
-                        </DialogTrigger>
+                    <DialogTrigger asChild>
+                        {isOwner &&
+                            member._id !== selectedOrganization.owner._id && (
+                                <Button size="sm">View Options</Button>
+                            )}
+                    </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
                             <DialogTitle>Member Actions</DialogTitle>

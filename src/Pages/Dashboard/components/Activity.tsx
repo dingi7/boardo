@@ -2,10 +2,7 @@ import { Link } from 'react-router-dom';
 
 type Props = {
     action: string;
-    user: {
-        _id: string;
-        username: string;
-    };
+    user: string
     board: string;
     timeStamp: string;
 };
@@ -17,7 +14,7 @@ export const Activity = (props: Props) => {
             <div className='w-[4%]'>
                 <div className='w-[70%] aspect-square bg-purple-800 rounded-full flex flex-row justify-center items-center text-center'>
                     <p className='text-white'>
-                        {props.user?.username[0] || 'A'}
+                        {props.user[0] || 'A'}
                     </p>
                 </div>
             </div>
@@ -26,7 +23,7 @@ export const Activity = (props: Props) => {
                 <div>
                     <p>
                         <span className='font-bold'>
-                            {props.user?.username || 'unknown'}
+                            {props.user || 'unknown'}
                         </span>{' '}
                         <Link to={`/board/${props.board}`} className=' hover:underline'>
                         {props.action}</Link>
