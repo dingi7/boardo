@@ -12,20 +12,23 @@ export const ActivityPage = (props: Props) => {
     }
     const { selectedOrganization } = context;
     const activity = selectedOrganization!.activity.slice().reverse();
-    console.log(activity)
+    console.log(activity);
     return (
         <div className='mb-4 border-gray-200 dark:border-gray-700 flex flex-col gap-[1rem]'>
             <h1 className='text-lg font-bold'>Activity</h1>
             <div className='flex flex-col gap-[1rem]'>
-                {activity.map((activity: IActivity) => (
-                    <Activity
-                        key={activity._id}
-                        action={activity.action}
-                        user={activity.user}
-                        board={activity.board}
-                        timeStamp={activity.timeStamp}
-                    />
-                ))}
+                {activity.map((activity: IActivity) => {
+                    console.log(activity);
+                    return (
+                        <Activity
+                            key={activity._id}
+                            action={activity.action}
+                            user={activity.user.username}
+                            board={activity.board}
+                            timeStamp={activity.timeStamp}
+                        />
+                    );
+                })}
             </div>
         </div>
     );
