@@ -150,7 +150,7 @@ export const Profile = () => {
                 </Card>
             </section>
             <section className='w-full lg:w-2/3 space-y-6'>
-                <Card>
+                {/* <Card>
                     <CardHeader>
                         <CardTitle>Activity Feed</CardTitle>
                     </CardHeader>
@@ -180,7 +180,7 @@ export const Profile = () => {
                             </span>
                         </div>
                     </CardContent>
-                </Card>
+                </Card> */}
                 <Card>
                     <CardHeader>
                         <CardTitle>Organizations</CardTitle>
@@ -190,6 +190,7 @@ export const Profile = () => {
                             ProfileOrganizationComponent({
                                 name: org.name,
                                 owner: org.owner,
+                                userId: authUser!._id,
                                 orgId: org._id,
                                 leaveOrgFunc: handleOrganizationLeave,
                             })
