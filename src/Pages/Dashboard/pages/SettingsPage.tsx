@@ -35,14 +35,25 @@ export const SettingsPage = (props: Props) => {
 
     const [org, setOrg] = useState<IOrg | null>(selectedOrganization);
 
-    const [orgData, handleInputChange] = useFormData({
-        name: org!.name,
+    const [orgData, setOrgData] = useState({
+        name: org?.name,
         password: "",
-        oldPassword: "",
+        oldPassword: ""
     });
+
+    
     useEffect(() => {
+        setOrgData((prevState) => ({...prevState, name: selectedOrganization?.name}))
         setOrg(selectedOrganization);
     }, [selectedOrganization]);
+
+    const handleInputChange = (e: any) => {
+        setOrgData((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
     const [activeTab, setActiveTab] = useState("members");
 
     const auth = useAuthUser()();
@@ -66,6 +77,7 @@ export const SettingsPage = (props: Props) => {
                 selectedOrganization!._id,
                 orgData.name
             );
+           
             toast({
                 title: "Organization updated successfully",
                 variant: "default",
@@ -110,6 +122,8 @@ export const SettingsPage = (props: Props) => {
                 orgData.password,
                 orgData.oldPassword
             );
+
+            setOrgData((prevState) => ({...prevState, password: "", oldPassword: ""}))
             
             toast({
                 title: "Organization updated successfully",
@@ -273,7 +287,8 @@ export const SettingsPage = (props: Props) => {
                                             id="name"
                                             placeholder="Enter organization name"
                                             // value={orgData.name}
-                                            value={selectedOrganization!.name}
+                                            name="name"
+                                            value={orgData!.name}
                                             onChange={handleInputChange}
                                             disabled={!isOwner}
                                         />
@@ -295,10 +310,12 @@ export const SettingsPage = (props: Props) => {
                                                 Old Password
                                             </Label>
                                             <Input
+                                                name="oldPassword"
                                                 id="oldPassword"
                                                 placeholder="Enter оld password"
                                                 type="password"
                                                 onChange={handleInputChange}
+                                                value={orgData.oldPassword}
                                             />
                                         </div>
 
@@ -307,10 +324,12 @@ export const SettingsPage = (props: Props) => {
                                                 Password
                                             </Label>
                                             <Input
+                                                name="password"
                                                 id="password"
                                                 placeholder="Enter new password"
                                                 type="password"
                                                 onChange={handleInputChange}
+                                                value={orgData.password}
                                             />
                                         </div>
 
