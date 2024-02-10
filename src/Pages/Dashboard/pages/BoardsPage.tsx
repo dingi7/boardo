@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { AddBoard } from '../components/AddBoard';
 import { BoardSkeleton } from '../skeletons/BoardSkeleton';
 import { DashboardContext } from '../contexts/DashboardContextProvider';
+import { dataBaseBoard } from 'src/Interfaces/IDatabase';
 
 export const BoardsPage = () => {
     const context = useContext(DashboardContext);
@@ -34,7 +35,7 @@ export const BoardsPage = () => {
                             <User2 size={30} /> Your boards
                         </h1>
                         <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-[2%]'>
-                            {boards!.map((board: any) => (
+                            {boards!.map((board: dataBaseBoard) => (
                                 <Link
                                     to={`/board/${board._id}`}
                                     key={board._id}

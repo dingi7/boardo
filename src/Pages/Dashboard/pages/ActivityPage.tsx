@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { Activity } from '../components/Activity';
 import { DashboardContext } from '../contexts/DashboardContextProvider';
+import { IActivity } from 'src/Interfaces/IContexts';
 
 type Props = {};
 
@@ -16,7 +17,7 @@ export const ActivityPage = (props: Props) => {
         <div className='mb-4 border-gray-200 dark:border-gray-700 flex flex-col gap-[1rem]'>
             <h1 className='text-lg font-bold'>Activity</h1>
             <div className='flex flex-col gap-[1rem]'>
-                {activity.map((activity: any) => (
+                {activity.map((activity: IActivity) => (
                     <Activity
                         key={activity._id}
                         action={activity.action}

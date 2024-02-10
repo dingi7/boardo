@@ -4,7 +4,7 @@ import { Label } from 'src/Components/ui/label';
 import { SearchComponent } from '../components/SearchComponent';
 import { JoinDialog } from './JoinWorkspaceDialog';
 import { dataBaseOrganization } from 'src/Interfaces/IDatabase';
-import { IOrgLean } from 'src/Interfaces/IContexts';
+import { IOrg, IOrgLean } from 'src/Interfaces/IContexts';
 import {
     Card,
     CardContent,
@@ -21,9 +21,9 @@ import { useState } from 'react';
 type AddWorkspaceModalProps = {
     closeModal: () => void;
     allOrganizations: IOrgLean[];
-    fetchAllOrganizations: any;
+    fetchAllOrganizations: () => Promise<void>;
     setUserOrganizations: (organizations: any) => void;
-    setSelectedOrganization: (organization: any) => void;
+    setSelectedOrganization: (organization: IOrg[]) => void;
 };
 
 export const WorkspaceTabs = ({
