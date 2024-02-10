@@ -10,9 +10,9 @@ import { AddListPlaceholder } from "./components/List/AddListPlaceholder";
 import { List } from "./components/List/List";
 import { BoardContext } from "./contexts/BoardContextProvider";
 
-// import { io } from "socket.io-client";
+import { io } from "socket.io-client";
 // const socket = io("http://localhost:3000");
-// const socket = io("https://boardo-back-end.vercel.app/");
+const socket = io("https://boardo-back-end.vercel.app/");
 // const socket = io("wss://boardo-back-end.vercel.app");
 
 export const Board = (): JSX.Element => {
