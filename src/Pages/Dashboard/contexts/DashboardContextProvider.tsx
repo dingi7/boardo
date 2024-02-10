@@ -76,17 +76,17 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         if (!user) return;
         fetchAllOrganizations();
         fetchOrganizations();
-    }, [user, fetchOrganizations, fetchAllOrganizations]);
+    }, [user]);
 
     useEffect(() => {
         if (selectedOrganization) {
             fetchBoards(selectedOrganization._id);
         }
-    }, [selectedOrganization, fetchBoards]);
+    }, [selectedOrganization]);
 
-    useInterval(() => {
-        fetchBoards(selectedOrganization!._id);
-    }, 10000);
+    // useInterval(() => {
+    //     fetchBoards(selectedOrganization!._id);
+    // }, 10000);
 
     return (
         <DashboardContext.Provider
