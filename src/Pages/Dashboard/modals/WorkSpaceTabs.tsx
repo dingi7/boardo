@@ -23,7 +23,7 @@ type AddWorkspaceModalProps = {
     allOrganizations: IOrgLean[];
     fetchAllOrganizations: () => Promise<void>;
     setUserOrganizations: (organizations: any) => void;
-    setSelectedOrganization: (organization: IOrg[]) => void;
+    setSelectedOrganization: (organization: any) => void;
 };
 
 export const WorkspaceTabs = ({
