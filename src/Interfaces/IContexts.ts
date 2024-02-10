@@ -33,7 +33,10 @@ export interface IActivity {
     action: string;
     board: string;
     timeStamp: string;
-    user: string;
+    user: {
+        username: string;
+        _id: string;
+    };
     _id:string
 }
 

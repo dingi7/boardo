@@ -4,7 +4,6 @@ import { Input } from "src/Components/ui/input";
 import { Button } from "src/Components/ui/button";
 import {
     removeMemberFromBoard,
-    updateOrganization,
     updateOrganizationName,
     updateOrganizationPassword,
 } from "src/api/requests";
@@ -22,6 +21,8 @@ import {
     TableHeader,
     TableRow,
 } from "src/Components/table";
+import { IOrg } from "src/Interfaces/IContexts";
+import { IUserData } from "src/Interfaces/IUserData";
 type Props = {};
 
 export const SettingsPage = (props: Props) => {
@@ -40,11 +41,10 @@ export const SettingsPage = (props: Props) => {
         password: "",
         oldPassword: "",
     });
-    console.log(orgData);
     const [activeTab, setActiveTab] = useState("members");
 
     const auth = useAuthUser()();
-    const isOwner = auth?._id === selectedOrganization!.owner;
+    const isOwner = auth?._id === selectedOrganization!.owner._id;
 
     const handleTabClick = (tabId: string) => {
         setActiveTab(tabId);
@@ -75,10 +75,10 @@ export const SettingsPage = (props: Props) => {
             });
         } finally {
             setLoading(false);
-            setUserOrganizations((prev: any) => {
-                return prev.map((org: any) => {
+            setUserOrganizations((prev: IOrg[]) => {
+                return prev.map((org: IOrg) => {
                     if (org._id === selectedOrganization!._id) {
-                        org.name = orgData.name;
+                        org.name = orgData.name || "";
                         return org;
                     }
                     return org;
@@ -126,17 +126,14 @@ export const SettingsPage = (props: Props) => {
     };
 
     const handleKickMember = async (boardId: string, memberId: string) => {
-        if (!window.confirm("Are you sure you want to kick this member?")) {
-            return;
-        }
         setLoading(true);
         try {
             await removeMemberFromBoard(boardId, memberId);
             const newMembers = selectedOrganization!.members.filter(
-                (member: any) => member._id !== memberId
+                (member: IUserData) => member._id !== memberId
             );
-            setUserOrganizations((prev: any) => {
-                return prev.map((org: any) => {
+            setUserOrganizations((prev: IOrg[]) => {
+                return prev.map((org: IOrg) => {
                     if (org._id === selectedOrganization!._id) {
                         org.members = newMembers;
                         return org;
@@ -233,7 +230,7 @@ export const SettingsPage = (props: Props) => {
                                 <TableBody>
                                     {selectedOrganization!.members.length > 0
                                         ? selectedOrganization!.members.map(
-                                              (member: any) => (
+                                              (member: IUserData) => (
                                                   <MemberCard
                                                       isOwner={isOwner}
                                                       key={member._id}
@@ -261,7 +258,9 @@ export const SettingsPage = (props: Props) => {
                     role="tabpanel"
                     aria-labelledby="settings-tab"
                 >
-                    <main className="flex-1 p-6">
+                    {
+                        isOwner ?
+                        <main className="flex-1 p-6">
                         <section className="mb-8" id="general">
                             <h2 className="text-xl font-bold">
                                 General Settings
@@ -276,16 +275,6 @@ export const SettingsPage = (props: Props) => {
                                         placeholder="Enter organization name"
                                         value={orgData.name}
                                         onChange={handleInputChange}
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <Label htmlFor="org-desc">
-                                        Organization Description
-                                    </Label>
-                                    <Textarea
-                                        className="min-h-[100px]"
-                                        id="org-desc"
-                                        placeholder="Enter organization description"
                                     />
                                 </div>
                                 <Button onClick={handleUpdateOrganizationName}>
@@ -323,7 +312,9 @@ export const SettingsPage = (props: Props) => {
                                 </Button>
                             </div>
                         </section>
-                    </main>
+                    </main> : 
+                        <div className="flex flex-1 justify-center items-center h-32"><h1 className="text-xl text-red-900">Forbiden For Members</h1></div>
+                    }
                 </div>
             </div>
         </div>

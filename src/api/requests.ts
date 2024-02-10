@@ -57,20 +57,6 @@ export const deleteOrganization = async (orgId: string, password: string) => {
     return api.del(endpoints.organization(orgId), { password });
 };
 
-export const updateOrganization = async (
-    orgId: string,
-    password: string,
-    oldPassword: string,
-    name: string
-) => {
-    console.log(orgId, password, oldPassword, name);
-    return api.put(endpoints.organization(orgId), {
-        password,
-        oldPassword,
-        name,
-    });
-};
-
 export const updateOrganizationName = async (
     orgId: string,
     name: string

@@ -38,7 +38,7 @@ const MemberCard = ({
                 {member.email}
             </TableCell>
             <TableCell>
-                {member._id === selectedOrganization.owner ? (
+                {member._id === selectedOrganization.owner._id ? (
                     <span className="text-red-500">Owner</span>
                 ) : (
                     <span className="text-blue-500">Member</span>
@@ -48,7 +48,7 @@ const MemberCard = ({
                 <Dialog>
                         <DialogTrigger asChild>
                             {isOwner &&
-                                member._id !== selectedOrganization.owner && (
+                                member._id !== selectedOrganization.owner._id && (
                                     <Button size="sm">View Options</Button>
                                 )}
                         </DialogTrigger>
@@ -68,37 +68,7 @@ const MemberCard = ({
                             >
                                 Kick
                             </Button>
-                            <div className="flex flex-row justify-between item-center">
-                                <span>Change roles: </span>
-                                <Select>
-                                    <SelectTrigger className="w-[180px]">
-                                        <SelectValue placeholder="Select a role" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectGroup>
-                                            <SelectLabel>Roles</SelectLabel>
-                                            <SelectItem value="owner">
-                                                Owner
-                                            </SelectItem>
-                                            <SelectItem value="member">
-                                                Member
-                                            </SelectItem>
-                                            <SelectItem value="guest">
-                                                Guest
-                                            </SelectItem>
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </div>
                         </div>
-                        <DialogFooter>
-                            <DialogClose asChild>
-                                <Button variant="outline">Cancel</Button>
-                            </DialogClose>
-                            <DialogClose asChild>
-                                <Button variant="primary">Save</Button>
-                            </DialogClose>
-                        </DialogFooter>
                     </DialogContent>
                 </Dialog>
             </TableCell>
