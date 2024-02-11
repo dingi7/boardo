@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { joinOrganization } from '../../../api/requests';
 import { useToast } from 'src/Components/Toaster/use-toast';
 
-export function JoinDialog({
+export function JoinOrganizationDialog({
     orgName,
     orgId,
     setUserOrganizations,

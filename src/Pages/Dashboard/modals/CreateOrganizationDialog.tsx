@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from 'src/Components/tabs';
 import { Button } from 'src/Components/ui/button';
 import { Label } from 'src/Components/ui/label';
 import { SearchComponent } from '../components/SearchComponent';
-import { JoinDialog } from './JoinWorkspaceDialog';
+import { JoinOrganizationDialog } from './JoinOrganizationDialog';
 import { dataBaseOrganization } from 'src/Interfaces/IDatabase';
 import { IOrgLean } from 'src/Interfaces/IContexts';
 import {
@@ -15,7 +15,6 @@ import {
 } from 'src/Components/ui/card';
 import { Input } from 'src/Components/ui/input';
 import { X } from 'lucide-react';
-import { createOrganization } from 'src/api/requests';
 import { useState } from 'react';
 
 type AddWorkspaceModalProps = {
@@ -23,14 +22,14 @@ type AddWorkspaceModalProps = {
     allOrganizations: IOrgLean[];
     fetchAllOrganizations: () => Promise<void>;
     setUserOrganizations: (organizations: any) => void;
-    setSelectedOrganization: (organization: any) => void;
+    handleCreateWorkspace: (workspace: any, closeModal: () => void) => void;
 };
 
-export const WorkspaceTabs = ({
+export const CreateOrganizationDialog = ({
     closeModal,
     allOrganizations,
     setUserOrganizations,
-    setSelectedOrganization,
+    handleCreateWorkspace,
 }: AddWorkspaceModalProps) => {
     const [workspaceData, setWorkspaceData] = useState<{
         name: string;
@@ -39,13 +38,6 @@ export const WorkspaceTabs = ({
         name: '',
         password: '',
     });
-
-    const handleCreateWorkspace = async () => {
-        const result = await createOrganization(workspaceData);
-        setUserOrganizations((prev: any) => [...prev, result]);
-        setSelectedOrganization(result);
-        closeModal();
-    };
 
     return (
         <Tabs defaultValue='create' className='w-[400px] justify-center'>
@@ -74,12 +66,14 @@ export const WorkspaceTabs = ({
                         <div className=' h-40 w-[50%] overflow-y-auto no-scrollbar mx-auto'>
                             {allOrganizations!.map(
                                 (org: dataBaseOrganization) => (
-                                    <JoinDialog
+                                    <JoinOrganizationDialog
                                         orgName={org.name}
                                         orgId={org._id}
                                         key={org._id}
-                                        setUserOrganizations={setUserOrganizations}
-                                    ></JoinDialog>
+                                        setUserOrganizations={
+                                            setUserOrganizations
+                                        }
+                                    ></JoinOrganizationDialog>
                                 )
                             )}
                         </div>
@@ -134,7 +128,9 @@ export const WorkspaceTabs = ({
                     <CardFooter>
                         <Button
                             variant={'primary'}
-                            onClick={handleCreateWorkspace}
+                            onClick={() =>
+                                handleCreateWorkspace(workspaceData, closeModal)
+                            }
                         >
                             Create
                         </Button>

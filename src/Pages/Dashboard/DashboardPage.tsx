@@ -6,7 +6,7 @@ import { Organization } from './components/Organization';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { DashboardContext } from './contexts/DashboardContextProvider';
-import { WorkspaceTabs } from './modals/WorkSpaceTabs';
+import { CreateOrganizationDialog } from './modals/CreateOrganizationDialog';
 import { DashboardSkeleton } from './skeletons/DashboardSkeleton';
 
 export const Dashboard = () => {
@@ -25,6 +25,7 @@ export const Dashboard = () => {
         setUserOrganizations,
         expandedOrganizationId,
         setExpandedOrganizationId,
+        handleCreateWorkspace
     } = context;
 
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
@@ -96,13 +97,13 @@ export const Dashboard = () => {
             </div>
             {isAddWorkspaceModalOpen && (
                 <div className='fixed inset-0 flex items-center justify-center'>
-                    <WorkspaceTabs
+                    <CreateOrganizationDialog
                         allOrganizations={allOrganizations!}
                         fetchAllOrganizations={fetchAllOrganizations}
                         closeModal={() => setIsAddWorkspaceModalOpen(false)}
                         setUserOrganizations={setUserOrganizations}
-                        setSelectedOrganization={setSelectedOrganization}
-                    ></WorkspaceTabs>
+                        handleCreateWorkspace={handleCreateWorkspace}
+                    ></CreateOrganizationDialog>
                 </div>
             )}
 

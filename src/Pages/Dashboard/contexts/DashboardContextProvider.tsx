@@ -2,13 +2,13 @@ import { createContext, useCallback, useEffect, useState } from 'react';
 import { useAuthUser } from 'react-auth-kit';
 import { IDashboardContext, IOrg, IOrgLean } from 'src/Interfaces/IContexts';
 import {
-  getAllOrganizations,
-  getBoardsByOrgId,
-  getUserOrganizations,
+    createOrganization,
+    getAllOrganizations,
+    getBoardsByOrgId,
+    getUserOrganizations,
 } from '../../../api/requests';
 import { useToast } from '../../../Components/Toaster/use-toast';
 import { dataBaseBoard } from '../../../Interfaces/IDatabase';
-import { useInterval } from 'usehooks-ts';
 
 export const DashboardContext = createContext<IDashboardContext | undefined>(
     undefined
@@ -84,9 +84,15 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         }
     }, [selectedOrganization]);
 
-    // useInterval(() => {
-    //     fetchBoards(selectedOrganization!._id);
-    // }, 10000);
+    const handleCreateWorkspace = async (
+        workspaceData: { name: string; password: string },
+        closeModal: () => void
+    ) => {
+        const result = await createOrganization(workspaceData);
+        setUserOrganizations((prev: any) => [...prev, result]);
+        setSelectedOrganization(result);
+        closeModal();
+    };
 
     return (
         <DashboardContext.Provider
@@ -106,6 +112,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
                 setExpandedOrganizationId,
                 expandedOrganizationId,
                 fetching,
+                handleCreateWorkspace, // Make this function available in context
             }}
         >
             {children}

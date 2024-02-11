@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
-import { dataBaseBoard } from "./IDatabase";
-import { IUserData } from "./IUserData";
+import { Dispatch, SetStateAction } from 'react';
+import { dataBaseBoard } from './IDatabase';
+import { IUserData } from './IUserData';
 
 export interface IDashboardContext {
     allOrganizations: IOrgLean[] | null;
@@ -18,6 +18,7 @@ export interface IDashboardContext {
     expandedOrganizationId: string;
     setExpandedOrganizationId: Dispatch<SetStateAction<string>>;
     fetching: boolean;
+    handleCreateWorkspace: (workspace: any, closeModal: () => void) => void;
 }
 
 export interface IOrg {
