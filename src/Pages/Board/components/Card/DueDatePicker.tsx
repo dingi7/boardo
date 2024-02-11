@@ -44,7 +44,7 @@ export const DueDatePicker = ({
                     }}
                 >
                     <CalendarIcon className='mr-2 h-4 w-4' />
-                    <span>Pick a date</span>
+                    <span>Set due date</span>
                 </DropdownMenuItem>
             </DialogTrigger>
             <DialogContent className='w-auto  h-auto'>
