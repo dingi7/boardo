@@ -38,7 +38,6 @@ export const Profile = () => {
     const fetchOrganizations = useCallback(async () => {
         try {
             const organizations = await getUserOrganizations();
-            console.log(organizations);
             setUserOrganizations(organizations);
         } catch (err: any) {
             toast({

@@ -16,7 +16,6 @@ export const useAuth = () => {
             });
             return true;
         } catch (err) {
-            console.log(err);
             throw err;
         }
     };

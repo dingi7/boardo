@@ -30,7 +30,6 @@ export const SettingsPage = (props: Props) => {
         throw new Error("Dashboard context is not available");
     }
     const { selectedOrganization, setUserOrganizations } = context;
-    console.log(selectedOrganization);
     
 
     const { toast } = useToast();

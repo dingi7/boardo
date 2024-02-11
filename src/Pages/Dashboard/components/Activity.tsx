@@ -9,7 +9,6 @@ type Props = {
 
 export const Activity = (props: Props) => {
     const formattedDate = new Date(props.timeStamp).toLocaleString();
-    console.log(props.user);
     
     return (
         <div className='border-gray-200 dark:border-gray-700 flex flex-row items-center'>
