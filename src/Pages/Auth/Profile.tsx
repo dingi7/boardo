@@ -18,7 +18,6 @@ import { getUserOrganizations, leaveOrganization } from 'src/api/requests';
 
 export const Profile = () => {
     const { toast } = useToast();
-
     const navigate = useNavigate();
     const authUser = useAuthUser()();
     const [userOrganizations, setUserOrganizations] = useState<IOrg[]>([]);
@@ -27,6 +26,8 @@ export const Profile = () => {
         newPassword: '',
         confirmPassword: '',
     });
+    const [showAlert, setShowAlert] = useState(false);
+    const handleShowAlert = () => setShowAlert(!showAlert);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -149,37 +150,6 @@ export const Profile = () => {
                 </Card>
             </section>
             <section className='w-full lg:w-2/3 space-y-6'>
-                {/* <Card>
-                    <CardHeader>
-                        <CardTitle>Activity Feed</CardTitle>
-                    </CardHeader>
-                    <CardContent className='space-y-4'>
-                        <div className='flex items-center justify-between bg-gray-100 dark:bg-gray-600 p-2 rounded-md'>
-                            <span className='font-semibold'>
-                                Commented on Project 1
-                            </span>
-                            <span className='text-xs text-gray-500 dark:text-gray-400'>
-                                2 hours ago
-                            </span>
-                        </div>
-                        <div className='flex items-center justify-between bg-gray-100 dark:bg-gray-600 p-2 rounded-md'>
-                            <span className='font-semibold'>
-                                Commented on Project 1
-                            </span>
-                            <span className='text-xs text-gray-500 dark:text-gray-400'>
-                                2 hours ago
-                            </span>
-                        </div>
-                        <div className='flex items-center justify-between bg-gray-100 dark:bg-gray-600 p-2 rounded-md'>
-                            <span className='font-semibold'>
-                                Commented on Project 1
-                            </span>
-                            <span className='text-xs text-gray-500 dark:text-gray-400'>
-                                2 hours ago
-                            </span>
-                        </div>
-                    </CardContent>
-                </Card> */}
                 <Card>
                     <CardHeader>
                         <CardTitle>Organizations</CardTitle>
