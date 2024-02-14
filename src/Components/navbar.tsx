@@ -11,6 +11,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from './dropdown';
+import { ModeToggle } from './mode-toggle';
 
 export const Navbar = () => {
     const isAuth = useIsAuthenticated();

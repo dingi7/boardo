@@ -20,54 +20,69 @@ import { BoardsPage } from "./Pages/Dashboard/pages/BoardsPage";
 import { SettingsPage } from "./Pages/Dashboard/pages/SettingsPage";
 import { ActivityPage } from "./Pages/Dashboard/pages/ActivityPage";
 import { Navbar } from "./Components/navbar";
+import { ThemeProvider } from "./ThemeProvider";
 
 function App() {
     return (
         <div className="flex h-screen flex-col">
-            <AuthProvider
-                authType={"localstorage"}
-                authName={"x-authorization"}
-            >
-                <Toaster />
-                <BrowserRouter>
-                    <Navbar />
-                    <Routes>
-                        <Route path="/" element={<LandingPage />} />
-                        <Route path="/landing" element={<LandingPage />} />
-                        <Route
-                            path="/board/:boardId"
-                            element={<BoardLayout />}
-                        />
-                        <Route path="/auth/register" element={<Register />} />
-                        <Route path="/auth/login" element={<Login />} />
-                        <Route
-                            path="/auth/forgotPassword"
-                            element={<ForgotPassword />}
-                        />
-                        <Route
-                            path="/auth/resetPassword/:uuid"
-                            element={<ResetPassword />}
-                        />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/dashboard" element={<DashboardLayout />}>
+            <ThemeProvider>
+                <AuthProvider
+                    authType={"localstorage"}
+                    authName={"x-authorization"}
+                >
+                    <Toaster />
+                    <BrowserRouter>
+                        <Navbar />
+                        <Routes>
+                            <Route path="/" element={<LandingPage />} />
+                            <Route path="/landing" element={<LandingPage />} />
                             <Route
-                                path=""
-                                element={
-                                    <div className="flex justify-center items-center min-h-full">
-                                        <h1 className="text-2xl font-bold">
-                                            Select Organization!
-                                        </h1>
-                                    </div>
-                                }
+                                path="/board/:boardId"
+                                element={<BoardLayout />}
                             />
-                            <Route path="settings" element={<SettingsPage />} />
-                            <Route path="activity" element={<ActivityPage />} />
-                            <Route path="boards" element={<BoardsPage />} />
-                        </Route>
-                        <Route path="*" element={<h1>Not Found</h1>} />
-                    </Routes>
-                </BrowserRouter>
-            </AuthProvider>
+                            <Route
+                                path="/auth/register"
+                                element={<Register />}
+                            />
+                            <Route path="/auth/login" element={<Login />} />
+                            <Route
+                                path="/auth/forgotPassword"
+                                element={<ForgotPassword />}
+                            />
+                            <Route
+                                path="/auth/resetPassword/:uuid"
+                                element={<ResetPassword />}
+                            />
+                            <Route path="/profile" element={<Profile />} />
+                            <Route
+                                path="/dashboard"
+                                element={<DashboardLayout />}
+                            >
+                                <Route
+                                    path=""
+                                    element={
+                                        <div className="flex justify-center items-center min-h-full">
+                                            <h1 className="text-2xl font-bold">
+                                                Select Organization!
+                                            </h1>
+                                        </div>
+                                    }
+                                />
+                                <Route
+                                    path="settings"
+                                    element={<SettingsPage />}
+                                />
+                                <Route
+                                    path="activity"
+                                    element={<ActivityPage />}
+                                />
+                                <Route path="boards" element={<BoardsPage />} />
+                            </Route>
+                            <Route path="*" element={<h1>Not Found</h1>} />
+                        </Routes>
+                    </BrowserRouter>
+                </AuthProvider>
+            </ThemeProvider>
         </div>
     );
 }
