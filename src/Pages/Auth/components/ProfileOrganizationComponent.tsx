@@ -16,7 +16,6 @@ export const ProfileOrganizationComponent = ({
     name,
     owner,
     orgId,
-    userId,
     leaveOrgFunc,
 }: {
     name: string;

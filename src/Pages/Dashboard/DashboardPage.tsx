@@ -27,7 +27,7 @@ export const Dashboard = () => {
         setExpandedOrganizationId,
         handleCreateWorkspace
     } = context;
-
+    console.log(selectedOrganization)
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
         useState<boolean>(false);
     return !loading ? (

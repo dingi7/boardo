@@ -21,23 +21,34 @@ export const Profile = () => {
     const navigate = useNavigate();
     const authUser = useAuthUser()();
     const [userOrganizations, setUserOrganizations] = useState<IOrg[]>([]);
+    const [userData, setUserData] = useState({
+        username: authUser?.username,
+        email: authUser?.email,
+    });
     const [passwordData, setPasswordData] = useState({
         currentPassword: '',
         newPassword: '',
         confirmPassword: '',
     });
-    const [showAlert, setShowAlert] = useState(false);
-    const handleShowAlert = () => setShowAlert(!showAlert);
+    const [loading, setLoading] = useState(false); // Add loading state
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setPasswordData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
     };
+    const handleUserDataInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setUserData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    }
     const fetchOrganizations = useCallback(async () => {
         try {
+            setLoading(true); // Set loading state to true
             const organizations = await getUserOrganizations();
             setUserOrganizations(organizations);
         } catch (err: any) {
@@ -45,6 +56,8 @@ export const Profile = () => {
                 title: err.message,
                 variant: 'destructive',
             });
+        } finally {
+            setLoading(false); // Set loading state to false
         }
     }, [toast]);
 
@@ -94,17 +107,21 @@ export const Profile = () => {
                             <Label htmlFor='username'>Username</Label>
                             <Input
                                 id='username'
+                                name='username'
                                 placeholder='Enter your username'
-                                value={authUser?.username}
+                                value={userData?.username}
+                                onChange={handleUserDataInputChange}
                             />
                         </div>
                         <div className='space-y-2'>
                             <Label htmlFor='email'>Email</Label>
                             <Input
                                 id='email'
+                                name='email'
                                 placeholder='Enter your email'
                                 type='email'
-                                value={authUser?.email}
+                                value={userData?.email}
+                                onChange={handleUserDataInputChange}
                             />
                         </div>
                         <div className='text-right pt-4'>
@@ -120,7 +137,8 @@ export const Profile = () => {
                                 id='oldPassword'
                                 placeholder='Enter your current password'
                                 type='password'
-                                onChange={handleInputChange}
+                                value={passwordData?.currentPassword}
+                                onChange={handlePasswordInputChange}
                             />
                         </div>
                         <div className='space-y-2'>
@@ -129,7 +147,8 @@ export const Profile = () => {
                                 id='newPassword'
                                 placeholder='Enter your new password'
                                 type='password'
-                                onChange={handleInputChange}
+                                value={passwordData?.newPassword}
+                                onChange={handlePasswordInputChange}
                             />
                         </div>
                         <div className='space-y-2'>
@@ -140,7 +159,8 @@ export const Profile = () => {
                                 id='confirmPassword'
                                 placeholder='Confirm your password'
                                 type='password'
-                                onChange={handleInputChange}
+                                value={passwordData?.confirmPassword}
+                                onChange={handlePasswordInputChange}
                             />
                         </div>
                     </CardContent>
@@ -155,14 +175,21 @@ export const Profile = () => {
                         <CardTitle>Organizations</CardTitle>
                     </CardHeader>
                     <CardContent className='space-y-4'>
-                        {userOrganizations.map((org: IOrg) =>
-                            ProfileOrganizationComponent({
-                                name: org.name,
-                                owner: org.owner,
-                                userId: authUser!._id,
-                                orgId: org._id,
-                                leaveOrgFunc: handleOrganizationLeave,
-                            })
+                        {loading ? (
+                            <div className="flex justify-center">
+                                {/**Add loading spinner */}
+                                <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+                            </div>
+                        ) : (
+                            userOrganizations.map((org: IOrg) =>
+                                ProfileOrganizationComponent({
+                                    name: org.name,
+                                    owner: org.owner,
+                                    userId: authUser!._id,
+                                    orgId: org._id,
+                                    leaveOrgFunc: handleOrganizationLeave,
+                                })
+                            )
                         )}
                     </CardContent>
                 </Card>
