@@ -14,7 +14,11 @@ import { Input } from "src/Components/ui/input";
 import { Button } from "src/Components/ui/button";
 import { ProfileOrganizationComponent } from "./components/ProfileOrganizationComponent";
 import { IOrg } from "src/Interfaces/IContexts";
-import { changePassword, getUserOrganizations, leaveOrganization } from "src/api/requests";
+import {
+    changePassword,
+    getUserOrganizations,
+    leaveOrganization,
+} from "src/api/requests";
 
 export const Profile = () => {
     const { toast } = useToast();
@@ -81,29 +85,48 @@ export const Profile = () => {
         try {
             event.preventDefault();
 
-            //Exception handleling 
-            if(!passwordData.currentPassword){
-                throw new Error("Current password required!")
-            }
-            if(!passwordData.newPassword || !passwordData.confirmPassword){
-                throw new Error("New password and confirm password fields can not be empty!")
-            }
-            if (passwordData.newPassword !== passwordData.confirmPassword) {
-                throw new Error("Passwords do not match!")
-            }
+            if (event.currentTarget.id === "userInfoForm") {
+                const validation = validateUserInfoChange(
+                    userData.username,
+                    userData.email,
+                )
+                if (validation !== null) {
+                    throw new Error(validation.message);
+                }
 
-            const result = await changePassword(passwordData.currentPassword, passwordData.newPassword)
+                //const result = await 
 
-            setPasswordData({
-                currentPassword: "",
-                newPassword: "",
-                confirmPassword: "",
-            })
-            toast({
-                //title: "Error",
-                description: "Password updated!",
-                variant: "default",
-            });
+                toast({
+                    description: "User data updated!",
+                    variant: "default",
+                })
+            } else {
+                // Validate password change
+                const validation = validatePasswordChange(
+                    passwordData.currentPassword,
+                    passwordData.newPassword,
+                    passwordData.confirmPassword
+                );
+                if (validation !== null) {
+                    throw new Error(validation.message);
+                }
+
+                const result = await changePassword(
+                    passwordData.currentPassword,
+                    passwordData.newPassword
+                );
+
+                setPasswordData({
+                    currentPassword: "",
+                    newPassword: "",
+                    confirmPassword: "",
+                });
+                toast({
+                    //title: "Error",
+                    description: "Password updated!",
+                    variant: "default",
+                });
+            }
         } catch (e: any) {
             toast({
                 title: "Error",
@@ -111,6 +134,33 @@ export const Profile = () => {
                 variant: "destructive",
             });
         }
+    };
+
+    const validatePasswordChange = (
+        currentPassword: string,
+        newPassword: string,
+        confirmPassword: string
+    ) => {
+        if (!currentPassword) {
+            return new Error("Current password required!");
+        }
+        if (!newPassword || !confirmPassword) {
+            return new Error(
+                "New password and confirm password fields can not be empty!"
+            );
+        }
+        if (newPassword !== confirmPassword) {
+            return new Error("Passwords do not match!");
+        }
+        return null;
+    };
+
+    const validateUserInfoChange = (username: string, email: string) => {
+        if (!username || !email) {
+            return new Error("Username and email required!");
+        }
+
+        return null;
     };
 
     const handleOrganizationLeave = async (orgId: string) => {
@@ -139,33 +189,38 @@ export const Profile = () => {
                         <CardTitle>Account Settings</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <div className="space-y-2">
-                            <Label htmlFor="username">Username</Label>
-                            <Input
-                                id="username"
-                                name="username"
-                                placeholder="Enter your username"
-                                value={userData?.username}
-                                onChange={handleUserDataInputChange}
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                name="email"
-                                placeholder="Enter your email"
-                                type="email"
-                                value={userData?.email}
-                                onChange={handleUserDataInputChange}
-                            />
-                        </div>
-                        <div className="text-right pt-[4%]">
-                            <Button className="ml-auto">
-                                Update Information
-                            </Button>
-                        </div>
-                        <form onSubmit={handleSubmit}>
+                        {/* UserInfo form */}
+                        <form id="userInfoForm" onSubmit={handleSubmit}>
+                            <div className="space-y-2">
+                                <Label htmlFor="username">Username</Label>
+                                <Input
+                                    id="username"
+                                    name="username"
+                                    placeholder="Enter your username"
+                                    value={userData?.username}
+                                    onChange={handleUserDataInputChange}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="email">Email</Label>
+                                <Input
+                                    id="email"
+                                    name="email"
+                                    placeholder="Enter your email"
+                                    type="email"
+                                    value={userData?.email}
+                                    onChange={handleUserDataInputChange}
+                                />
+                            </div>
+                            <div className="text-right pt-[4%]">
+                                <Button className="ml-auto">
+                                    Update Information
+                                </Button>
+                            </div>
+                        </form>
+
+                        {/* Password form */}
+                        <form id="passwordForm" onSubmit={handleSubmit}>
                             <div className="space-y-2">
                                 <Label htmlFor="oldPassword">
                                     Current Password
