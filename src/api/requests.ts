@@ -21,9 +21,12 @@ export const endpoints = {
     organization: (orgId: string | null) =>
         orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
 
+    //email password change
     resetPasswordRequest: `/auth/resetPasswordRequest`,
     requestResetPassword: (uuid: string): string =>
         `/auth/resetPassword/${uuid}`,
+    //default password change
+    changePassword: "/auth/changePassword",
     tokenValidator: (uuid: string): string => `/auth/tokenValidator/${uuid}`,
     removeMemberFromBoard: (boardId: string) =>
         `/auth/orgs/${boardId}/kickMember`,
@@ -40,7 +43,7 @@ export const renameCard = async (
 
 export const leaveOrganization = async (orgId: string) => {
     return api.post(endpoints.leaveOrganization(orgId));
-}
+};
 
 export const changeCardPriority = async (
     cardId: string,
@@ -62,12 +65,9 @@ export const deleteOrganization = async (orgId: string, password: string) => {
     return api.del(endpoints.organization(orgId), { password });
 };
 
-export const updateOrganizationName = async (
-    orgId: string,
-    name: string
-) => {
+export const updateOrganizationName = async (orgId: string, name: string) => {
     return api.put(endpoints.organization(orgId), { name });
-}
+};
 
 export const updateOrganizationPassword = async (
     orgId: string,
@@ -75,12 +75,13 @@ export const updateOrganizationPassword = async (
     oldPassword: string
 ) => {
     return api.put(endpoints.organization(orgId), { password, oldPassword });
-}
+};
 
 export const tokenValidator = async (uuid: string) => {
     return api.post(endpoints.tokenValidator(uuid));
 };
 
+//email password change
 export const requestResetPassword = async (email: string) => {
     return api.post(endpoints.resetPasswordRequest, { email });
 };
@@ -89,6 +90,17 @@ export const resetPassword = async (uuid: string, password: string) => {
     return api.post(endpoints.requestResetPassword(uuid), {
         newPassword: password,
         token: uuid,
+    });
+};
+
+//default password change
+export const changePassword = async (
+    oldPassword: string,
+    newPassword: string
+) => {
+    return api.post(endpoints.changePassword, {
+        oldPassword,
+        newPassword,
     });
 };
 

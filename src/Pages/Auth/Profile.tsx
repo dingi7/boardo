@@ -1,20 +1,20 @@
-import { useNavigate } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
-import { useAuthUser } from 'react-auth-kit';
-import { useToast } from '../../Components/Toaster/use-toast';
+import { useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { useAuthUser } from "react-auth-kit";
+import { useToast } from "../../Components/Toaster/use-toast";
 import {
     Card,
     CardContent,
     CardFooter,
     CardHeader,
     CardTitle,
-} from 'src/Components/ui/card';
-import { Label } from 'src/Components/ui/label';
-import { Input } from 'src/Components/ui/input';
-import { Button } from 'src/Components/ui/button';
-import { ProfileOrganizationComponent } from './components/ProfileOrganizationComponent';
-import { IOrg } from 'src/Interfaces/IContexts';
-import { getUserOrganizations, leaveOrganization } from 'src/api/requests';
+} from "src/Components/ui/card";
+import { Label } from "src/Components/ui/label";
+import { Input } from "src/Components/ui/input";
+import { Button } from "src/Components/ui/button";
+import { ProfileOrganizationComponent } from "./components/ProfileOrganizationComponent";
+import { IOrg } from "src/Interfaces/IContexts";
+import { changePassword, getUserOrganizations, leaveOrganization } from "src/api/requests";
 
 export const Profile = () => {
     const { toast } = useToast();
@@ -26,26 +26,30 @@ export const Profile = () => {
         email: authUser?.email,
     });
     const [passwordData, setPasswordData] = useState({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: '',
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
     });
     const [loading, setLoading] = useState(false); // Add loading state
 
-    const handlePasswordInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handlePasswordInputChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
         const { name, value } = event.target;
         setPasswordData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
     };
-    const handleUserDataInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleUserDataInputChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
         const { name, value } = event.target;
         setUserData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
-    }
+    };
     const fetchOrganizations = useCallback(async () => {
         try {
             setLoading(true); // Set loading state to true
@@ -54,7 +58,7 @@ export const Profile = () => {
         } catch (err: any) {
             toast({
                 title: err.message,
-                variant: 'destructive',
+                variant: "destructive",
             });
         } finally {
             setLoading(false); // Set loading state to false
@@ -63,18 +67,50 @@ export const Profile = () => {
 
     useEffect(() => {
         if (!authUser) {
-            navigate('/');
+            navigate("/");
             toast({
-                title: 'You are not logged in',
-                variant: 'destructive',
+                title: "You are not logged in",
+                variant: "destructive",
             });
         } else {
             fetchOrganizations();
         }
     }, [authUser, navigate, toast, fetchOrganizations]);
 
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
+    const handleSubmit = async (event: React.FormEvent) => {
+        try {
+            event.preventDefault();
+
+            //Exception handleling 
+            if(!passwordData.currentPassword){
+                throw new Error("Current password required!")
+            }
+            if(!passwordData.newPassword || !passwordData.confirmPassword){
+                throw new Error("New password and confirm password fields can not be empty!")
+            }
+            if (passwordData.newPassword !== passwordData.confirmPassword) {
+                throw new Error("Passwords do not match!")
+            }
+
+            const result = await changePassword(passwordData.currentPassword, passwordData.newPassword)
+
+            setPasswordData({
+                currentPassword: "",
+                newPassword: "",
+                confirmPassword: "",
+            })
+            toast({
+                //title: "Error",
+                description: "Password updated!",
+                variant: "default",
+            });
+        } catch (e: any) {
+            toast({
+                title: "Error",
+                description: e.message,
+                variant: "destructive",
+            });
+        }
     };
 
     const handleOrganizationLeave = async (orgId: string) => {
@@ -84,97 +120,104 @@ export const Profile = () => {
                 prev.filter((org: IOrg) => org._id !== orgId)
             );
             toast({
-                title: 'Organization ' + orgId + ' left successfully',
+                title: "Organization " + orgId + " left successfully",
             });
         } catch (e: any) {
             toast({
-                title: 'Error',
+                title: "Error",
                 description: e.message,
-                variant: 'destructive',
+                variant: "destructive",
             });
         }
     };
 
     return (
-        <div className='flex flex-col lg:flex-row gap-6 p-6'>
-            <section className='w-full lg:w-1/3 space-y-6'>
+        <div className="flex flex-col lg:flex-row gap-6 p-6">
+            <section className="w-full lg:w-1/3 space-y-6">
                 <Card>
                     <CardHeader>
                         <CardTitle>Account Settings</CardTitle>
                     </CardHeader>
-                    <CardContent className='space-y-4'>
-                        <div className='space-y-2'>
-                            <Label htmlFor='username'>Username</Label>
+                    <CardContent className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="username">Username</Label>
                             <Input
-                                id='username'
-                                name='username'
-                                placeholder='Enter your username'
+                                id="username"
+                                name="username"
+                                placeholder="Enter your username"
                                 value={userData?.username}
                                 onChange={handleUserDataInputChange}
                             />
                         </div>
-                        <div className='space-y-2'>
-                            <Label htmlFor='email'>Email</Label>
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email</Label>
                             <Input
-                                id='email'
-                                name='email'
-                                placeholder='Enter your email'
-                                type='email'
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                type="email"
                                 value={userData?.email}
                                 onChange={handleUserDataInputChange}
                             />
                         </div>
-                        <div className='text-right pt-4'>
-                            <Button className='ml-auto'>
+                        <div className="text-right pt-[4%]">
+                            <Button className="ml-auto">
                                 Update Information
                             </Button>
                         </div>
-                        <div className='space-y-2'>
-                            <Label htmlFor='oldPassword'>
-                                Current Password
-                            </Label>
-                            <Input
-                                id='oldPassword'
-                                placeholder='Enter your current password'
-                                type='password'
-                                value={passwordData?.currentPassword}
-                                onChange={handlePasswordInputChange}
-                            />
-                        </div>
-                        <div className='space-y-2'>
-                            <Label htmlFor='newPassword'>New Password</Label>
-                            <Input
-                                id='newPassword'
-                                placeholder='Enter your new password'
-                                type='password'
-                                value={passwordData?.newPassword}
-                                onChange={handlePasswordInputChange}
-                            />
-                        </div>
-                        <div className='space-y-2'>
-                            <Label htmlFor='confirmPassword'>
-                                Confirm Password
-                            </Label>
-                            <Input
-                                id='confirmPassword'
-                                placeholder='Confirm your password'
-                                type='password'
-                                value={passwordData?.confirmPassword}
-                                onChange={handlePasswordInputChange}
-                            />
-                        </div>
+                        <form onSubmit={handleSubmit}>
+                            <div className="space-y-2">
+                                <Label htmlFor="oldPassword">
+                                    Current Password
+                                </Label>
+                                <Input
+                                    name="currentPassword"
+                                    id="oldPassword"
+                                    placeholder="Enter your current password"
+                                    type="password"
+                                    value={passwordData?.currentPassword}
+                                    onChange={handlePasswordInputChange}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="newPassword">
+                                    New Password
+                                </Label>
+                                <Input
+                                    name="newPassword"
+                                    id="newPassword"
+                                    placeholder="Enter your new password"
+                                    type="password"
+                                    value={passwordData?.newPassword}
+                                    onChange={handlePasswordInputChange}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="confirmPassword">
+                                    Confirm Password
+                                </Label>
+                                <Input
+                                    name="confirmPassword"
+                                    id="confirmPassword"
+                                    placeholder="Confirm your password"
+                                    type="password"
+                                    value={passwordData?.confirmPassword}
+                                    onChange={handlePasswordInputChange}
+                                />
+                            </div>
+                            <div className="text-right mt-[4%]">
+                                <Button>Update Password</Button>
+                            </div>
+                        </form>
                     </CardContent>
-                    <CardFooter>
-                        <Button className='ml-auto'>Update Password</Button>
-                    </CardFooter>
                 </Card>
             </section>
-            <section className='w-full lg:w-2/3 space-y-6'>
+            <section className="w-full lg:w-2/3 space-y-6">
                 <Card>
                     <CardHeader>
                         <CardTitle>Organizations</CardTitle>
                     </CardHeader>
-                    <CardContent className='space-y-4'>
+                    <CardContent className="space-y-4">
                         {loading ? (
                             <div className="flex justify-center">
                                 {/**Add loading spinner */}
