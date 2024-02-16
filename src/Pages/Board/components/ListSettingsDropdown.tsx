@@ -7,7 +7,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from 'src/Components/dropdown';
-import { StylesHandler } from './StylesHandler';
+// import { StylesHandler } from './StylesHandler';
 import { DeleteHandler } from './DeleteHandler';
 import { BoardContext } from '../contexts/BoardContextProvider';
 import { useContext } from 'react';
@@ -37,9 +37,9 @@ export const ListSettingsDropdownMenu = ({
                             option='list'
                             setLists={setLists}
                         />
-                        <StylesHandler
+                        {/* <StylesHandler
                             setBackgroundColor={setBackgroundColor}
-                        />
+                        /> */}
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
