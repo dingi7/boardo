@@ -46,6 +46,13 @@ export const Board = (): JSX.Element => {
         };
 
         const handleCardAdded = (card: dataBaseCard) => {
+            if (
+                lists?.some((list) =>
+                    list.cards.some((c) => c._id === card._id)
+                )
+            ) {
+                return;
+            }
             setLists((prev) => {
                 if (!prev) return null;
                 return prev.map((list) =>
@@ -87,6 +94,10 @@ export const Board = (): JSX.Element => {
 
         const handleListCreated = (list: dataBaseList) => {
             console.log(JSON.stringify(list));
+            // check if the list already exists
+            if (lists?.some((l) => l._id === list._id)) {
+                return;
+            }
             setLists((prev) => {
                 if (!prev) return null;
                 return [...prev, list];
@@ -152,7 +163,15 @@ export const Board = (): JSX.Element => {
     };
 
     const onCardAdd = async (listId: string, name: string) => {
-        await createCard(listId, name, boardInfo?.owner!);
+        const card = await createCard(listId, name, boardInfo?.owner!);
+        setLists((prev) => {
+            if (!prev) return null;
+            return prev.map((list) =>
+                list._id === card.list
+                    ? { ...list, cards: [...list.cards, card] }
+                    : list
+            );
+        });
         toast({
             title: 'Card created successfully',
         });
