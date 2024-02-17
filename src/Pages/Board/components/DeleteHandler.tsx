@@ -39,9 +39,9 @@ export const DeleteHandler = ({
             });
         }
         if (option === 'list') {
-            setLists!((prev: any) =>
-                prev.filter((list: any) => list._id !== itemId)
-            )
+            // setLists!((prev: any) =>
+            //     prev.filter((list: any) => list._id !== itemId)
+            // )
             try {
                 await deleteList(itemId);
                 toast({
