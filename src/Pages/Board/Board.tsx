@@ -12,12 +12,14 @@ import { BoardHeader } from './components/BoardHeader';
 import { AddListPlaceholder } from './components/List/AddListPlaceholder';
 import { List } from './components/List/List';
 import { BoardContext } from './contexts/BoardContextProvider';
+import { useAuthUser } from 'react-auth-kit';
 
 export const Board = (): JSX.Element => {
     const [isDragging, setIsDragging] = useState<boolean>(false);
 
     const context = useContext(BoardContext);
     const { toast } = useToast();
+    const authUser = useAuthUser()();
 
     if (!context) {
         throw new Error('Board context is not available');
@@ -34,8 +36,21 @@ export const Board = (): JSX.Element => {
         channel,
     } = context;
 
+    type PusherCardParams = {
+        sender: string;
+        card: dataBaseCard;
+    };
+
+    type PusherListParams = {
+        sender: string;
+        list: dataBaseList;
+    };
+
     useEffect(() => {
-        const handleCardDeleted = (card: dataBaseCard) => {
+        const handleCardDeleted = ({ sender, card }: PusherCardParams) => {
+            if (sender === authUser!._id) {
+                return;
+            }
             setLists((prev) => {
                 if (!prev) return null;
                 return prev.map((list) => ({
@@ -45,12 +60,15 @@ export const Board = (): JSX.Element => {
             });
         };
 
-        const handleCardAdded = (card: dataBaseCard) => {
-            if (
-                lists?.some((list) =>
-                    list.cards.some((c) => c._id === card._id)
-                )
-            ) {
+        const handleCardAdded = ({ sender, card }: PusherCardParams) => {
+            // if (
+            //     lists?.some((list) =>
+            //         list.cards.some((c) => c._id === card._id)
+            //     )
+            // ) {
+            //     return;
+            // }
+            if (sender === authUser!._id) {
                 return;
             }
             setLists((prev) => {
@@ -80,22 +98,27 @@ export const Board = (): JSX.Element => {
             console.log(JSON.stringify(card));
         };
 
-        const handleListEdited = (list: dataBaseList) => {
+        const handleListEdited = ({ sender, list }: PusherListParams) => {
             console.log(JSON.stringify(list));
         };
 
-        const handleListDeleted = (list: dataBaseList) => {
-            console.log(JSON.stringify(list));
+        const handleListDeleted = ({ sender, list }: PusherListParams) => {
+            if (sender === authUser!._id) {
+                return;
+            }
             setLists((prev) => {
                 if (!prev) return null;
                 return prev.filter((l) => l._id !== list._id);
             });
         };
 
-        const handleListCreated = (list: dataBaseList) => {
+        const handleListCreated = ({ sender, list }: PusherListParams) => {
             console.log(JSON.stringify(list));
             // check if the list already exists
-            if (lists?.some((l) => l._id === list._id)) {
+            // if (lists?.some((l) => l._id === list._id)) {
+            //     return;
+            // }
+            if (sender === authUser!._id) {
                 return;
             }
             setLists((prev) => {
