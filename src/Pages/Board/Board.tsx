@@ -46,6 +46,11 @@ export const Board = (): JSX.Element => {
         list: dataBaseList;
     };
 
+    type PusherBoardParams = {
+        sender: string;
+        board: dataBaseBoard;
+    };
+
     useEffect(() => {
         const handleCardDeleted = ({ sender, card }: PusherCardParams) => {
             if (sender === authUser!._id) {
@@ -61,13 +66,6 @@ export const Board = (): JSX.Element => {
         };
 
         const handleCardAdded = ({ sender, card }: PusherCardParams) => {
-            // if (
-            //     lists?.some((list) =>
-            //         list.cards.some((c) => c._id === card._id)
-            //     )
-            // ) {
-            //     return;
-            // }
             if (sender === authUser!._id) {
                 return;
             }
@@ -81,25 +79,33 @@ export const Board = (): JSX.Element => {
             });
         };
 
-        const handleCardEdited = (card: dataBaseCard) => {
-            // setLists((prev) => {
-            //     if (!prev) return null;
+        const handleCardEdited = ({ sender, card }: PusherCardParams) => {
+            if (sender === authUser!._id) return;
+            setLists((prev) => {
+                if (!prev) return null;
 
-            //     const newLists = prev.map((list) => ({
-            //         ...list,
-            //         cards: list.cards.map((c) =>
-            //             c._id === card._id ? card : c
-            //         ),
-            //     }));
+                const newLists = prev.map((list) => ({
+                    ...list,
+                    cards: list.cards.map((c) =>
+                        c._id === card._id ? card : c
+                    ),
+                }));
 
-            //     return newLists;
-            // });
+                return newLists;
+            });
 
             console.log(JSON.stringify(card));
         };
 
         const handleListEdited = ({ sender, list }: PusherListParams) => {
             console.log(JSON.stringify(list));
+            if (sender === authUser!._id) {
+                return;
+            }
+            setLists((prev) => {
+                if (!prev) return null;
+                return prev.map((l) => (l._id === list._id ? list : l));
+            });
         };
 
         const handleListDeleted = ({ sender, list }: PusherListParams) => {
@@ -113,11 +119,6 @@ export const Board = (): JSX.Element => {
         };
 
         const handleListCreated = ({ sender, list }: PusherListParams) => {
-            console.log(JSON.stringify(list));
-            // check if the list already exists
-            // if (lists?.some((l) => l._id === list._id)) {
-            //     return;
-            // }
             if (sender === authUser!._id) {
                 return;
             }
@@ -127,8 +128,12 @@ export const Board = (): JSX.Element => {
             });
         };
 
-        const handleBoardEdited = (board: dataBaseBoard) => {
-            console.log(JSON.stringify(board));
+        const handleBoardEdited = ({ sender, board }: PusherBoardParams) => {
+            if (sender === authUser!._id) {
+                return;
+            }
+            setBoardInfo(board);
+            setLists(board.lists);
         };
 
         channel.bind('card-added', handleCardAdded);
@@ -150,32 +155,6 @@ export const Board = (): JSX.Element => {
             channel.unbind('board-edited', handleBoardEdited);
         };
     }, []);
-    // channel.bind('card-added', function (card: dataBaseCard) {
-    //     setLists((prev) => {
-    //         if (!prev) return null;
-    //         return prev.map((list) =>
-    //             list._id === card.list
-    //                 ? { ...list, cards: [...list.cards, card] }
-    //                 : list
-    //         );
-    //     });
-    // });
-    // channel.bind('card-edited', function (card: dataBaseCard) {
-    //     console.log(JSON.stringify(card));
-    // });
-    // channel.bind('list-edited', function (list: dataBaseList) {
-    //     console.log(JSON.stringify(list));
-
-    // });
-    // channel.bind('list-deleted', function (list: dataBaseList) {
-    //     console.log(JSON.stringify(list));
-    // });
-    // channel.bind('list-created', function (list: dataBaseList) {
-    //     console.log(JSON.stringify(list));
-    // });
-    // channel.bind('board-edited', function (board: dataBaseBoard) {
-    //     console.log(JSON.stringify(board));
-    // });
 
     const onDeleteCard = async (cardId: string) => {
         try {
