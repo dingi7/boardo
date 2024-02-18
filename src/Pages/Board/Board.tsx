@@ -93,12 +93,9 @@ export const Board = (): JSX.Element => {
 
                 return newLists;
             });
-
-            console.log(JSON.stringify(card));
         };
 
         const handleListEdited = ({ sender, list }: PusherListParams) => {
-            console.log(JSON.stringify(list));
             if (sender === authUser!._id) {
                 return;
             }

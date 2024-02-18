@@ -1,5 +1,5 @@
 import { Draggable } from '@hello-pangea/dnd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CardSettingsDropdownMenu } from './CardSettingsDropdow';
 import { CardTitle } from './CardTitle';
 import {
@@ -32,6 +32,15 @@ export const Card: React.FC<CardItem> = ({
     storedPriority,
     storedDueDate,
 }) => {
+    useEffect(() => {
+        setTitle(content);
+    }, [content]);
+    useEffect(() => {
+        setPriority(storedPriority);
+    }, [storedPriority]);
+    useEffect(() => {
+        setDate(storedDueDate ? new Date(storedDueDate) : undefined);
+    }, [storedDueDate]);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [title, setTitle] = useState<string>(content);

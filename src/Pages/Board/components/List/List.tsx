@@ -5,7 +5,7 @@ import { Droppable, Draggable } from '@hello-pangea/dnd';
 import { dataBaseCard } from '../../../../Interfaces/IDatabase';
 import { CardForm } from '../Card/CardForm';
 import { ListTitle } from './ListTitle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ListSettingsDropdownMenu } from '../ListSettingsDropdown';
 
 export const List = ({
@@ -17,6 +17,9 @@ export const List = ({
     onDeleteCard,
     styles,
 }: ListItem): JSX.Element => {
+    useEffect(() => {
+        setListTitle(title);
+    }, [title]);
     const [listTitle, setListTitle] = useState(title);
     const [backgroundColor, setBackgroundColor] = useState<string>(
         styles?.backgroundColor || 'bg-slate-200'
@@ -44,7 +47,10 @@ export const List = ({
                                             listId={id}
                                         />
                                     </div>
-                                    <ListSettingsDropdownMenu listId={id} setBackgroundColor={setBackgroundColor} />
+                                    <ListSettingsDropdownMenu
+                                        listId={id}
+                                        setBackgroundColor={setBackgroundColor}
+                                    />
                                 </div>
                                 <Droppable droppableId={id} type='task'>
                                     {(provided) => (
@@ -69,8 +75,13 @@ export const List = ({
                                                               onDeleteCard={
                                                                   onDeleteCard
                                                               }
-                                                              storedPriority={item.styles.priority}
-                                                              storedDueDate={item.dueDate}
+                                                              storedPriority={
+                                                                  item.styles
+                                                                      .priority
+                                                              }
+                                                              storedDueDate={
+                                                                  item.dueDate
+                                                              }
                                                           />
                                                       )
                                                   )
