@@ -11,7 +11,6 @@ import { useToast } from "src/Components/Toaster/use-toast";
 import { useAuthUser } from "react-auth-kit";
 import { DashboardContext } from "../contexts/DashboardContextProvider";
 import { DeleteOrganizationDialog } from "../modals/DeleteOrganizationDialog";
-import useFormData from "src/util/hooks/useFormData";
 import { Label } from "src/Components/ui/label";
 import {
     Table,
@@ -30,7 +29,6 @@ export const SettingsPage = (props: Props) => {
         throw new Error("Dashboard context is not available");
     }
     const { selectedOrganization, setUserOrganizations } = context;
-    
 
     const { toast } = useToast();
 
@@ -39,12 +37,14 @@ export const SettingsPage = (props: Props) => {
     const [orgData, setOrgData] = useState({
         name: org?.name,
         password: "",
-        oldPassword: ""
+        oldPassword: "",
     });
 
-    
     useEffect(() => {
-        setOrgData((prevState) => ({...prevState, name: selectedOrganization?.name}))
+        setOrgData((prevState) => ({
+            ...prevState,
+            name: selectedOrganization?.name,
+        }));
         setOrg(selectedOrganization);
     }, [selectedOrganization]);
 
@@ -78,7 +78,7 @@ export const SettingsPage = (props: Props) => {
                 selectedOrganization!._id,
                 orgData.name
             );
-           
+
             toast({
                 title: "Organization updated successfully",
                 variant: "default",
@@ -124,8 +124,12 @@ export const SettingsPage = (props: Props) => {
                 orgData.oldPassword
             );
 
-            setOrgData((prevState) => ({...prevState, password: "", oldPassword: ""}))
-            
+            setOrgData((prevState) => ({
+                ...prevState,
+                password: "",
+                oldPassword: "",
+            }));
+
             toast({
                 title: "Organization updated successfully",
                 variant: "default",
@@ -168,7 +172,6 @@ export const SettingsPage = (props: Props) => {
             });
         }
     };
-
     return (
         <div className="border-b border-gray-200 dark:border-gray-700">
             <ul
@@ -243,23 +246,21 @@ export const SettingsPage = (props: Props) => {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {selectedOrganization!.members.length > 0
-                                        ? selectedOrganization!.members.map(
-                                              (member: IUserData) => (
-                                                  <MemberCard
-                                                      isOwner={isOwner}
-                                                      key={member._id}
-                                                      member={member}
-                                                      handleRemoveMember={
-                                                          handleKickMember
-                                                      }
-                                                      selectedOrganization={
-                                                          selectedOrganization!
-                                                      }
-                                                  ></MemberCard>
-                                              )
-                                          )
-                                        : null}
+                                    {selectedOrganization?.members.map(
+                                        (member: IUserData) => (
+                                            <MemberCard
+                                                isOwner={isOwner}
+                                                key={member._id}
+                                                member={member}
+                                                handleRemoveMember={
+                                                    handleKickMember
+                                                }
+                                                selectedOrganization={
+                                                    selectedOrganization!
+                                                }
+                                            ></MemberCard>
+                                        )
+                                    )}
                                 </TableBody>
                             </Table>
                         </div>

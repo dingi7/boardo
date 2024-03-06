@@ -25,7 +25,6 @@ import { ThemeProvider } from "./ThemeProvider";
 function App() {
     return (
         <div className="flex h-screen flex-col">
-            <ThemeProvider>
                 <AuthProvider
                     authType={"localstorage"}
                     authName={"x-authorization"}
@@ -82,7 +81,6 @@ function App() {
                         </Routes>
                     </BrowserRouter>
                 </AuthProvider>
-            </ThemeProvider>
         </div>
     );
 }

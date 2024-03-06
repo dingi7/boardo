@@ -215,7 +215,7 @@ export const Profile = () => {
                                 />
                             </div>
                             <div className="text-right pt-[4%]">
-                                <Button className="mt-[4%]">
+                                <Button className="ml-auto">
                                     Update Information
                                 </Button>
                             </div>
