@@ -21,6 +21,8 @@ const MemberCard = ({
     handleRemoveMember: (orgId: string, memberId: string) => void;
     selectedOrganization: IOrg;
 }) => {
+    console.log(member, isOwner, handleRemoveMember, selectedOrganization);
+    
     return (
         <TableRow>
             <TableCell className="font-medium">{member.username}</TableCell>

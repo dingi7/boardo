@@ -14,21 +14,23 @@ import {
     AlertDialogTrigger,
 } from 'src/Components/alertDialog';
 import { DropdownMenuItem } from 'src/Components/dropdown';
+import { dataBaseCard } from 'src/Interfaces/IDatabase';
 import { deleteBoard, deleteList } from 'src/api/requests';
 
 export const DeleteHandler = ({
     itemId,
     option,
     setLists,
-    deleteCard
+    deleteCard,
 }: {
     itemId: string;
     option: 'board' | 'list' | 'card';
-    setLists?: (lists: any) => void;
+    setLists: (lists: any) => void;
     deleteCard?: (cardId: string) => void;
 }): JSX.Element => {
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
+    const [setDeletedList, deletedList] = useState<any>();
     const handleDeletion = async () => {
         setLoading(true);
         if (option === 'board') {
@@ -39,31 +41,49 @@ export const DeleteHandler = ({
             });
         }
         if (option === 'list') {
-            // setLists!((prev: any) =>
-            //     prev.filter((list: any) => list._id !== itemId)
-            // )
             try {
-                await deleteList(itemId);
+                setLists!((prev: any) => {
+                    if (!prev) return null;
+                    prev.map((l: any) => {
+                        if (l._id === itemId) {
+                            setDeletedList(l);
+                        }
+                    });
+                    return prev.filter((l: any) => l._id !== itemId);
+                });
                 toast({
                     title: 'List sucessfuly deleted',
                 });
+                await deleteList(itemId);
             } catch (e) {
                 toast({
                     title: 'List could not be deleted',
-                    variant: "destructive" 
+                    variant: 'destructive',
+                });
+                setLists!((prev: any) => {
+                    if (!prev) return null;
+                    return [...prev, deletedList];
                 });
             }
         }
         if (option === 'card') {
-            try{
-            deleteCard!(itemId);
-            toast({
-                title: 'Card deleted successfully',
-            });
-            }catch(e){
+            try {
+                setLists!((prev: any) => {
+                    if (!prev) return null;
+                    return prev.map((list: any) => ({
+                        ...list,
+                        cards: list.cards.filter((c: any) => c._id !== itemId),
+                    }));
+                });
+
+                deleteCard!(itemId);
+                toast({
+                    title: 'Card deleted successfully',
+                });
+            } catch (e) {
                 toast({
                     title: 'Card could not be deleted',
-                    variant: "destructive" 
+                    variant: 'destructive',
                 });
             }
         }
@@ -75,7 +95,7 @@ export const DeleteHandler = ({
                 <DropdownMenuItem
                     onSelect={(e) => e.preventDefault()}
                     disabled={loading}
-                    className="cursor-pointer"
+                    className='cursor-pointer'
                 >
                     <Trash className='mr-2 h-4 w-4' />
                     <span>Delete</span>

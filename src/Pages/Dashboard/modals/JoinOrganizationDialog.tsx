@@ -29,6 +29,8 @@ export function JoinOrganizationDialog({
     const handleFormSubmit = async () => {
         try {
             const result = await joinOrganization(orgId, password);
+            console.log(result);
+            
             setUserOrganizations((prev: any) => [...prev, result]);
             toast({
                 title: 'Joined!',
