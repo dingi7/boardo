@@ -212,7 +212,7 @@ export const Profile = () => {
                                     onChange={handleUserDataInputChange}
                                 />
                             </div>
-                            <div className="text-right pt-[4%]">
+                            <div className="text-right mt-[4%]">
                                 <Button className="ml-auto">
                                     Update Information
                                 </Button>
