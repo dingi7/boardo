@@ -30,7 +30,6 @@ export const DeleteHandler = ({
 }): JSX.Element => {
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
-    const [setDeletedList, deletedList] = useState<any>();
     const handleDeletion = async () => {
         setLoading(true);
         if (option === 'board') {
@@ -44,11 +43,7 @@ export const DeleteHandler = ({
             try {
                 setLists!((prev: any) => {
                     if (!prev) return null;
-                    prev.map((l: any) => {
-                        if (l._id === itemId) {
-                            setDeletedList(l);
-                        }
-                    });
+
                     return prev.filter((l: any) => l._id !== itemId);
                 });
                 toast({
@@ -59,10 +54,6 @@ export const DeleteHandler = ({
                 toast({
                     title: 'List could not be deleted',
                     variant: 'destructive',
-                });
-                setLists!((prev: any) => {
-                    if (!prev) return null;
-                    return [...prev, deletedList];
                 });
             }
         }
