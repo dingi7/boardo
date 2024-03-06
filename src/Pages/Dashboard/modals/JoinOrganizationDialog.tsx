@@ -29,7 +29,6 @@ export function JoinOrganizationDialog({
     const handleFormSubmit = async () => {
         try {
             const result = await joinOrganization(orgId, password);
-            console.log(result);
             
             setUserOrganizations((prev: any) => [...prev, result]);
             toast({
@@ -49,7 +48,7 @@ export function JoinOrganizationDialog({
         <Dialog>
             <DialogTrigger asChild>
                 <div
-                    className='flex items-center gap-2 p-[4%] hover:bg-slate-200 rounded-lg cursor-pointer'
+                    className='w-[100%] items-center gap-2 p-[4%] hover:bg-slate-200 rounded-lg cursor-pointer'
                     key={orgId}
                 >
                     {/* <Button variant="outline">Join {orgName}</Button> */}
