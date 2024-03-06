@@ -30,7 +30,7 @@ export const ProfileOrganizationComponent = ({
     return (
         <div
             key={orgId}
-            className="flex items-center justify-between bg-gray-200 dark:bg-gray-700 p-2 rounded-md"
+            className="flex items-center justify-between bg-gray-200 p-2 rounded-md"
         >
             <div className="flex flex-col ">
                 <span className="font-semibold">{name}</span>

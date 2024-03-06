@@ -21,6 +21,7 @@ import {
 } from "src/api/requests";
 
 export const Profile = () => {
+    /// !!!! fix mee
     const { toast } = useToast();
     const navigate = useNavigate();
     const authUser = useAuthUser()();
@@ -28,6 +29,7 @@ export const Profile = () => {
     const [userData, setUserData] = useState({
         username: authUser?.username,
         email: authUser?.email,
+        password: ""
     });
     const [passwordData, setPasswordData] = useState({
         currentPassword: "",
@@ -213,7 +215,7 @@ export const Profile = () => {
                                 />
                             </div>
                             <div className="text-right pt-[4%]">
-                                <Button className="ml-auto">
+                                <Button className="mt-[4%]">
                                     Update Information
                                 </Button>
                             </div>

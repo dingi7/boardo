@@ -52,7 +52,7 @@ export function JoinOrganizationDialog({
                     key={orgId}
                 >
                     {/* <Button variant="outline">Join {orgName}</Button> */}
-                    <label htmlFor={orgId}>{orgName}</label>
+                    <label htmlFor={orgId} className='w-[100%]'>{orgName}</label>
                 </div>
             </DialogTrigger>
             <DialogContent
