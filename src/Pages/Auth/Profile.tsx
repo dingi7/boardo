@@ -21,6 +21,7 @@ import {
 } from "src/api/requests";
 
 export const Profile = () => {
+    /// !!!! fix mee
     const { toast } = useToast();
     const navigate = useNavigate();
     const authUser = useAuthUser()();
@@ -28,6 +29,7 @@ export const Profile = () => {
     const [userData, setUserData] = useState({
         username: authUser?.username,
         email: authUser?.email,
+        password: ""
     });
     const [passwordData, setPasswordData] = useState({
         currentPassword: "",
@@ -212,7 +214,7 @@ export const Profile = () => {
                                     onChange={handleUserDataInputChange}
                                 />
                             </div>
-                            <div className="text-right mt-[4%]">
+                            <div className="text-right pt-[4%]">
                                 <Button className="ml-auto">
                                     Update Information
                                 </Button>

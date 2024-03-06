@@ -34,7 +34,7 @@ export const CardSettingsDropdownMenu = ({
 }) => {
     const context = useContext(BoardContext);
     if (!context) throw new Error('Board context is not available');
-    const { boardInfo } = context!;
+    const { boardInfo, setLists } = context!;
 
     // const [date, setDate] = useState<Date | undefined>(new Date());
 
@@ -71,6 +71,7 @@ export const CardSettingsDropdownMenu = ({
                     <DeleteHandler
                         itemId={cardId}
                         option='card'
+                        setLists={setLists}
                         deleteCard={onDeleteCard}
                     />
                 </DropdownMenuGroup>

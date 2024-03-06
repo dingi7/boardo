@@ -29,6 +29,7 @@ export function JoinOrganizationDialog({
     const handleFormSubmit = async () => {
         try {
             const result = await joinOrganization(orgId, password);
+            
             setUserOrganizations((prev: any) => [...prev, result]);
             toast({
                 title: 'Joined!',
@@ -47,11 +48,11 @@ export function JoinOrganizationDialog({
         <Dialog>
             <DialogTrigger asChild>
                 <div
-                    className='flex items-center gap-2 p-[4%] hover:bg-slate-200 rounded-lg cursor-pointer'
+                    className='w-[100%] items-center gap-2 p-[4%] hover:bg-slate-200 rounded-lg cursor-pointer'
                     key={orgId}
                 >
                     {/* <Button variant="outline">Join {orgName}</Button> */}
-                    <label htmlFor={orgId}>{orgName}</label>
+                    <label htmlFor={orgId} className='w-[100%]'>{orgName}</label>
                 </div>
             </DialogTrigger>
             <DialogContent

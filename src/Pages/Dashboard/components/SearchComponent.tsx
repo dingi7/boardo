@@ -2,7 +2,7 @@ import { Search } from "lucide-react";
 
 export const SearchComponent = () => {
     return (
-        <div className="w-[50%] border-2 flex rounded-xl p-[0.2%] mx-auto bg-white">
+        <div className="w-[70%] border-2 flex rounded-xl p-[0.2%] mx-auto bg-white">
             <button
                 type="submit"
                 className="p-[4%] rounded-md text-white"
