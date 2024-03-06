@@ -38,6 +38,25 @@ export const Profile = () => {
     });
     const [loading, setLoading] = useState(false); // Add loading state
 
+    const handleUpdateUserInfo = async () => {
+        try {
+            if (!userData.username || !userData.email) {
+                throw new Error("Username and email required!");
+            }
+
+            toast({
+                description: "User data updated!",
+                variant: "default",
+            })
+        } catch (e: any) {
+            toast({
+                title: "Error",
+                description: e.message,
+                variant: "destructive",
+            });
+        }
+    }
+
     const handlePasswordInputChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -214,7 +233,7 @@ export const Profile = () => {
                                     onChange={handleUserDataInputChange}
                                 />
                             </div>
-                            <div className="text-right pt-[4%]">
+                            <div className="text-right mt-[4%]">
                                 <Button className="ml-auto">
                                     Update Information
                                 </Button>
