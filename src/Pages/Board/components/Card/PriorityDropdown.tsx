@@ -1,51 +1,29 @@
-import { AlertCircle, AlertOctagon, AlertTriangle } from 'lucide-react';
-
+import * as React from 'react';
 import {
-    DropdownMenuItem,
-    DropdownMenuPortal,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
-} from 'src/Components/dropdown';
+    Select,
+    SelectTrigger,
+    SelectValue,
+    SelectContent,
+    SelectItem,
+} from 'src/Components/select';
 
-export const PriorityDropdown = ({
+export const PrioritySelect = ({
+    priority,
     setPriority,
 }: {
+    priority: string;
     setPriority: (priority: string) => void;
-}): JSX.Element => {
+}) => {
     return (
-        <>
-            {/*  */}
-            <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                    <AlertCircle className='mr-2 h-4 w-4' />
-                    <span>Change priority</span>
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                    <DropdownMenuSubContent>
-                        <DropdownMenuItem onClick={() => setPriority('Urgent')}>
-                            <AlertTriangle
-                                color='red'
-                                className='mr-2 h-4 w-4'
-                            />
-                            <span>Urgent</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onClick={() => setPriority('Important')}
-                        >
-                            <AlertOctagon
-                                color='#FF8200'
-                                className='mr-2 h-4 w-4'
-                            />
-                            <span>Important</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => setPriority('Normal')}>
-                            <AlertCircle className='mr-2 h-4 w-4' />
-                            <span>Regular</span>
-                        </DropdownMenuItem>
-                    </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-            </DropdownMenuSub>
-        </>
+        <Select value={priority} onValueChange={setPriority}>
+            <SelectTrigger className='w-[100%]'>
+                <SelectValue placeholder={priority} />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectItem value='Urgent'>Urgent</SelectItem>
+                <SelectItem value='Important'>Important</SelectItem>
+                <SelectItem value='Normal'>Normal</SelectItem>
+            </SelectContent>
+        </Select>
     );
 };

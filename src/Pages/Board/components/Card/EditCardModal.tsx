@@ -1,5 +1,5 @@
 import { Brain, MoreHorizontal } from 'lucide-react';
-import React from 'react';
+import React, { useContext } from 'react';
 import {
     Select,
     SelectContent,
@@ -10,6 +10,7 @@ import {
 import { Button } from 'src/Components/ui/button';
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -20,9 +21,11 @@ import {
 import { Input } from 'src/Components/ui/input';
 import { Label } from 'src/Components/ui/label';
 import { Textarea } from 'src/Components/ui/textarea';
-import { DueDatePicker } from './DueDatePicker';
-import { Calendar } from 'src/Components/ui/calendar';
-import { PriorityDropdown } from './PriorityDropdown';
+import { DatePicker } from './DatePicker';
+import { updateCard } from 'src/api/requests';
+import { BoardContext } from '../../contexts/BoardContextProvider';
+import { toast } from 'src/Components/Toaster/use-toast';
+import { PrioritySelect } from './PriorityDropdown';
 
 interface SettingsCardModalProps {
     title: string;
@@ -45,6 +48,20 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     date,
     setDate,
 }) => {
+    const context = useContext(BoardContext);
+    if (!context) throw new Error('Board context is not available');
+    const { boardInfo } = context!;
+
+    const handleSave = async (e: any) => {
+        await updateCard(
+            cardId,
+            boardInfo!.owner,
+            title,
+            priority,
+            date || null
+        );
+    };
+
     return (
         <Dialog>
             <DialogTrigger>
@@ -80,34 +97,23 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                     </div>
                     <div>
                         <Label>Due date</Label>
-                        {/* <Input type='date' value={date} /> */}
-                        <Calendar
-                            mode='single'
-                            selected={date}
-                            onSelect={setDate}
-                            className='rounded-md border'
-                        ></Calendar>
+                        <br></br>
+                        <DatePicker
+                            storedDueDate={date}
+                            setCardDueDate={setDate}
+                        ></DatePicker>
                     </div>
                     <div>
                         <Label>Priority</Label>
-                        <Select>
-                            <SelectTrigger>
-                                <SelectValue placeholder={priority} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value='urgent'>Urgent</SelectItem>
-                                <SelectItem value='important'>
-                                    Important
-                                </SelectItem>
-                                <SelectItem value='normal'>Normal</SelectItem>
-                            </SelectContent>
-                        </Select>
-                        
+                        <PrioritySelect
+                            priority={priority}
+                            setPriority={setPriority}
+                        ></PrioritySelect>
                     </div>
                 </div>
-                <DialogFooter>
-                    <Button type='submit'>Save changes</Button>
-                </DialogFooter>
+                <DialogClose onClick={handleSave}>
+                    <div> Save changes</div>
+                </DialogClose>
             </DialogContent>
         </Dialog>
     );

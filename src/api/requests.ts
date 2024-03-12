@@ -53,10 +53,25 @@ export const changeCardPriority = async (
     return api.put(endpoints.card(cardId), { organizationId, priority });
 };
 
+export const updateCard = async (
+    cardId: string,
+    organizationId: string,
+    name: string,
+    priority: string,
+    dueDate: Date | null
+) => {
+    return api.put(endpoints.card(cardId), {
+        organizationId,
+        name,
+        priority,
+        dueDate,
+    });
+}
+
 export const setCardDueDate = async (
     cardId: string,
     organizationId: string,
-    dueDate: Date
+    dueDate: Date | null
 ) => {
     return api.put(endpoints.card(cardId), { organizationId, dueDate });
 };
