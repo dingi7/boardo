@@ -1,19 +1,20 @@
-import { Draggable } from '@hello-pangea/dnd';
-import { useEffect, useState } from 'react';
-import { CardSettingsDropdownMenu } from './CardSettingsDropdow';
-import { CardTitle } from './CardTitle';
+import { Draggable } from "@hello-pangea/dnd";
+import { useEffect, useState } from "react";
+import { CardSettingsDropdownMenu } from "./CardSettingsDropdow";
+import { CardTitle } from "./CardTitle";
 import {
     AlertCircle,
     AlertOctagon,
     AlertTriangle,
     Calendar,
-} from 'lucide-react';
+} from "lucide-react";
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from 'src/Components/ui/tooltip';
+} from "src/Components/ui/tooltip";
+import SettingsCardModal from "../SettingsCardModal";
 
 type CardItem = {
     content: string;
@@ -45,7 +46,7 @@ export const Card: React.FC<CardItem> = ({
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [title, setTitle] = useState<string>(content);
     const [priority, setPriority] = useState<string>(
-        storedPriority || 'Normal'
+        storedPriority || "Normal"
     );
     const [date, setDate] = useState<Date | undefined>(
         storedDueDate ? new Date(storedDueDate) : undefined
@@ -57,26 +58,26 @@ export const Card: React.FC<CardItem> = ({
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
-                    className='flex w-full h-auto items-center gap-[10px] px-[10px] py-[2%] relative bg-slate-100 rounded-[7px] overflow-hidden border-black cursor-pointer '
+                    className="flex w-full h-auto items-center gap-[10px] px-[10px] py-[2%] relative bg-slate-100 rounded-[7px] overflow-hidden border-black cursor-pointer shadow-sm "
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <div className='flex items-center gap-[10px]'>
-                                    {priority === 'Urgent' ? (
+                                <div className="flex items-center gap-[10px]">
+                                    {priority === "Urgent" ? (
                                         <AlertTriangle
-                                            color='red'
-                                            className='h-5 w-5'
+                                            color="red"
+                                            className="h-5 w-5"
                                         />
-                                    ) : priority === 'Important' ? (
+                                    ) : priority === "Important" ? (
                                         <AlertOctagon
-                                            color='#FF8200'
-                                            className='h-5 w-5 '
+                                            color="#FF8200"
+                                            className="h-5 w-5 "
                                         />
-                                    ) : priority === 'Normal' ? (
-                                        <AlertCircle className='h-5 w-5' />
+                                    ) : priority === "Normal" ? (
+                                        <AlertCircle className="h-5 w-5" />
                                     ) : null}
                                 </div>
                             </TooltipTrigger>
@@ -89,25 +90,25 @@ export const Card: React.FC<CardItem> = ({
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <div className='flex items-center gap-[10px]'>
+                                    <div className="flex items-center gap-[10px]">
                                         {date! > new Date() ? (
                                             <Calendar
-                                                color='green'
-                                                className='h-5 w-5'
+                                                color="green"
+                                                className="h-5 w-5"
                                             />
                                         ) : (
                                             <Calendar
-                                                color='red'
-                                                className='h-5 w-5'
+                                                color="red"
+                                                className="h-5 w-5"
                                             />
                                         )}
                                     </div>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>
-                                        This card's due date is{' '}
+                                        This card's due date is{" "}
                                         {date?.toLocaleString() ||
-                                            'Not asigned'}
+                                            "Not asigned"}
                                     </p>
                                 </TooltipContent>
                             </Tooltip>
@@ -123,10 +124,10 @@ export const Card: React.FC<CardItem> = ({
 
                     <div
                         className={`absolute p-[2%] top-0 right-0 transition-opacity duration-100 ${
-                            isHovered ? 'opacity-100' : 'opacity-0'
+                            isHovered ? "opacity-100" : "opacity-0"
                         }`}
                     >
-                        <CardSettingsDropdownMenu
+                        {/* <CardSettingsDropdownMenu
                             cardId={id}
                             onDeleteCard={onDeleteCard}
                             setIsInputActive={() => setIsEditing(true)}
@@ -134,7 +135,8 @@ export const Card: React.FC<CardItem> = ({
                             setPriority={setPriority}
                             date={date}
                             setDate={setDate}
-                        />
+                        /> */}
+                        <SettingsCardModal />
                     </div>
                 </div>
             )}

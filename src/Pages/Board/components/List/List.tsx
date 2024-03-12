@@ -1,12 +1,13 @@
-import { ListItem } from '../../../../Interfaces/IList';
-import { Card } from '../Card/Card';
+import { ListItem } from "../../../../Interfaces/IList";
+import { Card } from "../Card/Card";
 
-import { Droppable, Draggable } from '@hello-pangea/dnd';
-import { dataBaseCard } from '../../../../Interfaces/IDatabase';
-import { CardForm } from '../Card/CardForm';
-import { ListTitle } from './ListTitle';
-import { useEffect, useState } from 'react';
-import { ListSettingsDropdownMenu } from '../ListSettingsDropdown';
+import { Droppable, Draggable } from "@hello-pangea/dnd";
+import { dataBaseCard } from "../../../../Interfaces/IDatabase";
+import { CardForm } from "../Card/CardForm";
+import { ListTitle } from "./ListTitle";
+import { useEffect, useState } from "react";
+import { ListSettingsDropdownMenu } from "../ListSettingsDropdown";
+import SettingsCardModal from "../SettingsCardModal";
 
 export const List = ({
     id,
@@ -22,24 +23,24 @@ export const List = ({
     }, [title]);
     const [listTitle, setListTitle] = useState(title);
     const [backgroundColor, setBackgroundColor] = useState<string>(
-        styles?.backgroundColor || 'bg-slate-200'
+        styles?.backgroundColor || "bg-slate-300"
     );
     return (
         <Draggable draggableId={id} index={index!}>
             {(provided) => (
                 <div
-                    className='inline-flex flex-col items-start gap-[5%] min-w-[365px]'
+                    className="inline-flex flex-col items-start gap-[5%] min-w-[365px]"
                     key={id}
                     {...provided.draggableProps}
                     ref={provided.innerRef}
                 >
                     <div
-                        className={`rounded-lg shadow-lg p-[4%] w-full ${backgroundColor}`}
+                        className={`rounded-lg  p-[4%] w-full ${backgroundColor}`}
                         {...provided.dragHandleProps}
                     >
-                        <div className='p-[2%] inline-flex flex-col items-start gap-[5%] w-full'>
-                            <div className='inline-flex flex-col items-start gap-[4%] relative w-full'>
-                                <div className='flex items-center justify-between w-full whitespace-nowrap'>
+                        <div className="p-[2%] inline-flex flex-col items-start gap-[5%] w-full">
+                            <div className="inline-flex flex-col items-start gap-[4%] relative w-full">
+                                <div className="flex items-center justify-between w-full whitespace-nowrap">
                                     <div className="[font-family:'Inter-Bold',Helvetica] font-medium text-[24px] mb-2 tracking-[0] leading-[normal]">
                                         <ListTitle
                                             title={listTitle}
@@ -51,13 +52,14 @@ export const List = ({
                                         listId={id}
                                         setBackgroundColor={setBackgroundColor}
                                     />
+                                    {/* <SettingsCardModal /> */}
                                 </div>
-                                <Droppable droppableId={id} type='task'>
+                                <Droppable droppableId={id} type="task">
                                     {(provided) => (
                                         <div
                                             ref={provided.innerRef}
                                             {...provided.droppableProps}
-                                            className='inline-flex flex-col items-start gap-[0.5rem] relative flex-[0_0_auto] flex-grow-1 min-h-[100px] min-w-full'
+                                            className="inline-flex flex-col items-start gap-[0.5rem] relative flex-[0_0_auto] flex-grow-1 min-h-[100px] min-w-full"
                                         >
                                             {cards
                                                 ? cards.map(

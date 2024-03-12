@@ -1,4 +1,4 @@
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal } from "lucide-react";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -6,11 +6,11 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from 'src/Components/dropdown';
+} from "src/Components/dropdown";
 // import { StylesHandler } from './StylesHandler';
-import { DeleteHandler } from './DeleteHandler';
-import { BoardContext } from '../contexts/BoardContextProvider';
-import { useContext } from 'react';
+import { DeleteHandler } from "./DeleteHandler";
+import { BoardContext } from "../contexts/BoardContextProvider";
+import { useContext } from "react";
 
 export const ListSettingsDropdownMenu = ({
     listId,
@@ -26,15 +26,15 @@ export const ListSettingsDropdownMenu = ({
         <>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <MoreHorizontal className='h-6 w-6 on:hover:bg-slate-200 cursor-pointer' />
+                    <MoreHorizontal className="h-6 w-6 on:hover:bg-slate-200 cursor-pointer" />
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className='w-56'>
+                <DropdownMenuContent className="w-56">
                     <DropdownMenuLabel>List Settings</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>
                         <DeleteHandler
                             itemId={listId}
-                            option='list'
+                            option="list"
                             setLists={setLists}
                         />
                         {/* <StylesHandler
