@@ -7,7 +7,7 @@ import { CardForm } from "../Card/CardForm";
 import { ListTitle } from "./ListTitle";
 import { useEffect, useState } from "react";
 import { ListSettingsDropdownMenu } from "../ListSettingsDropdown";
-import SettingsCardModal from "../SettingsCardModal";
+import SettingsCardModal from "../Card/EditCardModal";
 
 export const List = ({
     id,
