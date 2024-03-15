@@ -26,7 +26,7 @@ export const ListSettingsDropdownMenu = ({
         <>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <MoreHorizontal className="h-6 w-6 on:hover:bg-slate-200 cursor-pointer" />
+                    <MoreHorizontal className="p-[2%] flex items-center h-8 w-8 hover:bg-slate-200 cursor-pointer rounded-md" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                     <DropdownMenuLabel>List Settings</DropdownMenuLabel>

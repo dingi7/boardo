@@ -123,7 +123,7 @@ export const Card: React.FC<CardItem> = ({
                     ></CardTitle>
 
                     <div
-                        className={`absolute p-[2%] top-0 right-0 transition-opacity duration-100 ${
+                        className={`absolute p-[2%] top-0 right-0 h-full flex items-center transition-opacity duration-100 ${
                             isHovered ? 'opacity-100' : 'opacity-0'
                         }`}
                     >

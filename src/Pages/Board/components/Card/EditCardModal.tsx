@@ -65,7 +65,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     return (
         <Dialog>
             <DialogTrigger>
-                <MoreHorizontal className='on:hover: cursor-pointer' />
+                <MoreHorizontal className='p-[2%] h-7 flex items-center w-7 hover:bg-slate-200 cursor-pointer rounded-md' />
             </DialogTrigger>
 
             <DialogContent className='sm:max-w-[525px]'>
