@@ -41,7 +41,7 @@ export const renameCard = async (
     return api.put(endpoints.card(cardId), { organizationId, name });
 };
 
-export const leaveOrganization = async (orgId: string) => {
+export const leaveOrganization = (orgId: string) => {
     return api.post(endpoints.leaveOrganization(orgId));
 };
 

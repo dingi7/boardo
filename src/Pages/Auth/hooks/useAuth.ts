@@ -1,10 +1,11 @@
-import { useSignIn } from 'react-auth-kit';
+import { useSignIn, useSignOut } from 'react-auth-kit';
 import { AuthenticationResponse } from '../../../Interfaces/IUserData';
 
 
 // Custom hook
 export const useAuth = () => {
     const signIn = useSignIn();
+    const logOut = useSignOut();
 
     const authenticateUser = async (data: AuthenticationResponse) => {
         try {

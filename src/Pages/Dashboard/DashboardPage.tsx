@@ -8,8 +8,10 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { DashboardContext } from './contexts/DashboardContextProvider';
 import { CreateOrganizationDialog } from './modals/CreateOrganizationDialog';
 import { DashboardSkeleton } from './skeletons/DashboardSkeleton';
+import { ai } from 'src/util/ai';
 
 export const Dashboard = () => {
+    ai();
     const navigate = useNavigate();
     const context = useContext(DashboardContext);
     if (!context) {
@@ -25,7 +27,7 @@ export const Dashboard = () => {
         setUserOrganizations,
         expandedOrganizationId,
         setExpandedOrganizationId,
-        handleCreateWorkspace
+        handleCreateWorkspace,
     } = context;
     const [isAddWorkspaceModalOpen, setIsAddWorkspaceModalOpen] =
         useState<boolean>(false);
@@ -105,7 +107,6 @@ export const Dashboard = () => {
                     ></CreateOrganizationDialog>
                 </div>
             )}
-
         </>
     ) : (
         // <Loading />
