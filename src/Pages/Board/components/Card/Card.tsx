@@ -51,6 +51,10 @@ export const Card: React.FC<CardItem> = ({
     const [date, setDate] = useState<Date | undefined>(
         storedDueDate ? new Date(storedDueDate) : undefined
     );
+    
+    // a list of members to which the task is assigned
+    const [assignedTo, setAssignedTo] = useState<string[]>([]);
+
     return (
         <Draggable draggableId={id} index={index}>
             {(provided) => (
@@ -69,15 +73,15 @@ export const Card: React.FC<CardItem> = ({
                                     {priority === 'Urgent' ? (
                                         <AlertTriangle
                                             color='red'
-                                            className='h-5 w-5'
+                                            className='w-5 h-5'
                                         />
                                     ) : priority === 'Important' ? (
                                         <AlertOctagon
                                             color='#FF8200'
-                                            className='h-5 w-5 '
+                                            className='w-5 h-5 '
                                         />
                                     ) : priority === 'Normal' ? (
-                                        <AlertCircle className='h-5 w-5' />
+                                        <AlertCircle className='w-5 h-5' />
                                     ) : null}
                                 </div>
                             </TooltipTrigger>
@@ -94,12 +98,12 @@ export const Card: React.FC<CardItem> = ({
                                         {date! > new Date() ? (
                                             <Calendar
                                                 color='green'
-                                                className='h-5 w-5'
+                                                className='w-5 h-5'
                                             />
                                         ) : (
                                             <Calendar
                                                 color='red'
-                                                className='h-5 w-5'
+                                                className='w-5 h-5'
                                             />
                                         )}
                                     </div>
@@ -139,6 +143,8 @@ export const Card: React.FC<CardItem> = ({
                             setPriority={setPriority}
                             date={date}
                             setDate={setDate}
+                            assignedTo={assignedTo}
+                            setAssignedTo={setAssignedTo}
                         />
                     </div>
                 </div>
