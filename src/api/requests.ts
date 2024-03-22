@@ -1,37 +1,57 @@
-import { dataBaseBoard, dataBaseList } from "../Interfaces/IDatabase";
-import { LoginUserData, RegisterUserData } from "../Interfaces/IUserData";
-import * as api from "./api";
+import { dataBaseBoard, dataBaseList } from '../Interfaces/IDatabase';
+import { LoginUserData, RegisterUserData } from '../Interfaces/IUserData';
+import * as api from './api';
 
 export const endpoints = {
-    registerUser: "/auth/register",
-    loginUser: "/auth/login",
+    registerUser: '/auth/register',
+    loginUser: '/auth/login',
     orgs: `/auth/orgs`,
-    createBoard: "/items/boards",
+    createBoard: '/items/boards',
 
-    allOrgs: "/auth/allOrgs",
+    allOrgs: '/auth/allOrgs',
     joinOrg: (orgId: string) => `/auth/joinOrg/${orgId}`,
 
     getBoardsByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     board: (boardId: string | null) =>
-        boardId ? `/items/boards/${boardId}` : "/items/boards",
+        boardId ? `/items/boards/${boardId}` : '/items/boards',
     card: (cardId: string | null) =>
-        cardId ? `/items/cards/${cardId}` : "/items/cards",
+        cardId ? `/items/cards/${cardId}` : '/items/cards',
     list: (listId: string | null) =>
-        listId ? `/items/list/${listId}` : "/items/list",
+        listId ? `/items/list/${listId}` : '/items/list',
     organization: (orgId: string | null) =>
-        orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
+        orgId ? `/auth/orgs/${orgId}` : '/auth/orgs',
+    assigment: (assigmentId: string | null) =>
+        assigmentId ? `/items/assigment/${assigmentId}` : '/items/assigment',
 
     //email password change
     resetPasswordRequest: `/auth/resetPasswordRequest`,
     requestResetPassword: (uuid: string): string =>
         `/auth/resetPassword/${uuid}`,
     //default password change
-    changePassword: "/auth/changePassword",
+    changePassword: '/auth/changePassword',
     tokenValidator: (uuid: string): string => `/auth/tokenValidator/${uuid}`,
     removeMemberFromBoard: (boardId: string) =>
         `/auth/orgs/${boardId}/kickMember`,
     leaveOrganization: (orgId: string) => `/auth/orgs/${orgId}/leave`,
 };
+
+export const createAssignment = async (
+    cardId: string,
+    userId: string,
+) => {
+    return api.post(endpoints.assigment(null), {
+        cardId,
+        userId,
+    });
+}
+
+export const getAssignments = async () => {
+    return api.get(endpoints.assigment(null));
+}
+
+export const deleteAssignment = async (assignmentId: string) => {
+    return api.del(endpoints.assigment(assignmentId));
+}
 
 export const renameCard = async (
     cardId: string,
@@ -58,15 +78,17 @@ export const updateCard = async (
     organizationId: string,
     name: string,
     priority: string,
-    dueDate: Date | null
+    dueDate: Date | null,
+    description: string
 ) => {
     return api.put(endpoints.card(cardId), {
         organizationId,
         name,
         priority,
         dueDate,
+        description
     });
-}
+};
 
 export const setCardDueDate = async (
     cardId: string,
@@ -184,7 +206,7 @@ export const deleteBoard = async (boardId: string) => {
 };
 
 export const getBoardsByOrgId = async (orgId: string) => {
-    const queryParams = { populate: "true" };
+    const queryParams = { populate: 'true' };
     const queryString = new URLSearchParams(queryParams).toString();
     return api.get(`${endpoints.getBoardsByOrg(orgId)}?${queryString}`);
 };
@@ -238,5 +260,5 @@ export const changeBoardBackground = async (boardId: string, bgUrl: string) => {
 };
 
 export const removeBoardBackground = async (boardId: string) => {
-    return api.post(endpoints.board(boardId), { backgroundUrl: "" });
+    return api.post(endpoints.board(boardId), { backgroundUrl: '' });
 };
