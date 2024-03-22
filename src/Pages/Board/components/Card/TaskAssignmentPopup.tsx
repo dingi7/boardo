@@ -7,15 +7,34 @@ import {
 } from "src/Components/form/popover";
 import { cn } from "src/util/utils";
 import { Button } from "src/Components/ui/button";
-import { Plus, UserPlus } from "lucide-react";
+import { UserPlus } from "lucide-react";
+import MultipleCombobox from "./multipleCombobox";
+import { useContext, useEffect } from "react";
+
+import { BoardContext } from "../../contexts/BoardContextProvider";
+import { DashboardContext } from "src/Pages/Dashboard/contexts/DashboardContextProvider";
 
 export const TaskAssignmentPopup = ({
   assignedTo,
   setAssignedTo,
+  assingUser,
+  removeUserAssignment,
 }: {
   assignedTo: Array<string>;
+  removeUserAssignment: (assigmentId: string) => void;
+  assingUser: (userId: string) => void;
   setAssignedTo: (assignedTo: string[]) => void;
 }): JSX.Element => {
+  const dashboardContext = useContext(DashboardContext);
+
+    const boardContext = useContext(BoardContext)
+  useEffect(() => {
+    console.log("dashboardContext");
+    console.log(dashboardContext);
+    console.log("boardContext");
+    console.log(boardContext);
+  }, [boardContext]);
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -27,10 +46,6 @@ export const TaskAssignmentPopup = ({
           )}
         >
           <UserPlus className="w-4 h-4 mr-2" />
-          {/* {storedDueDate ? (
-                        format(storedDueDate, 'PPP')
-                    ) : (
-                    )} */}
           <span>Assign task</span>
         </Button>
       </PopoverTrigger>
@@ -38,20 +53,19 @@ export const TaskAssignmentPopup = ({
         <div>
           <div>
             <p className="font-semibold break-keep">Selected users</p>
-            <ul className="mt-2">
-            <li className="p-1 border-2 rounded-md border-slate-50">
-                <span>Test Testov</span>
-              </li>
-            </ul>
+            <MultipleCombobox
+              usersList={undefined}
+              variant="removeUsers"
+              action={removeUserAssignment}
+            />
           </div>
-          <div className="mt-4">
+          <div>
             <p className="font-semibold break-keep">Select users</p>
-            <ul className="mt-2">
-              <li className="flex items-center justify-between p-1 border-2 rounded-md border-slate-50">
-                <span>Test Testov</span>
-                <Button variant="gray" className="ml-auto mr-2 "><Plus /></Button>
-              </li>
-            </ul>
+            <MultipleCombobox
+              usersList={undefined}
+              variant="addMembers"
+              action={assingUser}
+            />
           </div>
         </div>
       </PopoverContent>

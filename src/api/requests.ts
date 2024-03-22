@@ -31,6 +31,9 @@ export const endpoints = {
     removeMemberFromBoard: (boardId: string) =>
         `/auth/orgs/${boardId}/kickMember`,
     leaveOrganization: (orgId: string) => `/auth/orgs/${orgId}/leave`,
+
+    assignment: `/items/assigments`,
+    deleteAssignment: (assigmentId: string) => `/assigments/${assigmentId}`
 };
 
 export const renameCard = async (
@@ -240,3 +243,15 @@ export const changeBoardBackground = async (boardId: string, bgUrl: string) => {
 export const removeBoardBackground = async (boardId: string) => {
     return api.post(endpoints.board(boardId), { backgroundUrl: "" });
 };
+
+export const getAllAssignments = async () => {
+    return api.get(endpoints.assignment)
+}
+
+export const addAssignmentToUser = async(userId: string, cardId: string) => {
+    return api.post(endpoints.assignment, {user: userId, card: cardId})
+}
+
+export const removeAssignmentFromUser = async (assigmentId: string) => {
+    return api.del(endpoints.deleteAssignment(assigmentId))
+}

@@ -1,5 +1,5 @@
 import { Brain, MoreHorizontal } from "lucide-react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -22,7 +22,7 @@ import { Input } from "src/Components/ui/input";
 import { Label } from "src/Components/ui/label";
 import { Textarea } from "src/Components/ui/textarea";
 import { DatePicker } from "./DatePicker";
-import { updateCard } from "src/api/requests";
+import { addAssignmentToUser, getAllAssignments, removeAssignmentFromUser, updateCard } from "src/api/requests";
 import { BoardContext } from "../../contexts/BoardContextProvider";
 import { toast } from "src/Components/Toaster/use-toast";
 import { PrioritySelect } from "./PriorityDropdown";
@@ -60,6 +60,15 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
   const handleSave = async (e: any) => {
     await updateCard(cardId, boardInfo!.owner, title, priority, date || null);
   };
+
+  const assingUser = async (userId: string) => {
+    await addAssignmentToUser(userId, cardId)
+  }
+
+  const removeUserAssignment = async (assigmentId: string) => {
+    await removeAssignmentFromUser(assigmentId)
+  }
+
 
   return (
     <Dialog>
@@ -103,6 +112,8 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             <Label>Distribute task</Label>
             <br></br>
             <TaskAssignmentPopup
+            assingUser={assingUser}
+            removeUserAssignment={removeUserAssignment}
             assignedTo={assignedTo}
             setAssignedTo={setAssignedTo}
             ></TaskAssignmentPopup>

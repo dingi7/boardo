@@ -8,10 +8,10 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { DashboardContext } from './contexts/DashboardContextProvider';
 import { CreateOrganizationDialog } from './modals/CreateOrganizationDialog';
 import { DashboardSkeleton } from './skeletons/DashboardSkeleton';
-import { ai } from 'src/util/ai';
+//import { ai } from 'src/util/ai';
 
 export const Dashboard = () => {
-    ai();
+    //ai();
     const navigate = useNavigate();
     const context = useContext(DashboardContext);
     if (!context) {
@@ -78,8 +78,8 @@ export const Dashboard = () => {
 
                 <div className='w-[60%] p-[1%] pt-[20%] sm:pt-[15%] md:pt-[10%] xl:pt-[5%]'>
                     {userOrganizations.length !== 0 ? null : (
-                        <div className='flex flex-col justify-center items-center h-full'>
-                            <h1 className='font-bold text-2xl'>
+                        <div className='flex flex-col items-center justify-center h-full'>
+                            <h1 className='text-2xl font-bold'>
                                 You don't have any workspaces yet.
                             </h1>
                             <button
