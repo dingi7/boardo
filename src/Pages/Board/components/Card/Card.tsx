@@ -23,6 +23,7 @@ type CardItem = {
     onDeleteCard: (cardId: string) => void;
     storedPriority: string;
     storedDueDate?: Date;
+    storedDescription: string;
 };
 
 export const Card: React.FC<CardItem> = ({
@@ -32,6 +33,7 @@ export const Card: React.FC<CardItem> = ({
     onDeleteCard,
     storedPriority,
     storedDueDate,
+    storedDescription,
 }) => {
     useEffect(() => {
         setTitle(content);
@@ -45,6 +47,7 @@ export const Card: React.FC<CardItem> = ({
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [title, setTitle] = useState<string>(content);
+    const [description, setDescription] = useState<string>(storedDescription);
     const [priority, setPriority] = useState<string>(
         storedPriority || 'Normal'
     );
@@ -137,14 +140,15 @@ export const Card: React.FC<CardItem> = ({
                         <SettingsCardModal
                             title={title}
                             cardId={id}
-                            onDeleteCard={onDeleteCard}
-                            setIsInputActive={() => setIsEditing(true)}
+                            setTitle={setTitle}
                             priority={priority}
                             setPriority={setPriority}
                             date={date}
                             setDate={setDate}
                             assignedTo={assignedTo}
                             setAssignedTo={setAssignedTo}
+                            description={description}
+                            setDescription={setDescription}
                         />
                     </div>
                 </div>

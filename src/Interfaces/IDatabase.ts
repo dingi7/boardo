@@ -23,7 +23,8 @@ export interface dataBaseCard {
     styles: {
         priority: string;
     };
-    dueDate?: Date
+    dueDate?: Date;
+    description: string;
 }
 
 export interface dataBaseOrganization {
