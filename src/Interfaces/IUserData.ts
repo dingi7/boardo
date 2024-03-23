@@ -11,6 +11,11 @@ export interface LoginUserData {
     password: string;
 }
 
+export interface UpdateCredentialsData {
+    username: string,
+    email: string
+}
+
 export interface IForgotPassword {
     email: string
 }

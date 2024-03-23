@@ -20,6 +20,7 @@ import {
     getAssignments,
     getUserOrganizations,
     leaveOrganization,
+    updateUserCredentials,
 } from "src/api/requests";
 import { ProfileAssignmentComponent } from "./components/ProfileAssignmentComponent";
 
@@ -135,8 +136,8 @@ export const Profile = () => {
                     throw new Error(validation.message);
                 }
 
-                //const result = await 
-
+                const result = await updateUserCredentials(userData)
+                
                 toast({
                     description: "User data updated!",
                     variant: "default",
@@ -340,7 +341,7 @@ export const Profile = () => {
                     <CardContent className="space-y-4">
                         <ProfileAssignmentComponent
                             cardName="hardcoded test"
-                            cardId="test"
+                            boardId="65feedce274dd27d790c2330"
                             dueTo={new Date()}
                         />
                     </CardContent>

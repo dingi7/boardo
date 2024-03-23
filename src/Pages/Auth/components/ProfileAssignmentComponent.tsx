@@ -3,18 +3,18 @@ import { Link } from "react-router-dom";
 
 export const ProfileAssignmentComponent = ({
     cardName,
-    cardId,
+    boardId,
     dueTo,
 }: {
     cardName: string;
-    cardId: string;
+    boardId: string;
     dueTo: Date;
 
 }) => {
 
     return (
         <div
-            key={cardId}
+            key={boardId}
             className="flex items-center justify-between bg-gray-200 p-2 rounded-md"
         >
             <div className="flex flex-col ">
@@ -24,7 +24,7 @@ export const ProfileAssignmentComponent = ({
                 </span>
             </div>
 
-            <Link to={""} className="mr-2 hover:underline"><p className="flex gap-2"><span>Go to card</span><ArrowRight /></p></Link>
+            <Link to={`/board/${boardId}`} className="mr-2 hover:underline"><p className="flex gap-1"><span>Go to card</span><ArrowRight /></p></Link>
         </div>
     );
 };

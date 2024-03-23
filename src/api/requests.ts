@@ -1,10 +1,11 @@
 import { dataBaseBoard, dataBaseList } from "../Interfaces/IDatabase";
-import { LoginUserData, RegisterUserData } from "../Interfaces/IUserData";
+import { LoginUserData, RegisterUserData, UpdateCredentialsData } from "../Interfaces/IUserData";
 import * as api from "./api";
 
 export const endpoints = {
     registerUser: "/auth/register",
     loginUser: "/auth/login",
+    updateUserCredentials: "/auth/updateCredentials",
     orgs: `/auth/orgs`,
     createBoard: "/items/boards",
 
@@ -177,6 +178,10 @@ export const registerUser = async (userData: RegisterUserData) => {
 export const loginUser = async (userData: LoginUserData) => {
     return api.post(endpoints.loginUser, userData);
 };
+
+export const updateUserCredentials = async (userData: UpdateCredentialsData) => {
+    return api.put(endpoints.updateUserCredentials, userData)
+}
 
 export const createBoard = async (data: {
     name: string;
