@@ -19,6 +19,7 @@ import {
     getUserOrganizations,
     leaveOrganization,
 } from "src/api/requests";
+import { ProfileAssignmentComponent } from "./components/ProfileAssignmentComponent";
 
 export const Profile = () => {
     /// !!!! fix mee
@@ -310,6 +311,19 @@ export const Profile = () => {
                                 })
                             )
                         )}
+                    </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Assignments</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <ProfileAssignmentComponent
+                            cardName="test"
+                            cardId="test"
+                            dueTo={new Date()}
+                        />
                     </CardContent>
                 </Card>
             </section>
