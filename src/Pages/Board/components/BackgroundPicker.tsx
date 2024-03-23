@@ -40,7 +40,7 @@ export function BackgroundPicker({
         toast({
             title: 'Background changed',
             description: 'Background changed sucessfuly',
-            variant: 'destructive',
+            variant: 'default',
         });
     };
 
@@ -48,7 +48,7 @@ export function BackgroundPicker({
         <Dialog>
             <DialogTrigger asChild>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                    <Settings className='mr-2 h-4 w-4' />
+                    <Settings className='w-4 h-4 mr-2' />
                     <span>Change background</span>
                 </DropdownMenuItem>
             </DialogTrigger>
