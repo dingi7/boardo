@@ -1,60 +1,55 @@
-import { dataBaseBoard, dataBaseList } from '../Interfaces/IDatabase';
-import { LoginUserData, RegisterUserData } from '../Interfaces/IUserData';
-import * as api from './api';
+import { dataBaseBoard, dataBaseList } from "../Interfaces/IDatabase";
+import { LoginUserData, RegisterUserData } from "../Interfaces/IUserData";
+import * as api from "./api";
 
 export const endpoints = {
-    registerUser: '/auth/register',
-    loginUser: '/auth/login',
+    registerUser: "/auth/register",
+    loginUser: "/auth/login",
     orgs: `/auth/orgs`,
-    createBoard: '/items/boards',
+    createBoard: "/items/boards",
 
-    allOrgs: '/auth/allOrgs',
+    allOrgs: "/auth/allOrgs",
     joinOrg: (orgId: string) => `/auth/joinOrg/${orgId}`,
 
     getBoardsByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     board: (boardId: string | null) =>
-        boardId ? `/items/boards/${boardId}` : '/items/boards',
+        boardId ? `/items/boards/${boardId}` : "/items/boards",
     card: (cardId: string | null) =>
-        cardId ? `/items/cards/${cardId}` : '/items/cards',
+        cardId ? `/items/cards/${cardId}` : "/items/cards",
     list: (listId: string | null) =>
-        listId ? `/items/list/${listId}` : '/items/list',
+        listId ? `/items/list/${listId}` : "/items/list",
     organization: (orgId: string | null) =>
-        orgId ? `/auth/orgs/${orgId}` : '/auth/orgs',
+        orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
     assigment: (assigmentId: string | null) =>
-        assigmentId ? `/items/assigment/${assigmentId}` : '/items/assigment',
+        assigmentId ? `/items/assigment/${assigmentId}` : "/items/assigment",
+    allAssignments: `/items/assigments`,
 
     //email password change
     resetPasswordRequest: `/auth/resetPasswordRequest`,
     requestResetPassword: (uuid: string): string =>
         `/auth/resetPassword/${uuid}`,
     //default password change
-    changePassword: '/auth/changePassword',
+    changePassword: "/auth/changePassword",
     tokenValidator: (uuid: string): string => `/auth/tokenValidator/${uuid}`,
     removeMemberFromBoard: (boardId: string) =>
         `/auth/orgs/${boardId}/kickMember`,
     leaveOrganization: (orgId: string) => `/auth/orgs/${orgId}/leave`,
-
-    assignment: `/items/assigments`,
-    deleteAssignment: (assigmentId: string) => `/assigments/${assigmentId}`
 };
 
-export const createAssignment = async (
-    cardId: string,
-    userId: string,
-) => {
+export const createAssignment = async (cardId: string, userId: string) => {
     return api.post(endpoints.assigment(null), {
         cardId,
         userId,
     });
-}
+};
 
 export const getAssignments = async () => {
     return api.get(endpoints.assigment(null));
-}
+};
 
 export const deleteAssignment = async (assignmentId: string) => {
     return api.del(endpoints.assigment(assignmentId));
-}
+};
 
 export const renameCard = async (
     cardId: string,
@@ -89,7 +84,7 @@ export const updateCard = async (
         name,
         priority,
         dueDate,
-        description
+        description,
     });
 };
 
@@ -209,7 +204,7 @@ export const deleteBoard = async (boardId: string) => {
 };
 
 export const getBoardsByOrgId = async (orgId: string) => {
-    const queryParams = { populate: 'true' };
+    const queryParams = { populate: "true" };
     const queryString = new URLSearchParams(queryParams).toString();
     return api.get(`${endpoints.getBoardsByOrg(orgId)}?${queryString}`);
 };
@@ -263,17 +258,17 @@ export const changeBoardBackground = async (boardId: string, bgUrl: string) => {
 };
 
 export const removeBoardBackground = async (boardId: string) => {
-    return api.post(endpoints.board(boardId), { backgroundUrl: '' });
+    return api.post(endpoints.board(boardId), { backgroundUrl: "" });
 };
 
 export const getAllAssignments = async () => {
-    return api.get(endpoints.assignment)
-}
+    return api.get(endpoints.allAssignments);
+};
 
-export const addAssignmentToUser = async(userId: string, cardId: string) => {
-    return api.post(endpoints.assignment, {user: userId, card: cardId})
-}
+export const addAssignmentToUser = async (userId: string, cardId: string) => {
+    return api.post(endpoints.assigment(null), { user: userId, card: cardId });
+};
 
 export const removeAssignmentFromUser = async (assigmentId: string) => {
-    return api.del(endpoints.deleteAssignment(assigmentId))
-}
+    return api.del(endpoints.assigment(assigmentId));
+};

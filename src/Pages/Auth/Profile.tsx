@@ -16,6 +16,8 @@ import { ProfileOrganizationComponent } from "./components/ProfileOrganizationCo
 import { IOrg } from "src/Interfaces/IContexts";
 import {
     changePassword,
+    getAllAssignments,
+    getAssignments,
     getUserOrganizations,
     leaveOrganization,
 } from "src/api/requests";
@@ -27,6 +29,7 @@ export const Profile = () => {
     const navigate = useNavigate();
     const authUser = useAuthUser()();
     const [userOrganizations, setUserOrganizations] = useState<IOrg[]>([]);
+    const [userAssignmetns, setUserAssignment] = useState()
     const [userData, setUserData] = useState({
         username: authUser?.username,
         email: authUser?.email,
@@ -91,6 +94,21 @@ export const Profile = () => {
         }
     }, [toast]);
 
+    const fetchAssignments = useCallback(async () => {
+        try {
+            setLoading(true);
+            const assignments = await getAllAssignments();
+            setUserAssignment(assignments);
+        } catch (err: any) {
+            toast({
+                title: err.message,
+                variant: "destructive",
+            });
+        } finally {
+            setLoading(false); // Set loading state to false
+        }
+    }, [toast])
+
     useEffect(() => {
         if (!authUser) {
             navigate("/");
@@ -100,8 +118,9 @@ export const Profile = () => {
             });
         } else {
             fetchOrganizations();
+            fetchAssignments();
         }
-    }, [authUser, navigate, toast, fetchOrganizations]);
+    }, [authUser, navigate, toast, fetchOrganizations, fetchAssignments]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         try {
@@ -320,7 +339,7 @@ export const Profile = () => {
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <ProfileAssignmentComponent
-                            cardName="test"
+                            cardName="hardcoded test"
                             cardId="test"
                             dueTo={new Date()}
                         />
