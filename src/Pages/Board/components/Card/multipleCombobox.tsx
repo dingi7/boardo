@@ -14,8 +14,8 @@ const MultipleCombobox = ({
   usersList,
   action,
 }: {
-  usersList: Array<IUserData> | undefined;
-  action: (user: IUserData) => void; 
+  usersList: Array<IUserData>;
+  action: (user: IUserData) => void;
 }) => {
   return (
     <DropdownMenu>
@@ -31,9 +31,12 @@ const MultipleCombobox = ({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="mt-5 w-72">
-        {usersList && usersList?.length > 0 ? (
-          usersList?.map((user) => (
-            <DropdownMenuItem className="w-full" onClick={() => action(user)}>
+        {usersList && usersList.length > 0 ? (
+          usersList.map((user) => (
+            <DropdownMenuItem
+              className="w-full"
+              onClick={() => action(user)}
+            >
               <li className="flex items-center justify-between w-full gap-4 p-3 border-2 rounded-md border-slate-50">
                 <span className="font-semibold">{user.username}</span>
               </li>
@@ -41,7 +44,7 @@ const MultipleCombobox = ({
           ))
         ) : (
           <Card className="p-2">
-            <span className="p-4 font-bold ">No avaliable users!</span>
+            <span className="p-4 font-bold">No available users!</span>
           </Card>
         )}
       </DropdownMenuContent>

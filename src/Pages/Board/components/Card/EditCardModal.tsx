@@ -24,7 +24,6 @@ import { Textarea } from "src/Components/ui/textarea";
 import { DatePicker } from "./DatePicker";
 import {
   createAssignment,
-  getAssignments,
   deleteAssignment,
   updateCard,
 } from "src/api/requests";
@@ -87,7 +86,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     if (organizationMembers) {
       const occupied: IUserData[] = [];
       const available: IUserData[] = [];
-
+  
       organizationMembers.forEach((member) => {
         if (
           assignments.some((assignment) => assignment.user._id === member._id)
@@ -97,31 +96,39 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
           available.push(member);
         }
       });
-
+  
       setOccupiedMembers(occupied);
       setAvailableMembers(available);
     }
   }, [organizationMembers, assignments]);
 
   const assingUser = async (user: IUserData): Promise<void> => {
-    await createAssignment(user._id, cardId);
+    console.log(user);
+    
+    const assignment = await createAssignment(user._id, cardId);
     setAvailableMembers(
       availableMembers.filter((member) => member._id !== user._id)
     );
     setOccupiedMembers([...occupiedMembers, user]);
-    
-    toast({
-      title: "User assigned!",
-      variant: "default",
-  });
   };
-  
 
-  const removeUserAssignment = async (user: IUserData) => {
-    await deleteAssignment(user._id);
-    setOccupiedMembers(
-      occupiedMembers.filter((member) => member._id !== user._id)
+  const removeUserAssignment = async (
+    user: IUserData,
+  ) => {
+    const assignment = assignments.find(
+      (assignment) => assignment.user._id === user._id
     );
+  
+    if (!assignment) {
+      console.error("Assignment not found for the user");
+      return;
+    }
+    await deleteAssignment(assignment._id);
+    setOccupiedMembers(
+      occupiedMembers.filter((assignment) => assignment._id !== assignment._id)
+    );
+
+    // Check if the user is not already in availableMembers state, then add them
     if (!availableMembers.find((member) => member._id === user._id)) {
       setAvailableMembers([...availableMembers, user]);
     }
@@ -129,11 +136,9 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     toast({
       title: "User assignment removed!",
       variant: "default",
-  });
+    });
   };
-  
 
-  
   return (
     <Dialog>
       <DialogTrigger>

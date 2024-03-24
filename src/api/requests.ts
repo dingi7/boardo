@@ -22,7 +22,7 @@ export const endpoints = {
     organization: (orgId: string | null) =>
         orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
     assigments: (assigmentId: string | null) =>
-        assigmentId ? `/items/assigments/${assigmentId}` : "/items/assigments",
+        assigmentId ? `/items/assignments/${assigmentId}` : "/items/assignments",
 
     //email password change
     resetPasswordRequest: `/auth/resetPasswordRequest`,
