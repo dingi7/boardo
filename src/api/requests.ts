@@ -21,8 +21,8 @@ export const endpoints = {
         listId ? `/items/list/${listId}` : "/items/list",
     organization: (orgId: string | null) =>
         orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
-    assigments: (assigmentId: string | null) =>
-        assigmentId ? `/items/assigments/${assigmentId}` : "/items/assigments",
+    assignments: (assignmentId: string | null) =>
+        assignmentId ? `/items/assignments/${assignmentId}` : "/items/assignments",
 
     //email password change
     resetPasswordRequest: `/auth/resetPasswordRequest`,
@@ -37,22 +37,22 @@ export const endpoints = {
 };
 
 export const createAssignment = async (userId: string, cardId: string,) => {
-    return api.post(endpoints.assigments(null), {
+    return api.post(endpoints.assignments(null), {
         card: cardId,
         user: userId,
     });
 };
 
 export const getAssignments = async () => {
-    return api.get(endpoints.assigments(null));
+    return api.get(endpoints.assignments(null));
 };
 
 export const deleteAssignment = async (assignmentId: string) => {
-    return api.del(endpoints.assigments(assignmentId));
+    return api.del(endpoints.assignments(assignmentId));
 };
 
 export const getAssignmentsByCard = async (cardId: string) => {
-    return api.get(endpoints.assigments(cardId));
+    return api.get(endpoints.assignments(cardId));
 }
 
 export const renameCard = async (
