@@ -13,6 +13,7 @@ import { useContext, useEffect } from "react";
 
 import { BoardContext } from "../../contexts/BoardContextProvider";
 import { DashboardContext } from "src/Pages/Dashboard/contexts/DashboardContextProvider";
+import { IUserData } from "src/Interfaces/IUserData";
 
 export const TaskAssignmentPopup = ({
   assignedTo,
@@ -20,20 +21,18 @@ export const TaskAssignmentPopup = ({
   assingUser,
   removeUserAssignment,
 }: {
-  assignedTo: Array<string>;
-  removeUserAssignment: (assigmentId: string) => void;
-  assingUser: (userId: string) => void;
-  setAssignedTo: (assignedTo: string[]) => void;
+  assignedTo: Array<IUserData>;
+  removeUserAssignment: (user: IUserData) => void;
+  assingUser: (user: IUserData) => void;
+  setAssignedTo: (assignedTo: IUserData[]) => void;
 }): JSX.Element => {
   const dashboardContext = useContext(DashboardContext);
 
-    const boardContext = useContext(BoardContext)
-  useEffect(() => {
-    console.log("dashboardContext");
-    console.log(dashboardContext);
-    console.log("boardContext");
-    console.log(boardContext);
-  }, [boardContext]);
+  const organizationMembers = dashboardContext?.selectedOrganization?.members;
+
+  const availableMembers = organizationMembers?.filter(
+    (member) => !assignedTo.some((assigned) => assigned._id === member._id)
+  );
 
   return (
     <Popover>
@@ -54,16 +53,14 @@ export const TaskAssignmentPopup = ({
           <div>
             <p className="font-semibold break-keep">Selected users</p>
             <MultipleCombobox
-              usersList={undefined}
-              variant="removeUsers"
+              usersList={assignedTo}
               action={removeUserAssignment}
             />
           </div>
           <div>
             <p className="font-semibold break-keep">Select users</p>
             <MultipleCombobox
-              usersList={undefined}
-              variant="addMembers"
+              usersList={availableMembers}
               action={assingUser}
             />
           </div>

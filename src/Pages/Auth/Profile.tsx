@@ -16,7 +16,6 @@ import { ProfileOrganizationComponent } from "./components/ProfileOrganizationCo
 import { IOrg } from "src/Interfaces/IContexts";
 import {
     changePassword,
-    getAllAssignments,
     getAssignments,
     getUserOrganizations,
     leaveOrganization,
@@ -98,7 +97,7 @@ export const Profile = () => {
     const fetchAssignments = useCallback(async () => {
         try {
             setLoading(true);
-            const assignments = await getAllAssignments();
+            const assignments = await getAssignments();
             setUserAssignment(assignments);
         } catch (err: any) {
             toast({
@@ -224,8 +223,8 @@ export const Profile = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row gap-6 p-6">
-            <section className="w-full lg:w-1/3 space-y-6">
+        <div className="flex flex-col gap-6 p-6 lg:flex-row">
+            <section className="w-full space-y-6 lg:w-1/3">
                 <Card>
                     <CardHeader>
                         <CardTitle>Account Settings</CardTitle>
@@ -309,7 +308,7 @@ export const Profile = () => {
                     </CardContent>
                 </Card>
             </section>
-            <section className="w-full lg:w-2/3 space-y-6">
+            <section className="w-full space-y-6 lg:w-2/3">
                 <Card>
                     <CardHeader>
                         <CardTitle>Organizations</CardTitle>
@@ -318,7 +317,7 @@ export const Profile = () => {
                         {loading ? (
                             <div className="flex justify-center">
                                 {/**Add loading spinner */}
-                                <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+                                <div className="w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
                             </div>
                         ) : (
                             userOrganizations.map((org: IOrg) =>

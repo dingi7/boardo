@@ -7,20 +7,16 @@ import {
   DropdownMenuItem,
 } from "src/Components/dropdown";
 import { Button } from "src/Components/ui/button";
+import { Card } from "src/Components/ui/card";
 import { IUserData } from "src/Interfaces/IUserData";
 
 const MultipleCombobox = ({
   usersList,
-  variant,
-  action
+  action,
 }: {
   usersList: Array<IUserData> | undefined;
-  variant: string;
-  action: (id: string) => void;
-  
+  action: (user: IUserData) => void; 
 }) => {
-  const [selectedValues, setSelectedValues] = React.useState([]);
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="w-full">
@@ -35,50 +31,19 @@ const MultipleCombobox = ({
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="mt-5 w-72">
-        <DropdownMenuItem className="w-full">
-          <li className="flex items-center justify-between w-full gap-4 p-1 border-2 rounded-md border-slate-50">
-            <span>Test Testov</span>
-            {variant === "addMembers" ? (
-              <Button variant="gray" size="icon">
-                <Plus />
-              </Button>
-            ) : (
-              <Button variant="delete" size="icon">
-                <X />
-              </Button>
-            )}
-          </li>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem className="w-full">
-          <li className="flex items-center justify-between w-full gap-4 p-1 border-2 rounded-md border-slate-50">
-            <span>Test Testov</span>
-            {variant === "addMembers" ? (
-              <Button variant="gray" size="icon">
-                <Plus />
-              </Button>
-            ) : (
-              <Button variant="delete" size="icon">
-                <X />
-              </Button>
-            )}
-          </li>
-        </DropdownMenuItem>
-
-        <DropdownMenuItem className="w-full">
-          <li className="flex items-center justify-between w-full gap-4 p-1 border-2 rounded-md border-slate-50">
-            <span>Test Testov</span>
-            {variant === "addMembers" ? (
-              <Button variant="gray" size="icon">
-                <Plus />
-              </Button>
-            ) : (
-              <Button variant="delete" size="icon">
-                <X />
-              </Button>
-            )}
-          </li>
-        </DropdownMenuItem>
+        {usersList && usersList?.length > 0 ? (
+          usersList?.map((user) => (
+            <DropdownMenuItem className="w-full" onClick={() => action(user)}>
+              <li className="flex items-center justify-between w-full gap-4 p-3 border-2 rounded-md border-slate-50">
+                <span className="font-semibold">{user.username}</span>
+              </li>
+            </DropdownMenuItem>
+          ))
+        ) : (
+          <Card className="p-2">
+            <span className="p-4 font-bold ">No avaliable users!</span>
+          </Card>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
