@@ -82,6 +82,7 @@ export const Profile = () => {
     const fetchOrganizations = useCallback(async () => {
         try {
             setLoading(true); // Set loading state to true
+            console.log('here')
             const organizations = await getUserOrganizations();
             setUserOrganizations(organizations);
         } catch (err: any) {
@@ -222,7 +223,6 @@ export const Profile = () => {
         }
     };
 
-    console.log(userAssignments);
     return (
         <div className='flex flex-col gap-6 p-6 lg:flex-row'>
             <section className='w-full space-y-6 lg:w-1/3'>

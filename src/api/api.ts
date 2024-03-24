@@ -15,6 +15,9 @@ interface RequestOptions {
     body?: string;
 }
 
+// const auth = useAuthUser();
+// const user = auth()!;
+
 const request = async (
     method: string,
     url: string,
