@@ -7,6 +7,7 @@ import {
   AlertOctagon,
   AlertTriangle,
   Calendar,
+  User,
 } from "lucide-react";
 import {
   Tooltip,
@@ -116,6 +117,34 @@ export const Card: React.FC<CardItem> = ({
               </Tooltip>
             </TooltipProvider>
           )}
+
+          {assignments && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex items-center gap-[10px]">
+                    <User className="w-5 h-5" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>
+                    This card is assigned to{" "}
+                    {assignments.map((assignment, index) => (
+                      <span key={assignment.user._id}>
+                        <span className="font-bold">
+                          {assignment.user.username}
+                        </span>
+                        {index !== assignments.length - 1 && " "}
+                        {index === assignments.length - 2 && " and "}
+                      </span>
+                    ))}
+                    
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+
           <CardTitle
             title={title}
             setTitle={setTitle}

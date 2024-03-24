@@ -58,6 +58,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
   date,
   setDate,
   assignments,
+  SetAssignments,
   description,
   setDescription,
 }) => {
@@ -110,6 +111,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
       availableMembers.filter((member) => member._id !== user._id)
     );
     setOccupiedMembers([...occupiedMembers, user]);
+    SetAssignments([...assignments, assignment])
   };
 
   const removeUserAssignment = async (
