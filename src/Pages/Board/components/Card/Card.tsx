@@ -118,7 +118,7 @@ export const Card: React.FC<CardItem> = ({
             </TooltipProvider>
           )}
 
-          {assignments && (
+          {assignments && assignments.length > 0 && (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>

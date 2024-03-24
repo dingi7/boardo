@@ -87,7 +87,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     if (organizationMembers) {
       const occupied: IUserData[] = [];
       const available: IUserData[] = [];
-  
+
       organizationMembers.forEach((member) => {
         if (
           assignments.some((assignment) => assignment.user._id === member._id)
@@ -97,44 +97,61 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
           available.push(member);
         }
       });
-  
+
       setOccupiedMembers(occupied);
       setAvailableMembers(available);
     }
   }, [organizationMembers, assignments]);
 
-  const assingUser = async (user: IUserData): Promise<void> => {
-    console.log(user);
-    
+  const assingUser = async (user: IUserData) => {
     const assignment = await createAssignment(user._id, cardId);
-    setAvailableMembers(
-      availableMembers.filter((member) => member._id !== user._id)
+  
+    // Filter out the assigned user from availableMembers
+    const updatedAvailableMembers = availableMembers.filter(
+      (member) => member._id !== user._id
     );
-    setOccupiedMembers([...occupiedMembers, user]);
-    SetAssignments([...assignments, assignment])
+  
+    // Update availableMembers state
+    setAvailableMembers(updatedAvailableMembers);
+  
+    // Check if the user is not already in occupiedMembers state, then add them
+    
+      setOccupiedMembers([...occupiedMembers, assignment.user]);
+    
+  
+    // Add the assignment to the assignments state
+    SetAssignments([...assignments, assignment]);
   };
+  
+  useEffect(() => {
+    console.log('occupied');
+    console.log(occupiedMembers);
+    
+    console.log('avaliable');
+    console.log(availableMembers);
+    
+  }, [occupiedMembers, availableMembers])
+  
 
-  const removeUserAssignment = async (
-    user: IUserData,
-  ) => {
+  const removeUserAssignment = async (user: IUserData) => {
     const assignment = assignments.find(
       (assignment) => assignment.user._id === user._id
     );
-  
     if (!assignment) {
       console.error("Assignment not found for the user");
       return;
     }
     await deleteAssignment(assignment._id);
     setOccupiedMembers(
-      occupiedMembers.filter((ocupiedUser) => ocupiedUser._id !== user._id)
+      occupiedMembers.filter((assignment) => assignment._id !== assignment._id)
     );
-
-    // Check if the user is not already in availableMembers state, then add them
     if (!availableMembers.find((member) => member._id === user._id)) {
       setAvailableMembers([...availableMembers, user]);
     }
-
+    const filteredAssignments = assignments.filter(
+      (assignmentToRemove) => assignmentToRemove !== assignment
+    );
+    SetAssignments(filteredAssignments);
     toast({
       title: "User assignment removed!",
       variant: "default",
