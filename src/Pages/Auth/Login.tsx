@@ -13,7 +13,7 @@ import { useToast } from '../../Components/Toaster/use-toast';
 export const Login = () => {
     const [loading, setLoading] = React.useState<boolean>(false);
     const authenticateUser = useAuth();
-    const { toast } = useToast()
+    const { toast } = useToast();
 
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
@@ -22,8 +22,8 @@ export const Login = () => {
             navigate('/');
             toast({
                 title: 'You are already logged in',
-                variant: "destructive" 
-            })
+                variant: 'destructive',
+            });
         }
     }, [isAuth, navigate, toast]);
     const [loginData, handleInputChange] = useFormData<LoginUserData>({
@@ -38,14 +38,14 @@ export const Login = () => {
             setLoading(true);
             const response = await loginUser(loginData!);
             await authenticateUser(response);
-            navigate('/');
         } catch (err: any) {
             toast({
                 title: err.message,
-                variant: "destructive" 
-            })
+                variant: 'destructive',
+            });
         }
         setLoading(false);
+        navigate('/');
     };
 
     return (
@@ -70,13 +70,19 @@ export const Login = () => {
                         />
                         <div className='text-black text-left'>
                             Not registered?{' '}
-                            <Link to={'/auth/register'} className='font-semibold'>
+                            <Link
+                                to={'/auth/register'}
+                                className='font-semibold'
+                            >
                                 Register
                             </Link>
                         </div>
                         <div className='text-black text-left'>
                             Forgot your password?{' '}
-                            <Link to={'/auth/forgotPassword'} className='font-semibold'>
+                            <Link
+                                to={'/auth/forgotPassword'}
+                                className='font-semibold'
+                            >
                                 Reset it
                             </Link>
                         </div>

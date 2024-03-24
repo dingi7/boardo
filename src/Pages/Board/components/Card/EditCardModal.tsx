@@ -125,7 +125,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     }
     await deleteAssignment(assignment._id);
     setOccupiedMembers(
-      occupiedMembers.filter((assignment) => assignment._id !== assignment._id)
+      occupiedMembers.filter((ocupiedUser) => ocupiedUser._id !== user._id)
     );
 
     // Check if the user is not already in availableMembers state, then add them

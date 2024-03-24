@@ -1,27 +1,27 @@
-import { useNavigate } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
-import { useAuthUser } from "react-auth-kit";
-import { useToast } from "../../Components/Toaster/use-toast";
+import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
+import { useAuthUser } from 'react-auth-kit';
+import { useToast } from '../../Components/Toaster/use-toast';
 import {
     Card,
     CardContent,
     CardFooter,
     CardHeader,
     CardTitle,
-} from "src/Components/ui/card";
-import { Label } from "src/Components/ui/label";
-import { Input } from "src/Components/ui/input";
-import { Button } from "src/Components/ui/button";
-import { ProfileOrganizationComponent } from "./components/ProfileOrganizationComponent";
-import { IOrg } from "src/Interfaces/IContexts";
+} from 'src/Components/ui/card';
+import { Label } from 'src/Components/ui/label';
+import { Input } from 'src/Components/ui/input';
+import { Button } from 'src/Components/ui/button';
+import { ProfileOrganizationComponent } from './components/ProfileOrganizationComponent';
+import { IOrg } from 'src/Interfaces/IContexts';
 import {
     changePassword,
     getAssignments,
     getUserOrganizations,
     leaveOrganization,
     updateUserCredentials,
-} from "src/api/requests";
-import { ProfileAssignmentComponent } from "./components/ProfileAssignmentComponent";
+} from 'src/api/requests';
+import { ProfileAssignmentComponent } from './components/ProfileAssignmentComponent';
 
 export const Profile = () => {
     /// !!!! fix mee
@@ -29,37 +29,37 @@ export const Profile = () => {
     const navigate = useNavigate();
     const authUser = useAuthUser()();
     const [userOrganizations, setUserOrganizations] = useState<IOrg[]>([]);
-    const [userAssignmetns, setUserAssignment] = useState()
+    const [userAssignments, setUserAssignments] = useState([]);
     const [userData, setUserData] = useState({
         username: authUser?.username,
         email: authUser?.email,
-        password: ""
+        password: '',
     });
     const [passwordData, setPasswordData] = useState({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: '',
     });
     const [loading, setLoading] = useState(false); // Add loading state
 
     const handleUpdateUserInfo = async () => {
         try {
             if (!userData.username || !userData.email) {
-                throw new Error("Username and email required!");
+                throw new Error('Username and email required!');
             }
 
             toast({
-                description: "User data updated!",
-                variant: "default",
-            })
+                description: 'User data updated!',
+                variant: 'default',
+            });
         } catch (e: any) {
             toast({
-                title: "Error",
+                title: 'Error',
                 description: e.message,
-                variant: "destructive",
+                variant: 'destructive',
             });
         }
-    }
+    };
 
     const handlePasswordInputChange = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -82,12 +82,13 @@ export const Profile = () => {
     const fetchOrganizations = useCallback(async () => {
         try {
             setLoading(true); // Set loading state to true
+            console.log('here')
             const organizations = await getUserOrganizations();
             setUserOrganizations(organizations);
         } catch (err: any) {
             toast({
                 title: err.message,
-                variant: "destructive",
+                variant: 'destructive',
             });
         } finally {
             setLoading(false); // Set loading state to false
@@ -98,23 +99,23 @@ export const Profile = () => {
         try {
             setLoading(true);
             const assignments = await getAssignments();
-            setUserAssignment(assignments);
+            setUserAssignments(assignments);
         } catch (err: any) {
             toast({
                 title: err.message,
-                variant: "destructive",
+                variant: 'destructive',
             });
         } finally {
             setLoading(false); // Set loading state to false
         }
-    }, [toast])
+    }, [toast]);
 
     useEffect(() => {
         if (!authUser) {
-            navigate("/");
+            navigate('/');
             toast({
-                title: "You are not logged in",
-                variant: "destructive",
+                title: 'You are not logged in',
+                variant: 'destructive',
             });
         } else {
             fetchOrganizations();
@@ -126,21 +127,21 @@ export const Profile = () => {
         try {
             event.preventDefault();
 
-            if (event.currentTarget.id === "userInfoForm") {
+            if (event.currentTarget.id === 'userInfoForm') {
                 const validation = validateUserInfoChange(
                     userData.username,
-                    userData.email,
-                )
+                    userData.email
+                );
                 if (validation !== null) {
                     throw new Error(validation.message);
                 }
 
-                const result = await updateUserCredentials(userData)
-                
+                const result = await updateUserCredentials(userData);
+
                 toast({
-                    description: "User data updated!",
-                    variant: "default",
-                })
+                    description: 'User data updated!',
+                    variant: 'default',
+                });
             } else {
                 // Validate password change
                 const validation = validatePasswordChange(
@@ -158,21 +159,21 @@ export const Profile = () => {
                 );
 
                 setPasswordData({
-                    currentPassword: "",
-                    newPassword: "",
-                    confirmPassword: "",
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmPassword: '',
                 });
                 toast({
                     //title: "Error",
-                    description: "Password updated!",
-                    variant: "default",
+                    description: 'Password updated!',
+                    variant: 'default',
                 });
             }
         } catch (e: any) {
             toast({
-                title: "Error",
+                title: 'Error',
                 description: e.message,
-                variant: "destructive",
+                variant: 'destructive',
             });
         }
     };
@@ -183,22 +184,22 @@ export const Profile = () => {
         confirmPassword: string
     ) => {
         if (!currentPassword) {
-            return new Error("Current password required!");
+            return new Error('Current password required!');
         }
         if (!newPassword || !confirmPassword) {
             return new Error(
-                "New password and confirm password fields can not be empty!"
+                'New password and confirm password fields can not be empty!'
             );
         }
         if (newPassword !== confirmPassword) {
-            return new Error("Passwords do not match!");
+            return new Error('Passwords do not match!');
         }
         return null;
     };
 
     const validateUserInfoChange = (username: string, email: string) => {
         if (!username || !email) {
-            return new Error("Username and email required!");
+            return new Error('Username and email required!');
         }
 
         return null;
@@ -211,113 +212,113 @@ export const Profile = () => {
                 prev.filter((org: IOrg) => org._id !== orgId)
             );
             toast({
-                title: "Organization " + orgId + " left successfully",
+                title: 'Organization ' + orgId + ' left successfully',
             });
         } catch (e: any) {
             toast({
-                title: "Error",
+                title: 'Error',
                 description: e.message,
-                variant: "destructive",
+                variant: 'destructive',
             });
         }
     };
 
     return (
-        <div className="flex flex-col gap-6 p-6 lg:flex-row">
-            <section className="w-full space-y-6 lg:w-1/3">
+        <div className='flex flex-col gap-6 p-6 lg:flex-row'>
+            <section className='w-full space-y-6 lg:w-1/3'>
                 <Card>
                     <CardHeader>
                         <CardTitle>Account Settings</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className='space-y-4'>
                         {/* UserInfo form */}
-                        <form id="userInfoForm" onSubmit={handleSubmit}>
-                            <div className="space-y-2">
-                                <Label htmlFor="username">Username</Label>
+                        <form id='userInfoForm' onSubmit={handleSubmit}>
+                            <div className='space-y-2'>
+                                <Label htmlFor='username'>Username</Label>
                                 <Input
-                                    id="username"
-                                    name="username"
-                                    placeholder="Enter your username"
+                                    id='username'
+                                    name='username'
+                                    placeholder='Enter your username'
                                     value={userData?.username}
                                     onChange={handleUserDataInputChange}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="email">Email</Label>
+                            <div className='space-y-2'>
+                                <Label htmlFor='email'>Email</Label>
                                 <Input
-                                    id="email"
-                                    name="email"
-                                    placeholder="Enter your email"
-                                    type="email"
+                                    id='email'
+                                    name='email'
+                                    placeholder='Enter your email'
+                                    type='email'
                                     value={userData?.email}
                                     onChange={handleUserDataInputChange}
                                 />
                             </div>
-                            <div className="text-right mt-[4%]">
-                                <Button className="ml-auto">
+                            <div className='text-right mt-[4%]'>
+                                <Button className='ml-auto'>
                                     Update Information
                                 </Button>
                             </div>
                         </form>
 
                         {/* Password form */}
-                        <form id="passwordForm" onSubmit={handleSubmit}>
-                            <div className="space-y-2">
-                                <Label htmlFor="oldPassword">
+                        <form id='passwordForm' onSubmit={handleSubmit}>
+                            <div className='space-y-2'>
+                                <Label htmlFor='oldPassword'>
                                     Current Password
                                 </Label>
                                 <Input
-                                    name="currentPassword"
-                                    id="oldPassword"
-                                    placeholder="Enter your current password"
-                                    type="password"
+                                    name='currentPassword'
+                                    id='oldPassword'
+                                    placeholder='Enter your current password'
+                                    type='password'
                                     value={passwordData?.currentPassword}
                                     onChange={handlePasswordInputChange}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="newPassword">
+                            <div className='space-y-2'>
+                                <Label htmlFor='newPassword'>
                                     New Password
                                 </Label>
                                 <Input
-                                    name="newPassword"
-                                    id="newPassword"
-                                    placeholder="Enter your new password"
-                                    type="password"
+                                    name='newPassword'
+                                    id='newPassword'
+                                    placeholder='Enter your new password'
+                                    type='password'
                                     value={passwordData?.newPassword}
                                     onChange={handlePasswordInputChange}
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="confirmPassword">
+                            <div className='space-y-2'>
+                                <Label htmlFor='confirmPassword'>
                                     Confirm Password
                                 </Label>
                                 <Input
-                                    name="confirmPassword"
-                                    id="confirmPassword"
-                                    placeholder="Confirm your password"
-                                    type="password"
+                                    name='confirmPassword'
+                                    id='confirmPassword'
+                                    placeholder='Confirm your password'
+                                    type='password'
                                     value={passwordData?.confirmPassword}
                                     onChange={handlePasswordInputChange}
                                 />
                             </div>
-                            <div className="text-right mt-[4%]">
+                            <div className='text-right mt-[4%]'>
                                 <Button>Update Password</Button>
                             </div>
                         </form>
                     </CardContent>
                 </Card>
             </section>
-            <section className="w-full space-y-6 lg:w-2/3">
+            <section className='w-full space-y-6 lg:w-2/3'>
                 <Card>
                     <CardHeader>
                         <CardTitle>Organizations</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className='space-y-4'>
                         {loading ? (
-                            <div className="flex justify-center">
+                            <div className='flex justify-center'>
                                 {/**Add loading spinner */}
-                                <div className="w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin"></div>
+                                <div className='w-32 h-32 border-t-2 border-b-2 border-gray-900 rounded-full animate-spin'></div>
                             </div>
                         ) : (
                             userOrganizations.map((org: IOrg) =>
@@ -337,12 +338,27 @@ export const Profile = () => {
                     <CardHeader>
                         <CardTitle>Assignments</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
-                        <ProfileAssignmentComponent
-                            cardName="hardcoded test"
-                            boardId="65feedce274dd27d790c2330"
-                            dueTo={new Date()}
-                        />
+                    <CardContent className='space-y-4'>
+                        {userAssignments ? (
+                            userAssignments.map(
+                                (assignment: any, index: number) => (
+                                    <ProfileAssignmentComponent
+                                        key={index} // It's better to have a unique key, like assignment.id if available
+                                        cardName={assignment.card.name}
+                                        boardId={assignment.card.list.board}
+                                        dueTo={
+                                            assignment.card.dueDate ||
+                                            new Date()
+                                        }
+                                    />
+                                )
+                            )
+                        ) : (
+                            <div className='flex justify-center'>
+                                {/* Placeholder for loading spinner */}
+                                {/* e.g., <Spinner /> */}
+                            </div>
+                        )}
                     </CardContent>
                 </Card>
             </section>
