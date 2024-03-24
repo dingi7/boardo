@@ -9,55 +9,23 @@ import { cn } from "src/util/utils";
 import { Button } from "src/Components/ui/button";
 import { UserPlus } from "lucide-react";
 import MultipleCombobox from "./multipleCombobox";
-import { useContext, useEffect } from "react";
-
-
-import { DashboardContext } from "src/Pages/Dashboard/contexts/DashboardContextProvider";
 import { IUserData } from "src/Interfaces/IUserData";
 import { IAssignment } from "src/Interfaces/IAssignment";
 
 
 export const TaskAssignmentPopup = ({
   assignments,
+  occupiedMembers,
+  availableMembers,
   assingUser,
   removeUserAssignment,
 }: {
+  occupiedMembers: Array<IUserData>;
+  availableMembers: Array<IUserData>;
   assignments: Array<IAssignment>;
   removeUserAssignment: (user: IUserData) => void;
   assingUser: (user: IUserData) => void;
 }): JSX.Element => {
-  const dashboardContext = useContext(DashboardContext);
-
-  const organizationMembers = dashboardContext?.selectedOrganization?.members;
-  console.log('organizationMembers');
-  
-  console.log(organizationMembers);
-  
-  const occupiedMembers: IUserData[] = [];
-  const availableMembers: IUserData[] = [];
-
-  
-  useEffect(() => {
-    console.log('assignments');
-    console.log(assignments);
-    
-    
-    console.log('occupiedMembers');
-    console.log(occupiedMembers);
-    
-    console.log('availableMembers');
-    console.log(availableMembers);
-  }, [occupiedMembers])
-
-  organizationMembers?.forEach((member) => {
-    if (assignments.some((assignment) => assignment.user._id === member._id)) {
-      occupiedMembers.push(member);
-    } else {
-      availableMembers.push(member);
-    }
-  });
-
-
 
   return (
     <Popover>

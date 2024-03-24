@@ -1,5 +1,5 @@
 import { Brain, MoreHorizontal } from "lucide-react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -34,6 +34,7 @@ import { PrioritySelect } from "./PriorityDropdown";
 import { TaskAssignmentPopup } from "./TaskAssignmentPopup";
 import { IUserData } from "src/Interfaces/IUserData";
 import { IAssignment } from "src/Interfaces/IAssignment";
+import { DashboardContext } from "src/Pages/Dashboard/contexts/DashboardContextProvider";
 
 interface SettingsCardModalProps {
   title: string;
@@ -58,7 +59,6 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
   date,
   setDate,
   assignments,
-  SetAssignments,
   description,
   setDescription,
 }) => {
@@ -77,15 +77,63 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     );
   };
 
-  const assingUser = async (user: IUserData):Promise<void>=> {
-    // Using functional update syntax to correctly update the state
-    //((prevState: IUserData[]) => [...prevState]);
+  const dashboardContext = useContext(DashboardContext);
+
+  const organizationMembers = dashboardContext?.selectedOrganization?.members;
+  const [occupiedMembers, setOccupiedMembers] = useState<IUserData[]>([]);
+  const [availableMembers, setAvailableMembers] = useState<IUserData[]>([]);
+
+  useEffect(() => {
+    if (organizationMembers) {
+      const occupied: IUserData[] = [];
+      const available: IUserData[] = [];
+
+      organizationMembers.forEach((member) => {
+        if (
+          assignments.some((assignment) => assignment.user._id === member._id)
+        ) {
+          occupied.push(member);
+        } else {
+          available.push(member);
+        }
+      });
+
+      setOccupiedMembers(occupied);
+      setAvailableMembers(available);
+    }
+  }, [organizationMembers, assignments]);
+
+  const assingUser = async (user: IUserData): Promise<void> => {
     await createAssignment(user._id, cardId);
+    setAvailableMembers(
+      availableMembers.filter((member) => member._id !== user._id)
+    );
+    setOccupiedMembers([...occupiedMembers, user]);
+    
+    toast({
+      title: "User assigned!",
+      variant: "default",
+  });
   };
+  
 
   const removeUserAssignment = async (user: IUserData) => {
     await deleteAssignment(user._id);
+    setOccupiedMembers(
+      occupiedMembers.filter((member) => member._id !== user._id)
+    );
+    if (!availableMembers.find((member) => member._id === user._id)) {
+      setAvailableMembers([...availableMembers, user]);
+    }
+
+    toast({
+      title: "User assignment removed!",
+      variant: "default",
+  });
   };
+  
+
+  
   return (
     <Dialog>
       <DialogTrigger>
@@ -134,6 +182,8 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             <Label>Distribute task</Label>
             <br></br>
             <TaskAssignmentPopup
+              availableMembers={availableMembers}
+              occupiedMembers={occupiedMembers}
               assignments={assignments}
               assingUser={assingUser}
               removeUserAssignment={removeUserAssignment}

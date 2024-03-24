@@ -55,12 +55,11 @@ export const Card: React.FC<CardItem> = ({
     storedDueDate ? new Date(storedDueDate) : undefined
   );
 
-  // a list of members to which the task is assigned
   const [assignments, SetAssignments] = useState<Array<IAssignment>>([]);
 
   const fetchAllAssignmentsForCard = async () => {
     const assignments = await getAssignmentsByCard(id);
-    SetAssignments(assignments)
+    SetAssignments(assignments);
   };
 
   useEffect(() => {

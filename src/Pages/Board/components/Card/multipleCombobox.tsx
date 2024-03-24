@@ -1,4 +1,4 @@
-import { ChevronDown, Plus, X } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import React from "react";
 import {
   DropdownMenu,
