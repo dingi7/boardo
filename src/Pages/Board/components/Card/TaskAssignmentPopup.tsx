@@ -11,28 +11,53 @@ import { UserPlus } from "lucide-react";
 import MultipleCombobox from "./multipleCombobox";
 import { useContext, useEffect } from "react";
 
-import { BoardContext } from "../../contexts/BoardContextProvider";
+
 import { DashboardContext } from "src/Pages/Dashboard/contexts/DashboardContextProvider";
 import { IUserData } from "src/Interfaces/IUserData";
+import { IAssignment } from "src/Interfaces/IAssignment";
+
 
 export const TaskAssignmentPopup = ({
-  assignedTo,
-  setAssignedTo,
+  assignments,
   assingUser,
   removeUserAssignment,
 }: {
-  assignedTo: Array<IUserData>;
+  assignments: Array<IAssignment>;
   removeUserAssignment: (user: IUserData) => void;
   assingUser: (user: IUserData) => void;
-  setAssignedTo: (assignedTo: IUserData[]) => void;
 }): JSX.Element => {
   const dashboardContext = useContext(DashboardContext);
 
   const organizationMembers = dashboardContext?.selectedOrganization?.members;
+  console.log('organizationMembers');
+  
+  console.log(organizationMembers);
+  
+  const occupiedMembers: IUserData[] = [];
+  const availableMembers: IUserData[] = [];
 
-  const availableMembers = organizationMembers?.filter(
-    (member) => !assignedTo.some((assigned) => assigned._id === member._id)
-  );
+  
+  useEffect(() => {
+    console.log('assignments');
+    console.log(assignments);
+    
+    
+    console.log('occupiedMembers');
+    console.log(occupiedMembers);
+    
+    console.log('availableMembers');
+    console.log(availableMembers);
+  }, [occupiedMembers])
+
+  organizationMembers?.forEach((member) => {
+    if (assignments.some((assignment) => assignment.user._id === member._id)) {
+      occupiedMembers.push(member);
+    } else {
+      availableMembers.push(member);
+    }
+  });
+
+
 
   return (
     <Popover>
@@ -41,7 +66,7 @@ export const TaskAssignmentPopup = ({
           variant={"outline"}
           className={cn(
             "w-[100%] justify-start text-left font-normal",
-            !assignedTo && "text-muted-foreground"
+            !assignments && "text-muted-foreground"
           )}
         >
           <UserPlus className="w-4 h-4 mr-2" />
@@ -53,7 +78,7 @@ export const TaskAssignmentPopup = ({
           <div>
             <p className="font-semibold break-keep">Selected users</p>
             <MultipleCombobox
-              usersList={assignedTo}
+              usersList={occupiedMembers}
               action={removeUserAssignment}
             />
           </div>

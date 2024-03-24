@@ -33,6 +33,7 @@ import { toast } from "src/Components/Toaster/use-toast";
 import { PrioritySelect } from "./PriorityDropdown";
 import { TaskAssignmentPopup } from "./TaskAssignmentPopup";
 import { IUserData } from "src/Interfaces/IUserData";
+import { IAssignment } from "src/Interfaces/IAssignment";
 
 interface SettingsCardModalProps {
   title: string;
@@ -42,8 +43,8 @@ interface SettingsCardModalProps {
   setPriority: (priority: string) => void;
   date: Date | undefined;
   setDate: (date: Date | undefined) => void;
-  assignedTo: Array<IUserData>;
-  setAssignedTo: (assignedTo: IUserData[]) => void;
+  assignments: Array<IAssignment>;
+  SetAssignments: (assignments: IAssignment[]) => void;
   description: string;
   setDescription: (description: string) => void;
 }
@@ -56,8 +57,8 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
   setPriority,
   date,
   setDate,
-  assignedTo,
-  setAssignedTo,
+  assignments,
+  SetAssignments,
   description,
   setDescription,
 }) => {
@@ -133,8 +134,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             <Label>Distribute task</Label>
             <br></br>
             <TaskAssignmentPopup
-              assignedTo={assignedTo}
-              setAssignedTo={setAssignedTo}
+              assignments={assignments}
               assingUser={assingUser}
               removeUserAssignment={removeUserAssignment}
             ></TaskAssignmentPopup>

@@ -51,6 +51,10 @@ export const deleteAssignment = async (assignmentId: string) => {
     return api.del(endpoints.assigments(assignmentId));
 };
 
+export const getAssignmentsByCard = async (cardId: string) => {
+    return api.get(endpoints.assigments(cardId));
+}
+
 export const renameCard = async (
     cardId: string,
     organizationId: string,

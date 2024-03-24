@@ -15,8 +15,8 @@ import {
   TooltipTrigger,
 } from "src/Components/ui/tooltip";
 import SettingsCardModal from "./EditCardModal";
-import { IUserData } from "src/Interfaces/IUserData";
-import { getAssignments } from "src/api/requests";
+import { getAssignmentsByCard } from "src/api/requests";
+import { IAssignment } from "src/Interfaces/IAssignment";
 
 type CardItem = {
   content: string;
@@ -56,15 +56,11 @@ export const Card: React.FC<CardItem> = ({
   );
 
   // a list of members to which the task is assigned
-  const [assignedTo, setAssignedTo] = useState<Array<IUserData>>([]);
+  const [assignments, SetAssignments] = useState<Array<IAssignment>>([]);
 
   const fetchAllAssignmentsForCard = async () => {
-    const allAssignments = await getAssignments();
-
-    const filteredAssignments = allAssignments.filter(
-        (assignment: any) => assignment.card === id
-      );
-
+    const assignments = await getAssignmentsByCard(id);
+    SetAssignments(assignments)
   };
 
   useEffect(() => {
@@ -145,8 +141,8 @@ export const Card: React.FC<CardItem> = ({
               setPriority={setPriority}
               date={date}
               setDate={setDate}
-              assignedTo={assignedTo}
-              setAssignedTo={setAssignedTo}
+              assignments={assignments}
+              SetAssignments={SetAssignments}
               description={description}
               setDescription={setDescription}
             />
