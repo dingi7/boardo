@@ -34,7 +34,7 @@ export const TaskAssignmentPopup = ({
           variant={"outline"}
           className={cn(
             "w-[100%] justify-start text-left font-normal",
-            !assignments && "text-muted-foreground"
+            assignments.length === 0 && "text-muted-foreground"
           )}
         >
           <UserPlus className="w-4 h-4 mr-2" />

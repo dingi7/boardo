@@ -1,5 +1,5 @@
 import { Draggable } from "@hello-pangea/dnd";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { CardTitle } from "./CardTitle";
 import {
@@ -18,6 +18,8 @@ import {
 import SettingsCardModal from "./EditCardModal";
 import { getAssignmentsByCard } from "src/api/requests";
 import { IAssignment } from "src/Interfaces/IAssignment";
+import { IUserData } from "src/Interfaces/IUserData";
+import { DashboardContext } from "src/Pages/Dashboard/contexts/DashboardContextProvider";
 
 type CardItem = {
   content: string;
@@ -56,7 +58,35 @@ export const Card: React.FC<CardItem> = ({
     storedDueDate ? new Date(storedDueDate) : undefined
   );
 
+  const dashboardContext = useContext(DashboardContext);
+
+  const organizationMembers = dashboardContext?.selectedOrganization?.members;
+
   const [assignments, SetAssignments] = useState<Array<IAssignment>>([]);
+  const [occupiedMembers, setOccupiedMembers] = useState<IUserData[]>([]);
+  const [availableMembers, setAvailableMembers] = useState<IUserData[]>([]);
+
+  
+  useEffect(() => {
+    if (organizationMembers) {
+      const occupied: IUserData[] = [];
+      const available: IUserData[] = [];
+
+      organizationMembers.forEach((member) => {
+        if (
+          assignments.some((assignment) => assignment.user._id === member._id)
+        ) {
+          occupied.push(member);
+        } else {
+          available.push(member);
+        }
+      });
+
+      setOccupiedMembers(occupied);
+      setAvailableMembers(available);
+    }
+  }, [organizationMembers, assignments]);
+
 
   const fetchAllAssignmentsForCard = async () => {
     const assignments = await getAssignmentsByCard(id);
@@ -65,7 +95,24 @@ export const Card: React.FC<CardItem> = ({
 
   useEffect(() => {
     fetchAllAssignmentsForCard();
-  }, []);
+    if (organizationMembers) {
+      const occupied: IUserData[] = [];
+      const available: IUserData[] = [];
+
+      organizationMembers.forEach((member) => {
+        if (
+          assignments.some((assignment) => assignment.user._id === member._id)
+        ) {
+          occupied.push(member);
+        } else {
+          available.push(member);
+        }
+      });
+
+      setOccupiedMembers(occupied);
+      setAvailableMembers(available);
+    }
+  }, [organizationMembers, assignments]);
 
   return (
     <Draggable draggableId={id} index={index}>
@@ -173,6 +220,10 @@ export const Card: React.FC<CardItem> = ({
               SetAssignments={SetAssignments}
               description={description}
               setDescription={setDescription}
+              availableMembers={availableMembers}
+              setAvailableMembers={setAvailableMembers}
+              occupiedMembers={occupiedMembers}
+              setOccupiedMembers={setOccupiedMembers}
             />
           </div>
         </div>

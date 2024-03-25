@@ -1,5 +1,11 @@
 import { Brain, MoreHorizontal } from "lucide-react";
-import React, { useContext, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   Select,
   SelectContent,
@@ -33,7 +39,6 @@ import { PrioritySelect } from "./PriorityDropdown";
 import { TaskAssignmentPopup } from "./TaskAssignmentPopup";
 import { IUserData } from "src/Interfaces/IUserData";
 import { IAssignment } from "src/Interfaces/IAssignment";
-import { DashboardContext } from "src/Pages/Dashboard/contexts/DashboardContextProvider";
 
 interface SettingsCardModalProps {
   title: string;
@@ -47,6 +52,10 @@ interface SettingsCardModalProps {
   SetAssignments: (assignments: IAssignment[]) => void;
   description: string;
   setDescription: (description: string) => void;
+  availableMembers: IUserData[];
+  setAvailableMembers: Dispatch<SetStateAction<IUserData[]>>;
+  occupiedMembers: IUserData[];
+  setOccupiedMembers: Dispatch<SetStateAction<IUserData[]>>;
 }
 
 const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
@@ -61,6 +70,10 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
   SetAssignments,
   description,
   setDescription,
+  availableMembers,
+  setAvailableMembers,
+  occupiedMembers,
+  setOccupiedMembers,
 }) => {
   const context = useContext(BoardContext);
   if (!context) throw new Error("Board context is not available");
@@ -77,61 +90,35 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     );
   };
 
-  const dashboardContext = useContext(DashboardContext);
-
-  const organizationMembers = dashboardContext?.selectedOrganization?.members;
-  const [occupiedMembers, setOccupiedMembers] = useState<IUserData[]>([]);
-  const [availableMembers, setAvailableMembers] = useState<IUserData[]>([]);
-
-  useEffect(() => {
-    if (organizationMembers) {
-      const occupied: IUserData[] = [];
-      const available: IUserData[] = [];
-
-      organizationMembers.forEach((member) => {
-        if (
-          assignments.some((assignment) => assignment.user._id === member._id)
-        ) {
-          occupied.push(member);
-        } else {
-          available.push(member);
-        }
-      });
-
-      setOccupiedMembers(occupied);
-      setAvailableMembers(available);
-    }
-  }, [organizationMembers, assignments]);
-
   const assingUser = async (user: IUserData) => {
+    console.log("gere");
+
+    console.log(user);
+
     const assignment = await createAssignment(user._id, cardId);
-  
-    // Filter out the assigned user from availableMembers
-    const updatedAvailableMembers = availableMembers.filter(
-      (member) => member._id !== user._id
-    );
-  
-    // Update availableMembers state
-    setAvailableMembers(updatedAvailableMembers);
-  
-    // Check if the user is not already in occupiedMembers state, then add them
-    
-      setOccupiedMembers([...occupiedMembers, assignment.user]);
-    
-  
-    // Add the assignment to the assignments state
+    if (!assignment) {
+      console.error("Assignment not found for the user");
+      return;
+    }
+    const indexOfMember = availableMembers.indexOf(user);
+    const sortedMembers = availableMembers.splice(indexOfMember, 1);
+    setAvailableMembers(sortedMembers);
+    if (!occupiedMembers.find((member) => member._id === user._id)) {
+      setOccupiedMembers([...occupiedMembers, user]);
+    }
+
     SetAssignments([...assignments, assignment]);
-  };
-  
-  useEffect(() => {
-    console.log('occupied');
+
+    toast({
+      title: "User assignment created!",
+      variant: "default",
+    });
+
+    console.log("ocupied");
     console.log(occupiedMembers);
-    
-    console.log('avaliable');
+    console.log("ava");
     console.log(availableMembers);
-    
-  }, [occupiedMembers, availableMembers])
-  
+  };
 
   const removeUserAssignment = async (user: IUserData) => {
     const assignment = assignments.find(
@@ -143,11 +130,11 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     }
     await deleteAssignment(assignment._id);
     setOccupiedMembers(
-      occupiedMembers.filter((assignment) => assignment._id !== assignment._id)
+      occupiedMembers.filter((member) => member._id !== user._id)
     );
-    if (!availableMembers.find((member) => member._id === user._id)) {
-      setAvailableMembers([...availableMembers, user]);
-    }
+
+    setAvailableMembers([...availableMembers, user]);
+
     const filteredAssignments = assignments.filter(
       (assignmentToRemove) => assignmentToRemove !== assignment
     );
@@ -156,6 +143,13 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
       title: "User assignment removed!",
       variant: "default",
     });
+
+    console.log("user");
+    console.log(user);
+    console.log("ocupied");
+    console.log(occupiedMembers);
+    console.log("ava");
+    console.log(availableMembers);
   };
 
   return (
