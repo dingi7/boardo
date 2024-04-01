@@ -31,6 +31,7 @@ import { DatePicker } from "./DatePicker";
 import {
   createAssignment,
   deleteAssignment,
+  generateDescription,
   updateCard,
 } from "src/api/requests";
 import { BoardContext } from "../../contexts/BoardContextProvider";
@@ -175,7 +176,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             />
           </div>
           <div>
-            <Label>Descriptionn</Label>
+            <Label>Description</Label>
             <div className="flex items-center gap-3">
               <Textarea
                 placeholder="Type your description here."
@@ -183,8 +184,10 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></Textarea>
-              <Button variant={"ghost"} className="w-[20%] h-[150px]">
-                <Brain></Brain>
+              <Button variant={"ghost"} className="w-[20%] h-[150px]" onClick={async () => {
+                setDescription(await generateDescription(title))
+              }}>
+                <Brain/>
               </Button>
             </div>
           </div>

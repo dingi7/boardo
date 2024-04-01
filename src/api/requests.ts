@@ -21,7 +21,7 @@ export const endpoints = {
         listId ? `/items/list/${listId}` : "/items/list",
     organization: (orgId: string | null) =>
         orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
-        assignments: (assigmentId: string | null) =>
+    assignments: (assigmentId: string | null) =>
         assigmentId ? `/items/assignments/${assigmentId}` : "/items/assignments",
 
     //email password change
@@ -269,4 +269,30 @@ export const removeBoardBackground = async (boardId: string) => {
     return api.post(endpoints.board(boardId), { backgroundUrl: "" });
 };
 
+export const generateDescription = async (title: string) => {
+    const requestBody = {
+        contents: [
+            {
+                parts: [
+                    {
+                        text: `Generate a small short description for the following todo with title: ${title}. Trim the output so there is only the description left`,
+                    },
+                ],
+            },
+        ],
+    };
+
+    const response = await fetch(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCjJWh3W-DT-AdTxfaJ8Qkn60yEBCY_qKk",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
+        }
+    );
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
+};
 
