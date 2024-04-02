@@ -122,6 +122,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
   };
 
   const removeUserAssignment = async (user: IUserData) => {
+
     const assignment = assignments.find(
       (assignment) => assignment.user._id === user._id
     );

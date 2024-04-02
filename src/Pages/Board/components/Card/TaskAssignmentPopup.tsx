@@ -12,7 +12,6 @@ import MultipleCombobox from "./multipleCombobox";
 import { IUserData } from "src/Interfaces/IUserData";
 import { IAssignment } from "src/Interfaces/IAssignment";
 
-
 export const TaskAssignmentPopup = ({
   assignments,
   occupiedMembers,
@@ -26,7 +25,6 @@ export const TaskAssignmentPopup = ({
   removeUserAssignment: (user: IUserData) => void;
   assingUser: (user: IUserData) => void;
 }): JSX.Element => {
-
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -44,17 +42,12 @@ export const TaskAssignmentPopup = ({
       <PopoverContent className="p-5 w-80">
         <div>
           <div>
-            <p className="font-semibold break-keep">Selected users</p>
-            <MultipleCombobox
-              usersList={occupiedMembers}
-              action={removeUserAssignment}
-            />
-          </div>
-          <div>
             <p className="font-semibold break-keep">Select users</p>
             <MultipleCombobox
-              usersList={availableMembers}
-              action={assingUser}
+              occupiedMembers={occupiedMembers}
+              availableMembers={availableMembers}
+              removeUserAssignment={removeUserAssignment}
+              assingUser={assingUser}
             />
           </div>
         </div>
