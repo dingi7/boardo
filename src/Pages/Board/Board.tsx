@@ -155,8 +155,15 @@ export const Board = (): JSX.Element => {
 
     const onDeleteCard = async (cardId: string) => {
         try {
-            await deleteCard(cardId, boardId!, boardInfo?.owner!);
-            toast({title: 'Card deleted'})
+            deleteCard(cardId, boardId!, boardInfo?.owner!);
+            setLists((prev) => {
+                if (!prev) return null;
+                return prev.map((list) => ({
+                    ...list,
+                    cards: list.cards.filter((card) => card._id !== cardId),
+                }));
+            });
+            toast({ title: 'Card deleted' });
         } catch (e) {
             throw new Error('Card could not be deleted');
         }
