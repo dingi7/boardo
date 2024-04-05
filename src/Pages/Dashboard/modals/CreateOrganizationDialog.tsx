@@ -75,6 +75,7 @@ export const CreateOrganizationDialog = ({
                                         setUserOrganizations={
                                             setUserOrganizations
                                         }
+                                        closeModal={closeModal}
                                     ></JoinOrganizationDialog>
                                 )
                             ).filter((org) => org.props.orgName.toLowerCase().includes(searchValue.toLowerCase()))}
@@ -130,8 +131,10 @@ export const CreateOrganizationDialog = ({
                     <CardFooter>
                         <Button
                             variant={'primary'}
-                            onClick={() =>
+                            onClick={() =>{
                                 handleCreateWorkspace(workspaceData, closeModal)
+                                closeModal()
+                            }
                             }
                         >
                             Create
