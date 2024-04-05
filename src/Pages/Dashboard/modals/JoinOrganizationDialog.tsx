@@ -23,6 +23,7 @@ export function JoinOrganizationDialog({
   orgName: string;
   orgId: string;
   setUserOrganizations: (organizations: any) => void;
+  closeModal: () => void;
 }) {
   const { toast } = useToast();
   const [password, setPassword] = useState<string>("");
@@ -35,6 +36,7 @@ export function JoinOrganizationDialog({
         title: "Joined!",
         description: `You have joined ${orgName}`,
       });
+      closeModal()
     } catch (err: any) {
       toast({
         title: "Error!",
@@ -107,3 +109,7 @@ export function JoinOrganizationDialog({
     </Dialog>
   );
 }
+function closeModal() {
+  throw new Error("Function not implemented.");
+}
+
