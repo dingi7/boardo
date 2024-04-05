@@ -42,6 +42,7 @@ const MultipleCombobox = ({
             <DropdownMenuItem
               className="w-full"
               onClick={() => removeUserAssignment(user)}
+              key={user._id}
             >
               <li className="flex items-center w-full gap-4 p-3 text-left rounded-md">
                 <Checkbox checked />
