@@ -91,19 +91,15 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     );
   };
 
-  const assingUser = async (user: IUserData) => {
-    console.log("gere");
-
-    console.log(user);
-
+  const assingUser = async (user: IUserData) => { 
     const assignment = await createAssignment(user._id, cardId);
     if (!assignment) {
       console.error("Assignment not found for the user");
       return;
     }
     const indexOfMember = availableMembers.indexOf(user);
-    const sortedMembers = availableMembers.splice(indexOfMember, 1);
-    setAvailableMembers(sortedMembers);
+    const filteredMembers = availableMembers.splice(indexOfMember, 1);
+    setAvailableMembers(filteredMembers);
     if (!occupiedMembers.find((member) => member._id === user._id)) {
       setOccupiedMembers([...occupiedMembers, user]);
     }
@@ -114,11 +110,6 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
       title: "User assignment created!",
       variant: "default",
     });
-
-    console.log("ocupied");
-    console.log(occupiedMembers);
-    console.log("ava");
-    console.log(availableMembers);
   };
 
   const removeUserAssignment = async (user: IUserData) => {

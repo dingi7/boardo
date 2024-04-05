@@ -82,7 +82,7 @@ export const Profile = () => {
     const fetchOrganizations = useCallback(async () => {
         try {
             setLoading(true); // Set loading state to true
-            console.log('here')
+            console.log('here');
             const organizations = await getUserOrganizations();
             setUserOrganizations(organizations);
         } catch (err: any) {

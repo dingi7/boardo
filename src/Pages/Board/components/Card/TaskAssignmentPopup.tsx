@@ -42,7 +42,7 @@ export const TaskAssignmentPopup = ({
       <PopoverContent className="p-5 w-80">
         <div>
           <div>
-            <p className="font-semibold break-keep">Select users</p>
+            <p className="font-semibold break-keep">Assign users</p>
             <MultipleCombobox
               occupiedMembers={occupiedMembers}
               availableMembers={availableMembers}

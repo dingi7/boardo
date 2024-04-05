@@ -30,7 +30,7 @@ const MultipleCombobox = ({
           size="default"
           className="flex justify-start w-full"
         >
-          <span>Select users</span>
+          <span>Select</span>
           <ChevronDown />
         </Button>
       </DropdownMenuTrigger>
