@@ -2,24 +2,14 @@ import { Brain, MoreHorizontal } from "lucide-react";
 import React, {
   Dispatch,
   SetStateAction,
-  useContext,
-  useEffect,
-  useState,
+  useContext
 } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "src/Components/select";
 import { Button } from "src/Components/ui/button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,

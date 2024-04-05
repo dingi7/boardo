@@ -1,42 +1,49 @@
-import { dataBaseBoard, dataBaseList } from "../Interfaces/IDatabase";
-import { LoginUserData, RegisterUserData, UpdateCredentialsData } from "../Interfaces/IUserData";
-import * as api from "./api";
+import { dataBaseBoard, dataBaseList } from '../Interfaces/IDatabase';
+import {
+    LoginUserData,
+    RegisterUserData,
+    UpdateCredentialsData,
+} from '../Interfaces/IUserData';
+import * as api from './api';
 
 export const endpoints = {
-    registerUser: "/auth/register",
-    loginUser: "/auth/login",
-    updateUserCredentials: "/auth/updateCredentials",
+    registerUser: '/auth/register',
+    loginUser: '/auth/login',
+    updateUserCredentials: '/auth/updateCredentials',
     orgs: `/auth/orgs`,
-    createBoard: "/items/boards",
+    createBoard: '/items/boards',
 
-    allOrgs: "/auth/allOrgs",
+    allOrgs: '/auth/allOrgs',
     joinOrg: (orgId: string) => `/auth/joinOrg/${orgId}`,
 
     getBoardsByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     board: (boardId: string | null) =>
-        boardId ? `/items/boards/${boardId}` : "/items/boards",
+        boardId ? `/items/boards/${boardId}` : '/items/boards',
     card: (cardId: string | null) =>
-        cardId ? `/items/cards/${cardId}` : "/items/cards",
+        cardId ? `/items/cards/${cardId}` : '/items/cards',
     list: (listId: string | null) =>
-        listId ? `/items/list/${listId}` : "/items/list",
+        listId ? `/items/list/${listId}` : '/items/list',
     organization: (orgId: string | null) =>
-        orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
+        orgId ? `/auth/orgs/${orgId}` : '/auth/orgs',
     assignments: (assigmentId: string | null) =>
-        assigmentId ? `/items/assignments/${assigmentId}` : "/items/assignments",
+        assigmentId
+            ? `/items/assignments/${assigmentId}`
+            : '/items/assignments',
 
     //email password change
     resetPasswordRequest: `/auth/resetPasswordRequest`,
     requestResetPassword: (uuid: string): string =>
         `/auth/resetPassword/${uuid}`,
     //default password change
-    changePassword: "/auth/changePassword",
+    changePassword: '/auth/changePassword',
     tokenValidator: (uuid: string): string => `/auth/tokenValidator/${uuid}`,
     removeMemberFromBoard: (boardId: string) =>
         `/auth/orgs/${boardId}/kickMember`,
     leaveOrganization: (orgId: string) => `/auth/orgs/${orgId}/leave`,
+    generateDescription: '/items/generate-description',
 };
 
-export const createAssignment = async (userId: string, cardId: string,) => {
+export const createAssignment = async (userId: string, cardId: string) => {
     return api.post(endpoints.assignments(null), {
         card: cardId,
         user: userId,
@@ -53,7 +60,7 @@ export const deleteAssignment = async (assignmentId: string) => {
 
 export const getAssignmentsByCard = async (cardId: string) => {
     return api.get(endpoints.assignments(cardId));
-}
+};
 
 export const renameCard = async (
     cardId: string,
@@ -182,9 +189,11 @@ export const loginUser = async (userData: LoginUserData) => {
     return api.post(endpoints.loginUser, userData);
 };
 
-export const updateUserCredentials = async (userData: UpdateCredentialsData) => {
-    return api.put(endpoints.updateUserCredentials, userData)
-}
+export const updateUserCredentials = async (
+    userData: UpdateCredentialsData
+) => {
+    return api.put(endpoints.updateUserCredentials, userData);
+};
 
 export const createBoard = async (data: {
     name: string;
@@ -212,7 +221,7 @@ export const deleteBoard = async (boardId: string) => {
 };
 
 export const getBoardsByOrgId = async (orgId: string) => {
-    const queryParams = { populate: "true" };
+    const queryParams = { populate: 'true' };
     const queryString = new URLSearchParams(queryParams).toString();
     return api.get(`${endpoints.getBoardsByOrg(orgId)}?${queryString}`);
 };
@@ -266,33 +275,9 @@ export const changeBoardBackground = async (boardId: string, bgUrl: string) => {
 };
 
 export const removeBoardBackground = async (boardId: string) => {
-    return api.post(endpoints.board(boardId), { backgroundUrl: "" });
+    return api.post(endpoints.board(boardId), { backgroundUrl: '' });
 };
 
 export const generateDescription = async (title: string) => {
-    const requestBody = {
-        contents: [
-            {
-                parts: [
-                    {
-                        text: `Generate a small short description for the following todo with title: ${title}. Trim the output so there is only the description left`,
-                    },
-                ],
-            },
-        ],
-    };
-
-    const response = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCjJWh3W-DT-AdTxfaJ8Qkn60yEBCY_qKk",
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(requestBody),
-        }
-    );
-    const data = await response.json();
-    return data.candidates[0].content.parts[0].text;
+    return api.post(endpoints.generateDescription, { title });
 };
-
