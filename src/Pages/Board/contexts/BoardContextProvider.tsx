@@ -76,30 +76,6 @@ export const BoardContextProvider = ({ children }: { children: any }) => {
         fetchBoardData();
     }, [fetchBoardData]);
 
-
-
-    const fetchSelectedOrganization = useCallback(async () => {
-        console.log('fetchSelectedOrganization');
-        try {
-            const organizations = await getUserOrganizations();
-            const organization = organizations.find(
-                (org: IOrg) => org._id === boardInfo?.owner
-            );
-            console.log(boardInfo);
-            console.log('organizations', organizations);
-            if (organization) {
-                setSelectedOrganization(organization);
-            }
-        } catch (err: any) {
-            toast({
-                title: err.message,
-                variant: 'destructive',
-            });
-        } finally {
-            // setLoading(false);
-        }
-    }, [toast]);
-
     return (
         <BoardContext.Provider
             value={{
