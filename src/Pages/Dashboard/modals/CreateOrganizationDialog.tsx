@@ -31,6 +31,8 @@ export const CreateOrganizationDialog = ({
     setUserOrganizations,
     handleCreateWorkspace,
 }: AddWorkspaceModalProps) => {
+    const [searchValue, setSearchValue] = useState<string>('');
+
     const [workspaceData, setWorkspaceData] = useState<{
         name: string;
         password: string;
@@ -61,7 +63,7 @@ export const CreateOrganizationDialog = ({
                         </CardDescription>
                     </CardHeader>
                     <CardContent className='space-y-2'>
-                        <SearchComponent />
+                        <SearchComponent setSearchValue={setSearchValue}/>
 
                         <div className=' h-40 w-[50%] overflow-y-auto no-scrollbar mx-auto'>
                             {allOrganizations!.map(
@@ -75,7 +77,7 @@ export const CreateOrganizationDialog = ({
                                         }
                                     ></JoinOrganizationDialog>
                                 )
-                            )}
+                            ).filter((org) => org.props.orgName.toLowerCase().includes(searchValue.toLowerCase()))}
                         </div>
                     </CardContent>
                 </Card>
