@@ -1,26 +1,26 @@
-import { Draggable } from '@hello-pangea/dnd';
-import { useContext, useEffect, useState } from 'react';
+import { Draggable } from "@hello-pangea/dnd";
+import { useContext, useEffect, useState } from "react";
 
-import { CardTitle } from './CardTitle';
+import { CardTitle } from "./CardTitle";
 import {
     AlertCircle,
     AlertOctagon,
     AlertTriangle,
     Calendar,
     User,
-} from 'lucide-react';
+} from "lucide-react";
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from 'src/Components/ui/tooltip';
-import SettingsCardModal from './EditCardModal';
-import { getAssignmentsByCard } from 'src/api/requests';
-import { IAssignment } from 'src/Interfaces/IAssignment';
-import { IUserData } from 'src/Interfaces/IUserData';
-import { DashboardContext } from 'src/Pages/Dashboard/contexts/DashboardContextProvider';
-import { BoardContext } from '../../contexts/BoardContextProvider';
+} from "src/Components/ui/tooltip";
+import SettingsCardModal from "./EditCardModal";
+import { getAssignmentsByCard } from "src/api/requests";
+import { IAssignment } from "src/Interfaces/IAssignment";
+import { IUserData } from "src/Interfaces/IUserData";
+import { DashboardContext } from "src/Pages/Dashboard/contexts/DashboardContextProvider";
+import { BoardContext } from "../../contexts/BoardContextProvider";
 
 type CardItem = {
     content: string;
@@ -55,7 +55,7 @@ export const Card: React.FC<CardItem> = ({
     const [title, setTitle] = useState<string>(content);
     const [description, setDescription] = useState<string>(storedDescription);
     const [priority, setPriority] = useState<string>(
-        storedPriority || 'Normal'
+        storedPriority || "Normal"
     );
     const [date, setDate] = useState<Date | undefined>(
         storedDueDate ? new Date(storedDueDate) : undefined
@@ -64,7 +64,7 @@ export const Card: React.FC<CardItem> = ({
     const boardContext = useContext(BoardContext);
     if (!boardContext)
         throw new Error(
-            'useDashboardContext must be used within a DashboardContextProvider'
+            "useDashboardContext must be used within a DashboardContextProvider"
         );
 
     const organizationMembers = boardContext.selectedOrganization?.members;
@@ -130,26 +130,26 @@ export const Card: React.FC<CardItem> = ({
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
-                    className='flex w-full h-auto items-center gap-[10px] px-[10px] py-[2%] relative bg-slate-100 rounded-[7px] overflow-hidden border-black cursor-pointer shadow-sm '
+                    className="flex w-full h-auto items-center gap-[10px] px-[10px] py-[2%] relative bg-slate-100 rounded-[7px] overflow-hidden border-black cursor-pointer shadow-sm "
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <div className='flex items-center gap-[10px]'>
-                                    {priority === 'Urgent' ? (
+                                <div className="flex items-center gap-[10px]">
+                                    {priority === "Urgent" ? (
                                         <AlertTriangle
-                                            color='red'
-                                            className='w-5 h-5'
+                                            color="red"
+                                            className="w-5 h-5"
                                         />
-                                    ) : priority === 'Important' ? (
+                                    ) : priority === "Important" ? (
                                         <AlertOctagon
-                                            color='#FF8200'
-                                            className='w-5 h-5 '
+                                            color="#FF8200"
+                                            className="w-5 h-5 "
                                         />
-                                    ) : priority === 'Normal' ? (
-                                        <AlertCircle className='w-5 h-5' />
+                                    ) : priority === "Normal" ? (
+                                        <AlertCircle className="w-5 h-5" />
                                     ) : null}
                                 </div>
                             </TooltipTrigger>
@@ -162,25 +162,25 @@ export const Card: React.FC<CardItem> = ({
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <div className='flex items-center gap-[10px]'>
+                                    <div className="flex items-center gap-[10px]">
                                         {date! > new Date() ? (
                                             <Calendar
-                                                color='green'
-                                                className='w-5 h-5'
+                                                color="green"
+                                                className="w-5 h-5"
                                             />
                                         ) : (
                                             <Calendar
-                                                color='red'
-                                                className='w-5 h-5'
+                                                color="red"
+                                                className="w-5 h-5"
                                             />
                                         )}
                                     </div>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>
-                                        This card's due date is{' '}
+                                        This card's due date is{" "}
                                         {date?.toLocaleString() ||
-                                            'Not asigned'}
+                                            "Not asigned"}
                                     </p>
                                 </TooltipContent>
                             </Tooltip>
@@ -191,17 +191,17 @@ export const Card: React.FC<CardItem> = ({
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <div className='flex items-center gap-[10px]'>
-                                        <User className='w-5 h-5' />
+                                    <div className="flex items-center gap-[10px]">
+                                        <User className="w-5 h-5" />
                                     </div>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>
-                                        This card is assigned to{' '}
+                                        This card is assigned to{" "}
                                         {assignments.map(
                                             (assignment, index) => (
                                                 <span key={assignment.user._id}>
-                                                    <span className='font-bold'>
+                                                    <span className="font-bold">
                                                         {
                                                             assignment.user
                                                                 .username
@@ -209,10 +209,10 @@ export const Card: React.FC<CardItem> = ({
                                                     </span>
                                                     {index !==
                                                         assignments.length -
-                                                            1 && ' '}
+                                                            1 && " "}
                                                     {index ===
                                                         assignments.length -
-                                                            2 && ' and '}
+                                                            2 && " and "}
                                                 </span>
                                             )
                                         )}
@@ -222,17 +222,18 @@ export const Card: React.FC<CardItem> = ({
                         </TooltipProvider>
                     )}
 
-                    <CardTitle
-                        title={title}
-                        setTitle={setTitle}
-                        cardId={id}
-                        isEditing={isEditing}
-                        setIsEditing={setIsEditing}
-                    ></CardTitle>
-
+                    
+                        <CardTitle
+                            title={title}
+                            setTitle={setTitle}
+                            cardId={id}
+                            isEditing={isEditing}
+                            setIsEditing={setIsEditing}
+                        ></CardTitle>
+                    
                     <div
                         className={`absolute p-[2%] top-0 right-0 h-full flex items-center transition-opacity duration-100 ${
-                            isHovered ? 'opacity-100' : 'opacity-0'
+                            isHovered ? "opacity-100" : "opacity-0"
                         }`}
                     >
                         <SettingsCardModal
@@ -251,6 +252,7 @@ export const Card: React.FC<CardItem> = ({
                             setAvailableMembers={setAvailableMembers}
                             occupiedMembers={occupiedMembers}
                             setOccupiedMembers={setOccupiedMembers}
+                            onDeleteCard={onDeleteCard}
                         />
                     </div>
                 </div>

@@ -47,6 +47,7 @@ interface SettingsCardModalProps {
   setAvailableMembers: Dispatch<SetStateAction<IUserData[]>>;
   occupiedMembers: IUserData[];
   setOccupiedMembers: Dispatch<SetStateAction<IUserData[]>>;
+  onDeleteCard: (cardId: string) => void;
 }
 
 const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
@@ -65,6 +66,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
   setAvailableMembers,
   occupiedMembers,
   setOccupiedMembers,
+  onDeleteCard
 }) => {
   const context = useContext(BoardContext);
   if (!context) throw new Error("Board context is not available");
@@ -193,9 +195,16 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             ></PrioritySelect>
           </div>
         </div>
+
+        <div className="flex justify-between w-[80%] mx-auto">
+        <DialogClose onClick={() => onDeleteCard(cardId)}>
+          <Button variant="destructive">Delete card</Button>
+        </DialogClose>
         <DialogClose onClick={handleSave}>
           <div>Save changes</div>
         </DialogClose>
+
+      </div>
       </DialogContent>
     </Dialog>
   );

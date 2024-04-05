@@ -28,13 +28,13 @@ export const List = ({
         <Draggable draggableId={id} index={index!}>
             {(provided) => (
                 <div
-                    className='inline-flex flex-col items-start gap-[5%] min-w-[365px]'
+                    className='inline-flex flex-col items-start gap-[5%] min-w-[365px] max-w-[365px] w-[365px] overflow-hidden'
                     key={id}
                     {...provided.draggableProps}
                     ref={provided.innerRef}
                 >
                     <div
-                        className={`rounded-lg  p-[4%] w-full ${backgroundColor}`}
+                        className={`rounded-lg p-[4%] w-full ${backgroundColor}`}
                         {...provided.dragHandleProps}
                     >
                         <div className='p-[2%] inline-flex flex-col items-start gap-[5%] w-full'>
@@ -58,7 +58,7 @@ export const List = ({
                                         <div
                                             ref={provided.innerRef}
                                             {...provided.droppableProps}
-                                            className='inline-flex flex-col items-start gap-[0.5rem] relative flex-[0_0_auto] flex-grow-1 min-h-[100px] min-w-full'
+                                            className='inline-flex flex-col items-start gap-[0.5rem] relative flex-[0_0_auto] grow-0 min-h-[100px] w-full'
                                         >
                                             {cards
                                                 ? cards.map(

@@ -1,8 +1,8 @@
-import { renameCard } from 'src/api/requests';
-import { FormInput } from '../../../../Components/form/form-input';
-import { Button } from '../../../../Components/ui/button';
-import { useContext } from 'react';
-import { BoardContext } from '../../contexts/BoardContextProvider';
+import { renameCard } from "src/api/requests";
+import { FormInput } from "../../../../Components/form/form-input";
+import { Button } from "../../../../Components/ui/button";
+import { useContext } from "react";
+import { BoardContext } from "../../contexts/BoardContextProvider";
 
 interface CardTitleProps {
     title: string;
@@ -22,14 +22,14 @@ export const CardTitle: React.FC<CardTitleProps> = ({
     const context = useContext(BoardContext);
 
     if (!context) {
-        throw new Error('Board context is not available');
+        throw new Error("Board context is not available");
     }
     const { boardInfo } = context;
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const title = formData.get('title') as string;
+        const title = formData.get("title") as string;
         setTitle(title);
         renameCard(cardId, boardInfo!.owner, title);
         setIsEditing(false);
@@ -41,23 +41,24 @@ export const CardTitle: React.FC<CardTitleProps> = ({
 
     if (isEditing) {
         return (
-            <form onSubmit={onSubmit} className='flex items-center gap-x-2'>
+            <form onSubmit={onSubmit} className="flex items-center gap-x-2">
                 <FormInput
-                    id='title'
+                    id="title"
                     onBlur={onBlur}
                     defaultValue={title}
-                    className='text-[16px]  h-auto w-auto py-1 px-2 text-slate-600 font-medium bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none'
+                    className="text-[16px]  h-auto w-auto py-1 px-2 text-slate-600 font-medium bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none"
                 />
-            </form>
+            </form> 
         );
     }
 
     return (
         <Button
-            variant='transparent'
-            className='leading-normal whitespace-nowrap font-medium text-[16px] h-auto w-auto py-1 px-2 text-slate-900 overflow-hidden '
+            variant="transparent"
+            className="leading-normal text-left font-medium text-[16px] h-auto w-[200px] py-1 px-2 text-slate-900 overflow-hidden truncate"
+
         >
-            {title}
+            <span className="text-left w-full">{title}</span>
         </Button>
     );
 };
