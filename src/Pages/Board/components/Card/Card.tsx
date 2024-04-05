@@ -112,7 +112,7 @@ export const Card: React.FC<CardItem> = ({
       setOccupiedMembers(occupied);
       setAvailableMembers(available);
     }
-  }, [organizationMembers, assignments]);
+  }, [organizationMembers]);
 
   return (
     <Draggable draggableId={id} index={index}>
