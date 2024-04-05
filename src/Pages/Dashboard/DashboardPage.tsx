@@ -66,8 +66,9 @@ export const Dashboard = () => {
                                     setExpandedOrganizationId={
                                         setExpandedOrganizationId
                                     }
-                                    onClick={() => {
-                                        setSelectedOrganization(org);
+                                
+                                    changeOrg={() => {
+                                         setSelectedOrganization(org);
                                     }}
                                     selectedOrganization={selectedOrganization}
                                 />

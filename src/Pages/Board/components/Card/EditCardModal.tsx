@@ -126,13 +126,6 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
       title: "User assignment removed!",
       variant: "default",
     });
-
-    console.log("user");
-    console.log(user);
-    console.log("ocupied");
-    console.log(occupiedMembers);
-    console.log("ava");
-    console.log(availableMembers);
   };
 
   return (

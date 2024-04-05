@@ -14,14 +14,14 @@ export const Organization = ({
     expandedOrganizationId,
     setExpandedOrganizationId,
     orgId,
-    onClick,
+    changeOrg,
     selectedOrganization,
 }: {
     orgName: string;
     expandedOrganizationId: string;
     setExpandedOrganizationId: (id: string) => void;
     orgId: string;
-    onClick: () => void;
+    changeOrg: () => void;
     selectedOrganization: IOrg | null;
 }): JSX.Element => {
     const navigate = useNavigate();
@@ -50,6 +50,7 @@ export const Organization = ({
                         <ChevronDown
                             onClick={(e: any) => {
                                 e.stopPropagation();
+                                changeOrg()
                                 setExpandedOrganizationId(orgId);
                             }}
                         />
@@ -68,7 +69,7 @@ export const Organization = ({
                         }`}
                         onClick={(e) => {
                             e.stopPropagation();
-                            onClick();
+                            changeOrg();
                             navigate('/dashboard/boards');
                         }}
                     >
@@ -91,7 +92,7 @@ export const Organization = ({
                         }`}
                         onClick={(e) => {
                             e.stopPropagation();
-                            onClick();
+                            changeOrg();
                             navigate('/dashboard/activity');
                         }}
                     >
@@ -114,7 +115,7 @@ export const Organization = ({
                         }`}
                         onClick={(e) => {
                             e.stopPropagation();
-                            onClick();
+                            changeOrg();
                             navigate('/dashboard/settings');
                         }}
                     >

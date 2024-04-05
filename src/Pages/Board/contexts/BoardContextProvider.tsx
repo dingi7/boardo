@@ -1,20 +1,17 @@
 import {
-  createContext,
-  useState,
-  useCallback,
-  useEffect,
-  Dispatch,
-  SetStateAction,
+    createContext,
+    useState,
+    useCallback,
+    useEffect,
+    Dispatch,
+    SetStateAction,
 } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { dataBaseBoard, dataBaseList } from '../../../Interfaces/IDatabase';
-import { getBoardById } from '../../../api/requests';
+import { getBoardById, getUserOrganizations } from '../../../api/requests';
 import { toast } from 'src/Components/Toaster/use-toast';
-import { useInterval } from 'usehooks-ts';
 import Pusher from 'pusher-js';
-
-
-
+import { IOrg } from 'src/Interfaces/IContexts';
 
 export interface BoardContextType {
     boardInfo: dataBaseBoard | null;
@@ -26,7 +23,8 @@ export interface BoardContextType {
     loading: boolean;
     setLoading: Dispatch<SetStateAction<boolean>>;
     boardId: string | undefined;
-    channel: any
+    channel: any;
+    selectedOrganization: IOrg | null;
 }
 
 export const BoardContext = createContext<BoardContextType | undefined>(
@@ -39,6 +37,8 @@ export const BoardContextProvider = ({ children }: { children: any }) => {
     const [lists, setLists] = useState<dataBaseList[] | null>(null);
     const [backgroundUrl, setBackgroundUrl] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(true);
+    const [selectedOrganization, setSelectedOrganization] =
+        useState<IOrg | null>(null);
     const navigate = useNavigate();
 
     const pusher = new Pusher('b6ea70f2b0bc14153ae1', {
@@ -51,6 +51,11 @@ export const BoardContextProvider = ({ children }: { children: any }) => {
         if (!boardId) return;
         try {
             const data = await getBoardById(boardId);
+            const organizations = await getUserOrganizations();
+            const organization = organizations.find(
+                (org: IOrg) => org._id === data.owner
+            );
+            setSelectedOrganization(organization);
             setBoardInfo(data);
             setLists(data.lists);
             setBackgroundUrl(data.backgroundUrl || '');
@@ -63,12 +68,37 @@ export const BoardContextProvider = ({ children }: { children: any }) => {
                 description: 'Board not found, redirecting to dashboard',
             });
         }
+
         setLoading(false);
     }, [boardId, navigate]);
 
     useEffect(() => {
         fetchBoardData();
     }, [fetchBoardData]);
+
+
+
+    const fetchSelectedOrganization = useCallback(async () => {
+        console.log('fetchSelectedOrganization');
+        try {
+            const organizations = await getUserOrganizations();
+            const organization = organizations.find(
+                (org: IOrg) => org._id === boardInfo?.owner
+            );
+            console.log(boardInfo);
+            console.log('organizations', organizations);
+            if (organization) {
+                setSelectedOrganization(organization);
+            }
+        } catch (err: any) {
+            toast({
+                title: err.message,
+                variant: 'destructive',
+            });
+        } finally {
+            // setLoading(false);
+        }
+    }, [toast]);
 
     return (
         <BoardContext.Provider
@@ -82,7 +112,8 @@ export const BoardContextProvider = ({ children }: { children: any }) => {
                 loading,
                 setLoading,
                 boardId,
-                channel
+                channel,
+                selectedOrganization,
             }}
         >
             {children}

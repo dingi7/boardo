@@ -54,7 +54,6 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
 
     const fetchOrganizations = useCallback(async () => {
         try {
-            console.log('here');
             const organizations = await getUserOrganizations();
             if (organizations.length > 0) {
                 setUserOrganizations(organizations);
@@ -83,6 +82,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         if (selectedOrganization) {
             fetchBoards(selectedOrganization._id);
         }
+        console.log(selectedOrganization)
     }, [selectedOrganization]);
 
     const handleCreateWorkspace = async (
@@ -101,7 +101,7 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
                 allOrganizations,
                 setAllOrganizations,
                 selectedOrganization,
-                setSelectedOrganization: setSelectedOrganization,
+                setSelectedOrganization,
                 boards,
                 setBoards,
                 loading,

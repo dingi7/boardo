@@ -16,6 +16,7 @@ export const BoardsPage = () => {
     if (fetching) {
         return <BoardSkeleton />;
     }
+    
     return (
         <div>
             {selectedOrganization !== null ? (
