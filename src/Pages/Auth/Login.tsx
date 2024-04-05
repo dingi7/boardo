@@ -38,6 +38,7 @@ export const Login = () => {
             setLoading(true);
             const response = await loginUser(loginData!);
             await authenticateUser(response);
+            navigate('/');
         } catch (err: any) {
             toast({
                 title: err.message,
@@ -45,7 +46,6 @@ export const Login = () => {
             });
         }
         setLoading(false);
-        navigate('/');
     };
 
     return (
