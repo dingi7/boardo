@@ -73,15 +73,40 @@ export const Card: React.FC<CardItem> = ({
     const [occupiedMembers, setOccupiedMembers] = useState<IUserData[]>([]);
     const [availableMembers, setAvailableMembers] = useState<IUserData[]>([]);
 
+    // useEffect(() => {
+    //     if (organizationMembers) {
+    //         const occupied: IUserData[] = [];
+    //         const available: IUserData[] = [];
+
+    //         organizationMembers.forEach((member) => {
+    //             if (
+    //                 assignments.some(
+    //                     (assignment) => assignment.user._id === member._id
+    //                 )
+    //             ) {
+    //                 occupied.push(member);
+    //             } else {
+    //                 available.push(member);
+    //             }
+    //         });
+
+    //         setOccupiedMembers(occupied);
+    //         setAvailableMembers(available);
+    //     }
+    // }, [organizationMembers]);
+
     useEffect(() => {
-        if (organizationMembers) {
+        (async () => {
+            const assignments = await getAssignmentsByCard(id);
+            SetAssignments(assignments);
             const occupied: IUserData[] = [];
             const available: IUserData[] = [];
 
-            organizationMembers.forEach((member) => {
+            organizationMembers?.forEach((member) => {
                 if (
                     assignments.some(
-                        (assignment) => assignment.user._id === member._id
+                        (assignment: IAssignment) =>
+                            assignment.user._id === member._id
                     )
                 ) {
                     occupied.push(member);
@@ -92,36 +117,9 @@ export const Card: React.FC<CardItem> = ({
 
             setOccupiedMembers(occupied);
             setAvailableMembers(available);
-        }
-    }, [organizationMembers, assignments]);
-
-    const fetchAllAssignmentsForCard = async () => {
-        const assignments = await getAssignmentsByCard(id);
-        SetAssignments(assignments);
-    };
-
-    useEffect(() => {
-        fetchAllAssignmentsForCard();
-        if (organizationMembers) {
-            const occupied: IUserData[] = [];
-            const available: IUserData[] = [];
-
-            organizationMembers.forEach((member) => {
-                if (
-                    assignments.some(
-                        (assignment) => assignment.user._id === member._id
-                    )
-                ) {
-                    occupied.push(member);
-                } else {
-                    available.push(member);
-                }
-            });
-
-            setOccupiedMembers(occupied);
-            setAvailableMembers(available);
-        }
-    }, [organizationMembers]);
+        })();
+        //}
+    }, []);
 
     return (
         <Draggable draggableId={id} index={index}>
@@ -198,39 +196,33 @@ export const Card: React.FC<CardItem> = ({
                                 <TooltipContent>
                                     <p>
                                         This card is assigned to{" "}
-                                        {assignments.map(
-                                            (assignment, index) => (
-                                                <span key={assignment.user._id}>
-                                                    <span className="font-bold">
-                                                        {
-                                                            assignment.user
-                                                                .username
-                                                        }
-                                                    </span>
-                                                    {index !==
-                                                        assignments.length -
-                                                            1 && " "}
-                                                    {index ===
-                                                        assignments.length -
-                                                            2 && " and "}
+                                        {occupiedMembers.map((user, index) => (
+                                            <span key={user._id}>
+                                                <span className="font-bold">
+                                                    {user.username}
                                                 </span>
-                                            )
-                                        )}
+                                                {index !==
+                                                    occupiedMembers.length - 1 &&
+                                                    " "}
+                                                {index ===
+                                                    occupiedMembers.length - 2 &&
+                                                    " and "}
+                                            </span>
+                                        ))}
                                     </p>
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>
                     )}
 
-                    
-                        <CardTitle
-                            title={title}
-                            setTitle={setTitle}
-                            cardId={id}
-                            isEditing={isEditing}
-                            setIsEditing={setIsEditing}
-                        ></CardTitle>
-                    
+                    <CardTitle
+                        title={title}
+                        setTitle={setTitle}
+                        cardId={id}
+                        isEditing={isEditing}
+                        setIsEditing={setIsEditing}
+                    ></CardTitle>
+
                     <div
                         className={`absolute p-[2%] top-0 right-0 h-full flex items-center transition-opacity duration-100 ${
                             isHovered ? "opacity-100" : "opacity-0"
