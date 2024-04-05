@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import MemberCard from "../components/MemberCard";
+import RequestCard from "../components/RequestCard"
 import { Input } from "src/Components/ui/input";
 import { Button } from "src/Components/ui/button";
 import {
@@ -226,44 +227,84 @@ export const SettingsPage = (props: Props) => {
                     aria-labelledby="members-tab"
                 >
                     <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-                        <div className="flex items-center">
-                            <h2 className="text-xl font-bold">Members</h2>
-                        </div>
-                        <div className="border shadow-sm rounded-lg">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead className="max-w-[150px]">
-                                            Name
-                                        </TableHead>
-                                        <TableHead className="hidden md:table-cell">
-                                            Email
-                                        </TableHead>
-                                        <TableHead className="hidden md:table-cell">
-                                            Role
-                                        </TableHead>
-                                        <TableHead>Actions</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {selectedOrganization?.members.map(
-                                        (member: IUserData) => (
-                                            <MemberCard
-                                                isOwner={isOwner}
-                                                key={member._id}
-                                                member={member}
-                                                handleRemoveMember={
-                                                    handleKickMember
-                                                }
-                                                selectedOrganization={
-                                                    selectedOrganization!
-                                                }
-                                            ></MemberCard>
-                                        )
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </div>
+                        <section>
+                            <div className="flex items-center">
+                                <h2 className="text-xl font-bold">Members</h2>
+                            </div>
+                            <div className="border shadow-sm rounded-lg">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="max-w-[150px]">
+                                                Name
+                                            </TableHead>
+                                            <TableHead className="hidden md:table-cell">
+                                                Email
+                                            </TableHead>
+                                            <TableHead className="hidden md:table-cell">
+                                                Role
+                                            </TableHead>
+                                            <TableHead>Actions</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {selectedOrganization?.members.map(
+                                            (member: IUserData) => (
+                                                <MemberCard
+                                                    isOwner={isOwner}
+                                                    key={member._id}
+                                                    member={member}
+                                                    handleRemoveMember={
+                                                        handleKickMember
+                                                    }
+                                                    selectedOrganization={
+                                                        selectedOrganization!
+                                                    }
+                                                ></MemberCard>
+                                            )
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </section>
+
+                        {/* <section>
+                            <div className="flex items-center">
+                                <h2 className="text-xl font-bold">Pending requests</h2>
+                            </div>
+                            <div className="border shadow-sm rounded-lg">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="max-w-[150px]">
+                                                Name
+                                            </TableHead>
+                                            <TableHead className="hidden md:table-cell">
+                                                Email
+                                            </TableHead>
+                                            <TableHead>Actions</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {selectedOrganization?.members.map(
+                                            (member: IUserData) => (
+                                                <RequestCard
+                                                    isOwner={isOwner}
+                                                    key={member._id}
+                                                    member={member}
+                                                    handleRemoveMember={
+                                                        handleKickMember
+                                                    }
+                                                    selectedOrganization={
+                                                        selectedOrganization!
+                                                    }
+                                                ></RequestCard>
+                                            )
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        </section> */}
                     </main>
                 </div>
                 <div

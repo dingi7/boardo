@@ -65,7 +65,7 @@ export const CreateOrganizationDialog = ({
                     <CardContent className='space-y-2'>
                         <SearchComponent setSearchValue={setSearchValue}/>
 
-                        <div className=' h-40 w-[50%] overflow-y-auto no-scrollbar mx-auto'>
+                        <div className=' h-40 w-[50%] overflow-x-hidden  overflow-y-auto no-scrollbar mx-auto'>
                             {allOrganizations!.map(
                                 (org: dataBaseOrganization) => (
                                     <JoinOrganizationDialog
