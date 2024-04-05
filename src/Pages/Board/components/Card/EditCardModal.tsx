@@ -2,7 +2,8 @@ import { Brain, MoreHorizontal } from "lucide-react";
 import React, {
   Dispatch,
   SetStateAction,
-  useContext
+  useContext,
+  useState
 } from "react";
 import { Button } from "src/Components/ui/button";
 import {
@@ -30,6 +31,7 @@ import { PrioritySelect } from "./PriorityDropdown";
 import { TaskAssignmentPopup } from "./TaskAssignmentPopup";
 import { IUserData } from "src/Interfaces/IUserData";
 import { IAssignment } from "src/Interfaces/IAssignment";
+import { set } from "date-fns";
 
 interface SettingsCardModalProps {
   title: string;
@@ -66,6 +68,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
   occupiedMembers,
   setOccupiedMembers,
 }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const context = useContext(BoardContext);
   if (!context) throw new Error("Board context is not available");
   const { boardInfo } = context!;
@@ -81,7 +84,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     );
   };
 
-  const assingUser = async (user: IUserData) => { 
+  const assingUser = async (user: IUserData) => {
     const assignment = await createAssignment(user._id, cardId);
     if (!assignment) {
       console.error("Assignment not found for the user");
@@ -155,14 +158,28 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             <div className="flex items-center gap-3">
               <Textarea
                 placeholder="Type your description here."
-                className="w-[100%] resize-none h-[150px]"
+                className="w-[80%] resize-none h-[150px]"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               ></Textarea>
               <Button variant={"ghost"} className="w-[20%] h-[150px]" onClick={async () => {
-                setDescription(await generateDescription(title))
+                setIsLoading(true)
+                try {
+                  setDescription(await generateDescription(title))
+                } catch (e) {
+                  toast({
+                    title: "Error!",
+                    description: "Error generating description",
+                    variant: "destructive",
+                  });
+                }
+                setIsLoading(false)
               }}>
-                <Brain/>
+                {isLoading ? (
+                  <Brain className="animate-spin" />
+                ) : (
+                  <Brain />
+                )}
               </Button>
             </div>
           </div>
