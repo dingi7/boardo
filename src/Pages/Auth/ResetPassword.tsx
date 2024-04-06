@@ -73,9 +73,9 @@ export const ResetPassword = () => {
     return (
         <div className="h-screen bg-white flex justify-center items-center">
             <div className="w-[95%] md:w-[60%] lg:w-[50%] xl:w-[46%] border-1 bg-[#e2e2e2] rounded-md flex flex-col p-12 pb-16 justify-between">
-                {/* <div className="mx-auto">
+                <div className="mx-auto">
                     <Logo />
-                </div> */}
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <AuthInput
