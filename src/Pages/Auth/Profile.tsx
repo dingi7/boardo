@@ -342,7 +342,7 @@ export const Profile = () => {
                             userAssignments.map(
                                 (assignment: any, index: number) => (
                                     <ProfileAssignmentComponent
-                                        key={index} // It's better to have a unique key, like assignment.id if available
+                                        key={assignment._id} // It's better to have a unique key, like assignment.id if available
                                         cardName={assignment?.card?.name}
                                         boardId={assignment?.card?.list?.board}
                                         dueTo={

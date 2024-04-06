@@ -82,7 +82,6 @@ export const DashboardContextProvider = ({ children }: { children: any }) => {
         if (selectedOrganization) {
             fetchBoards(selectedOrganization._id);
         }
-        console.log(selectedOrganization)
     }, [selectedOrganization]);
 
     const handleCreateWorkspace = async (

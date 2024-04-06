@@ -149,17 +149,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
         });
     };
 
-    useEffect(() => {
-        console.log("availableMembers");
-        console.log(availableMembers);
-        console.log("occupiedMembers");
-        console.log(occupiedMembers);
 
-        console.log("assignments");
-        console.log(assignments);
-        
-        
-    }, [availableMembers, occupiedMembers, assignments])
 
     return (
         <Dialog>
