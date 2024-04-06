@@ -322,8 +322,8 @@ export const Profile = () => {
                         ) : (
                             userOrganizations.map((org: IOrg) =>
                                 ProfileOrganizationComponent({
-                                    name: org.name,
-                                    owner: org.owner,
+                                    name: org?.name,
+                                    owner: org?.owner,
                                     userId: authUser!._id,
                                     orgId: org._id,
                                     leaveOrgFunc: handleOrganizationLeave,
@@ -343,10 +343,10 @@ export const Profile = () => {
                                 (assignment: any, index: number) => (
                                     <ProfileAssignmentComponent
                                         key={index} // It's better to have a unique key, like assignment.id if available
-                                        cardName={assignment.card.name}
-                                        boardId={assignment.card.list.board}
+                                        cardName={assignment?.card?.name}
+                                        boardId={assignment?.card?.list?.board}
                                         dueTo={
-                                            assignment.card.dueDate ||
+                                            assignment?.card?.dueDate ||
                                             new Date()
                                         }
                                     />
