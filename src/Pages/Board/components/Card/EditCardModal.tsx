@@ -105,6 +105,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
         });
 
         const assignment = await createAssignment(user._id, cardId);
+        
         if (!assignment) {
             console.error("Assignment not found for the user");
             toast({
@@ -112,18 +113,20 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                 variant: "destructive",
             });
 
+            
             setAvailableMembers(backupStates.availableMembers);
             setOccupiedMembers(backupStates.occupiedMembers);
             SetAssignments(backupStates.assignments);
             return;
         }
 
+
         SetAssignments([...assignments, assignment]);
     };
 
-    const removeUserAssignment = async (user: IUserData) => {
+    const removeUserAssignment = async (user: any) => {
         const assignment = assignments.find(
-            (assignment) => assignment.user._id === user._id
+            (assignment) => assignment?.user === user._id
         );
         if (!assignment) {
             console.error("Assignment not found for the user");
@@ -145,6 +148,18 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             variant: "default",
         });
     };
+
+    useEffect(() => {
+        console.log("availableMembers");
+        console.log(availableMembers);
+        console.log("occupiedMembers");
+        console.log(occupiedMembers);
+
+        console.log("assignments");
+        console.log(assignments);
+        
+        
+    }, [availableMembers, occupiedMembers, assignments])
 
     return (
         <Dialog>
@@ -238,7 +253,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                         <Button variant="destructive">Delete card</Button>
                     </DialogClose>
                     <DialogClose onClick={handleSave}>
-                        <div>Save changes</div>
+                        <Button>Save changes</Button>
                     </DialogClose>
                 </div>
             </DialogContent>
