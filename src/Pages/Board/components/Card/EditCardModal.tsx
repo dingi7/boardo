@@ -253,7 +253,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                         <Button variant="destructive">Delete card</Button>
                     </DialogClose>
                     <DialogClose onClick={handleSave}>
-                        <div>Save changes</div>
+                        <Button>Save changes</Button>
                     </DialogClose>
                 </div>
             </DialogContent>
