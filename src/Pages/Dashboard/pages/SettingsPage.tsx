@@ -267,44 +267,6 @@ export const SettingsPage = (props: Props) => {
                                 </Table>
                             </div>
                         </section>
-
-                        {/* <section>
-                            <div className="flex items-center">
-                                <h2 className="text-xl font-bold">Pending requests</h2>
-                            </div>
-                            <div className="border shadow-sm rounded-lg">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead className="max-w-[150px]">
-                                                Name
-                                            </TableHead>
-                                            <TableHead className="hidden md:table-cell">
-                                                Email
-                                            </TableHead>
-                                            <TableHead>Actions</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {selectedOrganization?.members.map(
-                                            (member: IUserData) => (
-                                                <RequestCard
-                                                    isOwner={isOwner}
-                                                    key={member._id}
-                                                    member={member}
-                                                    handleRemoveMember={
-                                                        handleKickMember
-                                                    }
-                                                    selectedOrganization={
-                                                        selectedOrganization!
-                                                    }
-                                                ></RequestCard>
-                                            )
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </div>
-                        </section> */}
                     </main>
                 </div>
                 <div
