@@ -26,7 +26,7 @@ export const Activity = (props: Props) => {
                         <span className='font-bold'>
                             {props?.user || 'unknown'}
                         </span>{' '}
-                        <Link to={`/board/${props.board}`} className=' hover:underline'>
+                        <Link to={props.board && `/board/${props.board}` || '/dashboard/activity'} className=' hover:underline'>
                         {props.action}</Link>
                     </p>
                 </div>
