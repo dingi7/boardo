@@ -1,14 +1,14 @@
-import { useNavigate, useParams } from "react-router-dom";
-import React, { useEffect } from "react";
-import { Logo } from "../../Components/ui/logo";
-import { Button } from "../../Components/ui/button";
-import { useIsAuthenticated } from "react-auth-kit";
-import { IResetPassword } from "../../Interfaces/IUserData";
-import useFormData from "../../util/hooks/useFormData";
-import { AuthInput } from "../../Components/auth/auth-input";
-import { useToast } from "../../Components/Toaster/use-toast";
-import { resetPassword, tokenValidator } from "src/api/requests";
-import { Loading } from "src/Components/loading";
+import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Logo } from '../../Components/ui/logo';
+import { Button } from '../../Components/ui/button';
+import { useIsAuthenticated } from 'react-auth-kit';
+import { IResetPassword } from '../../Interfaces/IUserData';
+import useFormData from '../../util/hooks/useFormData';
+import { AuthInput } from '../../Components/auth/auth-input';
+import { useToast } from '../../Components/Toaster/use-toast';
+import { resetPassword, tokenValidator } from 'src/api/requests';
+import { Loading } from 'src/Components/loading';
 
 export const ResetPassword = () => {
     const { uuid } = useParams<{ uuid: string }>();
@@ -18,12 +18,14 @@ export const ResetPassword = () => {
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
     useEffect(() => {
+        console.log(uuid);
+
         setLoading(true);
         if (isAuth()) {
-            navigate("/");
+            navigate('/');
             toast({
-                title: "You are already logged in",
-                variant: "destructive" 
+                title: 'You are already logged in',
+                variant: 'destructive',
             });
         }
         const isTokenValid = async () => {
@@ -32,30 +34,30 @@ export const ResetPassword = () => {
             } catch (err: any) {
                 toast({
                     title: err.message,
-                    variant: "destructive" 
+                    variant: 'destructive',
                 });
-                navigate("/auth/login");
+                navigate('/auth/login');
             }
             setLoading(false);
-        }
+        };
         isTokenValid();
-    }, [isAuth, navigate, toast, uuid]);
+    }, [navigate, toast, uuid]);
     const [resetPassData, handleInputChange] = useFormData<IResetPassword>({
-        password: "",
-        confirmPassword: "",
+        password: '',
+        confirmPassword: '',
     });
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
             if (!resetPassData?.password || !resetPassData?.confirmPassword)
-                throw new Error("Please fill in all the fields");
+                throw new Error('Please fill in all the fields');
 
             if (resetPassData.password !== resetPassData.confirmPassword)
-                throw new Error("Password do not match!");
+                throw new Error('Password do not match!');
             setLoading(true);
-            await resetPassword(uuid!, resetPassData!.password)
-            navigate("/auth/login");
-            toast({ title: "Password sucesfully reseted!" });
+            await resetPassword(uuid!, resetPassData!.password);
+            navigate('/auth/login');
+            toast({ title: 'Password sucesfully reseted!' });
         } catch (err: any) {
             toast({
                 title: err.message,
@@ -64,41 +66,45 @@ export const ResetPassword = () => {
         setLoading(false);
     };
 
-    if (loading){
-        return (
-            <Loading/>
-        )
+    if (loading) {
+        return <Loading />;
     }
 
     return (
-        <div className="h-screen bg-white flex justify-center items-center">
-            <div className="w-[95%] md:w-[60%] lg:w-[50%] xl:w-[46%] border-1 bg-[#e2e2e2] rounded-md flex flex-col p-12 pb-16 justify-between">
-                <div className="mx-auto">
+        <div className='h-screen bg-white flex justify-center items-center'>
+            <div className='w-[95%] md:w-[60%] lg:w-[50%] xl:w-[46%] border-1 bg-[#e2e2e2] rounded-md flex flex-col p-12 pb-16 justify-between'>
+                <div className='mx-auto'>
                     <Logo />
                 </div>
                 <form onSubmit={handleSubmit}>
+                    <div className='flex items-center justify-center '>
+                        <h1 className='text-lg font-semibold mt-4'>
+                            RESET PASSWORD
+                        </h1>
+                    </div>
+
                     <div>
                         <AuthInput
-                            type="password"
-                            text="Passoword"
-                            id="password"
+                            type='password'
+                            text='Enter your new password'
+                            id='password'
                             onChange={handleInputChange}
                         />
                         <AuthInput
-                            type="password"
-                            text="Confirm password"
-                            id="confirmPassword"
+                            type='password'
+                            text='Confirm the password'
+                            id='confirmPassword'
                             onChange={handleInputChange}
                         />
                     </div>
                     <Button
-                        className="shadow border-1 mt-4 font-semibold border-slate-800 bg-white rounded w-full py-3 px-3 leading-tight focus:outline-none focus:shadow-outline outline-none hover:bg-zinc-100"
-                        type="submit"
-                        variant={"ghost"}
-                        id="registerButton"
+                        className='shadow border-1 mt-4 font-semibold border-slate-800 bg-white rounded w-full py-3 px-3 leading-tight focus:outline-none focus:shadow-outline outline-none hover:bg-zinc-100'
+                        type='submit'
+                        variant={'ghost'}
+                        id='registerButton'
                         disabled={loading}
                     >
-                        {loading ? "Loading..." : "Reset password"}
+                        {loading ? 'Loading...' : 'Reset password'}
                     </Button>
                 </form>
             </div>

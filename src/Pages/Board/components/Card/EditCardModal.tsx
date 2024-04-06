@@ -2,9 +2,7 @@ import { Brain, MoreHorizontal } from "lucide-react";
 import React, {
     Dispatch,
     SetStateAction,
-    useContext,
-    useEffect,
-    useState,
+    useContext, useState
 } from "react";
 import { Button } from "src/Components/ui/button";
 import {
@@ -32,7 +30,6 @@ import { PrioritySelect } from "./PriorityDropdown";
 import { TaskAssignmentPopup } from "./TaskAssignmentPopup";
 import { IUserData } from "src/Interfaces/IUserData";
 import { IAssignment } from "src/Interfaces/IAssignment";
-import { set } from "date-fns";
 
 interface SettingsCardModalProps {
     title: string;
@@ -239,10 +236,10 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                 </div>
 
                 <div className="flex justify-between w-[80%] mx-auto">
-                    <DialogClose onClick={() => onDeleteCard(cardId)}>
+                    <DialogClose asChild onClick={() => onDeleteCard(cardId)}>
                         <Button variant="destructive">Delete card</Button>
                     </DialogClose>
-                    <DialogClose onClick={handleSave}>
+                    <DialogClose asChild onClick={handleSave}>
                         <Button>Save changes</Button>
                     </DialogClose>
                 </div>
