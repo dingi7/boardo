@@ -1,4 +1,4 @@
-const host = "https://boardo-back-end.vercel/.app/api/v1";
+const host = "https://boardo-back-end.vercel.app/api/v1";
 // const host = "http://localhost:3000/api/v1";
 //const host =
 //    process.env.NODE_ENV === 'production'
