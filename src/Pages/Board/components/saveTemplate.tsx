@@ -50,7 +50,7 @@ export function SaveTemplate() {
                 </DialogHeader>
                 <div>
                     <label>Template name:</label>
-                    <FormInput id="templateName" placeholder="Template name..."/>
+                    <FormInput id="templateName" placeholder="Template name..." onChange={(e) => setTemplateTitle(e.target.value)} defaultValue={templateTitle}/>
                 </div>
                 <DialogFooter className="sm:justify-center">
                     <DialogClose asChild>
