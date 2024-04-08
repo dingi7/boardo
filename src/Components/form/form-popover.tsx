@@ -44,6 +44,8 @@ export const FormPopover = ({
     const [isTemplateToggled, setIsTemplateToggled] = useState<boolean>(false);
     const [template, setSelectedTempalte] = useState<string | null>(null);
 
+    const [isAiGenerated, setIsAiGenerated] = useState<boolean>(false);
+
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value);
     };
@@ -109,27 +111,7 @@ export const FormPopover = ({
                         />
                     </div>
 
-                    {/* <div className="border-4 border-black border-solid space-y-10">
-                        <div className={`${isTemplateToggled && "mb-4"}`}>
-                            <Toggle
-                                variant={
-                                    isTemplateToggled ? "checked" : "outline"
-                                }
-                                onClick={() =>
-                                    setIsTemplateToggled(!isTemplateToggled)
-                                }
-                            >
-                                Use template
-                            </Toggle>
-                        </div>
-
-                        {isTemplateToggled && (
-                            <TemplatePicker
-                                id="template"
-                                setSelectedTempalte={setSelectedTempalte}
-                            />
-                        )}
-                    </div> */}
+  
                         <Popover >
                             <PopoverTrigger asChild>
                                 <Button className="w-full" variant="secondary">
@@ -141,6 +123,8 @@ export const FormPopover = ({
                                 <TemplatePicker
                                     id="template"
                                     setSelectedTempalte={setSelectedTempalte}
+                                    setIsAiGenerated={() => setIsAiGenerated(!isAiGenerated)}
+                                    isAiGenerated={isAiGenerated}
                                 />
                             </PopoverContent>
                         </Popover>
