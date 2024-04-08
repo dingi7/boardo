@@ -20,18 +20,13 @@ export const TemplatePicker = ({
     const [isLoading, setIsLoading] = useState(false);
     const [selectedImageId, setSelectedImageId] = useState(null);
     const templatesPerPage = 6;
-    const [currentTemplates, setCurrentTemplates] = useState<Array<Record<string, any>>>([]);
-    const [indexOfFirstTemplate, setIndexOfFirstTemplate] = useState(0);
-    const [indexOfLastTemplate, setIndexOfLastTemplate] = useState(templatesPerPage - 1);
+    const [currentTemplates, setCurrentTemplates] = useState<Array<Record<string, any>>>([]);;
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         const updateTemplates = () => {
             const newIndexOfLastTemplate = currentPage * templatesPerPage - 1;
             const newIndexOfFirstTemplate = newIndexOfLastTemplate - (templatesPerPage - 1);
-            
-            setIndexOfFirstTemplate(newIndexOfFirstTemplate);
-            setIndexOfLastTemplate(newIndexOfLastTemplate);
 
             setCurrentTemplates(templates.slice(newIndexOfFirstTemplate, newIndexOfLastTemplate + 1));
         };
