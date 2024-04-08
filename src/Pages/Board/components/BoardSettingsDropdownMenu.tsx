@@ -9,6 +9,7 @@ import {
 } from 'src/Components/dropdown';
 import { BackgroundPicker } from './BackgroundPicker';
 import { DeleteHandler } from './DeleteHandler';
+import { SaveTemplate } from './saveTemplate';
 
 export const BoardSettingsDropdownMenu = ({ boardId, setBackgroundUrl }: { boardId: string, setBackgroundUrl: (bgUrl: string) => void }) => {
     return (
@@ -22,6 +23,7 @@ export const BoardSettingsDropdownMenu = ({ boardId, setBackgroundUrl }: { board
                 <DropdownMenuGroup>
                     <BackgroundPicker boardId={boardId} setBackgroundUrl={setBackgroundUrl} />
                     <DeleteHandler itemId={boardId} option='board'/>
+                    <SaveTemplate />
                 </DropdownMenuGroup>
             </DropdownMenuContent>
         </DropdownMenu>

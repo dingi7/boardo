@@ -83,4 +83,73 @@ export const defaultTemplates = [
         "organization": "" //id ref
     },
 
+    {
+        "_id": "test7",
+        "name": "Progress tracker",
+        "aiGenerated": false,
+        "lists": [
+            "To do",
+            "In progress",
+            "Done"
+        ],
+        "organization": "" //id ref
+    },
+
+    {
+        "_id": "test8",
+        "name": "Progress tracker",
+        "aiGenerated": false,
+        "lists": [
+            "To do",
+            "In progress",
+            "Done"
+        ],
+        "organization": "" //id ref
+    },
+    {
+        "_id": "test9",
+        "name": "Progress tracker",
+        "aiGenerated": false,
+        "lists": [
+            "To do",
+            "In progress",
+            "Done"
+        ],
+        "organization": "" //id ref
+    },
+
+    {
+        "_id": "test10",
+        "name": "Progress tracker",
+        "aiGenerated": false,
+        "lists": [
+            "To do",
+            "In progress",
+            "Done"
+        ],
+        "organization": "" //id ref
+    },
+    {
+        "_id": "test11",
+        "name": "Progress tracker",
+        "aiGenerated": false,
+        "lists": [
+            "To do",
+            "In progress",
+            "Done"
+        ],
+        "organization": "" //id ref
+    },
+
+    {
+        "_id": "test12",
+        "name": "Progress tracker",
+        "aiGenerated": false,
+        "lists": [
+            "To do",
+            "In progress",
+            "Done"
+        ],
+        "organization": "" //id ref
+    },
   ]

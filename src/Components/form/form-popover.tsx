@@ -109,7 +109,7 @@ export const FormPopover = ({
                         />
                     </div>
 
-                    <div className="border-4 border-black border-solid space-y-10">
+                    {/* <div className="border-4 border-black border-solid space-y-10">
                         <div className={`${isTemplateToggled && "mb-4"}`}>
                             <Toggle
                                 variant={
@@ -129,7 +129,22 @@ export const FormPopover = ({
                                 setSelectedTempalte={setSelectedTempalte}
                             />
                         )}
-                    </div>
+                    </div> */}
+                        <Popover >
+                            <PopoverTrigger asChild>
+                                <Button className="w-full" variant="secondary">
+                                    Use template
+                                </Button>
+                            </PopoverTrigger>
+
+                            <PopoverContent className="w-80 h-[300px] overflow-hidden pt-3 bg-slate-200">
+                                <TemplatePicker
+                                    id="template"
+                                    setSelectedTempalte={setSelectedTempalte}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                 
                     <FormSubmit className="w-full">Create</FormSubmit>
                 </form>
             </PopoverContent>
