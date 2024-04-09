@@ -44,8 +44,6 @@ export const FormPopover = ({
     const [title, setTitle] = useState<string>("");
     //const [isTemplateToggled, setIsTemplateToggled] = useState<boolean>(false);
     const [template, setSelectedTempalte] = useState<string | null>(null);
-
-    const [isAiGenerated, setIsAiGenerated] = useState<boolean>(false);
     const [isSelectingTemplate, setIsSelectingTemplate] =
         useState<boolean>(false);
 
