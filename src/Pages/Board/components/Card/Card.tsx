@@ -8,6 +8,7 @@ import {
     AlertTriangle,
     Calendar,
     User,
+    BadgeCheck
 } from "lucide-react";
 import {
     Tooltip,
@@ -73,32 +74,19 @@ export const Card: React.FC<CardItem> = ({
     const [occupiedMembers, setOccupiedMembers] = useState<IUserData[]>([]);
     const [availableMembers, setAvailableMembers] = useState<IUserData[]>([]);
 
-    // useEffect(() => {
-    //     if (organizationMembers) {
-    //         const occupied: IUserData[] = [];
-    //         const available: IUserData[] = [];
-
-    //         organizationMembers.forEach((member) => {
-    //             if (
-    //                 assignments.some(
-    //                     (assignment) => assignment.user._id === member._id
-    //                 )
-    //             ) {
-    //                 occupied.push(member);
-    //             } else {
-    //                 available.push(member);
-    //             }
-    //         });
-
-    //         setOccupiedMembers(occupied);
-    //         setAvailableMembers(available);
-    //     }
-    // }, [organizationMembers]);
+    const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
     useEffect(() => {
         (async () => {
             const assignments = await getAssignmentsByCard(id);
             SetAssignments(assignments);
+
+            const isAllCompleted = assignments.every(
+                (assignment: IAssignment) => assignment.isCompleted
+            );
+            if (isAllCompleted) {
+                setIsCompleted(true);
+            }
             const occupied: IUserData[] = [];
             const available: IUserData[] = [];
 
@@ -118,7 +106,6 @@ export const Card: React.FC<CardItem> = ({
             setOccupiedMembers(occupied);
             setAvailableMembers(available);
         })();
-        //}
     }, []);
 
     return (
@@ -188,29 +175,52 @@ export const Card: React.FC<CardItem> = ({
                     {assignments && assignments.length > 0 && (
                         <TooltipProvider>
                             <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <div className="flex items-center gap-[10px]">
-                                        <User className="w-5 h-5" />
-                                    </div>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>
-                                        This card is assigned to{" "}
-                                        {occupiedMembers.map((user, index) => (
-                                            <span key={user._id}>
-                                                <span className="font-bold">
-                                                    {user.username}
-                                                </span>
-                                                {index !==
-                                                    occupiedMembers.length - 1 &&
-                                                    " "}
-                                                {index ===
-                                                    occupiedMembers.length - 2 &&
-                                                    " and "}
-                                            </span>
-                                        ))}
-                                    </p>
-                                </TooltipContent>
+                                {isCompleted ? (
+                                    <>
+                                        {" "}
+                                        <TooltipTrigger asChild>
+                                            <div className="flex items-center gap-[10px]">
+                                                <BadgeCheck className="w-5 h-5 "  color="rgb(34 197 94)"/>
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>
+                                                This card's assignments are
+                                                completed
+                                            </p>
+                                        </TooltipContent>
+                                    </>
+                                ) : (
+                                    <>
+                                        {" "}
+                                        <TooltipTrigger asChild>
+                                            <div className="flex items-center gap-[10px]">
+                                                <User className="w-5 h-5" />
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>
+                                                This card is assigned to{" "}
+                                                {occupiedMembers.map(
+                                                    (user, index) => (
+                                                        <span key={user._id}>
+                                                            <span className="font-bold">
+                                                                {user.username}
+                                                            </span>
+                                                            {index !==
+                                                                occupiedMembers.length -
+                                                                    1 && " "}
+                                                            {index ===
+                                                                occupiedMembers.length -
+                                                                    2 &&
+                                                                " and "}
+                                                        </span>
+                                                    )
+                                                )}
+                                            </p>
+                                        </TooltipContent>
+                                    </>
+                                )}
                             </Tooltip>
                         </TooltipProvider>
                     )}
