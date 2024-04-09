@@ -45,6 +45,8 @@ export const FormPopover = ({
     const [template, setSelectedTempalte] = useState<string | null>(null);
 
     const [isAiGenerated, setIsAiGenerated] = useState<boolean>(false);
+    const [isSelectingTemplate, setIsSelectingTemplate] =
+        useState<boolean>(false);
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value);
@@ -72,10 +74,12 @@ export const FormPopover = ({
     };
 
     return (
+        <div className="mt-40">
         <Popover>
             <PopoverTrigger asChild>{children}</PopoverTrigger>
             <PopoverContent
                 align={align}
+      
                 className="w-80 pt-3 bg-slate-200"
                 side={side}
                 sideOffset={sideOffset}
@@ -111,27 +115,35 @@ export const FormPopover = ({
                         />
                     </div>
 
-  
-                        <Popover >
-                            <PopoverTrigger asChild>
-                                <Button className="w-full" variant="secondary">
-                                    Use template
-                                </Button>
-                            </PopoverTrigger>
-
-                            <PopoverContent className="w-80 h-[300px] overflow-hidden pt-3 bg-slate-200">
+                    <div>
+                        <div className="pb-4">
+                            {isSelectingTemplate && (
                                 <TemplatePicker
                                     id="template"
                                     setSelectedTempalte={setSelectedTempalte}
-                                    setIsAiGenerated={() => setIsAiGenerated(!isAiGenerated)}
+                                    setIsAiGenerated={() =>
+                                        setIsAiGenerated(!isAiGenerated)
+                                    }
                                     isAiGenerated={isAiGenerated}
                                 />
-                            </PopoverContent>
-                        </Popover>
-                 
+                            )}
+                        </div>
+                        <Button
+                            className="w-full"
+                            variant="secondary"
+                            onClick={() =>
+                                setIsSelectingTemplate(!isSelectingTemplate)
+                            }
+                            type="button"
+                        >
+                            {isSelectingTemplate ? "Close templates" : "Use template"}
+                        </Button>
+                    </div>
+
                     <FormSubmit className="w-full">Create</FormSubmit>
                 </form>
             </PopoverContent>
         </Popover>
+        </div>
     );
 };
