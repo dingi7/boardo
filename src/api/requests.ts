@@ -44,18 +44,28 @@ export const endpoints = {
 
     generateAiTemplatedBoard: '/items/createAiTemplatedBoard',
     createBoardFromTemplate: '/items/boards/createFromTemplate',
+    saveTemplate: '/items/templates',
 };
 
 export const createAiTemplatedBoard = async (title: string, orgId: string) => {
     return api.post(endpoints.generateAiTemplatedBoard, { title, orgId });
 };
 
-export const createBoardFromTemplate = async (templateId: string, orgId: string) => {
+export const createBoardFromTemplate = async (
+    templateId: string,
+    orgId: string
+) => {
     return api.post(endpoints.createBoardFromTemplate, { templateId, orgId });
-}
+};
+
+export const saveTemplate = async (name: string, boardId: string) => {
+    return api.post(endpoints.saveTemplate, { name, boardId });
+};
 
 // Registers a new user
-export const registerUser = async (userData: RegisterUserData): Promise<any> => {
+export const registerUser = async (
+    userData: RegisterUserData
+): Promise<any> => {
     return api.post(endpoints.registerUser, userData);
 };
 
@@ -65,7 +75,9 @@ export const loginUser = async (userData: LoginUserData): Promise<any> => {
 };
 
 // Updates user credentials
-export const updateUserCredentials = async (userData: UpdateCredentialsData): Promise<any> => {
+export const updateUserCredentials = async (
+    userData: UpdateCredentialsData
+): Promise<any> => {
     return api.put(endpoints.updateUserCredentials, userData);
 };
 
@@ -75,12 +87,21 @@ export const requestResetPassword = async (email: string): Promise<any> => {
 };
 
 // Resets the password
-export const resetPassword = async (uuid: string, password: string): Promise<any> => {
-    return api.post(endpoints.requestResetPassword(uuid), { newPassword: password, token: uuid });
+export const resetPassword = async (
+    uuid: string,
+    password: string
+): Promise<any> => {
+    return api.post(endpoints.requestResetPassword(uuid), {
+        newPassword: password,
+        token: uuid,
+    });
 };
 
 // Changes the password
-export const changePassword = async (oldPassword: string, newPassword: string): Promise<any> => {
+export const changePassword = async (
+    oldPassword: string,
+    newPassword: string
+): Promise<any> => {
     return api.post(endpoints.changePassword, { oldPassword, newPassword });
 };
 
@@ -90,12 +111,18 @@ export const tokenValidator = async (uuid: string): Promise<any> => {
 };
 
 // Creates a new organization
-export const createOrganization = async (data: { name: string; password: string; }): Promise<any> => {
+export const createOrganization = async (data: {
+    name: string;
+    password: string;
+}): Promise<any> => {
     return api.post(endpoints.orgs, data);
 };
 
 // Joins an organization
-export const joinOrganization = async (orgId: string, password: string): Promise<any> => {
+export const joinOrganization = async (
+    orgId: string,
+    password: string
+): Promise<any> => {
     return api.post(endpoints.joinOrg(orgId), { password });
 };
 
@@ -105,17 +132,27 @@ export const leaveOrganization = async (orgId: string): Promise<any> => {
 };
 
 // Deletes an organization
-export const deleteOrganization = async (orgId: string, password: string): Promise<any> => {
+export const deleteOrganization = async (
+    orgId: string,
+    password: string
+): Promise<any> => {
     return api.del(endpoints.organization(orgId), { password });
 };
 
 // Updates organization name
-export const updateOrganizationName = async (orgId: string, name: string): Promise<any> => {
+export const updateOrganizationName = async (
+    orgId: string,
+    name: string
+): Promise<any> => {
     return api.put(endpoints.organization(orgId), { name });
 };
 
 // Updates organization password
-export const updateOrganizationPassword = async (orgId: string, password: string, oldPassword: string): Promise<any> => {
+export const updateOrganizationPassword = async (
+    orgId: string,
+    password: string,
+    oldPassword: string
+): Promise<any> => {
     return api.put(endpoints.organization(orgId), { password, oldPassword });
 };
 
@@ -130,7 +167,11 @@ export const getUserOrganizations = async (): Promise<any> => {
 };
 
 // Creates a new board
-export const createBoard = async (data: { name: string; backgroundUrl: string; orgId: string; }): Promise<any> => {
+export const createBoard = async (data: {
+    name: string;
+    backgroundUrl: string;
+    orgId: string;
+}): Promise<any> => {
     return api.post(endpoints.createBoard, data);
 };
 
@@ -140,17 +181,26 @@ export const deleteBoard = async (boardId: string): Promise<any> => {
 };
 
 // Edits a board
-export const editBoard = async (boardId: string, boardName: string): Promise<any> => {
+export const editBoard = async (
+    boardId: string,
+    boardName: string
+): Promise<any> => {
     return api.put(endpoints.board(boardId), { boardName });
 };
 
 // Removes a member from a board
-export const removeMemberFromBoard = async (boardId: string, memberId: string): Promise<any> => {
+export const removeMemberFromBoard = async (
+    boardId: string,
+    memberId: string
+): Promise<any> => {
     return api.post(endpoints.removeMemberFromBoard(boardId), { memberId });
 };
 
 // Changes board background
-export const changeBoardBackground = async (boardId: string, bgUrl: string): Promise<any> => {
+export const changeBoardBackground = async (
+    boardId: string,
+    bgUrl: string
+): Promise<any> => {
     return api.put(endpoints.board(boardId), { backgroundUrl: bgUrl });
 };
 
@@ -172,14 +222,23 @@ export const getBoardById = async (boardId: string): Promise<dataBaseBoard> => {
 };
 
 // Updates a board
-export const updateBoard = async (boardId: string, boardName: string, lists: dataBaseList[]): Promise<any> => {
+export const updateBoard = async (
+    boardId: string,
+    boardName: string,
+    lists: dataBaseList[]
+): Promise<any> => {
     const listIds = lists.map((list: dataBaseList) => list._id);
-    const cardIds = lists.flatMap((list: dataBaseList) => list.cards.map((card) => card._id));
+    const cardIds = lists.flatMap((list: dataBaseList) =>
+        list.cards.map((card) => card._id)
+    );
     return api.put(endpoints.board(boardId), { boardName, listIds, cardIds });
 };
 
 // Updates board name
-export const updateBoardName = async (boardId: string, boardName: string): Promise<any> => {
+export const updateBoardName = async (
+    boardId: string,
+    boardName: string
+): Promise<any> => {
     return api.put(endpoints.board(boardId), { boardName });
 };
 
@@ -231,7 +290,6 @@ export const setCardDueDate = async (
 ) => {
     return api.put(endpoints.card(cardId), { organizationId, dueDate });
 };
-
 
 export const createAssignment = async (userId: string, cardId: string) => {
     return api.post(endpoints.assignments(null), {
