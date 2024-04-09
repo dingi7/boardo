@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Sparkles, X } from "lucide-react";
 import { FormInput } from "./form-input";
 import { FormSubmit } from "./form-submit";
 import { Button } from "../ui/button";
@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "../Toaster/use-toast";
 import { Toggle } from "../ui/toggle";
 import { TemplatePicker } from "./form-templatePicker";
+import { Label } from "../ui/label";
 
 interface FormPopoverProps {
     children: React.ReactNode;
@@ -41,7 +42,7 @@ export const FormPopover = ({
 
     const [image, setSelectedImage] = useState<string | null>(null);
     const [title, setTitle] = useState<string>("");
-    const [isTemplateToggled, setIsTemplateToggled] = useState<boolean>(false);
+    //const [isTemplateToggled, setIsTemplateToggled] = useState<boolean>(false);
     const [template, setSelectedTempalte] = useState<string | null>(null);
 
     const [isAiGenerated, setIsAiGenerated] = useState<boolean>(false);
@@ -69,81 +70,99 @@ export const FormPopover = ({
         }
     };
 
-    const handleSwitchToggle = () => {
-        setIsTemplateToggled((prevState) => !prevState);
-    };
-
     return (
         <div className="mt-40">
-        <Popover>
-            <PopoverTrigger asChild>{children}</PopoverTrigger>
-            <PopoverContent
-                align={align}
-      
-                className="w-80 pt-3 bg-slate-200"
-                side={side}
-                sideOffset={sideOffset}
-            >
-                <div className="text-sm font-medium text-center text-neutral-600 pb-4">
-                    Create board
-                </div>
-                <PopoverClose asChild>
-                    <Button
-                        className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600"
-                        variant="ghost"
-                    >
-                        <X className="h-4 w-4" />
-                    </Button>
-                </PopoverClose>
-                <form
-                    onSubmit={async (e: any) => {
-                        e.preventDefault();
-                        await handleFormSubmit();
-                    }}
-                    className="space-y-4"
+            <Popover>
+                <PopoverTrigger asChild>{children}</PopoverTrigger>
+                <PopoverContent
+                    align={align}
+                    className="w-80 pt-3 bg-slate-200"
+                    side={side}
+                    sideOffset={sideOffset}
                 >
-                    <div className="space-y-4">
-                        <FormPicker
-                            id="image"
-                            setSelectedImage={setSelectedImage}
-                        />
-                        <FormInput
-                            id="title"
-                            label="Board title"
-                            type="text"
-                            onChange={handleTitleChange}
-                        />
+                    <div className="text-sm font-medium text-center text-neutral-600 pb-4">
+                        Create board
                     </div>
-
-                    <div>
-                        <div className="pb-4">
-                            {isSelectingTemplate && (
-                                <TemplatePicker
-                                    id="template"
-                                    setSelectedTempalte={setSelectedTempalte}
-                                    setIsAiGenerated={() =>
-                                        setIsAiGenerated(!isAiGenerated)
-                                    }
-                                    isAiGenerated={isAiGenerated}
-                                />
-                            )}
-                        </div>
+                    <PopoverClose asChild>
                         <Button
-                            className="w-full"
-                            variant="secondary"
-                            onClick={() =>
-                                setIsSelectingTemplate(!isSelectingTemplate)
-                            }
-                            type="button"
+                            className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600"
+                            variant="ghost"
                         >
-                            {isSelectingTemplate ? "Close templates" : "Use template"}
+                            <X className="h-4 w-4" />
                         </Button>
-                    </div>
+                    </PopoverClose>
+                    <form
+                        onSubmit={async (e: any) => {
+                            e.preventDefault();
+                            await handleFormSubmit();
+                        }}
+                        className="space-y-4"
+                    >
+                        <div className="space-y-4">
+                            <FormPicker
+                                id="image"
+                                setSelectedImage={setSelectedImage}
+                            />
 
-                    <FormSubmit className="w-full">Create</FormSubmit>
-                </form>
-            </PopoverContent>
-        </Popover>
+                            <div className="flex flex-row justify-between gap-4 items-center w-full">
+
+                               
+                                    <FormInput
+                                        id="title"
+                                        label="Board title"
+                                        type="text"
+                                        className="w-full"
+                                        onChange={handleTitleChange}
+                                    />
+                               
+
+                               
+                                    <Button
+                                    size="icon"
+                                    >
+                                        <div className="w-full flex justify-center items-center">
+                                            <Sparkles />
+                                        </div>
+                                    </Button>
+                                
+
+                                {/*                              <Label className="w-full">Generate AI template</Label> */}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div className="pb-4">
+                                {isSelectingTemplate && (
+                                    <TemplatePicker
+                                        id="template"
+                                        setSelectedTempalte={
+                                            setSelectedTempalte
+                                        }
+                                        setIsAiGenerated={() =>
+                                            setIsAiGenerated(!isAiGenerated)
+                                        }
+                                        isAiGenerated={isAiGenerated}
+                                    />
+                                )}
+                            </div>
+                            <Button
+                                className="w-full"
+                                variant="secondary"
+                                onClick={() =>
+                                    setIsSelectingTemplate(!isSelectingTemplate)
+                                }
+                                type="button"
+                            >
+                                {isSelectingTemplate
+                                    ? "Close templates"
+                                    : "Use template"}
+                            </Button>
+                        </div>
+
+                        <FormSubmit className="w-full">Create</FormSubmit>
+                    </form>
+                </PopoverContent>
+            </Popover>
         </div>
     );
 };
