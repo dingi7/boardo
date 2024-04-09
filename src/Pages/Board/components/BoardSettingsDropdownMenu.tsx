@@ -22,8 +22,8 @@ export const BoardSettingsDropdownMenu = ({ boardId, setBackgroundUrl }: { board
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <BackgroundPicker boardId={boardId} setBackgroundUrl={setBackgroundUrl} />
-                    <DeleteHandler itemId={boardId} option='board'/>
-                    <SaveTemplate />
+                    <DeleteHandler itemId={boardId} option='board' setLists={() => {}}/>
+                    <SaveTemplate boardId={boardId} />
                 </DropdownMenuGroup>
             </DropdownMenuContent>
         </DropdownMenu>

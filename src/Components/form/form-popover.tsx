@@ -120,10 +120,7 @@ export const FormPopover = ({
                             {isSelectingTemplate && (
                                 <TemplatePicker
                                     id="template"
-                                    setSelectedTempalte={setSelectedTempalte}
-                                    setIsAiGenerated={() =>
-                                        setIsAiGenerated(!isAiGenerated)
-                                    }
+                                    setIsAiGenerated={() => setIsAiGenerated(!isAiGenerated)}
                                     isAiGenerated={isAiGenerated}
                                 />
                             )}
