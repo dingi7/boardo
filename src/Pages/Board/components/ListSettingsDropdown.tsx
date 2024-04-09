@@ -11,7 +11,6 @@ import {
 import { DeleteHandler } from "./DeleteHandler";
 import { BoardContext } from "../contexts/BoardContextProvider";
 import { useContext } from "react";
-import { AssignForCompleted } from "./AssignForCompleted";
 
 export const ListSettingsDropdownMenu = ({
     listId,
@@ -41,15 +40,6 @@ export const ListSettingsDropdownMenu = ({
                         {/* <StylesHandler
                             setBackgroundColor={setBackgroundColor}
                         /> */}
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuGroup>
-                        <AssignForCompleted
-                            itemId={listId}
-
-                            setLists={setLists}
-                        />
-
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
