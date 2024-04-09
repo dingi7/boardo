@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { dataBaseBoard } from './IDatabase';
 import { IUserData } from './IUserData';
+import { ITemplate } from './ITemplate';
 
 export interface IDashboardContext {
     allOrganizations: IOrgLean[] | null;
@@ -27,6 +28,7 @@ export interface IOrg {
     owner: IUserData;
     members: IUserData[];
     orgLogo: string;
+    boardTemplates: ITemplate[];
     activity: IActivity[];
 }
 

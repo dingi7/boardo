@@ -1,26 +1,15 @@
-import { ArrowLeft, Check, Loader2, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Check, Loader2, Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-import { cn } from "../../util/utils";
-import { defaultTemplates } from "../../util/templates";
-import { FormTextArea } from "./form-textarea";
-import { Button } from "../ui/button";
-import { Label } from "../ui/label";
-import { Textarea } from "../ui/textarea";
+import { cn } from '../../util/utils';
+import { ITemplate } from 'src/Interfaces/ITemplate';
 
 interface FormPickerProps {
     id: string;
-    isAiGenerated: boolean;
-    setIsAiGenerated: () => void;
+    templates: ITemplate[];
 }
 
-export const TemplatePicker = ({
-    id,
-    isAiGenerated,
-    setIsAiGenerated,
-}: FormPickerProps) => {
-    const [templates, setTemplates] =
-        useState<Array<Record<string, any>>>(defaultTemplates);
+export const TemplatePicker = ({ id, templates }: FormPickerProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedImageId, setSelectedImageId] = useState(null);
     const templatesPerPage = 6;
@@ -28,11 +17,8 @@ export const TemplatePicker = ({
         Array<Record<string, any>>
     >([]);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [aiPropmt, setAiPrompt] = useState<string>("");
 
-    const createAITemplatedBoard = async () => {
-        console.log(aiPropmt);
-    };
+    const createAITemplatedBoard = async () => {};
 
     useEffect(() => {
         const updateTemplates = () => {
@@ -71,15 +57,15 @@ export const TemplatePicker = ({
 
     if (isLoading) {
         return (
-            <div className="p-6 flex items-center justify-center">
-                <Loader2 className="h-6 w-6 text-sky-700 animate-spin" />
+            <div className='p-6 flex items-center justify-center'>
+                <Loader2 className='h-6 w-6 text-sky-700 animate-spin' />
             </div>
         );
     }
 
     return (
-        <div className="w-full">
-            <div className="gap-2 flex flex-wrap">
+        <div className='w-full'>
+            <div className='gap-2 flex flex-wrap'>
                 {/* {currentPage === 1 && (
                             <div
                                 className={cn(
@@ -98,79 +84,54 @@ export const TemplatePicker = ({
                     <div
                         key={template._id}
                         className={cn(
-                            "w-[30%] h-full cursor-pointer relative aspect-square group hover:opacity-75 transition bg-muted p-2 rounded-md"
+                            'w-[30%] h-full cursor-pointer relative aspect-square group hover:opacity-75 transition bg-muted p-2 rounded-md'
                         )}
                         onClick={() => {
                             setSelectedImageId(template._id);
-                            console.log(template._id);
                         }}
                     >
                         <input
-                            type="radio"
+                            type='radio'
                             id={id}
                             name={id}
-                            className="hidden"
+                            className='hidden'
                             checked={selectedImageId === template._id}
                             onChange={() => {}}
                             value={`${template._id}|${template.name}`}
                         />
-                        <div className="w-full h-full flex items-center justify-center text-center">
-                            <span className="">{template.name}</span>
+                        <div className='w-full h-full flex items-center justify-center text-center'>
+                            <span className=''>{template.name}</span>
                         </div>
                         {selectedImageId === template._id && (
-                            <div className="absolute inset-0 h-full w-full bg-black/30 flex items-center justify-center rounded-md">
-                                <Check className="h-4 w-4 text-white" />
+                            <div className='absolute inset-0 h-full w-full bg-black/30 flex items-center justify-center rounded-md'>
+                                <Check className='h-4 w-4 text-white' />
                             </div>
                         )}
                     </div>
                 ))}
             </div>
-            <div className="flex justify-center mt-4">
-                {Array.from({
-                    length: Math.ceil(
-                        (templates.length + 1) / templatesPerPage
-                    ),
-                }).map((_, index) => (
-                    <button
-                        type="button"
-                        key={index}
-                        onClick={() => paginate(index + 1)}
-                        className={`px-3 py-1 mx-1 border border-gray-300 rounded-md ${
-                            currentPage === index + 1
-                                ? "bg-gray-300"
-                                : "bg-white"
-                        }`}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
-            </div>
-
-            {/* // <div className='flex flex-col gap-4'>
-                //     <div className='flex gap-[2%] items-center w-full'>
-                //         <ArrowLeft
-                //             className='hover:cursor-pointer'
-                //             onClick={setIsAiGenerated}
-                //         />
-
-                //         <Label className='font-bold text-md'>
-                //             Type AI prompt
-                //         </Label>
-                //     </div>
-                //     <Textarea
-                //         id='template-textarea'
-                //         className='resize-none'
-                //         placeholder='Type AI prompt...'
-                //         value={aiPropmt}
-                //         onChange={(e) => setAiPrompt(e.target.value)}
-                //     />
-                //     <Button onClick={createAITemplatedBoard}>
-                //         <span className='w-full flex justify-center gap-[4%] items-center'>
-                //             <Sparkles />
-                //             Generate template
-                //         </span>
-                //     </Button>
-                // </div> */}
+            {templates.length + 1 / templatesPerPage > 2 && (
+                <div className='flex justify-center mt-4'>
+                    {Array.from({
+                        length: Math.ceil(
+                            (templates.length + 1) / templatesPerPage
+                        ),
+                    }).map((_, index) => (
+                        <button
+                            type='button'
+                            key={index}
+                            onClick={() => paginate(index + 1)}
+                            className={`px-3 py-1 mx-1 border border-gray-300 rounded-md ${
+                                currentPage === index + 1
+                                    ? 'bg-gray-300'
+                                    : 'bg-white'
+                            }`}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
