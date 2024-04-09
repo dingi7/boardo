@@ -7,9 +7,10 @@ import { ITemplate } from 'src/Interfaces/ITemplate';
 interface FormPickerProps {
     id: string;
     templates: ITemplate[];
+    setSelectedTemplate: (templateId: string) => void;
 }
 
-export const TemplatePicker = ({ id, templates }: FormPickerProps) => {
+export const TemplatePicker = ({ id, templates, setSelectedTemplate }: FormPickerProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedImageId, setSelectedImageId] = useState(null);
     const templatesPerPage = 6;
@@ -66,20 +67,6 @@ export const TemplatePicker = ({ id, templates }: FormPickerProps) => {
     return (
         <div className='w-full'>
             <div className='gap-2 flex flex-wrap'>
-                {/* {currentPage === 1 && (
-                            <div
-                                className={cn(
-                                    'w-[30%] h-full cursor-pointer relative aspect-square group hover:opacity-75 transition bg-primary hover:bg-primary/90 p-2 rounded-md'
-                                )}
-                                onClick={setIsAiGenerated}
-                            >
-                                <div className='w-full h-full flex items-center justify-center text-center'>
-                                    <span className='text-white'>
-                                        Generate with AI
-                                    </span>
-                                </div>
-                            </div>
-                        )} */}
                 {currentTemplates.map((template, index) => (
                     <div
                         key={template._id}
@@ -88,6 +75,7 @@ export const TemplatePicker = ({ id, templates }: FormPickerProps) => {
                         )}
                         onClick={() => {
                             setSelectedImageId(template._id);
+                            setSelectedTemplate(template._id);
                         }}
                     >
                         <input

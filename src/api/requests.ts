@@ -52,10 +52,13 @@ export const createAiTemplatedBoard = async (title: string, orgId: string) => {
 };
 
 export const createBoardFromTemplate = async (
+    name: string,
     templateId: string,
-    orgId: string
+    orgId: string,
+    backgroundUrl: string
 ) => {
-    return api.post(endpoints.createBoardFromTemplate, { templateId, orgId });
+    
+    return api.post(endpoints.createBoardFromTemplate, { templateId, name, orgId, backgroundUrl });
 };
 
 export const saveTemplate = async (name: string, boardId: string) => {

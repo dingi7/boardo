@@ -20,30 +20,29 @@ import { Label } from "../ui/label";
 
 interface FormPopoverProps {
     children: React.ReactNode;
-    side?: "left" | "right" | "top" | "bottom";
-    align?: "start" | "center" | "end";
+    side?: 'left' | 'right' | 'top' | 'bottom';
+    align?: 'start' | 'center' | 'end';
     sideOffset?: number;
 }
 
 export const FormPopover = ({
     children,
-    side = "right",
+    side = 'right',
     align,
     sideOffset = 0,
 }: FormPopoverProps) => {
     const context = useContext(DashboardContext);
     const { toast } = useToast();
     if (!context) {
-        throw new Error("Dashboard context is not available");
+        throw new Error('Dashboard context is not available');
     }
     const { selectedOrganization } = context;
 
     const navigate = useNavigate();
 
     const [image, setSelectedImage] = useState<string | null>(null);
-    const [title, setTitle] = useState<string>("");
-    //const [isTemplateToggled, setIsTemplateToggled] = useState<boolean>(false);
-    const [template, setSelectedTempalte] = useState<string | null>(null);
+    const [title, setTitle] = useState<string>('');
+    const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
     const [isSelectingTemplate, setIsSelectingTemplate] =
         useState<boolean>(false);
 
@@ -53,17 +52,28 @@ export const FormPopover = ({
 
     const handleFormSubmit = async () => {
         try {
-            const result = await createBoard({
-                name: title,
-                backgroundUrl: image!,
-                orgId: selectedOrganization!._id,
-            });
-            navigate(`/board/${result._id}`);
+            if (isSelectingTemplate && selectedTemplate) {
+                const result = await createBoardFromTemplate(
+                    title,
+                    selectedTemplate,
+                    selectedOrganization!._id,
+                    image!,
+                );
+                navigate(`/board/${result._id}`);
+            } else {
+                const result = await createBoard({
+                    name: title,
+                    backgroundUrl: image!,
+                    orgId: selectedOrganization!._id,
+                });
+                navigate(`/board/${result._id}`);
+            }
         } catch (error: any) {
+            
             toast({
-                title: "Failed to create board",
+                title: 'Failed to create board',
                 description: error.message,
-                variant: "destructive",
+                variant: 'destructive',
             });
         }
     };
@@ -129,38 +139,35 @@ export const FormPopover = ({
                         </div>
 
                         <div>
-                            <div className="pb-4">
+                            <div className='pb-4'>
                                 {isSelectingTemplate && (
                                     <TemplatePicker
-                                        id="template"
-                                        setSelectedTempalte={
-                                            setSelectedTempalte
+                                        id='template'
+                                        templates={
+                                            selectedOrganization!.boardTemplates
                                         }
-                                        setIsAiGenerated={() =>
-                                            setIsAiGenerated(!isAiGenerated)
-                                        }
-                                        isAiGenerated={isAiGenerated}
+                                        setSelectedTemplate={setSelectedTemplate}
                                     />
                                 )}
                             </div>
                             <Button
-                                className="w-full"
-                                variant="secondary"
+                                className='w-full'
+                                variant='secondary'
                                 onClick={() =>
                                     setIsSelectingTemplate(!isSelectingTemplate)
                                 }
-                                type="button"
+                                type='button'
                             >
                                 {isSelectingTemplate
-                                    ? "Close templates"
-                                    : "Use template"}
+                                    ? 'Close templates'
+                                    : 'Use template'}
                             </Button>
                         </div>
 
-                        <FormSubmit className="w-full">Create</FormSubmit>
-                    </form>
-                </PopoverContent>
-            </Popover>
+                            <FormSubmit className='w-full'>Create</FormSubmit>
+                        </form>
+                    </PopoverContent>
+                </Popover>
         </div>
     );
 };
