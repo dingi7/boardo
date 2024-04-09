@@ -1,22 +1,20 @@
-import { Sparkles, X } from "lucide-react";
-import { FormInput } from "./form-input";
-import { FormSubmit } from "./form-submit";
-import { Button } from "../ui/button";
+import { Sparkles, X } from 'lucide-react';
+import { FormInput } from './form-input';
+import { FormSubmit } from './form-submit';
+import { Button } from '../ui/button';
 import {
     Popover,
     PopoverClose,
     PopoverContent,
     PopoverTrigger,
-} from "./popover";
-import { FormPicker } from "./form-picker";
-import { useContext, useState } from "react";
-import { createBoard, createBoardFromTemplate } from "../../api/requests";
-import { DashboardContext } from "../../Pages/Dashboard/contexts/DashboardContextProvider";
-import { useNavigate } from "react-router-dom";
-import { useToast } from "../Toaster/use-toast";
-import { Toggle } from "../ui/toggle";
-import { TemplatePicker } from "./form-templatePicker";
-import { Label } from "../ui/label";
+} from './popover';
+import { FormPicker } from './form-picker';
+import { useContext, useState } from 'react';
+import { createAiTemplatedBoard, createBoard, createBoardFromTemplate } from '../../api/requests';
+import { DashboardContext } from '../../Pages/Dashboard/contexts/DashboardContextProvider';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '../Toaster/use-toast';
+import { TemplatePicker } from './form-templatePicker';
 
 interface FormPopoverProps {
     children: React.ReactNode;
@@ -37,12 +35,15 @@ export const FormPopover = ({
         throw new Error('Dashboard context is not available');
     }
     const { selectedOrganization } = context;
+    
 
     const navigate = useNavigate();
 
     const [image, setSelectedImage] = useState<string | null>(null);
     const [title, setTitle] = useState<string>('');
-    const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
+    const [selectedTemplate, setSelectedTemplate] = useState<string | null>(
+        null
+    );
     const [isSelectingTemplate, setIsSelectingTemplate] =
         useState<boolean>(false);
 
@@ -57,7 +58,7 @@ export const FormPopover = ({
                     title,
                     selectedTemplate,
                     selectedOrganization!._id,
-                    image!,
+                    image!
                 );
                 navigate(`/board/${result._id}`);
             } else {
@@ -69,7 +70,30 @@ export const FormPopover = ({
                 navigate(`/board/${result._id}`);
             }
         } catch (error: any) {
-            
+            toast({
+                title: 'Failed to create board',
+                description: error.message,
+                variant: 'destructive',
+            });
+        }
+    };
+    const handleAIGeneratedBoard = async () => {
+        try {
+            if (!title) {
+                toast({
+                    title: 'Failed to create board',
+                    description: 'Title is required',
+                    variant: 'destructive',
+                });
+                return;
+            }
+            const result = await createAiTemplatedBoard(
+                title,
+                image!,
+                selectedOrganization!._id,
+            );
+            navigate(`/board/${result._id}`);
+        } catch (error: any) {
             toast({
                 title: 'Failed to create board',
                 description: error.message,
@@ -79,24 +103,24 @@ export const FormPopover = ({
     };
 
     return (
-        <div className="mt-40">
+        <div className='mt-40'>
             <Popover>
                 <PopoverTrigger asChild>{children}</PopoverTrigger>
                 <PopoverContent
                     align={align}
-                    className="w-80 pt-3 bg-slate-200"
+                    className='w-80 pt-3 bg-slate-200'
                     side={side}
                     sideOffset={sideOffset}
                 >
-                    <div className="text-sm font-medium text-center text-neutral-600 pb-4">
+                    <div className='text-sm font-medium text-center text-neutral-600 pb-4'>
                         Create board
                     </div>
                     <PopoverClose asChild>
                         <Button
-                            className="h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600"
-                            variant="ghost"
+                            className='h-auto w-auto p-2 absolute top-2 right-2 text-neutral-600'
+                            variant='ghost'
                         >
-                            <X className="h-4 w-4" />
+                            <X className='h-4 w-4' />
                         </Button>
                     </PopoverClose>
                     <form
@@ -104,35 +128,34 @@ export const FormPopover = ({
                             e.preventDefault();
                             await handleFormSubmit();
                         }}
-                        className="space-y-4"
+                        className='space-y-4'
                     >
-                        <div className="space-y-4">
+                        <div className='space-y-4'>
                             <FormPicker
-                                id="image"
+                                id='image'
                                 setSelectedImage={setSelectedImage}
                             />
 
-                            <div className="flex flex-row justify-between gap-4 items-center w-full">
+                            <div className='flex flex-row justify-between gap-4 items-center w-full'>
+                                <FormInput
+                                    id='title'
+                                    label='Board title'
+                                    type='text'
+                                    className='w-full'
+                                    onChange={handleTitleChange}
+                                />
 
-                               
-                                    <FormInput
-                                        id="title"
-                                        label="Board title"
-                                        type="text"
-                                        className="w-full"
-                                        onChange={handleTitleChange}
-                                    />
-                               
-
-                               
-                                    <Button
-                                    size="icon"
-                                    >
-                                        <div className="w-full flex justify-center items-center">
-                                            <Sparkles />
-                                        </div>
-                                    </Button>
-                                
+                                <Button
+                                    size='icon'
+                                    onClick={(e: any) =>{
+                                        e.preventDefault();
+                                        handleAIGeneratedBoard();
+                                    }}
+                                >
+                                    <div className='w-full flex justify-center items-center'>
+                                        <Sparkles />
+                                    </div>
+                                </Button>
 
                                 {/*                              <Label className="w-full">Generate AI template</Label> */}
                             </div>
@@ -146,7 +169,9 @@ export const FormPopover = ({
                                         templates={
                                             selectedOrganization!.boardTemplates
                                         }
-                                        setSelectedTemplate={setSelectedTemplate}
+                                        setSelectedTemplate={
+                                            setSelectedTemplate
+                                        }
                                     />
                                 )}
                             </div>
@@ -164,10 +189,10 @@ export const FormPopover = ({
                             </Button>
                         </div>
 
-                            <FormSubmit className='w-full'>Create</FormSubmit>
-                        </form>
-                    </PopoverContent>
-                </Popover>
+                        <FormSubmit className='w-full'>Create</FormSubmit>
+                    </form>
+                </PopoverContent>
+            </Popover>
         </div>
     );
 };

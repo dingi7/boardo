@@ -18,24 +18,6 @@ import { saveTemplate } from 'src/api/requests';
 export function SaveTemplate({ boardId }: { boardId: string }) {
     const [templateTitle, setTemplateTitle] = useState<string>('');
 
-    const handleSubmit = async (e: any) => {
-        if (!templateTitle) {
-            e.preventDefault();
-            toast({
-                title: 'Failed to change background',
-                description: 'You did not select a background',
-                variant: 'destructive',
-            });
-            return;
-        }
-
-        toast({
-            title: 'Background changed',
-            description: 'Background changed sucessfuly',
-            variant: 'default',
-        });
-    };
-
     const handleSaveTemplate = async () => {
         try {
             await saveTemplate(templateTitle, boardId);
@@ -58,7 +40,7 @@ export function SaveTemplate({ boardId }: { boardId: string }) {
             <DialogTrigger asChild>
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                     <Save className='w-4 h-4 mr-2' />
-                    <span>Save board as Template</span>
+                    <span>Save board as template</span>
                 </DropdownMenuItem>
             </DialogTrigger>
             <DialogContent className='sm:max-w-[425px] bg-slate-200'>

@@ -47,8 +47,8 @@ export const endpoints = {
     saveTemplate: '/items/templates',
 };
 
-export const createAiTemplatedBoard = async (title: string, orgId: string) => {
-    return api.post(endpoints.generateAiTemplatedBoard, { title, orgId });
+export const createAiTemplatedBoard = async (title: string, backgroundUrl: string, orgId: string) => {
+    return api.post(endpoints.generateAiTemplatedBoard, { title, backgroundUrl, orgId });
 };
 
 export const createBoardFromTemplate = async (
