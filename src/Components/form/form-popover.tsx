@@ -10,7 +10,7 @@ import {
 } from "./popover";
 import { FormPicker } from "./form-picker";
 import { useContext, useState } from "react";
-import { createBoard } from "../../api/requests";
+import { createBoard, createBoardFromTemplate } from "../../api/requests";
 import { DashboardContext } from "../../Pages/Dashboard/contexts/DashboardContextProvider";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "../Toaster/use-toast";
