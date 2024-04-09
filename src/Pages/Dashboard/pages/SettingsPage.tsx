@@ -1,12 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import MemberCard from '../components/MemberCard';
-import RequestCard from '../components/RequestCard';
 import { Input } from 'src/Components/ui/input';
 import { Button } from 'src/Components/ui/button';
 import {
     removeMemberFromBoard,
     updateOrganizationName,
-    updateOrganizationPassword,
+    updateOrganizationPassword
 } from 'src/api/requests';
 import { useToast } from 'src/Components/Toaster/use-toast';
 import { useAuthUser } from 'react-auth-kit';
@@ -144,6 +143,7 @@ export const SettingsPage = (props: Props) => {
         }
     };
 
+
     const handleKickMember = async (boardId: string, memberId: string) => {
         if (!window.confirm('Are you sure you want to kick this member?')) {
             return;
@@ -173,6 +173,8 @@ export const SettingsPage = (props: Props) => {
             });
         }
     };
+
+  
     return (
         <div className='border-b border-gray-200 dark:border-gray-700'>
             <ul
@@ -307,6 +309,7 @@ export const SettingsPage = (props: Props) => {
                                     >
                                         Save
                                     </Button>
+                                    
                                     {isOwner && (
                                         <div>
                                             <h2 className='text-lg font-bold'>

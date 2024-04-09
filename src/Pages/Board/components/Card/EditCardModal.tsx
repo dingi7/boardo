@@ -21,7 +21,7 @@ import { DatePicker } from "./DatePicker";
 import {
     createAssignment,
     deleteAssignment,
-    generateDescription,
+    generateCardDescription,
     updateCard,
 } from "src/api/requests";
 import { BoardContext } from "../../contexts/BoardContextProvider";
@@ -186,7 +186,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                                     setIsLoading(true);
                                     try {
                                         setDescription(
-                                            await generateDescription(title)
+                                            await generateCardDescription(title)
                                         );
                                     } catch (e) {
                                         toast({
