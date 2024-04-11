@@ -8,6 +8,12 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "./popover";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "src/Components/ui/tooltip";
 import { FormPicker } from "./form-picker";
 import { useContext, useState } from "react";
 import {
@@ -141,12 +147,14 @@ export const FormPopover = ({
 
                             <div className="w-full">
                                 <FormInput
-                    
                                     id="title"
                                     type="text"
                                     className="w-full relative px-2 py-4"
                                     onChange={handleTitleChange}
                                 >
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger className="h-full absolute top-0 right-0 flex items-center justify-center">
                                     <div className="h-full absolute top-0 right-0 flex items-center justify-center">
                                         <Button
                                             size="icon"
@@ -161,6 +169,12 @@ export const FormPopover = ({
                                             </div>
                                         </Button>
                                     </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Generate board with Ai</p>
+                                    </TooltipContent>
+                                    </Tooltip>
+                                    </TooltipProvider>
                                 </FormInput>
 
                                 {/*                              <Label className="w-full">Generate AI template</Label> */}
