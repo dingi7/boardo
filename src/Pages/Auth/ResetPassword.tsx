@@ -16,18 +16,18 @@ export const ResetPassword = () => {
     const { toast } = useToast();
 
     const navigate = useNavigate();
-    // const isAuth = useIsAuthenticated();
+    const isAuth = useIsAuthenticated();
     useEffect(() => {
         console.log(uuid);
 
-        // setLoading(true);
-        // if (isAuth()) {
-        //     navigate('/');
-        //     toast({
-        //         title: 'You are already logged in',
-        //         variant: 'destructive',
-        //     });
-        // }
+        setLoading(true);
+        if (isAuth()) {
+            navigate('/');
+            toast({
+                title: 'You are already logged in',
+                variant: 'destructive',
+            });
+        }
         const isTokenValid = async () => {
             try {
                 await tokenValidator(uuid!);
@@ -67,8 +67,7 @@ export const ResetPassword = () => {
     };
 
     if (loading) {
-        // return <Loading />;
-        return <div>Loading...</div>
+        return <Loading />;
     }
 
     return (
