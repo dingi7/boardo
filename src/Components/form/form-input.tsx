@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { Children, forwardRef } from 'react';
 
 import { FormErrors } from './form-errors';
 import { cn } from '../../util/utils';
@@ -6,6 +6,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 
 interface FormInputProps {
+    children?: React.ReactNode
     id: string;
     label?: string;
     type?: string;
@@ -22,6 +23,7 @@ interface FormInputProps {
 export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
     (
         {
+            children,
             id,
             label,
             type,
@@ -37,8 +39,8 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
         ref
     ) => {
         return (
-            <div className="space-y-2">
-                <div className="space-y-1">
+            <div className={`${children ? "" : "space-y-2"}`}>
+                <div className={`${children ? "relative" : "space-y-1 "}`}>
                     {label ? (
                         <Label
                             htmlFor={id}
@@ -61,6 +63,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
                         aria-describedby={`${id}-error`}
                         onChange={onChange}
                     />
+                    {children}
                 </div>
                 <FormErrors id={id} errors={errors} />
             </div>
