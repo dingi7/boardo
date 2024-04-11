@@ -4,35 +4,25 @@ import { Eye, EyeOff } from 'lucide-react';
 
 type Props = {
     type: string;
-    text: string;
+    placeholder?: string;
     id: keyof LoginUserData | keyof RegisterUserData;
-    // setUserData:
-    //     | React.Dispatch<React.SetStateAction<RegisterUserData>>
-    //     | React.Dispatch<React.SetStateAction<LoginUserData>>;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    isValid?: boolean;
 };
 
 export const AuthInput = (props: Props) => {
     const [showPassword, setShowPassword] = useState(false);
-
     const isPasswordInput = props.type === 'password';
     const toggleShowPassword = () => setShowPassword(!showPassword);
 
     return (
         <div className="mb-4 relative">
-            <label
-                className="block mb-2 text-md font-medium text-gray-900"
-                htmlFor={props.id}
-            >
-                {props.text}
-            </label>
-
-            <div className="flex items-center border border-gray-300 rounded-lg">
+            <div className={`flex items-center rounded-lg border-2 ${props.isValid ? "border-grey-500" : "border-rose-500"}`}>
                 <input
-                    className={`bg-gray-50 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ${isPasswordInput ? 'rounded-l-lg' : 'rounded-lg'}`}
+                    className={`bg-gray-50 text-sm w-full p-2.5 ${isPasswordInput ? 'rounded-l-lg' : 'rounded-lg'} outline-none `}
                     id={props.id}
                     type={isPasswordInput && showPassword ? 'text' : props.type}
-                    placeholder={props.text}
+                    placeholder={props.placeholder}
                     onChange={props.onChange}
                 />
                 {isPasswordInput && (
