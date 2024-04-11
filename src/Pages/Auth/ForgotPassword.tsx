@@ -9,6 +9,8 @@ import { AuthInput } from '../../Components/auth/auth-input';
 import { useToast } from '../../Components/Toaster/use-toast';
 import { IForgotPassword } from './../../Interfaces/IUserData';
 import { requestResetPassword } from 'src/api/requests';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'src/Components/ui/card';
+import { Label } from 'src/Components/ui/label';
 
 export const ForgotPassword = () => {
     const [loading, setLoading] = React.useState<boolean>(false);
@@ -43,7 +45,7 @@ export const ForgotPassword = () => {
             setError(err.message);
             toast({
                 title: err.message,
-                variant: "destructive" 
+                variant: "destructive"
             });
         }
         setLoading(false);
@@ -52,67 +54,51 @@ export const ForgotPassword = () => {
     if (isSent)
         return (
             <div className='h-screen bg-white flex justify-center items-center'>
-                <div className='w-[95%] md:w-[60%] lg:w-[50%] xl:w-[46%] border-1 bg-slate-100 rounded-md flex flex-col p-12 pb-16 justify-between'>
-                    <div className='mx-auto'>
-                        <Logo />
-                    </div>
-                    <div>
-                        {/* <div className='w-[60%]'> */}
-                        <p className='text-lg font-semibold mt-4'>
-                            A reset email has been successfully sent to{' '}
-                            <span className='text-blue-500'>
-                                {loginData.email}
-                            </span>
-                            . Follow the instructions there to reset your
-                            password.
+                <Card className="max-w-md w-[50%]">
+                    <CardContent className="px-4 py-12 text-center space-y-2 flex flex-col justify-between">
+                        <div className='mx-auto'>
+                            <Logo />
+                        </div>
+                        <h1 className="text-3xl font-bold">Password Reset</h1>
+                        <p className="text-gray-500">An email has been sent to </p>
+                        <span className='font-semibold text-blue-700 cursor-pointer' onClick={()=>{
+                            window.open(`http://${loginData.email.match(/(?<=@)[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/)?.[0]}`, '_blank');
+                        } }>{loginData.email}</span>
+                        <p className="text-gray-500">
+                            Please follow the instructions in the email we've sent you
+                            to choose a new password.
                         </p>
-                        <p className='text-gray-600 mt-2'>
-                            If you don't see it in your inbox, please check your
-                            spam folder.
-                        </p>
-                        {/* </div> */}
-                    </div>
-                </div>
+                    </CardContent>
+                </Card>
             </div>
         );
 
     return (
         <div className='h-screen bg-white flex justify-center items-center'>
-            {/* <Navbar></Navbar> */}
-            <div className='w-[95%] md:w-[60%] lg:w-[50%] xl:w-[46%] border-1 bg-[#e2e2e2] rounded-md flex flex-col p-12 pb-16 justify-between'>
-                <div className='mx-auto'>
-                    <Logo />
-                </div>
+            <Card className="mx-auto max-w-sm">
                 <form onSubmit={handleSubmit}>
-                    <div>
-                        <AuthInput
-                            type='email'
-                            text='Email'
-                            id='email'
-                            onChange={handleInputChange}
-                        />
-                        <div className='text-black text-left'>
-                            <p className=' text-red-600'>{error}</p>
-                            Not registered?{' '}
-                            <Link
-                                to={'/auth/register'}
-                                className='font-semibold'
-                            >
-                                Register
+                    <CardHeader className="space-y-1">
+                        <CardTitle className="text-2xl font-bold">Forgot password</CardTitle>
+                        <CardDescription>Enter your email below to recover your password</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="email">Email</Label>
+                                <AuthInput id="email" placeholder="m@example.com" isValid={true} type="email" onChange={handleInputChange} />
+                            </div>
+                            <Button className="w-full" type="submit">
+                                Submit
+                            </Button>
+                        </div>
+                        <div className="mt-4 text-sm text-center">
+                            <Link className="underline" to="/auth/login">
+                                Back to login
                             </Link>
                         </div>
-                    </div>
-                    <Button
-                        className='shadow border-1 mt-4 font-semibold border-slate-800 bg-white rounded w-full py-3 px-3 leading-tight focus:outline-none focus:shadow-outline outline-none hover:bg-zinc-100'
-                        type='submit'
-                        variant={'ghost'}
-                        id='registerButton'
-                        disabled={loading}
-                    >
-                        {loading ? 'Loading...' : 'Send reset email'}
-                    </Button>
+                    </CardContent>
                 </form>
-            </div>
+            </Card>
         </div>
     );
 };
