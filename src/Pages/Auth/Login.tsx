@@ -90,10 +90,15 @@ export const Login = () => {
                         <Label htmlFor="password">Password</Label>
                         <AuthInput id="password" type="password" onChange={handleInputChange} isValid={errorFields.password} />
                     </div>
+                    <Label className="text-left text-sm">
+                        <Link to="/auth/forgotPassword" className="underline">
+                            Forgot password?
+                        </Link>
+                    </Label>
                     <Button className="w-full" type="submit"
                         disabled={loading}
                     >
-                        {loading ? <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-500 border-t-transparent" /> : 'Register'}
+                        {loading ? <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-500 border-t-transparent" /> : 'Login'}
                     </Button>
                     <div className="mt-4 text-center text-sm">
                         Already have an account?
