@@ -4,7 +4,7 @@ import { Hint } from "../../../Components/hint";
 
 export const AddBoard = ({ remainingBoards }: { remainingBoards: number }) => {
     return (
-        <FormPopover sideOffset={10} side="right" align="end">
+        <FormPopover sideOffset={8} side="left" align="end">
             <div
                 role="button"
                 className=" bg-slate-200 aspect-video relative h-full w-full bg-muted rounded-sm flex flex-col gap-y-1 items-center justify-center hover:opacity-75 transition"
