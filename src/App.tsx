@@ -44,7 +44,7 @@ function App() {
                   element={<ForgotPassword />}
                 />
                 <Route
-                  path="/auth/resetPassword/:uuid"
+                  path="/resetPassword/:uuid"
                   element={<ResetPassword />}
                 />
                 <Route path="/profile" element={<Profile />} />

@@ -67,7 +67,8 @@ export const ResetPassword = () => {
     };
 
     if (loading) {
-        return <Loading />;
+        // return <Loading />;
+        return <div>Loading...</div>
     }
 
     return (
