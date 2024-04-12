@@ -28,7 +28,7 @@ export const List = ({
         <Draggable draggableId={id} index={index!}>
             {(provided) => (
                 <div
-                    className='inline-flex flex-col items-start gap-[5%] min-w-[365px] max-w-[365px] w-[365px] overflow-hidden'
+                    className='inline-flex flex-col items-start gap-[5%] min-w-[365px] max-w-[365px] w-[365px] pb-20'
                     key={id}
                     {...provided.draggableProps}
                     ref={provided.innerRef}
@@ -95,7 +95,7 @@ export const List = ({
                                     )}
                                 </Droppable>
                             </div>
-                            <CardForm listId={id} onCardAdd={onCardAdd} />
+                            <CardForm listId={id} onCardAdd={onCardAdd}/>
                         </div>
                     </div>
                 </div>
