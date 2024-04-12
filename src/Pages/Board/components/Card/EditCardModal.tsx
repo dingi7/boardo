@@ -122,9 +122,19 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     };
 
     const removeUserAssignment = async (user: any) => {
-        const assignment = assignments.find(
-            (assignment) => assignment?.user === user._id
+        console.log(assignments);
+        console.log(user);
+        
+        
+        let assignment = assignments.find(
+            (assignment) => assignment?.user._id === user._id
         );
+
+        if(!assignment){
+             assignment = assignments.find(
+                (assignment) => assignment?.user === user._id
+            );
+        }
         if (!assignment) {
             console.error("Assignment not found for the user");
             return;

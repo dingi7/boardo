@@ -99,6 +99,15 @@ export const Card: React.FC<CardItem> = ({
         (async () => {
             const assignments = await getAssignmentsByCard(id);
             SetAssignments(assignments);
+            console.log(assignments);
+            
+
+            // const isAllCompleted = assignments.every(
+            //     (assignment: IAssignment) => assignment.isCompleted
+            // );
+            // if (isAllCompleted) {
+            //     setIsCompleted(true);
+            // }
             const occupied: IUserData[] = [];
             const available: IUserData[] = [];
 
