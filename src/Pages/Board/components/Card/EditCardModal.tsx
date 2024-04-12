@@ -1,9 +1,5 @@
-import { Brain, MoreHorizontal } from "lucide-react";
-import React, {
-    Dispatch,
-    SetStateAction,
-    useContext, useState
-} from "react";
+import { Brain, Check, MoreHorizontal } from "lucide-react";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { Button } from "src/Components/ui/button";
 import {
     Dialog,
@@ -30,6 +26,8 @@ import { PrioritySelect } from "./PriorityDropdown";
 import { TaskAssignmentPopup } from "./TaskAssignmentPopup";
 import { IUserData } from "src/Interfaces/IUserData";
 import { IAssignment } from "src/Interfaces/IAssignment";
+import { useAuthUser } from "react-auth-kit";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "src/Components/ui/tooltip";
 
 interface SettingsCardModalProps {
     title: string;
@@ -68,6 +66,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     setOccupiedMembers,
     onDeleteCard,
 }) => {
+    const authUser = useAuthUser()();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const context = useContext(BoardContext);
     if (!context) throw new Error("Board context is not available");
@@ -102,7 +101,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
         });
 
         const assignment = await createAssignment(user._id, cardId);
-        
+
         if (!assignment) {
             console.error("Assignment not found for the user");
             toast({
@@ -110,20 +109,19 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                 variant: "destructive",
             });
 
-            
             setAvailableMembers(backupStates.availableMembers);
             setOccupiedMembers(backupStates.occupiedMembers);
             SetAssignments(backupStates.assignments);
             return;
         }
 
-
         SetAssignments([...assignments, assignment]);
     };
 
     const removeUserAssignment = async (user: any) => {
+        
         const assignment = assignments.find(
-            (assignment) => assignment?.user === user._id
+            (assignment) => assignment?.user._id === user._id
         );
         if (!assignment) {
             console.error("Assignment not found for the user");
@@ -145,8 +143,6 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             variant: "default",
         });
     };
-
-
 
     return (
         <Dialog>
@@ -218,13 +214,48 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                     <div>
                         <Label>Distribute task</Label>
                         <br></br>
-                        <TaskAssignmentPopup
-                            availableMembers={availableMembers}
-                            occupiedMembers={occupiedMembers}
-                            assignments={assignments}
-                            assingUser={assingUser}
-                            removeUserAssignment={removeUserAssignment}
-                        ></TaskAssignmentPopup>
+                        {authUser &&
+                        occupiedMembers.some(
+                            (member) => member._id === authUser._id
+                        ) ? (
+                            <div className="flex flex-row gap-4">
+                                <TaskAssignmentPopup
+                                    availableMembers={availableMembers}
+                                    occupiedMembers={occupiedMembers}
+                                    assignments={assignments}
+                                    assingUser={assingUser}
+                                    removeUserAssignment={removeUserAssignment}
+                                />
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                style={{
+                                                    backgroundColor:
+                                                        "rgb(34 197 94)",
+                                                }}
+                                                size="icon"
+                                            >
+                                                <Check />
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p className="py-1 px-2 rounded-md">
+                                                Mark assignment as completed
+                                            </p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            </div>
+                        ) : (
+                            <TaskAssignmentPopup
+                                availableMembers={availableMembers}
+                                occupiedMembers={occupiedMembers}
+                                assignments={assignments}
+                                assingUser={assingUser}
+                                removeUserAssignment={removeUserAssignment}
+                            />
+                        )}
                     </div>
                     <div>
                         <Label>Priority</Label>
