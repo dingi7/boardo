@@ -24,6 +24,9 @@ export const List = ({
     const [backgroundColor, setBackgroundColor] = useState<string>(
         styles?.backgroundColor || 'bg-slate-300'
     );
+
+    console.log(cards);
+    
     return (
         <Draggable draggableId={id} index={index!}>
             {(provided) => (

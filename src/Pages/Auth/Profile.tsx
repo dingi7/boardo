@@ -98,6 +98,8 @@ export const Profile = () => {
         try {
             setLoading(true);
             const assignments = await getAssignments();
+            console.log(assignments);
+            
             setUserAssignments(assignments);
         } catch (err: any) {
             toast({
@@ -344,6 +346,7 @@ export const Profile = () => {
                                     <ProfileAssignmentComponent
                                         key={assignment._id} // It's better to have a unique key, like assignment.id if available
                                         cardName={assignment?.card?.name}
+                                        cardId={assignment?.card?._id}
                                         boardId={assignment?.card?.list?.board}
                                         dueTo={
                                             assignment?.card?.dueDate ||

@@ -28,7 +28,8 @@ export const endpoints = {
   assignments: (assigmentId: string | null) =>
     assigmentId ? `/items/assignments/${assigmentId}` : "/items/assignments",
 
-  completeAssignment: (cardId: string | null) => `/assignments/complete/${cardId}`,
+  completeAssignment: (cardId: string | null) =>
+    `/items/assignments/complete/${cardId}`,
 
   //email password change
   resetPasswordRequest: `/auth/resetPasswordRequest`,
@@ -62,8 +63,8 @@ export const getAssignmentsByCard = async (cardId: string) => {
 };
 
 export const completeAssignment = async (cardId: string) => {
-    return api.post(endpoints.completeAssignment(cardId))
-}
+  return api.post(endpoints.completeAssignment(cardId));
+};
 
 export const renameCard = async (
   cardId: string,

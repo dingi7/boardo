@@ -7,22 +7,29 @@ import {
 import { ArrowRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "src/Components/ui/button";
+import { completeAssignment } from "src/api/requests";
 
 export const ProfileAssignmentComponent = ({
     cardName,
     boardId,
     dueTo,
+    cardId
 }: {
     cardName: string;
     boardId: string;
     dueTo: Date;
+    cardId: string;
 }) => {
     const dueDate = (dueTo && new Date(dueTo)) || null;
+
+    const handleComplete = async () => {
+        await completeAssignment(cardId)
+    }
 
     return (
         <div
             key={boardId}
-            className="flex items-center justify-between bg-gray-200 p-2 rounded-md"
+            className="flex items-center justify-between p-2 bg-gray-200 rounded-md"
         >
             <div className="flex flex-row gap-4">
                 <TooltipProvider>
@@ -31,12 +38,13 @@ export const ProfileAssignmentComponent = ({
                             <Button
                                 style={{ backgroundColor: "rgb(34 197 94)" }}
                                 size="icon"
+                                onClick={handleComplete}
                             >
                                 <Check />
                             </Button>
                         </TooltipTrigger>
                         <TooltipContent>
-                            <p className="bg-slate-100 py-1 px-2 rounded-md">
+                            <p className="px-2 py-1 rounded-md bg-slate-100">
                                 Mark assignment as completed
                             </p>
                         </TooltipContent>
