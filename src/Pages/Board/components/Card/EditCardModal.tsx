@@ -15,6 +15,7 @@ import { Label } from "src/Components/ui/label";
 import { Textarea } from "src/Components/ui/textarea";
 import { DatePicker } from "./DatePicker";
 import {
+    completeAssignment,
     createAssignment,
     deleteAssignment,
     generateDescription,
@@ -144,6 +145,10 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
         });
     };
 
+    const handleComplete = async () => {
+        await completeAssignment(cardId)
+    }
+
     return (
         <Dialog>
             <DialogTrigger>
@@ -235,12 +240,13 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                                                         "rgb(34 197 94)",
                                                 }}
                                                 size="icon"
+                                                onClick={handleComplete}
                                             >
                                                 <Check />
                                             </Button>
                                         </TooltipTrigger>
                                         <TooltipContent>
-                                            <p className="py-1 px-2 rounded-md">
+                                            <p className="px-2 py-1 rounded-md">
                                                 Mark assignment as completed
                                             </p>
                                         </TooltipContent>
