@@ -1,4 +1,4 @@
-import { IUserData } from "./IUserData";
+import { IUserData } from './IUserData';
 
 export interface IAssignment {
     user: IUserData,
