@@ -127,30 +127,36 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
   };
 
   const removeUserAssignment = async (user: any) => {
-    const assignment = assignments.find(
-      (assignment) => assignment?.user._id === user._id
+
+    let assignment = assignments.find(
+        (assignment) => assignment?.user._id === user._id
     );
+
+    if(!assignment){
+         assignment = assignments.find(
+            (assignment) => assignment?.user === user._id
+        );
+    }
     if (!assignment) {
-      console.error("Assignment not found for the user");
-      return;
+        console.error("Assignment not found for the user");
+        return;
     }
     await deleteAssignment(assignment._id);
-
     setOccupiedMembers(
-      occupiedMembers.filter((member) => member._id !== user._id)
+        occupiedMembers.filter((member) => member._id !== user._id)
     );
 
     setAvailableMembers([...availableMembers, user]);
 
     const filteredAssignments = assignments.filter(
-      (assignmentToRemove) => assignmentToRemove !== assignment
+        (assignmentToRemove) => assignmentToRemove !== assignment
     );
     SetAssignments(filteredAssignments);
     toast({
-      title: "User assignment removed!",
-      variant: "default",
+        title: "User assignment removed!",
+        variant: "default",
     });
-  };
+};
 
   const handleComplete = async () => {
     try {
