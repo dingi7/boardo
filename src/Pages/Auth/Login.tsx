@@ -80,7 +80,7 @@ export const Login = () => {
                         <Logo />
                     </div>
                     <div className="space-y-2 text-center">
-                        <p className="text-gray-800 dark:text-gray-400">Enter your information to login an account</p>
+                        <p className="text-gray-800 dark:text-gray-400">Enter your account credentials</p>
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="email">Email</Label>
