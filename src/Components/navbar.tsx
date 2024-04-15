@@ -47,11 +47,6 @@ export const Navbar = () => {
                                 <Link to="/dashboard">Dashboard</Link>
                             </Button>
                             <DropdownMenu>
-                                <DropdownMenuTrigger>
-                                    <Button variant="ghost" size="icon">
-                                        <Inbox />
-                                    </Button>
-                                </DropdownMenuTrigger>
                                 <InboxDialog />
                             </DropdownMenu>
                             <AlertDialog>

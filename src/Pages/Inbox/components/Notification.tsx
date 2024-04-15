@@ -7,17 +7,23 @@ import {
 import { X } from "lucide-react";
 import { DropdownMenuSeparator } from "src/Components/dropdown";
 import { Card, CardContent, CardHeader } from "src/Components/ui/card";
+import { INotification } from "src/Interfaces/INotification";
 
-export const Notification = ({ isRead = false }: { isRead?: boolean }) => {
+export const Notification = ({
+    isMarkedAsRead = false,
+    title,
+    description,
+    organization,
+}: INotification) => {
     return (
         <>
             <DropdownMenuSeparator />
             <Card
                 className={`relative border-x-0 border-y-4 ${
-                    isRead ? "opacity-60" : ""
+                    isMarkedAsRead ? "opacity-60" : ""
                 }`}
             >
-                {!isRead && (
+                {!isMarkedAsRead && (
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger className="absolute right-2 top-2">
@@ -25,18 +31,18 @@ export const Notification = ({ isRead = false }: { isRead?: boolean }) => {
                             </TooltipTrigger>
 
                             <TooltipContent>
-                                <p className="bg-slate-100 p-2 rounded-md">Mark as read</p>
+                                <p className="bg-slate-100 p-2 rounded-md">
+                                    Mark as read
+                                </p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
                 )}
-                <CardHeader className="p-2 font-semibold">
-                    New assignment
-                </CardHeader>
+                <CardHeader className="p-2 font-semibold text-xl">{title}</CardHeader>
                 <CardContent className="p-2">
-                    <p>
-                        You have been assigned a new assignment for org: TestOrg
-                    </p>
+                    <div className="text-lg">
+                        <p>{description} : <span className="font-semibold">{organization.name}</span></p>
+                    </div>
                 </CardContent>
             </Card>
         </>
