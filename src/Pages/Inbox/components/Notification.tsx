@@ -19,7 +19,7 @@ export const Notification = ({
         <>
             <DropdownMenuSeparator />
             <Card
-                className={`relative border-x-0 border-y-4 ${
+                className={`relative border-x-0 border-y-4 p-2 ${
                     isMarkedAsRead ? "opacity-60" : ""
                 }`}
             >
@@ -38,10 +38,10 @@ export const Notification = ({
                         </Tooltip>
                     </TooltipProvider>
                 )}
-                <CardHeader className="p-2 font-semibold text-xl">{title}</CardHeader>
-                <CardContent className="p-2">
+                <CardHeader className="px-2 py-0 font-semibold text-xl">{title}</CardHeader>
+                <CardContent className="px-2 py-0">
                     <div className="text-lg">
-                        <p>{description} : <span className="font-semibold">{organization.name}</span></p>
+                        <p>{description} : <span className="font-medium">{organization.name}</span></p>
                     </div>
                 </CardContent>
             </Card>

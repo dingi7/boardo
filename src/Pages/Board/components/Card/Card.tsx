@@ -17,13 +17,14 @@ import {
   TooltipTrigger,
 } from "src/Components/ui/tooltip";
 import SettingsCardModal from "./EditCardModal";
-import { getAssignmentsByCard } from "src/api/requests";
+
 import { IAssignment } from "src/Interfaces/IAssignment";
 import { IUserData } from "src/Interfaces/IUserData";
-import { DashboardContext } from "src/Pages/Dashboard/contexts/DashboardContextProvider";
 import { BoardContext } from "../../contexts/BoardContextProvider";
 
 type CardItem = {
+  assignments: IAssignment[];
+  storedIsCompleted: boolean;
   content: string;
   index: number;
   id: string;
@@ -41,6 +42,8 @@ export const Card: React.FC<CardItem> = ({
   storedPriority,
   storedDueDate,
   storedDescription,
+  assignments,
+  storedIsCompleted
 }) => {
   useEffect(() => {
     setTitle(content);
@@ -68,24 +71,22 @@ export const Card: React.FC<CardItem> = ({
 
   const organizationMembers = boardContext.selectedOrganization?.members;
 
-  const [assignments, SetAssignments] = useState<Array<IAssignment>>([]);
+  const [cardAssignments, SetCardAssignments] = useState<Array<IAssignment>>(assignments);
   const [occupiedMembers, setOccupiedMembers] = useState<IUserData[]>([]);
   const [availableMembers, setAvailableMembers] = useState<IUserData[]>([]);
 
-  const [isCompleted, setIsCompleted] = useState<boolean>(false);
+  const [isCompleted, setIsCompleted] = useState<boolean>(storedIsCompleted);
 
   useEffect(() => {
     (async () => {
-      const assignments = await getAssignmentsByCard(id);
-      SetAssignments(assignments);
 
       const occupied: IUserData[] = [];
       const available: IUserData[] = [];
-
+        
       organizationMembers?.forEach((member) => {
         if (
-          assignments.some(
-            (assignment: IAssignment) => assignment.user._id === member._id
+          assignments?.some(
+            (assignment: IAssignment) => assignment?.user._id === member?._id
           )
         ) {
           occupied.push(member);
@@ -97,14 +98,9 @@ export const Card: React.FC<CardItem> = ({
       setOccupiedMembers(occupied);
       setAvailableMembers(available);
     })();
-  }, []);
-
-  useEffect(() => {
-    const isAllCompleted = assignments.length > 0 && assignments.every(
-      (assignment: IAssignment) => assignment.isCompleted === true
-    );
-    setIsCompleted(isAllCompleted);
   }, [assignments]);
+
+
   
 
   return (
@@ -158,7 +154,7 @@ export const Card: React.FC<CardItem> = ({
             </TooltipProvider>
           )}
 
-          {assignments && assignments.length > 0 && (
+          {cardAssignments && cardAssignments.length > 0 && (
             <TooltipProvider>
               <Tooltip>
                 {isCompleted ? (
@@ -223,8 +219,8 @@ export const Card: React.FC<CardItem> = ({
               setPriority={setPriority}
               date={date}
               setDate={setDate}
-              assignments={assignments}
-              SetAssignments={SetAssignments}
+              assignments={cardAssignments}
+              SetAssignments={SetCardAssignments}
               description={description}
               setDescription={setDescription}
               availableMembers={availableMembers}
@@ -232,6 +228,7 @@ export const Card: React.FC<CardItem> = ({
               occupiedMembers={occupiedMembers}
               setOccupiedMembers={setOccupiedMembers}
               onDeleteCard={onDeleteCard}
+              isCompleted={isCompleted}
               setIsCompleted={setIsCompleted}
             />
           </div>

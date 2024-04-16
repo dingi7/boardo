@@ -16,7 +16,7 @@ import { ProfileOrganizationComponent } from "./components/ProfileOrganizationCo
 import { IOrg } from "src/Interfaces/IContexts";
 import {
   changePassword,
-  getAssignments,
+  getAssignmentsByUser,
   getUserOrganizations,
   leaveOrganization,
   updateUserCredentials,
@@ -98,8 +98,8 @@ export const Profile = () => {
   const fetchAssignments = useCallback(async () => {
     try {
       setLoading(true);
-      const assignments = await getAssignments();
-      console.log(assignments);
+      const assignments = await getAssignmentsByUser(authUser?._id);
+
 
       setUserAssignments(assignments);
     } catch (err: any) {

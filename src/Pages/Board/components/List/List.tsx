@@ -89,6 +89,8 @@ export const List = ({
                                                               storedDescription={
                                                                   item.description
                                                               }
+                                                              assignments={item.assignments}
+                                                              storedIsCompleted={item.isCompleted}
                                                           />
                                                       )
                                                   )

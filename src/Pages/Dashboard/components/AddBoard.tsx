@@ -65,7 +65,7 @@ export const AddBoard = ({ remainingBoards }: { remainingBoards: number }) => {
             sideOffset = 100;
         }
 
-        console.log('here 2');
+   
         
     }
 

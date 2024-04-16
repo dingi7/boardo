@@ -59,6 +59,7 @@ interface SettingsCardModalProps {
     setOccupiedMembers: Dispatch<SetStateAction<IUserData[]>>;
     onDeleteCard: (cardId: string) => void;
     setIsCompleted: Dispatch<SetStateAction<boolean>>;
+    isCompleted: boolean;
 }
 
 const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
@@ -79,6 +80,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     setOccupiedMembers,
     onDeleteCard,
     setIsCompleted,
+    isCompleted,
 }) => {
     const authUser = useAuthUser()();
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -105,80 +107,92 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             occupiedMembers,
             assignments,
         };
+        try {
+            setAvailableMembers(
+                availableMembers.filter((member) => member._id !== user._id)
+            );
+            setOccupiedMembers([...occupiedMembers, user]);
 
-        setAvailableMembers(
-            availableMembers.filter((member) => member._id !== user._id)
-        );
-        setOccupiedMembers([...occupiedMembers, user]);
+            console.log(occupiedMembers);
+            
 
-        toast({
-            title: "User assignment created!",
-            variant: "default",
-        });
-
-        const assignment = await createAssignment(user._id, cardId);
-
-        if (!assignment) {
-            console.error("Assignment not found for the user");
             toast({
-                title: "Assignment not found for the user",
-                variant: "destructive",
+                title: "User assignment created!",
+                variant: "default",
             });
 
+            const assignment = await createAssignment(user._id, cardId);
+
+            if (!assignment) {
+                console.error("Assignment not found for the user");
+                toast({
+                    title: "Assignment not found for the user",
+                    variant: "destructive",
+                });
+
+                setAvailableMembers(backupStates.availableMembers);
+                setOccupiedMembers(backupStates.occupiedMembers);
+                SetAssignments(backupStates.assignments);
+                return;
+            }
+
+            SetAssignments([...assignments, assignment]);
+        } catch (err: any) {
+            toast({ title: err.message });
+            SetAssignments(backupStates.assignments);
             setAvailableMembers(backupStates.availableMembers);
             setOccupiedMembers(backupStates.occupiedMembers);
-            SetAssignments(backupStates.assignments);
-            return;
         }
-
-        SetAssignments([...assignments, assignment]);
     };
 
     const removeUserAssignment = async (user: any) => {
-        let assignment = assignments.find(
-            (assignment) => assignment?.user._id === user._id
-        );
-
-        if (!assignment) {
-            assignment = assignments.find(
-                (assignment) => assignment?.user === user._id
+        const backupStates = {
+            availableMembers,
+            occupiedMembers,
+            assignments,
+        };
+        try {
+            let assignment = assignments.find(
+                (assignment) => assignment?.user?._id === user?._id
             );
-        }
-        if (!assignment) {
-            console.error("Assignment not found for the user");
-            return;
-        }
-        await deleteAssignment(assignment._id);
-        setOccupiedMembers(
-            occupiedMembers.filter((member) => member._id !== user._id)
-        );
 
-        setAvailableMembers([...availableMembers, user]);
+            if (!assignment) {
+                assignment = assignments.find(
+                    (assignment) => assignment?.user === user?._id
+                );
+            }
+            if (!assignment) {
+                console.error("Assignment not found for the user");
+                return;
+            }
+            await deleteAssignment(cardId, authUser?._id);
+            setOccupiedMembers(
+                occupiedMembers.filter((member) => member._id !== user._id)
+            );
 
-        const filteredAssignments = assignments.filter(
-            (assignmentToRemove) => assignmentToRemove !== assignment
-        );
-        SetAssignments(filteredAssignments);
-        toast({
-            title: "User assignment removed!",
-            variant: "default",
-        });
+            setAvailableMembers([...availableMembers, user]);
+
+            const filteredAssignments = assignments.filter(
+                (assignmentToRemove) => assignmentToRemove !== assignment
+            );
+            SetAssignments(filteredAssignments);
+            toast({
+                title: "User assignment removed!",
+                variant: "default",
+            });
+        } catch (err: any) {
+            toast({ title: err.message });
+            SetAssignments(backupStates.assignments);
+            setAvailableMembers(backupStates.availableMembers);
+            setOccupiedMembers(backupStates.occupiedMembers);
+        }
     };
 
     const handleComplete = async () => {
         try {
-            SetAssignments(
-                assignments.map((assignment) => ({
-                    ...assignment,
-                    isCompleted: true,
-                }))
-            );
-            toast({
-                title: "Success!",
-                description: "All assignments for card marked as completed.",
-                variant: "default",
-            });
+            setIsCompleted(true)
             const result = await completeAssignment(cardId);
+
 
             if (!result) {
                 toast({
@@ -186,13 +200,14 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                     description: "Failed to mark assignments as completed.",
                     variant: "destructive",
                 });
-                SetAssignments(
-                    assignments.map((assignment) => ({
-                        ...assignment,
-                        isCompleted: false,
-                    }))
-                );
+                setIsCompleted(false)
             }
+
+            toast({
+                title: "Success!",
+                description: "All assignments for card marked as completed.",
+                variant: "default",
+            });
         } catch (error) {
             console.error("Error completing assignments:", error);
             toast({
@@ -201,7 +216,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                 variant: "destructive",
             });
             SetAssignments(
-                assignments.map((assignment) => ({
+                assignments?.map((assignment) => ({
                     ...assignment,
                     isCompleted: false,
                 }))
@@ -209,21 +224,28 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
         }
     };
 
-    useEffect(() => {
+    useEffect(() => {   
+        console.log("assignments");
+          
+        console.log(assignments);
+
+        console.log(isCompleted)
+
+        console.log(authUser);
+        
+           
         if (
-            assignments.some(
+            !isCompleted &&
+            assignments?.some(
                 (assignment) =>
-                    !assignment.isCompleted &&
-                    assignment.user._id === authUser?._id
+                    assignment?.user._id === authUser?._id
             )
         ) {
             setCanComplete(true);
         } else {
             setCanComplete(false);
         }
-    }, [assignments, authUser]);
-
-    console.log(assignments);
+    }, [assignments, authUser, isCompleted]);
 
     return (
         <Dialog>
@@ -296,7 +318,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                         <Label>Distribute task</Label>
                         <br></br>
                         {authUser &&
-                        occupiedMembers.some(
+                        occupiedMembers?.some(
                             (member) => member._id === authUser._id
                         ) &&
                         canComplete ? (
