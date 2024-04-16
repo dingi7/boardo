@@ -26,6 +26,8 @@ export const endpoints = {
     organization: (orgId: string | null) =>
         orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
 
+    notifications: "/auth/notifications",
+
     //assignments
     createAssignment: "/assignments/create",
     deleteAssignment: "/assignments/delete",
@@ -308,6 +310,10 @@ export const setCardDueDate = async (
 ) => {
     return api.put(endpoints.card(cardId), { organizationId, dueDate });
 };
+
+export const getNotifications = async () => {
+    return api.get(endpoints.notifications)
+}
 
 //assignments
 export const createAssignment = async (userId: string, cardId: string) => {

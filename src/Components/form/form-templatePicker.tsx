@@ -71,7 +71,7 @@ export const TemplatePicker = ({ id, templates, setSelectedTemplate }: FormPicke
                     <div
                         key={template._id}
                         className={cn(
-                            'w-[30%] h-full cursor-pointer relative aspect-square group hover:opacity-75 transition bg-muted p-2 rounded-md'
+                            'w-[30%] h-full cursor-pointer relative aspect-square group hover:opacity-75 transition bg-muted p-1 rounded-md'
                         )}
                         onClick={() => {
                             setSelectedImageId(template._id);

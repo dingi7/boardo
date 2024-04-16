@@ -113,7 +113,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             );
             setOccupiedMembers([...occupiedMembers, user]);
 
-            console.log(occupiedMembers);
+
             
 
             toast({
@@ -224,16 +224,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
         }
     };
 
-    useEffect(() => {   
-        console.log("assignments");
-          
-        console.log(assignments);
-
-        console.log(isCompleted)
-
-        console.log(authUser);
-        
-           
+    useEffect(() => {              
         if (
             !isCompleted &&
             assignments?.some(

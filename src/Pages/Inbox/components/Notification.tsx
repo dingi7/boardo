@@ -10,23 +10,25 @@ import { Card, CardContent, CardHeader } from "src/Components/ui/card";
 import { INotification } from "src/Interfaces/INotification";
 
 export const Notification = ({
-    isMarkedAsRead = false,
+    _id,
+    isRead,
     title,
     description,
-    organization,
+    markCurrentNotificationAsRead
 }: INotification) => {
+
     return (
         <>
             <DropdownMenuSeparator />
             <Card
                 className={`relative border-x-0 border-y-4 p-2 ${
-                    isMarkedAsRead ? "opacity-60" : ""
+                    isRead ? "opacity-60" : ""
                 }`}
             >
-                {!isMarkedAsRead && (
+                {!isRead && (
                     <TooltipProvider>
                         <Tooltip>
-                            <TooltipTrigger className="absolute right-2 top-2">
+                            <TooltipTrigger className="absolute right-2 top-2" onClick={() => markCurrentNotificationAsRead(_id)}>
                                 <X />
                             </TooltipTrigger>
 
@@ -41,7 +43,7 @@ export const Notification = ({
                 <CardHeader className="px-2 py-0 font-semibold text-xl">{title}</CardHeader>
                 <CardContent className="px-2 py-0">
                     <div className="text-lg">
-                        <p>{description} : <span className="font-medium">{organization.name}</span></p>
+                        <p>{description}</p>
                     </div>
                 </CardContent>
             </Card>
