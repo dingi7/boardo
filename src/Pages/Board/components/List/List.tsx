@@ -26,7 +26,6 @@ export const List = ({
     );
 
 
-    
     return (
         <Draggable draggableId={id} index={index!}>
             {(provided) => (
@@ -89,8 +88,12 @@ export const List = ({
                                                               storedDescription={
                                                                   item.description
                                                               }
-                                                              assignments={item.assignments}
-                                                              storedIsCompleted={item.isCompleted}
+                                                              assignments={
+                                                                  item.assignments
+                                                              }
+                                                              storedIsCompleted={
+                                                                  item.isCompleted
+                                                              }
                                                           />
                                                       )
                                                   )
@@ -100,7 +103,7 @@ export const List = ({
                                     )}
                                 </Droppable>
                             </div>
-                            <CardForm listId={id} onCardAdd={onCardAdd}/>
+                            <CardForm listId={id} onCardAdd={onCardAdd} />
                         </div>
                     </div>
                 </div>

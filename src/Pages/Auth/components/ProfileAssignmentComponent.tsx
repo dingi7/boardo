@@ -35,8 +35,7 @@ export const ProfileAssignmentComponent = ({
 
   const handleComplete = async () => {
     try {
-        console.log(userAssignments);
-        console.log(authUser);
+        
         
         
       const backupAssignmenst = userAssignments;

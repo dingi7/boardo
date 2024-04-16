@@ -20,7 +20,6 @@ export const AddBoard = ({ remainingBoards }: { remainingBoards: number }) => {
     let sideOffset = 0;
 
     if (remainingBoards >= 3) {
-        console.log("here 1");
         if (monitorWidth < 450) {
             side = "bottom";
             align = "center";
@@ -43,7 +42,6 @@ export const AddBoard = ({ remainingBoards }: { remainingBoards: number }) => {
             sideOffset = -120;
         }
     } else if (remainingBoards === 1) {
-        console.log("here 2");
 
         if (monitorWidth < 450) {
             side = "top";
@@ -63,7 +61,6 @@ export const AddBoard = ({ remainingBoards }: { remainingBoards: number }) => {
             sideOffset = 50;
         }
     } else {
-        console.log("here");
 
         if (monitorWidth < 450) {
             side = "left";
