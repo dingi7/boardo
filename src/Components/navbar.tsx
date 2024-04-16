@@ -35,7 +35,6 @@ export const Navbar = () => {
     const isAuth = useIsAuthenticated();
     const navigate = useNavigate();
     const authUser = useAuthUser()();
-    console.log(authUser)
     const signOut = useSignOut();
     const handleSignOut = () => {
         signOut();

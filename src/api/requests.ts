@@ -35,6 +35,9 @@ export const endpoints = {
     getCardAssignments: "/assignments/card",
     completeAssignment: "/assignments/complete",
 
+    //notifications
+    notificationsMarkRead: (notificationId: string | null) => notificationId ? `/auth/notifications/${notificationId}` : "/auth/notifications/all",
+
     //email password change
     resetPasswordRequest: `/auth/resetPasswordRequest`,
     requestResetPassword: (uuid: string): string =>
@@ -311,10 +314,19 @@ export const setCardDueDate = async (
     return api.put(endpoints.card(cardId), { organizationId, dueDate });
 };
 
+//notifications
+
 export const getNotifications = async () => {
     return api.get(endpoints.notifications)
 }
 
+export const markNotificationRead = async (notifcationId: string) => {
+    return api.post(endpoints.notificationsMarkRead(notifcationId))
+}
+
+export const markAllNotificationsRead = async () => {
+    return api.post(endpoints.notificationsMarkRead(null))
+}
 //assignments
 export const createAssignment = async (userId: string, cardId: string) => {
     return api.post(endpoints.createAssignment, {

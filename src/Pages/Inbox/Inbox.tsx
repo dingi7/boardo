@@ -10,17 +10,56 @@ import { INotification } from "src/Interfaces/INotification";
 import { useEffect, useState } from "react";
 import { Inbox } from "lucide-react";
 import { Badge } from "src/Components/ui/badge";
-import { getNotifications } from "src/api/requests";
+import { getNotifications, markAllNotificationsRead, markNotificationRead } from "src/api/requests";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "src/Components/ui/pagination";
+
+import { useAuthUser } from "react-auth-kit";
 
 export const InboxDialog = () => {
+    const authUser = useAuthUser()();
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [notifications, setNotifications] = useState<INotification[]>([]);
 
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const notificationsPerPage = 5;
+    const [neededPages, setNeededPages] = useState<number>(1);
+
+    const [currentNotifications, setCurrentNotifications] = useState<
+        Array<INotification>
+    >([]);
+
     useEffect(() => {
         (async () => {
-            setNotifications(await getNotifications());
+            const result = await getNotifications();
+            setNotifications(result);
+
+            setNeededPages(
+                Math.ceil((result.length + 1) / notificationsPerPage)
+            );
         })();
-    }, []);
+    }, [authUser]);
+
+    useEffect(() => {
+        const newIndexOfLastNotification =
+            currentPage * notificationsPerPage - 1;
+        const newIndexOfFirstNotification =
+            newIndexOfLastNotification - (notificationsPerPage - 1);
+
+        setCurrentNotifications(
+            notifications.slice(
+                newIndexOfFirstNotification,
+                newIndexOfLastNotification + 1
+            )
+        );
+    }, [currentPage, notifications]);
 
     const handleMarkAllAsRead = () => {
         setNotifications((prevNotifications) =>
@@ -29,6 +68,8 @@ export const InboxDialog = () => {
                 isRead: true,
             }))
         );
+
+        markAllNotificationsRead()
     };
 
     const markCurrentNotificationAsRead = (notificationId: string) => {
@@ -39,6 +80,8 @@ export const InboxDialog = () => {
                     : notification
             )
         );
+
+        markNotificationRead(notificationId)
     };
 
     return (
@@ -73,9 +116,14 @@ export const InboxDialog = () => {
                     </div>
                 </DropdownMenuLabel>
 
-                {notifications?.length > 0 ? (
-                    notifications.map((notification) => (
-                        <Notification {...notification} markCurrentNotificationAsRead={markCurrentNotificationAsRead}/>
+                {currentNotifications ? (
+                    currentNotifications.map((notification) => (
+                        <Notification
+                            {...notification}
+                            markCurrentNotificationAsRead={
+                                markCurrentNotificationAsRead
+                            }
+                        />
                     ))
                 ) : (
                     <>
@@ -85,6 +133,77 @@ export const InboxDialog = () => {
                         </p>
                     </>
                 )}
+                <div>
+                    <DropdownMenuSeparator />
+                    <Pagination className="select-none">
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious
+                                    onClick={() => {
+                                        setCurrentPage(
+                                            (prevPage) => prevPage - 1
+                                        );
+                                    }}
+                                    className={`hover:cursor-pointer ${
+                                        currentPage === 1 ? "hidden" : ""
+                                    }`}
+                                />
+                            </PaginationItem>
+
+                            <PaginationItem className="hover:cursor-pointer">
+                                <PaginationLink isActive={currentPage === 1}>
+                                    1
+                                </PaginationLink>
+                            </PaginationItem>
+
+                            {currentPage > 2 && (
+                                <PaginationItem className="hover:cursor-pointer">
+                                    <PaginationEllipsis />
+                                </PaginationItem>
+                            )}
+
+                            {currentPage !== 1 &&
+                                currentPage !== neededPages && (
+                                    <PaginationItem className="hover:cursor-pointer">
+                                        <PaginationLink isActive>
+                                            {currentPage}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                )}
+
+                            {currentPage < neededPages - 1 && (
+                                <PaginationItem>
+                                    <PaginationEllipsis />
+                                </PaginationItem>
+                            )}
+
+                            {neededPages !== 1 && (
+                                <PaginationItem className="hover:cursor-pointer">
+                                    <PaginationLink
+                                        isActive={currentPage === neededPages}
+                                    >
+                                        {neededPages}
+                                    </PaginationLink>
+                                </PaginationItem>
+                            )}
+
+                            <PaginationItem>
+                                <PaginationNext
+                                    onClick={() => {
+                                        setCurrentPage(
+                                            (prevPage) => prevPage + 1
+                                        );
+                                    }}
+                                    className={`hover:cursor-pointer ${
+                                        currentPage === neededPages
+                                            ? "hidden"
+                                            : ""
+                                    }`}
+                                />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
+                </div>
             </DropdownMenuContent>
         </>
     );
