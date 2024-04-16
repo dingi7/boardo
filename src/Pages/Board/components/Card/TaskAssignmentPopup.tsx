@@ -24,6 +24,7 @@ export const TaskAssignmentPopup = ({
   assignments: Array<IAssignment>;
   removeUserAssignment: (user: IUserData) => void;
   assingUser: (user: IUserData) => void;
+  
 }): JSX.Element => {
   return (
     <Popover>

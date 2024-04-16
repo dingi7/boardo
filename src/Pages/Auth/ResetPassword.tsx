@@ -18,7 +18,6 @@ export const ResetPassword = () => {
     const navigate = useNavigate();
     const isAuth = useIsAuthenticated();
     useEffect(() => {
-        console.log(uuid);
 
         setLoading(true);
         if (isAuth()) {

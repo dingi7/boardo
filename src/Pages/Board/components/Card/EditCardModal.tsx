@@ -1,12 +1,12 @@
-import { Brain, Check, MoreHorizontal } from "lucide-react";
+import { Brain, Check, MoreHorizontal } from 'lucide-react';
 import React, {
     Dispatch,
     SetStateAction,
     useContext,
     useEffect,
     useState,
-} from "react";
-import { Button } from "src/Components/ui/button";
+} from 'react';
+import { Button } from 'src/Components/ui/button';
 import {
     Dialog,
     DialogClose,
@@ -15,31 +15,31 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "src/Components/ui/dialog";
-import { Input } from "src/Components/ui/input";
-import { Label } from "src/Components/ui/label";
-import { Textarea } from "src/Components/ui/textarea";
-import { DatePicker } from "./DatePicker";
+} from 'src/Components/ui/dialog';
+import { Input } from 'src/Components/ui/input';
+import { Label } from 'src/Components/ui/label';
+import { Textarea } from 'src/Components/ui/textarea';
+import { DatePicker } from './DatePicker';
 import {
     completeAssignment,
     createAssignment,
     deleteAssignment,
     generateCardDescription,
     updateCard,
-} from "src/api/requests";
-import { BoardContext } from "../../contexts/BoardContextProvider";
-import { toast } from "src/Components/Toaster/use-toast";
-import { PrioritySelect } from "./PriorityDropdown";
-import { TaskAssignmentPopup } from "./TaskAssignmentPopup";
-import { IUserData } from "src/Interfaces/IUserData";
-import { IAssignment } from "src/Interfaces/IAssignment";
-import { useAuthUser } from "react-auth-kit";
+} from 'src/api/requests';
+import { BoardContext } from '../../contexts/BoardContextProvider';
+import { toast } from 'src/Components/Toaster/use-toast';
+import { PrioritySelect } from './PriorityDropdown';
+import { TaskAssignmentPopup } from './TaskAssignmentPopup';
+import { IUserData } from 'src/Interfaces/IUserData';
+import { IAssignment } from 'src/Interfaces/IAssignment';
+import { useAuthUser } from 'react-auth-kit';
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
-} from "src/Components/ui/tooltip";
+} from 'src/Components/ui/tooltip';
 
 interface SettingsCardModalProps {
     title: string;
@@ -85,7 +85,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     const authUser = useAuthUser()();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const context = useContext(BoardContext);
-    if (!context) throw new Error("Board context is not available");
+    if (!context) throw new Error('Board context is not available');
     const { boardInfo } = context!;
 
     const [canComplete, setCanComplete] = useState<boolean>(false);
@@ -113,21 +113,22 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             );
             setOccupiedMembers([...occupiedMembers, user]);
 
-
-            
+            if (user._id == authUser?._id) {
+                setCanComplete(true);
+            }
 
             toast({
-                title: "User assignment created!",
-                variant: "default",
+                title: 'User assignment created!',
+                variant: 'default',
             });
 
             const assignment = await createAssignment(user._id, cardId);
 
             if (!assignment) {
-                console.error("Assignment not found for the user");
+                console.error('Assignment not found for the user');
                 toast({
-                    title: "Assignment not found for the user",
-                    variant: "destructive",
+                    title: 'Assignment not found for the user',
+                    variant: 'destructive',
                 });
 
                 setAvailableMembers(backupStates.availableMembers);
@@ -162,7 +163,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                 );
             }
             if (!assignment) {
-                console.error("Assignment not found for the user");
+                console.error('Assignment not found for the user');
                 return;
             }
             await deleteAssignment(cardId, authUser?._id);
@@ -177,8 +178,8 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             );
             SetAssignments(filteredAssignments);
             toast({
-                title: "User assignment removed!",
-                variant: "default",
+                title: 'User assignment removed!',
+                variant: 'default',
             });
         } catch (err: any) {
             toast({ title: err.message });
@@ -190,30 +191,29 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
 
     const handleComplete = async () => {
         try {
-            setIsCompleted(true)
+            setIsCompleted(true);
             const result = await completeAssignment(cardId);
-
 
             if (!result) {
                 toast({
-                    title: "Error",
-                    description: "Failed to mark assignments as completed.",
-                    variant: "destructive",
+                    title: 'Error',
+                    description: 'Failed to mark assignments as completed.',
+                    variant: 'destructive',
                 });
-                setIsCompleted(false)
+                setIsCompleted(false);
             }
 
             toast({
-                title: "Success!",
-                description: "All assignments for card marked as completed.",
-                variant: "default",
+                title: 'Success!',
+                description: 'All assignments for card marked as completed.',
+                variant: 'default',
             });
         } catch (error) {
-            console.error("Error completing assignments:", error);
+            console.error('Error completing assignments:', error);
             toast({
-                title: "Error",
-                description: "Failed to mark assignments as completed.",
-                variant: "destructive",
+                title: 'Error',
+                description: 'Failed to mark assignments as completed.',
+                variant: 'destructive',
             });
             SetAssignments(
                 assignments?.map((assignment) => ({
@@ -224,12 +224,11 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
         }
     };
 
-    useEffect(() => {              
+    useEffect(() => {
         if (
             !isCompleted &&
             assignments?.some(
-                (assignment) =>
-                    assignment?.user._id === authUser?._id
+                (assignment) => assignment?.user._id === authUser?._id
             )
         ) {
             setCanComplete(true);
@@ -241,37 +240,37 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     return (
         <Dialog>
             <DialogTrigger>
-                <MoreHorizontal className="p-[2%] h-7 flex items-center w-7 hover:bg-slate-200 cursor-pointer rounded-md" />
+                <MoreHorizontal className='p-[2%] h-7 flex items-center w-7 hover:bg-slate-200 cursor-pointer rounded-md' />
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-[525px]">
+            <DialogContent className='sm:max-w-[525px]'>
                 <DialogHeader>
                     <DialogTitle>Edit Card</DialogTitle>
                 </DialogHeader>
                 <DialogDescription>
                     Edit the card's description, due date, and priority.
                 </DialogDescription>
-                <div className="flex flex-col">
+                <div className='flex flex-col'>
                     <div>
                         <Label>Title</Label>
                         <Input
-                            type="text"
+                            type='text'
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
                     </div>
                     <div>
                         <Label>Description</Label>
-                        <div className="flex items-center gap-3">
+                        <div className='flex items-center gap-3'>
                             <Textarea
-                                placeholder="Type your description here."
-                                className="w-[80%] resize-none h-[150px]"
+                                placeholder='Type your description here.'
+                                className='w-[80%] resize-none h-[150px]'
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             ></Textarea>
                             <Button
-                                variant={"ghost"}
-                                className="w-[20%] h-[150px]"
+                                variant={'ghost'}
+                                className='w-[20%] h-[150px]'
                                 onClick={async () => {
                                     setIsLoading(true);
                                     try {
@@ -280,17 +279,17 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                                         );
                                     } catch (e) {
                                         toast({
-                                            title: "Error!",
+                                            title: 'Error!',
                                             description:
-                                                "Error generating description",
-                                            variant: "destructive",
+                                                'Error generating description',
+                                            variant: 'destructive',
                                         });
                                     }
                                     setIsLoading(false);
                                 }}
                             >
                                 {isLoading ? (
-                                    <Brain className="animate-spin" />
+                                    <Brain className='animate-spin' />
                                 ) : (
                                     <Brain />
                                 )}
@@ -305,15 +304,48 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                             setCardDueDate={setDate}
                         ></DatePicker>
                     </div>
-                    <div>
-                        <Label>Distribute task</Label>
-                        <br></br>
-                        {authUser &&
-                        occupiedMembers?.some(
-                            (member) => member._id === authUser._id
-                        ) &&
-                        canComplete ? (
-                            <div className="flex flex-row gap-4">
+                    {!isCompleted && (
+                        <div>
+                            <Label>Distribute task</Label>
+                            <br></br>
+                            {authUser &&
+                            occupiedMembers?.some(
+                                (member) => member._id === authUser._id
+                            ) &&
+                            canComplete ? (
+                                <div className='flex flex-row gap-4'>
+                                    <TaskAssignmentPopup
+                                        availableMembers={availableMembers}
+                                        occupiedMembers={occupiedMembers}
+                                        assignments={assignments}
+                                        assingUser={assingUser}
+                                        removeUserAssignment={
+                                            removeUserAssignment
+                                        }
+                                    />
+                                    <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button
+                                                    style={{
+                                                        backgroundColor:
+                                                            'rgb(34 197 94)',
+                                                    }}
+                                                    size='icon'
+                                                    onClick={handleComplete}
+                                                >
+                                                    <Check />
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p className='px-2 py-1 rounded-md'>
+                                                    Mark assignment as completed
+                                                </p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
+                            ) : (
                                 <TaskAssignmentPopup
                                     availableMembers={availableMembers}
                                     occupiedMembers={occupiedMembers}
@@ -321,38 +353,9 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                                     assingUser={assingUser}
                                     removeUserAssignment={removeUserAssignment}
                                 />
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <Button
-                                                style={{
-                                                    backgroundColor:
-                                                        "rgb(34 197 94)",
-                                                }}
-                                                size="icon"
-                                                onClick={handleComplete}
-                                            >
-                                                <Check />
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p className="px-2 py-1 rounded-md">
-                                                Mark assignment as completed
-                                            </p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
-                            </div>
-                        ) : (
-                            <TaskAssignmentPopup
-                                availableMembers={availableMembers}
-                                occupiedMembers={occupiedMembers}
-                                assignments={assignments}
-                                assingUser={assingUser}
-                                removeUserAssignment={removeUserAssignment}
-                            />
-                        )}
-                    </div>
+                            )}
+                        </div>
+                    )}
                     <div>
                         <Label>Priority</Label>
                         <PrioritySelect
@@ -361,10 +364,9 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                         ></PrioritySelect>
                     </div>
                 </div>
-
-                <div className="flex justify-between w-[80%] mx-auto">
+                <div className='flex justify-between w-[80%] mx-auto'>
                     <DialogClose asChild onClick={() => onDeleteCard(cardId)}>
-                        <Button variant="destructive">Delete card</Button>
+                        <Button variant='destructive'>Delete card</Button>
                     </DialogClose>
                     <DialogClose asChild onClick={handleSave}>
                         <Button>Save changes</Button>
