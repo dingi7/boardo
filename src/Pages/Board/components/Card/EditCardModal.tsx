@@ -113,9 +113,6 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             );
             setOccupiedMembers([...occupiedMembers, user]);
 
-
-            
-
             toast({
                 title: "User assignment created!",
                 variant: "default",
@@ -190,9 +187,8 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
 
     const handleComplete = async () => {
         try {
-            setIsCompleted(true)
+            setIsCompleted(true);
             const result = await completeAssignment(cardId);
-
 
             if (!result) {
                 toast({
@@ -200,7 +196,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                     description: "Failed to mark assignments as completed.",
                     variant: "destructive",
                 });
-                setIsCompleted(false)
+                setIsCompleted(false);
             }
 
             toast({
@@ -224,13 +220,15 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
         }
     };
 
-    useEffect(() => {              
+    useEffect(() => {
         if (
             !isCompleted &&
-            assignments?.some(
-                (assignment) =>
-                    assignment?.user._id === authUser?._id
-            )
+            (assignments?.some(
+                (assignment) => assignment?.user._id === authUser?._id
+            ) ||
+                assignments?.some(
+                    (assignment) => assignment?.user === authUser?._id
+                ))
         ) {
             setCanComplete(true);
         } else {
