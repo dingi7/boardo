@@ -116,7 +116,6 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             if (user._id == authUser?._id) {
                 setCanComplete(true);
             }
-
             toast({
                 title: 'User assignment created!',
                 variant: 'default',
@@ -230,6 +229,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             assignments?.some(
                 (assignment) => assignment?.user._id === authUser?._id
             )
+
         ) {
             setCanComplete(true);
         } else {

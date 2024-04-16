@@ -1,8 +1,14 @@
-import { Logo } from "./ui/logo";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "./ui/button";
-import { useAuthUser, useIsAuthenticated, useSignOut } from "react-auth-kit";
-import { Avatar, AvatarImage } from "./ui/avatar";
+import { Logo } from './ui/logo';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button } from './ui/button';
+import { useAuthUser, useIsAuthenticated, useSignOut } from 'react-auth-kit';
+import { Avatar, AvatarImage } from './ui/avatar';
+import { User, LogOutIcon } from "lucide-react";
+
+
+
+
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -60,18 +66,32 @@ export const Navbar = () => {
                                         </Avatar>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
-                                        <DropdownMenuLabel>
-                                            My Account
+                                        <DropdownMenuLabel className='flex flex-col'>
+                                            <span>
+                                                {authUser?.username}
+                                            </span>
+                                            <span className='font-normal'>
+                                                {authUser?.email}
+                                            </span>
                                         </DropdownMenuLabel>
                                         <DropdownMenuSeparator />
-                                        <Link to="/profile">
-                                            <DropdownMenuItem>
-                                                Profile
-                                            </DropdownMenuItem>
-                                        </Link>
+                                        <DropdownMenuItem>
+                                            <Link to="/profile" className='w-full flex items-center gap-1'>
+                                                <User color='#404040' size={20} />
+                                                <span className='text-md'>
+                                                    Profile
+                                                </span>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                        <DropdownMenuSeparator />
                                         <DropdownMenuItem>
                                             <AlertDialogTrigger asChild>
-                                                <span>Logout</span>
+                                                <div className='w-full flex items-center gap-1'>
+                                                    <LogOutIcon color='#404040' size={20} />
+                                                    <span className='text-md'>
+                                                        Logout
+                                                    </span>
+                                                </div>
                                             </AlertDialogTrigger>
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
@@ -109,6 +129,6 @@ export const Navbar = () => {
                     )}
                 </div>
             </div>
-        </div>
+        </div >
     );
 };

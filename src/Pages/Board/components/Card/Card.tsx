@@ -10,6 +10,7 @@ import {
     User,
     BadgeCheck,
 } from 'lucide-react';
+
 import {
     Tooltip,
     TooltipContent,
@@ -17,6 +18,7 @@ import {
     TooltipTrigger,
 } from 'src/Components/ui/tooltip';
 import SettingsCardModal from './EditCardModal';
+
 
 import { IAssignment } from 'src/Interfaces/IAssignment';
 import { IUserData } from 'src/Interfaces/IUserData';
@@ -59,7 +61,9 @@ export const Card: React.FC<CardItem> = ({
     const [title, setTitle] = useState<string>(content);
     const [description, setDescription] = useState<string>(storedDescription);
     const [priority, setPriority] = useState<string>(
+
         storedPriority || 'Normal'
+
     );
     const [date, setDate] = useState<Date | undefined>(
         storedDueDate ? new Date(storedDueDate) : undefined
@@ -68,7 +72,9 @@ export const Card: React.FC<CardItem> = ({
     const boardContext = useContext(BoardContext);
     if (!boardContext)
         throw new Error(
+
             'useDashboardContext must be used within a DashboardContextProvider'
+
         );
 
     const organizationMembers = boardContext.selectedOrganization?.members;
@@ -78,7 +84,9 @@ export const Card: React.FC<CardItem> = ({
     const [occupiedMembers, setOccupiedMembers] = useState<IUserData[]>([]);
     const [availableMembers, setAvailableMembers] = useState<IUserData[]>([]);
 
+
     
+
 
     const [isCompleted, setIsCompleted] = useState<boolean>(storedIsCompleted);
 
@@ -112,13 +120,16 @@ export const Card: React.FC<CardItem> = ({
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
+
                     className='flex w-full h-auto items-center gap-[10px] px-[10px] py-[2%] relative bg-slate-100 rounded-[7px] overflow-hidden border-black cursor-pointer shadow-sm '
+
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
+
                                 <div className='flex items-center gap-[10px]'>
                                     {priority === 'Urgent' ? (
                                         <AlertTriangle
@@ -132,6 +143,7 @@ export const Card: React.FC<CardItem> = ({
                                         />
                                     ) : priority === 'Normal' ? (
                                         <AlertCircle className='w-5 h-5' />
+
                                     ) : null}
                                 </div>
                             </TooltipTrigger>
@@ -144,6 +156,7 @@ export const Card: React.FC<CardItem> = ({
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
+
                                     <div className='flex items-center gap-[10px]'>
                                         {date! > new Date() ? (
                                             <Calendar
@@ -154,15 +167,18 @@ export const Card: React.FC<CardItem> = ({
                                             <Calendar
                                                 color='red'
                                                 className='w-5 h-5'
+
                                             />
                                         )}
                                     </div>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>
+
                                         This card's due date is{' '}
                                         {date?.toLocaleString() ||
                                             'Not asigned'}
+
                                     </p>
                                 </TooltipContent>
                             </Tooltip>
@@ -179,6 +195,7 @@ export const Card: React.FC<CardItem> = ({
                                             <BadgeCheck
                                                 className='w-5 h-5 '
                                                 color='rgb(34 197 94)'
+
                                             />
                                         </div>
                                     </TooltipTrigger>
@@ -189,6 +206,7 @@ export const Card: React.FC<CardItem> = ({
                                         </p>
                                     </TooltipContent>
                                 </>
+
                             )}
                             {cardAssignments && cardAssignments.length > 0 && (
                                 <>
@@ -223,6 +241,7 @@ export const Card: React.FC<CardItem> = ({
                         </Tooltip>
                     </TooltipProvider>
 
+
                     <CardTitle
                         title={title}
                         setTitle={setTitle}
@@ -233,7 +252,9 @@ export const Card: React.FC<CardItem> = ({
 
                     <div
                         className={`absolute p-[2%] top-0 right-0 h-full flex items-center transition-opacity duration-100 ${
+
                             isHovered ? 'opacity-100' : 'opacity-0'
+
                         }`}
                     >
                         <SettingsCardModal

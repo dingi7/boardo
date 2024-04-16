@@ -23,22 +23,6 @@ export const TemplatePicker = ({ id, templates, setSelectedTemplate }: FormPicke
 
     useEffect(() => {
         const updateTemplates = () => {
-            // if (currentPage === 1) {
-            //     setCurrentTemplates(templates.slice(0, templatesPerPage - 1));
-
-            //     return;
-            // }
-
-            // const newIndexOfLastTemplate = currentPage * templatesPerPage - 2;
-            // const newIndexOfFirstTemplate =
-            //     newIndexOfLastTemplate - (templatesPerPage - 1);
-
-            // setCurrentTemplates(
-            //     templates.slice(
-            //         newIndexOfFirstTemplate,
-            //         newIndexOfLastTemplate + 1
-            //     )
-            // );
             const newIndexOfLastTemplate = currentPage * templatesPerPage - 1;
             const newIndexOfFirstTemplate =
                 newIndexOfLastTemplate - (templatesPerPage - 1);
