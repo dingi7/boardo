@@ -38,6 +38,7 @@ export interface IUserData {
     username: string;
     email: string;
     firstName: string;
+    honorCredits: number;
 }
 
 export interface EditingState {

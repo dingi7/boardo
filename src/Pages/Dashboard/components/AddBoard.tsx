@@ -19,54 +19,84 @@ export const AddBoard = ({ remainingBoards }: { remainingBoards: number }) => {
     let align: "center" | "end" | "start" | undefined = "center";
     let sideOffset = 0;
 
-    if (remainingBoards % 3 === 0) {
-        console.log('here');
-        
-        if (monitorWidth < 500) {
+    if (remainingBoards >= 3) {
+        console.log("here 1");
+        if (monitorWidth < 450) {
+            side = "bottom";
+            align = "center";
+            sideOffset = 50;
+        } else if (monitorWidth < 530) {
             side = "top";
             align = "center";
             sideOffset = -50;
         } else if (monitorWidth < 640) {
-            sideOffset = -20;
             side = "top";
             align = "center";
-        } 
-        else if (monitorWidth < 1024) {
-            sideOffset = 100;
-            side = "left";
-            align = "end";
-        } 
-        else if (monitorWidth < 1500) {
-            side = "left";
-            align = "end";
-            sideOffset = 100;
-        } else if (monitorWidth < 2200) {
-            sideOffset = 10;
-            side = "left";
-            align = "end";
+            sideOffset = -50;
+        } else if(monitorWidth < 1100){
+            side = "left"
+            align="end"
+            sideOffset = 200;
+        } else {
+            side = "top";
+            align = "start";
+            sideOffset = -120;
         }
-    } else {
-        if (monitorWidth < 500) {
-            side = "left";
-            align = "end";
+    } else if (remainingBoards === 1) {
+        console.log("here 2");
+
+        if (monitorWidth < 450) {
+            side = "top";
+            align = "center";
+            sideOffset = 15;
+        } else if (monitorWidth < 530) {
+            side = "top";
+            align = "center";
             sideOffset = 50;
-        } else if (monitorWidth < 1024) {
+        } else if (monitorWidth < 640) {
+            side = "top";
+            align = "center";
+            sideOffset = 90;
+        } else {
             side = "left";
             align = "center";
             sideOffset = 50;
         }
-        else if (monitorWidth < 1500) {
-            side = "bottom";
-            align = "start";
-            sideOffset = 100;
-        } else if (monitorWidth < 2200) {
+    } else {
+        console.log("here");
+
+        if (monitorWidth < 450) {
             side = "left";
-            align = "end";
-            sideOffset = 100;
+            align = "center";
+            sideOffset = 15;
+        } else if (monitorWidth < 530) {
+            side = "left";
+            align = "center";
+            sideOffset = 50;
+        } else if (monitorWidth < 640) {
+            side = "left";
+            align = "center";
+            sideOffset = 90;
+        } else {
+            side = "left";
+            align = "center";
+            sideOffset = 50;
         }
 
-        console.log('here 2');
-        
+        // } else if (monitorWidth < 1200) {
+        //     side = "left";
+        //     align = "center";
+        //     sideOffset = 50;
+        // }
+        // else if (monitorWidth < 1500) {
+        //     side = "bottom";
+        //     align = "start";
+        //     sideOffset = 100;
+        // } else if (monitorWidth < 2200) {
+        //     side = "left";
+        //     align = "end";
+        //     sideOffset = 100;
+        // }
     }
 
     return (

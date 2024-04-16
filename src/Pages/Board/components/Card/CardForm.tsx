@@ -34,7 +34,7 @@ export const CardForm = ({ listId, onCardAdd }: CardFormProps) => {
         return (
             <form
                 onSubmit={onSubmit}
-                className=" w-full m-1 py-0.5 px-1 space-y-4"
+                className=" w-full m-1 py-0.5 px-1 space-y-4 pb-5"
             >
                 <FormTextArea
                     id="name"

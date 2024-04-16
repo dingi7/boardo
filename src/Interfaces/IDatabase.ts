@@ -1,3 +1,5 @@
+import { IAssignment } from "./IAssignment";
+
 export interface dataBaseBoard {
     backgroundUrl: string;
     name: string;
@@ -25,6 +27,8 @@ export interface dataBaseCard {
     };
     dueDate?: Date;
     description: string;
+    assignments: IAssignment[];
+    isCompleted: boolean;
 }
 
 export interface dataBaseOrganization {

@@ -21,11 +21,16 @@ const MemberCard = ({
     handleRemoveMember: (orgId: string, memberId: string) => void;
     selectedOrganization: IOrg;
 }) => {
+
+    
     return (
         <TableRow>
             <TableCell className='font-medium'>{member.username}</TableCell>
             <TableCell className='hidden md:table-cell'>
                 {member.email}
+            </TableCell>
+            <TableCell className={`hidden md:table-cell text-center ${member.honorCredits > 0 && "text-green-600"}  ${member.honorCredits < 0 && "text-red-600"}`}>
+                {member.honorCredits}
             </TableCell>
             <TableCell>
                 {member._id === selectedOrganization.owner._id? (

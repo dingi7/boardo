@@ -243,6 +243,7 @@ export const SettingsPage = (props: Props) => {
                                             <TableHead className='hidden md:table-cell'>
                                                 Email
                                             </TableHead>
+                                            <TableHead className='hidden md:table-cell text-center'>Score</TableHead>
                                             <TableHead className='hidden md:table-cell'>
                                                 Role
                                             </TableHead>

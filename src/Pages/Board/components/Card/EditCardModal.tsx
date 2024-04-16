@@ -1,8 +1,10 @@
-import { Brain, MoreHorizontal } from "lucide-react";
+import { Brain, Check, MoreHorizontal } from "lucide-react";
 import React, {
     Dispatch,
     SetStateAction,
-    useContext, useState
+    useContext,
+    useEffect,
+    useState,
 } from "react";
 import { Button } from "src/Components/ui/button";
 import {
@@ -19,6 +21,7 @@ import { Label } from "src/Components/ui/label";
 import { Textarea } from "src/Components/ui/textarea";
 import { DatePicker } from "./DatePicker";
 import {
+    completeAssignment,
     createAssignment,
     deleteAssignment,
     generateCardDescription,
@@ -30,6 +33,13 @@ import { PrioritySelect } from "./PriorityDropdown";
 import { TaskAssignmentPopup } from "./TaskAssignmentPopup";
 import { IUserData } from "src/Interfaces/IUserData";
 import { IAssignment } from "src/Interfaces/IAssignment";
+import { useAuthUser } from "react-auth-kit";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "src/Components/ui/tooltip";
 
 interface SettingsCardModalProps {
     title: string;
@@ -48,6 +58,8 @@ interface SettingsCardModalProps {
     occupiedMembers: IUserData[];
     setOccupiedMembers: Dispatch<SetStateAction<IUserData[]>>;
     onDeleteCard: (cardId: string) => void;
+    setIsCompleted: Dispatch<SetStateAction<boolean>>;
+    isCompleted: boolean;
 }
 
 const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
@@ -67,11 +79,16 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     occupiedMembers,
     setOccupiedMembers,
     onDeleteCard,
+    setIsCompleted,
+    isCompleted,
 }) => {
+    const authUser = useAuthUser()();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const context = useContext(BoardContext);
     if (!context) throw new Error("Board context is not available");
     const { boardInfo } = context!;
+
+    const [canComplete, setCanComplete] = useState<boolean>(false);
 
     const handleSave = async (e: any) => {
         await updateCard(
@@ -90,73 +107,136 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             occupiedMembers,
             assignments,
         };
+        try {
+            setAvailableMembers(
+                availableMembers.filter((member) => member._id !== user._id)
+            );
+            setOccupiedMembers([...occupiedMembers, user]);
 
-        setAvailableMembers(
-            availableMembers.filter((member) => member._id !== user._id)
-        );
-        setOccupiedMembers([...occupiedMembers, user]);
-
-        toast({
-            title: "User assignment created!",
-            variant: "default",
-        });
-
-        const assignment = await createAssignment(user._id, cardId);
-        
-        if (!assignment) {
-            console.error("Assignment not found for the user");
-            toast({
-                title: "Assignment not found for the user",
-                variant: "destructive",
-            });
 
             
+
+            toast({
+                title: "User assignment created!",
+                variant: "default",
+            });
+
+            const assignment = await createAssignment(user._id, cardId);
+
+            if (!assignment) {
+                console.error("Assignment not found for the user");
+                toast({
+                    title: "Assignment not found for the user",
+                    variant: "destructive",
+                });
+
+                setAvailableMembers(backupStates.availableMembers);
+                setOccupiedMembers(backupStates.occupiedMembers);
+                SetAssignments(backupStates.assignments);
+                return;
+            }
+
+            SetAssignments([...assignments, assignment]);
+        } catch (err: any) {
+            toast({ title: err.message });
+            SetAssignments(backupStates.assignments);
             setAvailableMembers(backupStates.availableMembers);
             setOccupiedMembers(backupStates.occupiedMembers);
-            SetAssignments(backupStates.assignments);
-            return;
         }
-
-
-        SetAssignments([...assignments, assignment]);
     };
 
     const removeUserAssignment = async (user: any) => {
-        console.log(assignments);
-        console.log(user);
-        
-        
-        let assignment = assignments.find(
-            (assignment) => assignment?.user._id === user._id
-        );
-
-        if(!assignment){
-             assignment = assignments.find(
-                (assignment) => assignment?.user === user._id
+        const backupStates = {
+            availableMembers,
+            occupiedMembers,
+            assignments,
+        };
+        try {
+            let assignment = assignments.find(
+                (assignment) => assignment?.user?._id === user?._id
             );
-        }
-        if (!assignment) {
-            console.error("Assignment not found for the user");
-            return;
-        }
-        await deleteAssignment(assignment._id);
-        setOccupiedMembers(
-            occupiedMembers.filter((member) => member._id !== user._id)
-        );
 
-        setAvailableMembers([...availableMembers, user]);
+            if (!assignment) {
+                assignment = assignments.find(
+                    (assignment) => assignment?.user === user?._id
+                );
+            }
+            if (!assignment) {
+                console.error("Assignment not found for the user");
+                return;
+            }
+            await deleteAssignment(cardId, authUser?._id);
+            setOccupiedMembers(
+                occupiedMembers.filter((member) => member._id !== user._id)
+            );
 
-        const filteredAssignments = assignments.filter(
-            (assignmentToRemove) => assignmentToRemove !== assignment
-        );
-        SetAssignments(filteredAssignments);
-        toast({
-            title: "User assignment removed!",
-            variant: "default",
-        });
+            setAvailableMembers([...availableMembers, user]);
+
+            const filteredAssignments = assignments.filter(
+                (assignmentToRemove) => assignmentToRemove !== assignment
+            );
+            SetAssignments(filteredAssignments);
+            toast({
+                title: "User assignment removed!",
+                variant: "default",
+            });
+        } catch (err: any) {
+            toast({ title: err.message });
+            SetAssignments(backupStates.assignments);
+            setAvailableMembers(backupStates.availableMembers);
+            setOccupiedMembers(backupStates.occupiedMembers);
+        }
     };
 
+    const handleComplete = async () => {
+        try {
+            setIsCompleted(true)
+            const result = await completeAssignment(cardId);
 
+
+            if (!result) {
+                toast({
+                    title: "Error",
+                    description: "Failed to mark assignments as completed.",
+                    variant: "destructive",
+                });
+                setIsCompleted(false)
+            }
+
+            toast({
+                title: "Success!",
+                description: "All assignments for card marked as completed.",
+                variant: "default",
+            });
+        } catch (error) {
+            console.error("Error completing assignments:", error);
+            toast({
+                title: "Error",
+                description: "Failed to mark assignments as completed.",
+                variant: "destructive",
+            });
+            SetAssignments(
+                assignments?.map((assignment) => ({
+                    ...assignment,
+                    isCompleted: false,
+                }))
+            );
+        }
+    };
+
+    useEffect(() => {              
+        if (
+            !isCompleted &&
+            assignments?.some(
+                (assignment) =>
+                    assignment?.user._id === authUser?._id
+            )
+        ) {
+            setCanComplete(true);
+        } else {
+            setCanComplete(false);
+        }
+    }, [assignments, authUser, isCompleted]);
 
     return (
         <Dialog>
@@ -228,13 +308,50 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                     <div>
                         <Label>Distribute task</Label>
                         <br></br>
-                        <TaskAssignmentPopup
-                            availableMembers={availableMembers}
-                            occupiedMembers={occupiedMembers}
-                            assignments={assignments}
-                            assingUser={assingUser}
-                            removeUserAssignment={removeUserAssignment}
-                        ></TaskAssignmentPopup>
+                        {authUser &&
+                        occupiedMembers?.some(
+                            (member) => member._id === authUser._id
+                        ) &&
+                        canComplete ? (
+                            <div className="flex flex-row gap-4">
+                                <TaskAssignmentPopup
+                                    availableMembers={availableMembers}
+                                    occupiedMembers={occupiedMembers}
+                                    assignments={assignments}
+                                    assingUser={assingUser}
+                                    removeUserAssignment={removeUserAssignment}
+                                />
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <Button
+                                                style={{
+                                                    backgroundColor:
+                                                        "rgb(34 197 94)",
+                                                }}
+                                                size="icon"
+                                                onClick={handleComplete}
+                                            >
+                                                <Check />
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p className="px-2 py-1 rounded-md">
+                                                Mark assignment as completed
+                                            </p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            </div>
+                        ) : (
+                            <TaskAssignmentPopup
+                                availableMembers={availableMembers}
+                                occupiedMembers={occupiedMembers}
+                                assignments={assignments}
+                                assingUser={assingUser}
+                                removeUserAssignment={removeUserAssignment}
+                            />
+                        )}
                     </div>
                     <div>
                         <Label>Priority</Label>

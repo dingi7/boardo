@@ -34,7 +34,7 @@ export const ProfileOrganizationComponent = ({
         >
             <div className="flex flex-col ">
                 <span className="font-semibold">{name}</span>
-                <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                <span className="text-xs text-gray-500 dark:text-gray-400">
                     Owner: {owner.username}
                 </span>
             </div>

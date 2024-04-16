@@ -1,54 +1,67 @@
-import { dataBaseBoard, dataBaseList } from '../Interfaces/IDatabase';
+import { dataBaseBoard, dataBaseList } from "../Interfaces/IDatabase";
 import {
     LoginUserData,
     RegisterUserData,
     UpdateCredentialsData,
-} from '../Interfaces/IUserData';
-import * as api from './api';
+} from "../Interfaces/IUserData";
+import * as api from "./api";
 
 export const endpoints = {
-    registerUser: '/auth/register',
-    loginUser: '/auth/login',
-    updateUserCredentials: '/auth/updateCredentials',
+    registerUser: "/auth/register",
+    loginUser: "/auth/login",
+    updateUserCredentials: "/auth/updateCredentials",
     orgs: `/auth/orgs`,
-    createBoard: '/items/boards',
+    createBoard: "/items/boards",
 
-    allOrgs: '/auth/allOrgs',
+    allOrgs: "/auth/allOrgs",
     joinOrg: (orgId: string) => `/auth/joinOrg/${orgId}`,
 
     getBoardsByOrg: (orgId: string) => `/items/boards/org/${orgId}`,
     board: (boardId: string | null) =>
-        boardId ? `/items/boards/${boardId}` : '/items/boards',
+        boardId ? `/items/boards/${boardId}` : "/items/boards",
     card: (cardId: string | null) =>
-        cardId ? `/items/cards/${cardId}` : '/items/cards',
+        cardId ? `/items/cards/${cardId}` : "/items/cards",
     list: (listId: string | null) =>
-        listId ? `/items/list/${listId}` : '/items/list',
+        listId ? `/items/list/${listId}` : "/items/list",
     organization: (orgId: string | null) =>
-        orgId ? `/auth/orgs/${orgId}` : '/auth/orgs',
-    assignments: (assigmentId: string | null) =>
-        assigmentId
-            ? `/items/assignments/${assigmentId}`
-            : '/items/assignments',
+        orgId ? `/auth/orgs/${orgId}` : "/auth/orgs",
+
+    notifications: "/auth/notifications",
+
+    //assignments
+    createAssignment: "/assignments/create",
+    deleteAssignment: "/assignments/delete",
+    getUserAssignments: "/assignments/user",
+    getCardAssignments: "/assignments/card",
+    completeAssignment: "/assignments/complete",
 
     //email password change
     resetPasswordRequest: `/auth/resetPasswordRequest`,
     requestResetPassword: (uuid: string): string =>
         `/auth/resetPassword/${uuid}`,
     //default password change
-    changePassword: '/auth/changePassword',
+    changePassword: "/auth/changePassword",
     tokenValidator: (uuid: string): string => `/auth/tokenValidator/${uuid}`,
     removeMemberFromBoard: (boardId: string) =>
         `/auth/orgs/${boardId}/kickMember`,
     leaveOrganization: (orgId: string) => `/auth/orgs/${orgId}/leave`,
-    generateDescription: '/items/generate-description',
+    generateDescription: "/items/generate-description",
 
-    generateAiTemplatedBoard: '/items/createAiTemplatedBoard',
-    createBoardFromTemplate: '/items/boards/createFromTemplate',
-    saveTemplate: '/items/templates',
+    generateAiTemplatedBoard: "/items/createAiTemplatedBoard",
+    createBoardFromTemplate: "/items/boards/createFromTemplate",
+    saveTemplate: "/items/templates",
 };
 
-export const createAiTemplatedBoard = async (title: string, backgroundUrl: string, orgId: string) => {
-    return api.post(endpoints.generateAiTemplatedBoard, { title, backgroundUrl, orgId });
+export const createAiTemplatedBoard = async (
+    title: string,
+    backgroundUrl: string,
+    orgId: string
+) => {
+    return api.post(endpoints.generateAiTemplatedBoard, {
+        title,
+        backgroundUrl,
+        orgId,
+    });
 };
 
 export const createBoardFromTemplate = async (
@@ -57,8 +70,12 @@ export const createBoardFromTemplate = async (
     orgId: string,
     backgroundUrl: string
 ) => {
-    
-    return api.post(endpoints.createBoardFromTemplate, { templateId, name, orgId, backgroundUrl });
+    return api.post(endpoints.createBoardFromTemplate, {
+        templateId,
+        name,
+        orgId,
+        backgroundUrl,
+    });
 };
 
 export const saveTemplate = async (name: string, boardId: string) => {
@@ -209,12 +226,12 @@ export const changeBoardBackground = async (
 
 // Removes board background
 export const removeBoardBackground = async (boardId: string): Promise<any> => {
-    return api.post(endpoints.board(boardId), { backgroundUrl: '' });
+    return api.post(endpoints.board(boardId), { backgroundUrl: "" });
 };
 
 // Gets boards by organization ID
 export const getBoardsByOrgId = async (orgId: string): Promise<any> => {
-    const queryParams = { populate: 'true' };
+    const queryParams = { populate: "true" };
     const queryString = new URLSearchParams(queryParams).toString();
     return api.get(`${endpoints.getBoardsByOrg(orgId)}?${queryString}`);
 };
@@ -294,23 +311,29 @@ export const setCardDueDate = async (
     return api.put(endpoints.card(cardId), { organizationId, dueDate });
 };
 
+export const getNotifications = async () => {
+    return api.get(endpoints.notifications)
+}
+
+//assignments
 export const createAssignment = async (userId: string, cardId: string) => {
-    return api.post(endpoints.assignments(null), {
-        card: cardId,
-        user: userId,
+    return api.post(endpoints.createAssignment, {
+        cardId,
+        userId,
     });
 };
 
-export const getAssignments = async () => {
-    return api.get(endpoints.assignments(null));
+export const getAssignmentsByUser = async (userId: string) => {
+    return api.post(endpoints.getUserAssignments, { userId: userId });
 };
 
-export const deleteAssignment = async (assignmentId: string) => {
-    return api.del(endpoints.assignments(assignmentId));
+export const deleteAssignment = async (cardId: string, userId: string) => {
+    return api.post(endpoints.deleteAssignment, { cardId, userId });
 };
 
-export const getAssignmentsByCard = async (cardId: string) => {
-    return api.get(endpoints.assignments(cardId));
+
+export const completeAssignment = async (cardId: string) => {
+    return api.post(endpoints.completeAssignment, { cardId: cardId });
 };
 
 export const renameCard = async (
