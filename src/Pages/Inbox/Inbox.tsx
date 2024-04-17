@@ -10,7 +10,11 @@ import { INotification } from "src/Interfaces/INotification";
 import { useEffect, useState } from "react";
 import { Inbox } from "lucide-react";
 import { Badge } from "src/Components/ui/badge";
-import { getNotifications, markAllNotificationsRead, markNotificationRead } from "src/api/requests";
+import {
+    getNotifications,
+    markAllNotificationsRead,
+    markNotificationRead,
+} from "src/api/requests";
 import {
     Pagination,
     PaginationContent,
@@ -35,6 +39,9 @@ export const InboxDialog = () => {
     const [currentNotifications, setCurrentNotifications] = useState<
         Array<INotification>
     >([]);
+
+    const [unreadNotificationsCount, setUnreadNotificationsCount] =
+        useState<number>(notifications.length);
 
     useEffect(() => {
         (async () => {
@@ -69,7 +76,7 @@ export const InboxDialog = () => {
             }))
         );
 
-        markAllNotificationsRead()
+        markAllNotificationsRead();
     };
 
     const markCurrentNotificationAsRead = (notificationId: string) => {
@@ -81,8 +88,14 @@ export const InboxDialog = () => {
             )
         );
 
-        markNotificationRead(notificationId)
+        markNotificationRead(notificationId);
     };
+
+    useEffect(() => {
+        setUnreadNotificationsCount(
+            notifications.filter((notification) => !notification.isRead).length
+        );
+    }, [notifications]);
 
     return (
         <>
@@ -102,7 +115,7 @@ export const InboxDialog = () => {
                         } transition-opacity duration-200 ease-in-out`}
                         variant="secondary"
                     >
-                        {notifications.length}
+                        {unreadNotificationsCount}
                     </Badge>
                 </div>
             </DropdownMenuTrigger>
