@@ -63,7 +63,7 @@ export function DeleteOrganizationDialog() {
         <Dialog>
             <DialogTrigger asChild>
                 <Button variant={'destructive'} disabled={loading}>
-                    Delete organization
+                    Delete
                 </Button>
             </DialogTrigger>
             <DialogContent

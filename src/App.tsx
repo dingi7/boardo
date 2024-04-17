@@ -54,7 +54,7 @@ function App() {
                     element={
                       <div className="flex items-center justify-center min-h-full">
                         <h1 className="text-2xl font-bold">
-                          Select Organization!
+                          Select an Organization!
                         </h1>
                       </div>
                     }

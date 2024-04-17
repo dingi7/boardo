@@ -51,7 +51,7 @@ export const CreateOrganizationDialog = ({
                 <Card>
                     <CardHeader>
                         <CardTitle className=' relative on:hover cursor-pointer '>
-                            Join Workspace{' '}
+                            Join a Workspace{' '}
                             <X
                                 className=' absolute right-0 top-0 on:hover cursor-pointer '
                                 onClick={closeModal}
@@ -59,7 +59,7 @@ export const CreateOrganizationDialog = ({
                         </CardTitle>
                         <CardDescription>
                             Choose the organization you want to join. You can
-                            scroll to see all.
+                            scroll to see all of them.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className='space-y-2'>
@@ -88,7 +88,7 @@ export const CreateOrganizationDialog = ({
                 <Card>
                     <CardHeader>
                         <CardTitle className=' relative'>
-                            Create Workspace{' '}
+                            Create a Workspace{' '}
                             <X
                                 className=' absolute right-0 top-0 on:hover cursor-pointer '
                                 onClick={closeModal}
