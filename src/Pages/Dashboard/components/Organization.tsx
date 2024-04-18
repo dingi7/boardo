@@ -5,6 +5,7 @@ import {
     ChevronUp,
     ChevronDown,
     Building2,
+    BarChartBigIcon,
 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IOrg } from 'src/Interfaces/IContexts';
@@ -82,6 +83,29 @@ export const Organization = ({
                             }`}
                         />{' '}
                         Boards
+                    </li>
+                    <li
+                        className={`flex flex-row items-center gap-[2%] px-[2%] py-[3%] rounded ${
+                            selectedOrganization?._id === orgId &&
+                            pathname === '/dashboard/statistics'
+                                ? 'bg-blue-100 text-sky-800'
+                                : 'hover:bg-sky-50 hover:text-sky-700'
+                        }`}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            changeOrg();
+                            navigate('/dashboard/statistics');
+                        }}
+                    >
+                        <BarChartBigIcon
+                            className={`w-[20%] md:w-[10%] ${
+                                selectedOrganization?._id === orgId &&
+                                pathname === '/dashboard/statistics'
+                                    ? 'bg-blue-100'
+                                    : 'hover:bg-sky-50'
+                            }`}
+                        />{' '}
+                        Statistics
                     </li>
                     <li
                         className={`flex flex-row items-center gap-[2%] px-[2%] py-[3%] rounded ${
