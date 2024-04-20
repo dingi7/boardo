@@ -64,7 +64,7 @@ export const createAiTemplatedBoard = async (
         title,
         backgroundUrl,
         orgId,
-    });
+    }, true);
 };
 
 export const createBoardFromTemplate = async (
@@ -357,7 +357,7 @@ export const renameCard = async (
 };
 
 export const generateCardDescription = async (title: string) => {
-    return api.post(endpoints.generateDescription, { title });
+    return api.post(endpoints.generateDescription, { title }, true);
 };
 
 export const deleteList = async (listId: string) => {
