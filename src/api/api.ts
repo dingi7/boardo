@@ -47,7 +47,7 @@ const request = async (
         let apiUrl = host + url; // Set the default API URL
 
         if (isGeminiCall) {
-            apiUrl = "https://boardo-back-end.vercel.app/api/v1"
+            apiUrl = "https://boardo-back-end.vercel.app/api/v1" + url
         }
 
         const res = await fetch(apiUrl, options);
