@@ -48,9 +48,9 @@ export const endpoints = {
     removeMemberFromBoard: (boardId: string) =>
         `/auth/orgs/${boardId}/kickMember`,
     leaveOrganization: (orgId: string) => `/auth/orgs/${orgId}/leave`,
-    generateDescription: "/items/generate-description",
+    generateDescription: "/gemini/items/generate-description",
 
-    generateAiTemplatedBoard: "/items/createAiTemplatedBoard",
+    generateAiTemplatedBoard: "/gemini/items/createAiTemplatedBoard",
     createBoardFromTemplate: "/items/boards/createFromTemplate",
     saveTemplate: "/items/templates",
 };
