@@ -23,6 +23,7 @@ import { Navbar } from "./Components/navbar";
 import { ThemeProvider } from "./ThemeProvider";
 import { ModeToggle } from "./Components/mode-toggle";
 import { DashboardContextProvider } from "./Pages/Dashboard/contexts/DashboardContextProvider";
+import { StatisticsPage } from "./Pages/Dashboard/pages/StatisticsPage";
 
 function App() {
   return (
@@ -54,11 +55,12 @@ function App() {
                     element={
                       <div className="flex items-center justify-center min-h-full">
                         <h1 className="text-2xl font-bold">
-                          Select Organization!
+                          Select an Organization!
                         </h1>
                       </div>
                     }
                   />
+                  <Route path="statistics" element={<StatisticsPage />} />
                   <Route path="settings" element={<SettingsPage />} />
                   <Route path="activity" element={<ActivityPage />} />
                   <Route path="boards" element={<BoardsPage />} />

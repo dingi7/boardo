@@ -372,7 +372,7 @@ export const SettingsPage = (props: Props) => {
                     ) : (
                         <div className='flex flex-1 justify-center items-center h-32'>
                             <h1 className='text-xl text-red-900'>
-                                Forbiden For Members
+                                Forbidden For Members
                             </h1>
                         </div>
                     )}
