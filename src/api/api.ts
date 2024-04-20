@@ -13,6 +13,7 @@ interface RequestOptions {
         'x-authorization'?: string;
     };
     body?: string;
+    isGeminiCall?: boolean;
 }
 
 // const auth = useAuthUser();
@@ -21,7 +22,8 @@ interface RequestOptions {
 const request = async (
     method: string,
     url: string,
-    data?: any
+    data?: any,
+    isGeminiCall?: boolean,
 ): Promise<any> => {
     const options: RequestOptions = {
         method,
@@ -41,8 +43,18 @@ const request = async (
     }
 
     try {
-        const res = await fetch(host + url, options);
+
+        let apiUrl = host + url; // Set the default API URL
+
+        if (isGeminiCall) {
+            apiUrl = "https://boardo-back-end.vercel.app/api/v1"
+        }
+
+        const res = await fetch(apiUrl, options);
         const responseData = await res.json();
+
+
+        // Check if the request is for /gemini endpoint, if yes, route it to Vercel
 
         if (!res.ok) {
             throw new Error(responseData.message);
