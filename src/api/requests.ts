@@ -53,6 +53,8 @@ export const endpoints = {
     generateAiTemplatedBoard: "/items/createAiTemplatedBoard",
     createBoardFromTemplate: "/items/boards/createFromTemplate",
     saveTemplate: "/items/templates",
+
+    getStatisticsForOrg: (orgId: string | undefined) => `/auth/orgs/${orgId}/assigments`
 };
 
 export const createAiTemplatedBoard = async (
@@ -188,6 +190,10 @@ export const getAllOrganizations = async (): Promise<any> => {
 export const getUserOrganizations = async (): Promise<any> => {
     return api.get(endpoints.orgs);
 };
+
+export const getStatisticsForOrg = async (orgId: string | undefined) : Promise<any> => {
+    return api.get(endpoints.getStatisticsForOrg(orgId))
+}
 
 // Creates a new board
 export const createBoard = async (data: {
@@ -328,10 +334,11 @@ export const markAllNotificationsRead = async () => {
     return api.post(endpoints.notificationsMarkRead(null))
 }
 //assignments
-export const createAssignment = async (userId: string, cardId: string) => {
+export const createAssignment = async (userId: string, cardId: string, organizationId: string | undefined) => {
     return api.post(endpoints.createAssignment, {
         cardId,
         userId,
+        organizationId
     });
 };
 

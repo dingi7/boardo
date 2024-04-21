@@ -23,6 +23,7 @@ import SettingsCardModal from './EditCardModal';
 import { IAssignment } from 'src/Interfaces/IAssignment';
 import { IUserData } from 'src/Interfaces/IUserData';
 import { BoardContext } from '../../contexts/BoardContextProvider';
+import { DashboardContext } from 'src/Pages/Dashboard/contexts/DashboardContextProvider';
 
 type CardItem = {
     assignments: IAssignment[];
@@ -70,6 +71,8 @@ export const Card: React.FC<CardItem> = ({
     );
 
     const boardContext = useContext(BoardContext);
+    const organizationContext = useContext(DashboardContext);
+    
     if (!boardContext)
         throw new Error(
 
@@ -276,6 +279,7 @@ export const Card: React.FC<CardItem> = ({
                             onDeleteCard={onDeleteCard}
                             isCompleted={isCompleted}
                             setIsCompleted={setIsCompleted}
+                            organizationId={organizationContext?.selectedOrganization?._id}
                         />
                     </div>
                 </div>
