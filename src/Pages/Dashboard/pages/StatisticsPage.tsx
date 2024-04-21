@@ -34,40 +34,44 @@ export const StatisticsPage = () => {
 
   return (
     <div className='flex flex-col text-wrap'>
-      <Plot
-        data={[
-          {
-            values: Object.values(userAssignments),
-            labels: Object.keys(userAssignments),
-            type: 'pie',
-          },
-        ]}
-        layout={{
-          title: {
-            text: 'Assignments by organization members',
-            font: {
-                size:  window.innerWidth < 768 ? 11 : 20
+      {Object.keys(userAssignments).length === 0 ? (
+        <p>No statistics data yet</p>
+      ) : (
+        <Plot
+          data={[
+            {
+              values: Object.values(userAssignments),
+              labels: Object.keys(userAssignments),
+              type: 'pie',
             },
-          },
-          autosize: true,
-          margin: {
-            l: 30,
-            r: 30,
-            b: 30,
-            t: 60,
-            pad: 4,
-          },
-          width: window.innerWidth > 768 ? 400 : window.innerWidth / 1.8,
-          height: window.innerWidth > 768 ? 400 : window.innerWidth,
-          showlegend: true,
-          legend: {
-            x: 0,
-            y: 1,
-            xanchor: 'left',
-            yanchor: 'top',
-          },
-        }}
-      />
+          ]}
+          layout={{
+            title: {
+              text: 'Assignments by organization members',
+              font: {
+                size: window.innerWidth < 768 ? 11 : 20,
+              },
+            },
+            autosize: true,
+            margin: {
+              l: 30,
+              r: 30,
+              b: 30,
+              t: 60,
+              pad: 4,
+            },
+            width: window.innerWidth > 768 ? 400 : window.innerWidth / 1.8,
+            height: window.innerWidth > 768 ? 400 : window.innerWidth,
+            showlegend: true,
+            legend: {
+              x: 0,
+              y: 1,
+              xanchor: 'left',
+              yanchor: 'top',
+            },
+          }}
+        />
+      )}
     </div>
   );
 };
