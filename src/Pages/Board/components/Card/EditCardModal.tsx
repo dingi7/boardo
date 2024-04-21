@@ -60,6 +60,8 @@ interface SettingsCardModalProps {
     onDeleteCard: (cardId: string) => void;
     setIsCompleted: Dispatch<SetStateAction<boolean>>;
     isCompleted: boolean;
+
+    organizationId: string | undefined;
 }
 
 const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
@@ -81,6 +83,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     onDeleteCard,
     setIsCompleted,
     isCompleted,
+    organizationId
 }) => {
     const authUser = useAuthUser()();
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -121,7 +124,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                 variant: 'default',
             });
 
-            const assignment = await createAssignment(user._id, cardId);
+            const assignment = await createAssignment(user._id, cardId, organizationId);
 
             if (!assignment) {
                 console.error('Assignment not found for the user');

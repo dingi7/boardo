@@ -1,69 +1,73 @@
-import { useState, useEffect } from "react";
-import Plot from "react-plotly.js";
-import { IAssignment } from "src/Interfaces/IAssignment";
+import { useState, useEffect, useContext } from 'react';
+import Plot from 'react-plotly.js';
+import { IAssignment } from 'src/Interfaces/IAssignment';
+import { getStatisticsForOrg } from 'src/api/requests';
+import { DashboardContext } from '../contexts/DashboardContextProvider';
 //import { getUsersWithAssignments } from "src/api/requests";
 
 export const StatisticsPage = () => {
-    const [organizationAssignments, setOrganizationAssignments] = useState<IAssignment[]>([]);
-    const [completedOrganizationAssignments, setCompletedOrganizationAssignments] = useState<IAssignment[]>([]);
-    const [userAssignments, setUserAssignments] = useState<{ [key: string]: number }>({});
+  const { selectedOrganization } = useContext(DashboardContext) || {};
 
-    // useEffect(() => {
-    //     // Fetch organization assignments
-    //     const fetchOrganizationAssignments = async () => {
-    //         try {
-    //             const assignments = await getOrganizationAssignments();
-    //             setOrganizationAssignments(assignments);
+  const [userAssignments, setUserAssignments] = useState<{
+    [key: string]: number;
+  }>({});
 
-    //             // Filter completed assignments
-    //             const completedAssignments = assignments.filter(assignment => assignment.isCompleted);
-    //             setCompletedOrganizationAssignments(completedAssignments);
+  useEffect(() => {
+    const fetchUserAssignments = async () => {
+      try {
+        const result = await getStatisticsForOrg(selectedOrganization?._id);
+        // Convert values to numbers
+        const userAssignmentsNumbers: { [key: string]: number } = {};
+        for (const key in result) {
+          userAssignmentsNumbers[key] = result[key].length;
+        }
+        setUserAssignments(userAssignmentsNumbers);
+      } catch (error) {
+        console.error('Error fetching user assignments:', error);
+      }
+    };
 
-    //             // Count assignments per user
-    //             const assignmentsByUser: { [key: string]: number } = {};
-    //             assignments.forEach(assignment => {
-    //                 if (assignment.user) {
-    //                     const { username } = assignment.user;
-    //                     if (assignmentsByUser[username]) {
-    //                         assignmentsByUser[username]++;
-    //                     } else {
-    //                         assignmentsByUser[username] = 1;
-    //                     }
-    //                 }
-    //             });
-    //             setUserAssignments(assignmentsByUser);
-    //         } catch (error) {
-    //             console.error("Error fetching organization assignments:", error);
-    //         }
-    //     };
+    if (selectedOrganization?._id) {
+      fetchUserAssignments();
+    }
+  }, [selectedOrganization]);
 
-    //     fetchOrganizationAssignments();
-    // }, []);
-
-    return (
-        <div className="flex flex-col">
-            <Plot
-                data={[
-                    {
-                        values: [completedOrganizationAssignments.length, organizationAssignments.length - completedOrganizationAssignments.length],
-                        labels: ["Completed", "Non-Completed"],
-                        type: "pie",
-                    },
-                ]}
-                layout={{ title: "Assignments completion progress" }}
-            />
-
-            <Plot
-                data={[
-                    {
-                        values: Object.values(userAssignments),
-                        labels: Object.keys(userAssignments),
-                        type: "pie",
-                    },
-                ]}
-                layout={{ title: "Assignments by organization members" }}
-            />
-        </div>
-    );
+  return (
+    <div className='flex flex-col text-wrap'>
+      <Plot
+        data={[
+          {
+            values: Object.values(userAssignments),
+            labels: Object.keys(userAssignments),
+            type: 'pie',
+          },
+        ]}
+        layout={{
+          title: {
+            text: 'Assignments by organization members',
+            font: {
+                size:  window.innerWidth < 768 ? 11 : 20
+            },
+          },
+          autosize: true,
+          margin: {
+            l: 30,
+            r: 30,
+            b: 30,
+            t: 60,
+            pad: 4,
+          },
+          width: window.innerWidth > 768 ? 400 : window.innerWidth / 1.8,
+          height: window.innerWidth > 768 ? 400 : window.innerWidth,
+          showlegend: true,
+          legend: {
+            x: 0,
+            y: 1,
+            xanchor: 'left',
+            yanchor: 'top',
+          },
+        }}
+      />
+    </div>
+  );
 };
-

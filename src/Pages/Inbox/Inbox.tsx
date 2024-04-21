@@ -3,18 +3,18 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "src/Components/dropdown";
-import { Notification } from "./components/Notification";
-import { Button } from "src/Components/ui/button";
-import { INotification } from "src/Interfaces/INotification";
-import { useEffect, useState } from "react";
-import { Inbox } from "lucide-react";
-import { Badge } from "src/Components/ui/badge";
+} from 'src/Components/dropdown';
+import { Notification } from './components/Notification';
+import { Button } from 'src/Components/ui/button';
+import { INotification } from 'src/Interfaces/INotification';
+import { useEffect, useState } from 'react';
+import { Inbox } from 'lucide-react';
+import { Badge } from 'src/Components/ui/badge';
 import {
     getNotifications,
     markAllNotificationsRead,
     markNotificationRead,
-} from "src/api/requests";
+} from 'src/api/requests';
 import {
     Pagination,
     PaginationContent,
@@ -23,14 +23,15 @@ import {
     PaginationLink,
     PaginationNext,
     PaginationPrevious,
-} from "src/Components/ui/pagination";
+} from 'src/Components/ui/pagination';
 
-import { useAuthUser } from "react-auth-kit";
+import { useAuthUser } from 'react-auth-kit';
 
 export const InboxDialog = () => {
     const authUser = useAuthUser()();
     const [isHovered, setIsHovered] = useState<boolean>(false);
     const [notifications, setNotifications] = useState<INotification[]>([]);
+    const [unreadNotifications, setUnreadNotifications] = useState<number>(0);
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const notificationsPerPage = 5;
@@ -40,13 +41,15 @@ export const InboxDialog = () => {
         Array<INotification>
     >([]);
 
-    const [unreadNotificationsCount, setUnreadNotificationsCount] =
-        useState<number>(notifications.length);
-
     useEffect(() => {
         (async () => {
             const result = await getNotifications();
             setNotifications(result);
+            setUnreadNotifications(
+                result.filter(
+                    (notification: INotification) => !notification.isRead
+                ).length
+            );
 
             setNeededPages(
                 Math.ceil((result.length + 1) / notificationsPerPage)
@@ -75,6 +78,7 @@ export const InboxDialog = () => {
                 isRead: true,
             }))
         );
+        setUnreadNotifications(0);
 
         markAllNotificationsRead();
     };
@@ -87,43 +91,40 @@ export const InboxDialog = () => {
                     : notification
             )
         );
+        setUnreadNotifications(
+            (prevUnreadNotifications) => prevUnreadNotifications - 1
+        );
 
         markNotificationRead(notificationId);
     };
-
-    useEffect(() => {
-        setUnreadNotificationsCount(
-            notifications.filter((notification) => !notification.isRead).length
-        );
-    }, [notifications]);
 
     return (
         <>
             <DropdownMenuTrigger>
                 <div
-                    className="relative group"
+                    className='relative group'
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                 >
-                    <Button variant="ghost" size="icon">
+                    <Button variant='ghost' size='icon'>
                         <Inbox />
                     </Button>
 
                     <Badge
                         className={`absolute w-6 h-6 flex justify-center items-center text-sm p-1 rounded-full top-0 right-0 transform translate-x-10 translate-y-10 ${
-                            isHovered ? "opacity-0" : ""
+                            isHovered ? 'opacity-0' : ''
                         } transition-opacity duration-200 ease-in-out`}
-                        variant="secondary"
+                        variant='secondary'
                     >
-                        {unreadNotificationsCount}
+                        {unreadNotifications}
                     </Badge>
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-full">
-                <DropdownMenuLabel className="px-2 py-1">
-                    <div className="w-full flex justify-between items-center">
-                        <p className="text-2xl font-bold">Notifications</p>
-                        <Button variant="link" onClick={handleMarkAllAsRead}>
+            <DropdownMenuContent className='w-full'>
+                <DropdownMenuLabel className='px-2 py-1'>
+                    <div className='w-full flex justify-between items-center'>
+                        <p className='text-2xl font-bold'>Notifications</p>
+                        <Button variant='link' onClick={handleMarkAllAsRead}>
                             Mark all as read
                         </Button>
                     </div>
@@ -141,14 +142,14 @@ export const InboxDialog = () => {
                 ) : (
                     <>
                         <DropdownMenuSeparator />
-                        <p className="text-lg font-bold text-center p-2">
+                        <p className='text-lg font-bold text-center p-2'>
                             No notifications yet
                         </p>
                     </>
                 )}
                 <div>
                     <DropdownMenuSeparator />
-                    <Pagination className="select-none">
+                    <Pagination className='select-none'>
                         <PaginationContent>
                             <PaginationItem>
                                 <PaginationPrevious
@@ -158,26 +159,26 @@ export const InboxDialog = () => {
                                         );
                                     }}
                                     className={`hover:cursor-pointer ${
-                                        currentPage === 1 ? "hidden" : ""
+                                        currentPage === 1 ? 'hidden' : ''
                                     }`}
                                 />
                             </PaginationItem>
 
-                            <PaginationItem className="hover:cursor-pointer">
+                            <PaginationItem className='hover:cursor-pointer'>
                                 <PaginationLink isActive={currentPage === 1}>
                                     1
                                 </PaginationLink>
                             </PaginationItem>
 
                             {currentPage > 2 && (
-                                <PaginationItem className="hover:cursor-pointer">
+                                <PaginationItem className='hover:cursor-pointer'>
                                     <PaginationEllipsis />
                                 </PaginationItem>
                             )}
 
                             {currentPage !== 1 &&
                                 currentPage !== neededPages && (
-                                    <PaginationItem className="hover:cursor-pointer">
+                                    <PaginationItem className='hover:cursor-pointer'>
                                         <PaginationLink isActive>
                                             {currentPage}
                                         </PaginationLink>
@@ -191,7 +192,7 @@ export const InboxDialog = () => {
                             )}
 
                             {neededPages !== 1 && (
-                                <PaginationItem className="hover:cursor-pointer">
+                                <PaginationItem className='hover:cursor-pointer'>
                                     <PaginationLink
                                         isActive={currentPage === neededPages}
                                     >
@@ -209,8 +210,8 @@ export const InboxDialog = () => {
                                     }}
                                     className={`hover:cursor-pointer ${
                                         currentPage === neededPages
-                                            ? "hidden"
-                                            : ""
+                                            ? 'hidden'
+                                            : ''
                                     }`}
                                 />
                             </PaginationItem>
