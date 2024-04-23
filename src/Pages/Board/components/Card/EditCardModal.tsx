@@ -83,7 +83,7 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
     onDeleteCard,
     setIsCompleted,
     isCompleted,
-    organizationId
+    organizationId,
 }) => {
     const authUser = useAuthUser()();
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -124,7 +124,11 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                 variant: 'default',
             });
 
-            const assignment = await createAssignment(user._id, cardId, organizationId);
+            const assignment = await createAssignment(
+                user._id,
+                cardId,
+                organizationId
+            );
 
             if (!assignment) {
                 console.error('Assignment not found for the user');
@@ -232,7 +236,6 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
             assignments?.some(
                 (assignment) => assignment?.user._id === authUser?._id
             )
-
         ) {
             setCanComplete(true);
         } else {
@@ -277,9 +280,11 @@ const SettingsCardModal: React.FC<SettingsCardModalProps> = ({
                                 onClick={async () => {
                                     setIsLoading(true);
                                     try {
-                                        setDescription(
-                                            await generateCardDescription(title)
-                                        );
+                                        const response =
+                                            await generateCardDescription(
+                                                title
+                                            );
+                                        setDescription(response!.description);
                                     } catch (e) {
                                         toast({
                                             title: 'Error!',
