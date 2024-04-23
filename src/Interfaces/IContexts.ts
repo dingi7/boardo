@@ -30,6 +30,7 @@ export interface IOrg {
     orgLogo: string;
     boardTemplates: ITemplate[];
     activity: IActivity[];
+    bannedUsers: IUserData[];
 }
 
 export interface IActivity {

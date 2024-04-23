@@ -26,13 +26,17 @@ const MemberCard = ({
   isOwner,
   handleRemoveMember,
   handleBanMember,
+  revokeUserBan,
   selectedOrganization,
+  mode,
 }: {
   member: IUserData;
   isOwner: boolean;
   handleRemoveMember: (orgId: string, memberId: string) => void;
   handleBanMember: (memberId: string) => void;
+  revokeUserBan:  (memberId: string) => void;
   selectedOrganization: IOrg;
+  mode: string;
 }) => {
   return (
     <TableRow>
@@ -63,53 +67,84 @@ const MemberCard = ({
             <DialogHeader>
               <DialogTitle>Member Actions</DialogTitle>
             </DialogHeader>
-            <div className='flex flex-col gap-3'>
-              <AlertDialog>
-                <AlertDialogTrigger className='w-full'>
-                  <Button className='w-full bg-red-600'>Kick</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure?
-                    </AlertDialogTitle>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() =>
-                        handleRemoveMember(selectedOrganization._id, member._id)
-                      }
-                    >
-                      Continue
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+            {mode === 'remove' && (
+              <div className='flex flex-col gap-3'>
+                <AlertDialog>
+                  <AlertDialogTrigger className='w-full'>
+                    <Button className='w-full bg-red-600'>Kick</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() =>
+                          handleRemoveMember(
+                            selectedOrganization._id,
+                            member._id
+                          )
+                        }
+                      >
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
 
-              <AlertDialog>
-                <AlertDialogTrigger className='w-full'>
-                  <Button className='w-full bg-red-800'>Ban</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you absolutely sure?
-                    </AlertDialogTitle>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      onClick={() =>
-                        handleBanMember(member._id)
-                      }
+                <AlertDialog>
+                  <AlertDialogTrigger className='w-full'>
+                    <Button className='w-full bg-red-600'>Ban</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => handleBanMember(member._id)}
+                      >
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            )}{' '}
+            {mode === 'revoke' && (
+              <div className='flex flex-col gap-3'>
+                <AlertDialog>
+                  <AlertDialogTrigger className='w-full'>
+                    <Button
+                      className='w-full bg-red-600'
                     >
-                      Continue
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
+                      Revoke ban
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you absolutely sure?
+                      </AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => revokeUserBan(member._id)}
+                      >
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            )}
           </DialogContent>
         </Dialog>
       </TableCell>

@@ -3,8 +3,9 @@ import MemberCard from '../components/MemberCard';
 import { Input } from 'src/Components/ui/input';
 import { Button } from 'src/Components/ui/button';
 import {
-    banMemberFromBoard,
+  banMemberFromBoard,
   removeMemberFromBoard,
+  revokeUserBan,
   updateOrganizationName,
   updateOrganizationPassword,
 } from 'src/api/requests';
@@ -29,7 +30,11 @@ export const SettingsPage = (props: Props) => {
   if (!context) {
     throw new Error('Dashboard context is not available');
   }
-  const { selectedOrganization, setUserOrganizations } = context;
+  const {
+    selectedOrganization,
+    setUserOrganizations,
+    setSelectedOrganization,
+  } = context;
 
   const { toast } = useToast();
 
@@ -167,23 +172,54 @@ export const SettingsPage = (props: Props) => {
     }
   };
 
-  const handleBanMember = async ( memberId: string) => {
+  const handleBanMember = async (memberId: string) => {
     try {
-      await await banMemberFromBoard(context.selectedOrganization?._id, memberId);
-      const newMembers = selectedOrganization!.members.filter(
-        (member: IUserData) => member._id !== memberId
-      );
-      setUserOrganizations((prev: IOrg[]) => {
-        return prev.map((org: IOrg) => {
-          if (org._id === selectedOrganization!._id) {
-            org.members = newMembers;
-            return org;
-          }
-          return org;
-        });
+      await banMemberFromBoard(context.selectedOrganization?._id, memberId);
+      setSelectedOrganization((prevOrg: IOrg | null) => {
+        if (!prevOrg) return null;
+
+        const updatedBannedUsers = prevOrg.members.filter(
+          (member: IUserData) => member._id === memberId
+        );
+
+        const updatedMembers = prevOrg.members.filter(
+          (member: IUserData) => member._id !== memberId
+        );
+
+        return {
+          ...prevOrg,
+          members: updatedMembers,
+          bannedUsers: [...prevOrg.bannedUsers, ...updatedBannedUsers],
+        };
       });
       toast({
-        title: 'Member removed successfully',
+        title: 'Member banned successfully',
+      });
+    } catch (e: any) {
+      toast({
+        title: e.message,
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const removeUserBan = async (memberId: string) => {
+    try {
+      await revokeUserBan(context.selectedOrganization?._id, memberId);
+      setSelectedOrganization((prevOrg: IOrg | null) => {
+        if (!prevOrg) return null;
+
+        const updatedBannedUsers = prevOrg.bannedUsers.filter(
+          (member: IUserData) => member._id !== memberId
+        );
+
+        return {
+          ...prevOrg,
+          bannedUsers: updatedBannedUsers,
+        };
+      });
+      toast({
+        title: 'Ban revoked successfully',
       });
     } catch (e: any) {
       toast({
@@ -277,11 +313,59 @@ export const SettingsPage = (props: Props) => {
                         handleRemoveMember={handleKickMember}
                         selectedOrganization={selectedOrganization!}
                         handleBanMember={handleBanMember}
+                        mode='remove'
+                        revokeUserBan={removeUserBan}
                       ></MemberCard>
                     ))}
                   </TableBody>
                 </Table>
               </div>
+            </section>
+
+            <section>
+              <div className='flex items-center'>
+                <h2 className='text-xl font-bold'>Banned users</h2>
+              </div>
+              {selectedOrganization?.bannedUsers &&
+              selectedOrganization?.bannedUsers?.length > 0 ? (
+                <div className='border rounded-lg shadow-sm'>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className='max-w-[150px]'>Name</TableHead>
+                        <TableHead className='hidden md:table-cell'>
+                          Email
+                        </TableHead>
+                        <TableHead className='hidden text-center md:table-cell'>
+                          Score
+                        </TableHead>
+                        <TableHead className='hidden md:table-cell'>
+                          Role
+                        </TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {selectedOrganization?.bannedUsers.map(
+                        (member: IUserData) => (
+                          <MemberCard
+                            isOwner={isOwner}
+                            key={member._id}
+                            member={member}
+                            handleRemoveMember={handleKickMember}
+                            selectedOrganization={selectedOrganization!}
+                            handleBanMember={handleBanMember}
+                            mode='revoke'
+                            revokeUserBan={removeUserBan}
+                          ></MemberCard>
+                        )
+                      )}
+                    </TableBody>
+                  </Table>
+                </div>
+              ) : (
+                <p>No banned users yet!</p>
+              )}
             </section>
           </main>
         </div>

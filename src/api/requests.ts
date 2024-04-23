@@ -59,6 +59,8 @@ export const endpoints = {
 
   getStatisticsForOrg: (orgId: string | undefined) =>
     `/auth/orgs/${orgId}/assigments`,
+
+  revokeUserBan: "/auth/orgs/revokeBan",
 };
 
 export const createAiTemplatedBoard = async (
@@ -240,6 +242,16 @@ export const banMemberFromBoard = async (
     memberId 
 });
 };
+
+export const revokeUserBan = async (
+    orgId: string | undefined,
+    memberId: string
+  ): Promise<any> => {
+    return api.post(endpoints.revokeUserBan, { 
+      orgId,
+      memberId 
+  });
+  };
 
 // Changes board background
 export const changeBoardBackground = async (
