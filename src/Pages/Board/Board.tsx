@@ -274,34 +274,34 @@ export const Board = (): JSX.Element => {
     useEffect(() => {
       console.log('here');
       
-        const filtered = lists?.map((list) => ({
-            ...list,
-            cards: list.cards.filter((card) => {
-                if (
-                    filterCompleted !== null &&
-                    card.isCompleted !== filterCompleted
-                ) {
-                    return false;
-                }
-                if (filterDeadline !== null && card.dueDate) {
-                    // Check if card.dueDate exists
-                    const deadline = new Date(card.dueDate);
-                    const now = new Date();
-                    const diffInDays =
-                        (deadline.getTime() - now.getTime()) /
-                        (1000 * 3600 * 24);
-                    if (
-                        (filterDeadline === 1 && diffInDays > 1) ||
-                        (filterDeadline === 7 && diffInDays > 7)
-                    ) {
-                        return false;
-                    }
-                }
-                return true;
-            }),
-        }));
-        setFilteredLists(filtered || []);
-    }, [lists, filterCompleted, filterDeadline]); // Add filterCompleted and filterDeadline to the dependency array
+      const filtered = lists?.map((list) => ({
+          ...list,
+          cards: list.cards.filter((card) => {
+              if (
+                  filterCompleted !== null &&
+                  card.isCompleted !== filterCompleted
+              ) {
+                  return false;
+              }
+              if (filterDeadline !== null && card.dueDate) {
+                  // Check if card.dueDate exists
+                  const deadline = new Date(card.dueDate);
+                  const now = new Date();
+                  const diffInDays = Math.ceil((deadline.getTime() - now.getTime()) / (1000 * 3600 * 24)); // Round up to the nearest day
+  
+                  if (
+                      (filterDeadline === 1 && diffInDays > 1) ||
+                      (filterDeadline === 7 && diffInDays > 7)
+                  ) {
+                      return false;
+                  }
+              }
+              return true;
+          }),
+      }));
+      setFilteredLists(filtered || []);
+  }, [lists, filterCompleted, filterDeadline]);
+  // Add filterCompleted and filterDeadline to the dependency array
 
     if (loading) return <Loading></Loading>;
 
