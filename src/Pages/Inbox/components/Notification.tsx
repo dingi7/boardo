@@ -40,9 +40,9 @@ export const Notification = ({
                         </Tooltip>
                     </TooltipProvider>
                 )}
-                <CardHeader className="px-2 py-0 font-semibold text-xl">{title}</CardHeader>
+                <CardHeader className="px-2 py-0 font-semibold text-md">{title}</CardHeader>
                 <CardContent className="px-2 py-0">
-                    <div className="text-lg">
+                    <div className="text-sm">
                         <p>{description}</p>
                     </div>
                 </CardContent>

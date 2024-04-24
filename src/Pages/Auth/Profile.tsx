@@ -5,7 +5,6 @@ import { useToast } from "../../Components/Toaster/use-toast";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "src/Components/ui/card";
