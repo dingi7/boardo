@@ -25,10 +25,10 @@ export interface BoardContextType {
   boardId: string | undefined;
   channel: any;
   selectedOrganization: IOrg | null;
-  filterCompleted: string;
-  filterDeadline: string;
-  setFilterCompleted: Dispatch<SetStateAction<string>>;
-  setFilterDeadline: Dispatch<SetStateAction<string>>;
+  filterCompleted: boolean | null;
+  filterDeadline: number | null;
+  setFilterCompleted: Dispatch<SetStateAction<boolean | null>>;
+  setFilterDeadline: Dispatch<SetStateAction<number | null>>;
 }
 
 export const BoardContext = createContext<BoardContextType | undefined>(
@@ -46,8 +46,8 @@ export const BoardContextProvider = ({ children }: { children: any }) => {
   );
   const navigate = useNavigate();
 
-  const [filterCompleted, setFilterCompleted] = useState<string>('');
-  const [filterDeadline, setFilterDeadline] = useState<string>('');
+  const [filterCompleted, setFilterCompleted] = useState<boolean | null>(null);
+  const [filterDeadline, setFilterDeadline] = useState<number | null>(null);
 
   const pusher = new Pusher('b6ea70f2b0bc14153ae1', {
     cluster: 'eu',
