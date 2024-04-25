@@ -194,6 +194,8 @@ export const Board = (): JSX.Element => {
         setIsDragging(false);
         const { destination, source, type } = result;
 
+        if (filterCompleted !== null || filterDeadline !== null) return;
+
         if (!destination) {
             return;
         }
@@ -272,8 +274,6 @@ export const Board = (): JSX.Element => {
     };
 
     useEffect(() => {
-        console.log('here');
- 
         const filtered = lists?.map((list) => ({
             ...list,
             cards: list.cards.filter((card) => {
@@ -296,7 +296,7 @@ export const Board = (): JSX.Element => {
                         (deadline.getTime() - now.getTime()) /
                             (1000 * 3600 * 24)
                     ); // Round up to the nearest day
- 
+
                     if (
                         (filterDeadline === 1 && diffInDays > 1) ||
                         (filterDeadline === 7 && diffInDays > 7)
@@ -310,7 +310,6 @@ export const Board = (): JSX.Element => {
         }));
         setFilteredLists(filtered || []);
     }, [lists, filterCompleted, filterDeadline]);
-
 
     if (loading) return <Loading></Loading>;
 
