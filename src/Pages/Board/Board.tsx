@@ -13,9 +13,11 @@ import { AddListPlaceholder } from './components/List/AddListPlaceholder';
 import { List } from './components/List/List';
 import { BoardContext } from './contexts/BoardContextProvider';
 import { useAuthUser } from 'react-auth-kit';
+import { FilterComponent } from './components/Filter/Filter';
 
 export const Board = (): JSX.Element => {
     const [isDragging, setIsDragging] = useState<boolean>(false);
+    const [filteredLists, setFilteredLists] = useState<dataBaseList[]>([]);
 
     const context = useContext(BoardContext);
     const { toast } = useToast();
@@ -34,6 +36,10 @@ export const Board = (): JSX.Element => {
         setBackgroundUrl,
         loading,
         channel,
+        filterCompleted,
+        setFilterCompleted,
+        filterDeadline,
+        setFilterDeadline,
     } = context;
 
     type PusherCardParams = {
@@ -265,6 +271,46 @@ export const Board = (): JSX.Element => {
         return updateBoard(boardInfo!._id, boardInfo!.name, newState);
     };
 
+    useEffect(() => {
+        console.log('here');
+
+        const filtered = lists?.map((list) => ({
+            ...list,
+            cards: list.cards.filter((card) => {
+                // If filterCompleted is applied and the card's completion status doesn't match, exclude it
+                if (
+                    filterCompleted !== null &&
+                    card.isCompleted !== filterCompleted
+                ) {
+                    return false;
+                }
+                // If filterDeadline is applied and the card doesn't have a due date, exclude it
+                if (filterDeadline !== null && card.dueDate === undefined) {
+                    return false;
+                }
+                // If filterDeadline is applied, check the due date
+                if (filterDeadline !== null && card.dueDate) {
+                    const deadline = new Date(card.dueDate);
+                    const now = new Date();
+                    const diffInDays = Math.ceil(
+                        (deadline.getTime() - now.getTime()) /
+                            (1000 * 3600 * 24)
+                    ); // Round up to the nearest day
+
+                    if (
+                        (filterDeadline === 1 && diffInDays > 1) ||
+                        (filterDeadline === 7 && diffInDays > 7)
+                    ) {
+                        return false;
+                    }
+                }
+                // If none of the filters apply, include the card
+                return true;
+            }),
+        }));
+        setFilteredLists(filtered || []);
+    }, [lists, filterCompleted, filterDeadline]);
+
     if (loading) return <Loading></Loading>;
 
     return (
@@ -290,11 +336,19 @@ export const Board = (): JSX.Element => {
                         boardId={boardId!}
                         setBackgroundUrl={setBackgroundUrl}
                     />
+                    <div className=''>
+                        <FilterComponent
+                            filterCompleted={filterCompleted}
+                            setFilterCompleted={setFilterCompleted}
+                            filterDeadline={filterDeadline}
+                            setFilterDeadline={setFilterDeadline}
+                        />
+                    </div>
+
                     <Droppable
                         droppableId='allcolumns'
                         direction='horizontal'
                         type='column'
-                        
                     >
                         {(provided) => (
                             <div
@@ -302,7 +356,7 @@ export const Board = (): JSX.Element => {
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
                             >
-                                {lists?.map((data, index) => (
+                                {filteredLists?.map((data, index) => (
                                     <List
                                         key={data._id}
                                         id={data._id}

@@ -385,27 +385,23 @@ export const SettingsPage = (props: Props) => {
                 style={{ width: '50%' }}
               >
                 <h2 className='text-xl font-bold'>General Settings</h2>
-                <div className='mt-4 space-y-4'>
+                <div className='flex flex-col mt-4 space-y-4'>
                   <div className='space-y-1'>
                     <Label htmlFor='name'>Organization Name</Label>
                     <Input
                       id='name'
                       placeholder='Enter organization name'
-                      // value={orgData.name}
                       name='name'
                       value={orgData!.name}
                       onChange={handleInputChange}
                       disabled={!isOwner}
                     />
                   </div>
-                  <Button onClick={handleUpdateOrganizationName}>Save</Button>
 
-                  {isOwner && (
-                    <div>
-                      <h2 className='text-lg font-bold'>Delete organization</h2>
-                      <DeleteOrganizationDialog />
-                    </div>
-                  )}
+                  <div className='flex gap-2'>
+                    <Button onClick={handleUpdateOrganizationName}>Save</Button>
+                    <DeleteOrganizationDialog />
+                  </div>
                 </div>
               </section>
               <section
