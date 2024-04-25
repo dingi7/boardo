@@ -1,4 +1,5 @@
 import {
+  DropdownMenu,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -95,7 +96,7 @@ export const InboxDialog = () => {
   };
 
   return (
-    <>
+    <DropdownMenu>
       <DropdownMenuTrigger>
         <div
           className='relative group'
@@ -116,8 +117,9 @@ export const InboxDialog = () => {
           </Badge>
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='flex flex-col oveflow-hidden'>
-        <DropdownMenuLabel className='px-2 py-1 w-fit'>
+
+      <DropdownMenuContent className='flex flex-col w-35 oveflow-hidden'>
+        <DropdownMenuLabel className='w-full px-2 py-1'>
           <div className='flex items-center justify-between w-full'>
             <p className='text-2xl font-bold'>Notifications</p>
             <Button variant='link' onClick={handleMarkAllAsRead}>
@@ -126,7 +128,7 @@ export const InboxDialog = () => {
           </div>
         </DropdownMenuLabel>
 
-        <div className='w-36'>
+        <div className='flex flex-col justify-center' style={{width: "320px"}}>
           {currentNotifications ? (
             currentNotifications
               .reverse()
@@ -145,73 +147,61 @@ export const InboxDialog = () => {
             </>
           )}
         </div>
-        <div>
-          <DropdownMenuSeparator />
-          <Pagination className='w-full select-none'>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() => {
-                    setCurrentPage((prevPage) => prevPage - 1);
-                  }}
-                  className={`hover:cursor-pointer ${
-                    currentPage === 1 ? 'hidden' : ''
-                  }`}
-                />
-              </PaginationItem>
 
+        <DropdownMenuSeparator />
+        <Pagination className='w-full select-none'>
+          <PaginationContent className='flex justify-center w-full'>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => {
+                  setCurrentPage((prevPage) => prevPage - 1);
+                }}
+                className={`hover:cursor-pointer ${
+                  currentPage === 1 ? 'hidden' : ''
+                }`}
+              />
+            </PaginationItem>
+
+            <PaginationItem className='hover:cursor-pointer'>
+              <PaginationLink
+                isActive={currentPage === 1}
+                onClick={() => setCurrentPage(1)}
+              >
+                1
+              </PaginationLink>
+            </PaginationItem>
+
+    
+            {currentPage !== 1 && currentPage !== neededPages && (
+              <PaginationItem className='hover:cursor-pointer'>
+                <PaginationLink isActive>{currentPage}</PaginationLink>
+              </PaginationItem>
+            )}
+
+            {neededPages !== 1 && (
               <PaginationItem className='hover:cursor-pointer'>
                 <PaginationLink
-                  isActive={currentPage === 1}
-                  onClick={() => setCurrentPage(1)}
+                  isActive={currentPage === neededPages}
+                  onClick={() => setCurrentPage(neededPages)}
                 >
-                  1
+                  {neededPages}
                 </PaginationLink>
               </PaginationItem>
+            )}
 
-              {currentPage > 2 && (
-                <PaginationItem className='hover:cursor-pointer'>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-
-              {currentPage !== 1 && currentPage !== neededPages && (
-                <PaginationItem className='hover:cursor-pointer'>
-                  <PaginationLink isActive>{currentPage}</PaginationLink>
-                </PaginationItem>
-              )}
-
-              {currentPage < neededPages - 1 && (
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-              )}
-
-              {neededPages !== 1 && (
-                <PaginationItem className='hover:cursor-pointer'>
-                  <PaginationLink
-                    isActive={currentPage === neededPages}
-                    onClick={() => setCurrentPage(neededPages)}
-                  >
-                    {neededPages}
-                  </PaginationLink>
-                </PaginationItem>
-              )}
-
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() => {
-                    setCurrentPage((prevPage) => prevPage + 1);
-                  }}
-                  className={`hover:cursor-pointer ${
-                    currentPage === neededPages ? 'hidden' : ''
-                  }`}
-                />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
-        </div>
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => {
+                  setCurrentPage((prevPage) => prevPage + 1);
+                }}
+                className={`hover:cursor-pointer ${
+                  currentPage === neededPages ? 'hidden' : ''
+                }`}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </DropdownMenuContent>
-    </>
+    </DropdownMenu>
   );
 };
