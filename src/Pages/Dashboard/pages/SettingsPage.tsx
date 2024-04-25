@@ -402,7 +402,6 @@ export const SettingsPage = (props: Props) => {
 
                   {isOwner && (
                     <div>
-                      <h2 className='text-lg font-bold'>Delete organization</h2>
                       <DeleteOrganizationDialog />
                     </div>
                   )}

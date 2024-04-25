@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
 import Plot from 'react-plotly.js';
-import { IAssignment } from 'src/Interfaces/IAssignment';
 import { getStatisticsForOrg } from 'src/api/requests';
 import { DashboardContext } from '../contexts/DashboardContextProvider';
 //import { getUsersWithAssignments } from "src/api/requests";

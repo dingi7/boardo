@@ -98,7 +98,7 @@ export function DeleteOrganizationDialog() {
                             variant={'delete'}
                             onClick={handleFormSubmit}
                         >
-                            Delete
+                            Delete Organization
                         </Button>
                     </DialogClose>
                 </DialogFooter>
