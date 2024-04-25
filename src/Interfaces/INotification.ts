@@ -5,6 +5,7 @@ export interface INotification {
     title: string,
     description: string,
     isRead: boolean,
-    markCurrentNotificationAsRead: (notificationId: string) => void
+    markCurrentNotificationAsRead: (notificationId: string) => void,
+    createdAt: Date
 }
 

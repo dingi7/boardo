@@ -189,7 +189,10 @@ export const InboxDialog = () => {
 
               {neededPages !== 1 && (
                 <PaginationItem className='hover:cursor-pointer'>
-                  <PaginationLink isActive={currentPage === neededPages} onClick={() => setCurrentPage(neededPages)}>
+                  <PaginationLink
+                    isActive={currentPage === neededPages}
+                    onClick={() => setCurrentPage(neededPages)}
+                  >
                     {neededPages}
                   </PaginationLink>
                 </PaginationItem>
