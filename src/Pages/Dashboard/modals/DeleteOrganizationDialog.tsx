@@ -23,7 +23,7 @@ export function DeleteOrganizationDialog() {
     const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
-    
+
     const context = useContext(DashboardContext);
     if (!context) {
         throw new Error('Dashboard context is not available');
@@ -36,10 +36,14 @@ export function DeleteOrganizationDialog() {
         try {
             await deleteOrganization(selectedOrganization!._id, password);
             setUserOrganizations((prev: any) =>
-                prev.filter((org: IOrg) => org._id !== selectedOrganization!._id)
+                prev.filter(
+                    (org: IOrg) => org._id !== selectedOrganization!._id
+                )
             );
             setAllOrganizations((prev: any) =>
-                prev.filter((org: IOrg) => org._id !== selectedOrganization!._id)
+                prev.filter(
+                    (org: IOrg) => org._id !== selectedOrganization!._id
+                )
             );
 
             toast({
@@ -63,7 +67,7 @@ export function DeleteOrganizationDialog() {
         <Dialog>
             <DialogTrigger asChild>
                 <Button variant={'destructive'} disabled={loading}>
-                    Delete
+                    Delete Organization
                 </Button>
             </DialogTrigger>
             <DialogContent
@@ -98,7 +102,7 @@ export function DeleteOrganizationDialog() {
                             variant={'delete'}
                             onClick={handleFormSubmit}
                         >
-                            Delete
+                            Delete Organization
                         </Button>
                     </DialogClose>
                 </DialogFooter>
