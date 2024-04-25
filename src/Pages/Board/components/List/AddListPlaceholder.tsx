@@ -18,7 +18,7 @@ export const AddListPlaceholder = ({
         const list = await createList(boardId!, 'New List');
         setLists!((prev) => [...prev!, list]);
         toast({
-            title: 'Card created successfully',
+            title: 'List created successfully',
         });
     };
 
