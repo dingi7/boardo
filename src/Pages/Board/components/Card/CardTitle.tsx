@@ -53,11 +53,11 @@ export const CardTitle: React.FC<CardTitleProps> = ({
     }
 
     return (
-        <Button
+        <div
             variant="transparent"
             className="leading-normal text-left font-medium text-[16px] h-auto w-fit py-1 px-2 text-slate-900 overflow-hidden truncate"
         >
             <span className="w-full text-left">{title}</span>
-        </Button>
+        </div>
     );
 };
