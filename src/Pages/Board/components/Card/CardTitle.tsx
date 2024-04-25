@@ -55,10 +55,9 @@ export const CardTitle: React.FC<CardTitleProps> = ({
     return (
         <Button
             variant="transparent"
-            className="leading-normal text-left font-medium text-[16px] h-auto w-[200px] py-1 px-2 text-slate-900 overflow-hidden truncate"
-
+            className="leading-normal text-left font-medium text-[16px] h-auto w-fit py-1 px-2 text-slate-900 overflow-hidden truncate"
         >
-            <span className="text-left w-full">{title}</span>
+            <span className="w-full text-left">{title}</span>
         </Button>
     );
 };
