@@ -1,19 +1,19 @@
-import { DragDropContext, Droppable, DropResult } from "@hello-pangea/dnd";
-import { useContext, useEffect, useState } from "react";
-import { createCard, deleteCard, updateBoard } from "../../api/requests";
-import { Loading } from "../../Components/loading";
-import { useToast } from "../../Components/Toaster/use-toast";
+import { DragDropContext, Droppable, DropResult } from '@hello-pangea/dnd';
+import { useContext, useEffect, useState } from 'react';
+import { createCard, deleteCard, updateBoard } from '../../api/requests';
+import { Loading } from '../../Components/loading';
+import { useToast } from '../../Components/Toaster/use-toast';
 import {
     dataBaseBoard,
     dataBaseCard,
     dataBaseList,
-} from "../../Interfaces/IDatabase";
-import { BoardHeader } from "./components/BoardHeader";
-import { AddListPlaceholder } from "./components/List/AddListPlaceholder";
-import { List } from "./components/List/List";
-import { BoardContext } from "./contexts/BoardContextProvider";
-import { useAuthUser } from "react-auth-kit";
-import { FilterComponent } from "./components/Filter/Filter";
+} from '../../Interfaces/IDatabase';
+import { BoardHeader } from './components/BoardHeader';
+import { AddListPlaceholder } from './components/List/AddListPlaceholder';
+import { List } from './components/List/List';
+import { BoardContext } from './contexts/BoardContextProvider';
+import { useAuthUser } from 'react-auth-kit';
+import { FilterComponent } from './components/Filter/Filter';
 
 export const Board = (): JSX.Element => {
     const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -24,7 +24,7 @@ export const Board = (): JSX.Element => {
     const authUser = useAuthUser()();
 
     if (!context) {
-        throw new Error("Board context is not available");
+        throw new Error('Board context is not available');
     }
     const {
         boardId,
@@ -139,23 +139,23 @@ export const Board = (): JSX.Element => {
             setLists(board.lists);
         };
 
-        channel.bind("card-added", handleCardAdded);
-        channel.bind("card-deleted", handleCardDeleted);
-        channel.bind("card-edited", handleCardEdited);
-        channel.bind("list-edited", handleListEdited);
-        channel.bind("list-deleted", handleListDeleted);
-        channel.bind("list-created", handleListCreated);
-        channel.bind("board-edited", handleBoardEdited);
+        channel.bind('card-added', handleCardAdded);
+        channel.bind('card-deleted', handleCardDeleted);
+        channel.bind('card-edited', handleCardEdited);
+        channel.bind('list-edited', handleListEdited);
+        channel.bind('list-deleted', handleListDeleted);
+        channel.bind('list-created', handleListCreated);
+        channel.bind('board-edited', handleBoardEdited);
 
         // Unbind the events when the component unmounts
         return () => {
-            channel.unbind("card-added", handleCardAdded);
-            channel.unbind("card-deleted", handleCardDeleted);
-            channel.unbind("card-edited", handleCardEdited);
-            channel.unbind("list-edited", handleListEdited);
-            channel.unbind("list-deleted", handleListDeleted);
-            channel.unbind("list-created", handleListCreated);
-            channel.unbind("board-edited", handleBoardEdited);
+            channel.unbind('card-added', handleCardAdded);
+            channel.unbind('card-deleted', handleCardDeleted);
+            channel.unbind('card-edited', handleCardEdited);
+            channel.unbind('list-edited', handleListEdited);
+            channel.unbind('list-deleted', handleListDeleted);
+            channel.unbind('list-created', handleListCreated);
+            channel.unbind('board-edited', handleBoardEdited);
         };
     }, []);
 
@@ -169,9 +169,9 @@ export const Board = (): JSX.Element => {
                     cards: list.cards.filter((card) => card._id !== cardId),
                 }));
             });
-            toast({ title: "Card deleted" });
+            toast({ title: 'Card deleted' });
         } catch (e) {
-            throw new Error("Card could not be deleted");
+            throw new Error('Card could not be deleted');
         }
     };
 
@@ -186,7 +186,7 @@ export const Board = (): JSX.Element => {
             );
         });
         toast({
-            title: "Card created successfully",
+            title: 'Card created successfully',
         });
     };
 
@@ -205,7 +205,7 @@ export const Board = (): JSX.Element => {
             return;
         }
 
-        if (type === "column") {
+        if (type === 'column') {
             const newColumnOrder = [...lists!];
 
             const [removed] = newColumnOrder.splice(source.index, 1);
@@ -272,7 +272,7 @@ export const Board = (): JSX.Element => {
     };
 
     useEffect(() => {
-        console.log("here");
+        console.log('here');
 
         const filtered = lists?.map((list) => ({
             ...list,
@@ -323,31 +323,32 @@ export const Board = (): JSX.Element => {
                     className={`bg-transparent] flex w-screen flex-1 flex-col overflow-hidden overflow-y-auto`}
                     style={{
                         backgroundImage: `url('${backgroundUrl}')`,
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
                     }}
                 >
                     <BoardHeader
-                        boardName={boardInfo?.name || ""}
+                        boardName={boardInfo?.name || ''}
                         setBoardName={(name: string) =>
                             setBoardInfo({ ...boardInfo!, name })
                         }
                         boardId={boardId!}
                         setBackgroundUrl={setBackgroundUrl}
                     />
-
-                    <FilterComponent
-                        filterCompleted={filterCompleted}
-                        setFilterCompleted={setFilterCompleted}
-                        filterDeadline={filterDeadline}
-                        setFilterDeadline={setFilterDeadline}
-                    />
+                    <div className=''>
+                        <FilterComponent
+                            filterCompleted={filterCompleted}
+                            setFilterCompleted={setFilterCompleted}
+                            filterDeadline={filterDeadline}
+                            setFilterDeadline={setFilterDeadline}
+                        />
+                    </div>
 
                     <Droppable
-                        droppableId="allcolumns"
-                        direction="horizontal"
-                        type="column"
+                        droppableId='allcolumns'
+                        direction='horizontal'
+                        type='column'
                     >
                         {(provided) => (
                             <div

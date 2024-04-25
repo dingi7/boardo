@@ -1,14 +1,14 @@
-import { ChevronsUpDown, ListFilter } from "lucide-react";
+import { ChevronsUpDown, Filter, ListFilter } from 'lucide-react';
 
-import { Button } from "src/Components/ui/button";
-import { Input } from "src/Components/ui/input";
-import { Dispatch, SetStateAction } from "react";
+import { Button } from 'src/Components/ui/button';
+import { Input } from 'src/Components/ui/input';
+import { Dispatch, SetStateAction } from 'react';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
-} from "src/Components/dropdown";
+} from 'src/Components/dropdown';
 
 export const FilterComponent = ({
     filterCompleted,
@@ -21,48 +21,34 @@ export const FilterComponent = ({
     setFilterCompleted: Dispatch<SetStateAction<boolean | null>>;
     setFilterDeadline: Dispatch<SetStateAction<number | null>>;
 }) => {
-    const handleClearFilter = () => {
-        setFilterCompleted(null);
-        setFilterDeadline(null);
-    };
-
     return (
-        <div className="pt-4 px-8">
-           <div className="flex flex-col gap-1 min-w-[300px] w-fit px-4 py-3 items-left md:items-center bg-slate-100 rounded-md">
-                {/* <Button
-                    variant="secondary"
-                    size="icon"
-                    onClick={handleClearFilter}
-                >
-                    <ListFilter />
-                </Button> */}
-                <h2 className="font-semibold">Filter by:</h2>
-
-                <div className="flex flex-col gap-4 md:flex-row">
-                    <div className="flex flex-col w-80">
+        <div className='pt-4 px-8'>
+            <div className='flex flex-col gap-1 min-w-[300px] w-fit px-4 py-3 items-left md:items-center  rounded-md'>
+                <div className='flex flex-col gap-4 md:flex-row'>
+                    <div className='flex flex-col w-56'>
                         <DropdownMenu>
-                            <DropdownMenuTrigger className="w-full px-4 text-left text-gray-500 rounded-md font-se bg-slate-200">
-                                <div className="flex flex-row items-center justify-between w-full text-left">
+                            <DropdownMenuTrigger className='w-full px-4 text-left text-gray-500 rounded-md font-se bg-slate-200'>
+                                <div className='flex flex-row items-center justify-between w-full text-left'>
                                     {filterCompleted !== null ? (
                                         filterCompleted === true ? (
                                             <Button
-                                                className="font-semibold text-left text-black w-max"
-                                                variant="transparent"
+                                                className='font-semibold text-left text-black w-max'
+                                                variant='transparent'
                                             >
                                                 Completed
                                             </Button>
                                         ) : (
                                             <Button
-                                                className="font-semibold text-left text-black w-max"
-                                                variant="transparent"
+                                                className='font-semibold text-left text-black w-max'
+                                                variant='transparent'
                                             >
                                                 Non completed
                                             </Button>
                                         )
                                     ) : (
                                         <Button
-                                            className="font-semibold text-left text-gray-500 w-max"
-                                            variant="transparent"
+                                            className='font-semibold text-left text-gray-500 w-max'
+                                            variant='transparent'
                                         >
                                             Filter by completed
                                         </Button>
@@ -70,7 +56,7 @@ export const FilterComponent = ({
                                     <ChevronsUpDown strokeWidth={1} />
                                 </div>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="mr-0 font-semibold w-80">
+                            <DropdownMenuContent className='mr-0 font-semibold w-56'>
                                 <DropdownMenuItem
                                     onClick={() => setFilterCompleted(null)}
                                 >
@@ -89,23 +75,23 @@ export const FilterComponent = ({
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
-                    <div className="flex flex-col w-56">
+                    <div className='flex flex-col w-56'>
                         <DropdownMenu>
-                            <DropdownMenuTrigger className="w-full px-4 text-left text-gray-500 rounded-md bg-slate-200">
-                                <div className="flex flex-row items-center justify-between w-full text-left">
+                            <DropdownMenuTrigger className='w-full px-4 text-left text-gray-500 rounded-md bg-slate-200'>
+                                <div className='flex flex-row items-center justify-between w-full text-left'>
                                     {filterDeadline ? (
                                         <Button
-                                            className="font-semibold text-left text-black w-max"
-                                            variant="transparent"
+                                            className='font-semibold text-left text-black w-max'
+                                            variant='transparent'
                                         >
                                             {filterDeadline === 1
-                                                ? "24 hours"
+                                                ? '24 hours'
                                                 : `${filterDeadline} days`}
                                         </Button>
                                     ) : (
                                         <Button
-                                            className="font-semibold text-left text-gray-500 w-max"
-                                            variant="transparent"
+                                            className='font-semibold text-left text-gray-500 w-max'
+                                            variant='transparent'
                                         >
                                             Filter by deadline
                                         </Button>
@@ -113,7 +99,7 @@ export const FilterComponent = ({
                                     <ChevronsUpDown strokeWidth={1} />
                                 </div>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-56 mr-0 font -semibold">
+                            <DropdownMenuContent className='w-56 mr-0 font-semibold'>
                                 <DropdownMenuItem
                                     onClick={() => setFilterDeadline(null)}
                                 >
