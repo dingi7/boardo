@@ -273,7 +273,7 @@ export const Board = (): JSX.Element => {
 
     useEffect(() => {
         console.log('here');
-
+ 
         const filtered = lists?.map((list) => ({
             ...list,
             cards: list.cards.filter((card) => {
@@ -285,7 +285,7 @@ export const Board = (): JSX.Element => {
                     return false;
                 }
                 // If filterDeadline is applied and the card doesn't have a due date, exclude it
-                if (filterDeadline !== null && card.dueDate === undefined) {
+                if (filterDeadline !== null && !card.dueDate) {
                     return false;
                 }
                 // If filterDeadline is applied, check the due date
@@ -296,7 +296,7 @@ export const Board = (): JSX.Element => {
                         (deadline.getTime() - now.getTime()) /
                             (1000 * 3600 * 24)
                     ); // Round up to the nearest day
-
+ 
                     if (
                         (filterDeadline === 1 && diffInDays > 1) ||
                         (filterDeadline === 7 && diffInDays > 7)
@@ -310,6 +310,7 @@ export const Board = (): JSX.Element => {
         }));
         setFilteredLists(filtered || []);
     }, [lists, filterCompleted, filterDeadline]);
+
 
     if (loading) return <Loading></Loading>;
 
