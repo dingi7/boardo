@@ -131,7 +131,7 @@ export const InboxDialog = () => {
                 </DropdownMenuLabel>
 
                 {currentNotifications ? (
-                    currentNotifications.map((notification) => (
+                    currentNotifications.reverse().map((notification) => (
                         <Notification
                             {...notification}
                             markCurrentNotificationAsRead={
