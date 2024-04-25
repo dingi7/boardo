@@ -74,7 +74,7 @@ export const ProfileAssignmentComponent = ({
   return (
     <div
       key={boardId}
-      className="flex items-center justify-between p-2 bg-gray-200 rounded-md"
+      className="flex items-center justify-between w-full p-2 bg-gray-200 rounded-md"
     >
       <div className="flex flex-row gap-4">
         <TooltipProvider>
@@ -96,8 +96,8 @@ export const ProfileAssignmentComponent = ({
           </Tooltip>
         </TooltipProvider>
 
-        <div className="flex flex-col">
-          <span className="font-semibold">{cardName}</span>
+        <div className="flex flex-col w-full">
+          <span className="py-1 overflow-hidden font-medium leading-normal text-left truncate text-md text-slate-900  w-[200px]">{cardName}</span>
           <span className="text-xs text-gray-500 dark:text-gray-400">
             Due to: {(dueDate && dueDate.toLocaleDateString()) || "No due date"}
           </span>
