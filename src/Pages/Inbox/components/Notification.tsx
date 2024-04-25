@@ -18,7 +18,7 @@ export const Notification = ({
 }: INotification) => {
 
     return (
-        <>
+        <div className="w-full">
             <DropdownMenuSeparator />
             <Card
                 className={`relative border-x-0 border-y-4 p-2 ${
@@ -33,7 +33,7 @@ export const Notification = ({
                             </TooltipTrigger>
 
                             <TooltipContent>
-                                <p className="bg-slate-100 p-2 rounded-md">
+                                <p className="p-2 rounded-md bg-slate-100">
                                     Mark as read
                                 </p>
                             </TooltipContent>
@@ -41,12 +41,12 @@ export const Notification = ({
                     </TooltipProvider>
                 )}
                 <CardHeader className="px-2 py-0 font-semibold text-md">{title}</CardHeader>
-                <CardContent className="px-2 py-0">
-                    <div className="text-sm">
-                        <p>{description}</p>
+                <CardContent className="px-2 py-0 w-36">
+                    <div className="text-sm max-w-40 w-36">
+                        <p className="break-words  max-w-[260px]">{description}</p>
                     </div>
                 </CardContent>
             </Card>
-        </>
+        </div>
     );
 };
